@@ -20,4 +20,9 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/UnityTechnologies/HMITemplate/Scenes/HVAC.unity
     guid: d409ab10935d28f468e76d5086e79f65
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 6878b057208cbd644a342894298ce84e, type: 2}
+    com.unity.xr.openxr.settings4: {fileID: 11400000, guid: a147d857474906149beb5b76906d2a47, type: 2}
+    ubc.ok.ovilab.vicon-nexus-unity-stream.xr-loader: {fileID: 11400000, guid: 468d48864e1d48642adf540f7084d4b4, type: 2}
+    ubc.ok.ovilab.vicon-nexus-unity-stream.xr-settings: {fileID: 11400000, guid: 7d4f7b9ff923a8d4f92466c51c21d4e8, type: 2}
+  m_UseUCBPForAssetBundles: 0
