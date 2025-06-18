@@ -1,0 +1,9 @@
+[submodule "Packages/HPUI-Core"]
+	path = Packages/HPUI-Core
+	url = https://github.com/ovi-lab/HPUI-Core
+[submodule "Packages/vicon-nexus-unity-stream"]
+	path = Packages/vicon-nexus-unity-stream
+	url = https://github.com/ovi-lab/vicon-nexus-unity-stream
+[submodule "Packages/UXF-extensions"]
+	path = Packages/UXF-extensions
+	url = https://github.com/ovi-lab/UXF-extensions
