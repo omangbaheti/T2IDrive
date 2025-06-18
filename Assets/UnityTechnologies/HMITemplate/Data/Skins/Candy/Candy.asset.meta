@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 3b8b32b2151ee9f4291716145fe8e005
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 201095
+  packageName: Automotive HMI Template
+  packageVersion: 1.2
+  assetPath: Assets/UnityTechnologies/HMITemplate/Data/Skins/Candy/Candy.asset
+  uploadId: 677189

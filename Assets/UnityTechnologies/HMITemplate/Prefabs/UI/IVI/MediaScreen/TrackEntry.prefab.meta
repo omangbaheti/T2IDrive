@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: cefb0a92cd5ea6b4d8400a72fed8d4be
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 201095
+  packageName: Automotive HMI Template
+  packageVersion: 1.2
+  assetPath: Assets/UnityTechnologies/HMITemplate/Prefabs/UI/IVI/MediaScreen/TrackEntry.prefab
+  uploadId: 677189

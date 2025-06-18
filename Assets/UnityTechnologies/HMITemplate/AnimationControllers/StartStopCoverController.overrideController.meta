@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 503c646067bca744693650be0d7f7518
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 22100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 201095
+  packageName: Automotive HMI Template
+  packageVersion: 1.2
+  assetPath: Assets/UnityTechnologies/HMITemplate/AnimationControllers/StartStopCoverController.overrideController
+  uploadId: 677189

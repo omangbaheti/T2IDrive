@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 0dbdea1e869dbab47a513384f3e489b6
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 201095
+  packageName: Automotive HMI Template
+  packageVersion: 1.2
+  assetPath: Assets/UnityTechnologies/HMITemplate/Prefabs/UI/IVI/IVIToggleGroupWithProfilePicture.prefab
+  uploadId: 677189

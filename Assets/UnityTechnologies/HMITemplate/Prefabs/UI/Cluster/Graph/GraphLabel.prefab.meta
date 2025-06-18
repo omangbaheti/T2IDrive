@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: b56d6faacfcc89b459e3ff6faf973c75
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 201095
+  packageName: Automotive HMI Template
+  packageVersion: 1.2
+  assetPath: Assets/UnityTechnologies/HMITemplate/Prefabs/UI/Cluster/Graph/GraphLabel.prefab
+  uploadId: 677189

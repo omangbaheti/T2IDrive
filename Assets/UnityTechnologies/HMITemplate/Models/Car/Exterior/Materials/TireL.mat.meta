@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 5d4dc50f64629fe46bc692adc9e224b2
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 201095
+  packageName: Automotive HMI Template
+  packageVersion: 1.2
+  assetPath: Assets/UnityTechnologies/HMITemplate/Models/Car/Exterior/Materials/TireL.mat
+  uploadId: 677189

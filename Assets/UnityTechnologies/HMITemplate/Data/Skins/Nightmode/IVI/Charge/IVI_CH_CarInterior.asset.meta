@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 8d65e6ae5f8528f43bcbb3d51700e65e
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 201095
+  packageName: Automotive HMI Template
+  packageVersion: 1.2
+  assetPath: Assets/UnityTechnologies/HMITemplate/Data/Skins/Nightmode/IVI/Charge/IVI_CH_CarInterior.asset
+  uploadId: 677189

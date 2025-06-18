@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 63a011535c630254db952d241c6d9c84
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 201095
+  packageName: Automotive HMI Template
+  packageVersion: 1.2
+  assetPath: Assets/UnityTechnologies/HMITemplate/Data/Skins/Nightmode/Cluster/ClusterFrameLine.asset
+  uploadId: 677189

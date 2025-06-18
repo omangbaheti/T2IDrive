@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 1e7e12ac6b8427f49b641d12ef702adf
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 201095
+  packageName: Automotive HMI Template
+  packageVersion: 1.2
+  assetPath: Assets/UnityTechnologies/HMITemplate/Data/Skins/Daymode/IVI/Map/IVI_Map_TopGlass.asset
+  uploadId: 677189
