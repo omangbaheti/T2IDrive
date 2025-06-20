@@ -1,34 +1,50 @@
-using System;
 using System.Collections.Generic;
 using EditorAttributes;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 
-namespace ubco.ovilab.ViconUnityStream
+namespace ubco.ovilab.ViconUnityStream.Utils
 {
     public class ViconCoordinateSystemMerger : Singleton<ViconCoordinateSystemMerger>
     {
-
         public Transform ViconCoordinateSystem => viconCoordinateSystem;
         public Transform UnityCoordinateSystem => unityCoordinateSystem;
-
+        
+        public SerializedDictionary<string, CustomSubjectScript> ViconSubjects => viconSubjects;
+        public SerializedDictionary<string, ViconSubjectMerger> UnityObjects => unityObjects;
+        
+        /// <summary>
+        /// Create a static vicon subject and attach it to the ground
+        /// This becomes the Origin for the Vicon Coordinate System
+        /// </summary>
+        [Tooltip("Create a static Vicon subject and attach it to the ground" +
+                 "This object becomes the Origin for the Vicon Coordinate System")]
         [SerializeField] private Transform viconCoordinateSystem;
+        
+        /// <summary>
+        /// All objects driven by Vicon motion tracking should be placed under this transform
+        /// </summary>
         [SerializeField] private Transform unityCoordinateSystem;
 
-        [SerializeField] private SerializedDictionary<string, Transform> viconSubjects = new();
-        [SerializeField] private SerializedDictionary<string, Transform> unityObjects = new();
+        [SerializeField] private SerializedDictionary<string, CustomSubjectScript> viconSubjects = new();
+        [SerializeField] private SerializedDictionary<string, ViconSubjectMerger> unityObjects = new();
+        
+        [Tooltip("The distance threshold to achieve."), SerializeField]
+        private float distanceThreshold = 0.001f;
+        
+        [Tooltip("The angle threshold to achieve"), SerializeField]
+        private float angleThreshold = 0.5f;
 
         private void Start()
         {
-            CustomSubjectScript[] viconSubjects = GetComponentsInChildren<CustomSubjectScript>();
-            foreach (var subject in viconSubjects)
+            CustomSubjectScript[] viconSubjectsInScene = GetComponentsInChildren<CustomSubjectScript>();
+            foreach (CustomSubjectScript subject in viconSubjectsInScene)
             {
-                this.viconSubjects.Add(subject.SubejectName, subject.transform);
+                viconSubjects.Add(subject.SubejectName, subject);
             }
         }
 
-        public void RegisterObject(string subjectName, Transform unityObject)
+        public void RegisterObject(string subjectName, ViconSubjectMerger unityObject)
         {
             unityObjects.Add(subjectName, unityObject);
         }
@@ -40,11 +56,9 @@ namespace ubco.ovilab.ViconUnityStream
             unityCoordinateSystem.transform.right = viconCoordinateSystem.transform.right;
             unityCoordinateSystem.transform.position = viconCoordinateSystem.transform.position;
 
-            foreach (KeyValuePair<string, Transform> unityObject in unityObjects)
+            foreach (KeyValuePair<string, ViconSubjectMerger> unityObject in unityObjects)
             {
-                var viconSubject = viconSubjects[unityObject.Key];
-                unityObject.Value.transform.rotation = viconSubject.transform.rotation;
-                unityObject.Value.transform.position =  viconSubject.transform.position;
+                unityObject.Value.MergeSubject();
             }
         }
     }
