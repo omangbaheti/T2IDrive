@@ -207,7 +207,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 78076780}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbeadc264225f8e4799077b6b6bc425d, type: 3}
+  m_Script: {fileID: 11500000, guid: 1b988afd7fc651e4a80e513d922b1761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   subjectDataManager: {fileID: 578986873}
@@ -242,7 +242,7 @@ MonoBehaviour:
     "R5D1": ["RH5"], "R5D2": ["RPF1"], "R5D3": ["RPF2", "RPF3"]}, "sensorTriggered":
     true}'
   driveSkeleton: 1
-  rootSegment: base1
+  rootSegment: Arm
   dataQualityThreshold: 5
   OnHidingSubject:
     m_PersistentCalls:
@@ -3031,16 +3031,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 928073757}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a92048ec8c50104c91b69f006bfa2a8, type: 3}
+  m_Script: {fileID: 11500000, guid: 55a71f2689f4de24b88eea63036a501b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   keepAlive: 1
-  viconCoordinateSystem: {fileID: 78076781}
+  viconCoordinateSystem: {fileID: 928073758}
   unityCoordinateSystem: {fileID: 163325008}
-  viconSubjects:
-    list: []
-  unityObjects:
-    list: []
+  distanceThreshold: 0.001
+  angleThreshold: 0.5
 --- !u!1 &939140357
 GameObject:
   m_ObjectHideFlags: 0
@@ -3229,10 +3227,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 985404584}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23bed4faf9dc1094abef26d79ebb0268, type: 3}
+  m_Script: {fileID: 11500000, guid: 3f18d6ac6769ed34a95d3eb377853691, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  subjectName: driving_rig
+  targetSubject: driving_rig
+  distanceThreshold: 0.001
+  angleThreshold: 0.5
+  onDifferenceAboveThreshold:
+    m_PersistentCalls:
+      m_Calls: []
+  onMergeFail:
+    m_PersistentCalls:
+      m_Calls: []
+  onMergeSuccess:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &988662808
 GameObject:
   m_ObjectHideFlags: 0
@@ -4117,10 +4126,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 1247956155}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23bed4faf9dc1094abef26d79ebb0268, type: 3}
+  m_Script: {fileID: 11500000, guid: 591f1d88641f2e8499b4fb1442485148, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  subjectName: HWD
+  targetSubject: HWD
+  distanceThreshold: 0.001
+  angleThreshold: 0.5
+  onDifferenceAboveThreshold:
+    m_PersistentCalls:
+      m_Calls: []
+  onMergeFail:
+    m_PersistentCalls:
+      m_Calls: []
+  onMergeSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  _mergerOffsetTransform: {fileID: 1247956156}
+  _viconHWD: {fileID: 2089116338}
+  _xrHWD: {fileID: 1962499459}
 --- !u!1 &1272499032
 GameObject:
   m_ObjectHideFlags: 0
@@ -5923,7 +5946,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2089116338}
   - component: {fileID: 2089116337}
-  - component: {fileID: 2089116336}
   m_Layer: 0
   m_Name: ViconHWD
   m_TagString: Untagged
@@ -5931,32 +5953,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2089116336
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2089116335}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 591f1d88641f2e8499b4fb1442485148, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _mergerOffsetTransform: {fileID: 1247956156}
-  _viconHWD: {fileID: 2089116338}
-  _xrHWD: {fileID: 1962499459}
-  distanceThreshold: 0.001
-  angleThreshold: 0.5
-  onMergeSuccess:
-    m_PersistentCalls:
-      m_Calls: []
-  onMergeFail:
-    m_PersistentCalls:
-      m_Calls: []
-  onDifferenceAboveThreshold:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &2089116337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6089,7 +6085,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2089116336}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ubco.ovilab.ViconUnityStream.Utils.HWDMerger, ubco.ovilab.ViconUnityStream
         m_MethodName: MergeHWDs
         m_Mode: 1
