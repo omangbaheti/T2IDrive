@@ -10,7 +10,7 @@
       "hash": "0ba6424eb63f69c63f366f64b422646685e62d4f"
     },
     "com.mrtimcakes.directinput": {
-      "version": "file:Unity-DirectInput",
+      "version": "file:Direct-Input",
       "depth": 0,
       "source": "embedded",
       "dependencies": {
