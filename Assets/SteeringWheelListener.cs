@@ -10,18 +10,18 @@ public class SteeringWheelListener : MonoBehaviour
     [Range(0,1), SerializeField] private float steeringInput;
     private void Start()
     {
-        // logitechAdapter.InputActionEvents[LogitechControls.Steering].AddListener(SteeringWheelInput);
-        
+        logitechAdapter.InputActionEvents[LogitechControls.Steering].AddListener(SteeringWheelInput);
+
     }
 
     private void OnDestroy()
     {
-        // logitechAdapter.InputActionEvents[LogitechControls.Steering].RemoveListener(SteeringWheelInput);
+        logitechAdapter.InputActionEvents[LogitechControls.Steering].RemoveListener(SteeringWheelInput);
     }
 
     private void Update()
     {
-        SteeringWheelInput(0);
+        // SteeringWheelInput(0);
     }
 
 

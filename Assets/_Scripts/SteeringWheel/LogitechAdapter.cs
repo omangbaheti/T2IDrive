@@ -41,25 +41,23 @@ public class LogitechAdapter : MonoBehaviour
     {
         drivingSimInputManager = DIInputManager.Instance;
         Debug.Log(drivingSimInputManager.ffbDevice.name);
-
-
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        // foreach (var control in drivingSimInputManager.ffbDevice.allControls)
-        // {
-        //     if (control is AxisControl or InputControl<float>)
-        //     {
-        //         float value = drivingSimInputManager.GetFFBDeviceAxisValue(control.name);
-        //         if (InputScheme.TryGetValue(control.name, out LogitechControls inputValue))
-        //         {
-        //             InputActions[InputScheme[control.name]].Invoke(value);
-        //         }
-        //     }
-        // }
+        foreach (var control in drivingSimInputManager.ffbDevice.allControls)
+        {
+            if (control is AxisControl or InputControl<float>)
+            {
+                float value = drivingSimInputManager.GetFFBDeviceAxisValue(control.name);
+                if (InputScheme.TryGetValue(control.name, out LogitechControls inputValue))
+                {
+                    InputActions[InputScheme[control.name]].Invoke(value);
+                }
+            }
+        }
     }
 }
 
