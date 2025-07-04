@@ -7,9 +7,6 @@
 [submodule "Packages/UXF-extensions"]
 	path = Packages/UXF-extensions
 	url = https://github.com/ovi-lab/UXF-extensions
-[submodule "Assets/ThirdParty/SteeringWheelSDK/Unity-DirectInput"]
-	path = Assets/ThirdParty/SteeringWheelSDK/Unity-DirectInput
-	url = https://github.com/imDanoush/Unity-DirectInput/
-[submodule "packages/Unity-DirectInput"]
-	path = packages/Unity-DirectInput
-	url = https://github.com/ovi-lab/Unity-DirectInput.git
+[submodule "Packages/Packages/Direct-Input"]
+	path = Packages/Packages/Direct-Input
+	url = https://github.com/ovi-lab/Unity-DirectInput
