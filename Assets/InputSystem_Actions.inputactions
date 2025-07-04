@@ -990,6 +990,94 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "DrivingSim",
+            "id": "3e8cb4e6-e19a-4b79-afb5-447dfab737fe",
+            "actions": [
+                {
+                    "name": "Steering",
+                    "type": "Value",
+                    "id": "2b1767e8-f51e-450b-9574-df44be7c42c6",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Accelerator",
+                    "type": "Value",
+                    "id": "d11626da-190a-4696-a099-fd730cd65bb6",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Brake",
+                    "type": "Value",
+                    "id": "76b14306-692d-4883-8a45-b1e10cb55083",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Clutch",
+                    "type": "PassThrough",
+                    "id": "d8bcbc87-ead8-4ab9-ba10-a4497240f4ca",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "3394bb11-a975-4289-b7c9-ff2499b18477",
+                    "path": "<HID::Logitech G920 Driving Force Racing Wheel for Xbox One>/stick/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Steering",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "56cf67ca-c169-470a-9ec7-024c025d02bd",
+                    "path": "<HID::Logitech G920 Driving Force Racing Wheel for Xbox One>/stick/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Accelerator",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "99d6dc38-3604-472a-9fbc-70db363cfd96",
+                    "path": "<HID::Logitech G920 Driving Force Racing Wheel for Xbox One>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Brake",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ed9dc1bd-f038-4391-94f6-33019b63d22f",
+                    "path": "<HID::Logitech G920 Driving Force Racing Wheel for Xbox One>/rz",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Clutch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [

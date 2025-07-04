@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using ArtificeToolkit.Runtime.SerializedDictionary;
 using EditorAttributes;
 using ubco.ovilab.HPUI.Core;
 using ubco.ovilab.HPUI.Interaction;
@@ -16,19 +17,19 @@ public class MultiFingerCanvasManager : MonoBehaviour, IHPUICanvasUIManager
     public Transform canvasInterfaceContainer;
     private Transform layer1CanvasContainer;
     private Transform layer2CanvasContainer;
-    
+
     [SerializeField] private GestureLayoutSetup layoutSetup;
     [SerializeField] private SerializedDictionary<Vector2Int?, HPUICanvasRegion> hpuiRegions = new();
-    
+
     private List<float> xDivisions = new();
     private List<float> yDivisions = new();
     private Vector2Int startRegion;
     private Vector2Int currentRegion;
     private Vector2Int endRegion;
-    
+
     [SerializeField] private GameObject layer1Prefab;
     [SerializeField] private GameObject layer2Prefab;
-    
+
     [SerializeField] private Color selectedColor;
     [SerializeField] private Color defaultColor;
 
@@ -53,12 +54,12 @@ public class MultiFingerCanvasManager : MonoBehaviour, IHPUICanvasUIManager
         layer2CanvasContainer.parent = canvasInterfaceContainer;
         layer2CanvasContainer.localScale = Vector3.one;
     }
-    
+
     private void OnDisable()
     {
         HPUICanvas.OnCanvasInteractions.RemoveListener(HandleCanvasGesture);
     }
-    
+
     [Button]
     public void ResetKeyboard()
     {
@@ -76,14 +77,14 @@ public class MultiFingerCanvasManager : MonoBehaviour, IHPUICanvasUIManager
         {
             xDivisions.Add(division * HPUICanvas.MaxBounds.x);
         }
-        
+
         foreach (float division in layoutSetup.yDivisions)
         {
             yDivisions.Add(division * HPUICanvas.MaxBounds.y);
         }
-        
+
         gestureActions = layoutSetup.microGestureActions;
-        
+
         for (int i = 0; i < xDivisions.Count-1; i++)
         {
             for (int j = 0; j < yDivisions.Count-1; j++)
@@ -105,7 +106,7 @@ public class MultiFingerCanvasManager : MonoBehaviour, IHPUICanvasUIManager
                 syncTransform.target = uiAnchor;
             }
         }
-        
+
         foreach (MicrogestureAction action in gestureActions)
         {
             hpuiRegions[action.startRegion].gestureActions.Add(action);
@@ -114,7 +115,7 @@ public class MultiFingerCanvasManager : MonoBehaviour, IHPUICanvasUIManager
 
     public void InitialiseRegions()
     {
-        
+
         foreach ((Vector2Int? ID, HPUICanvasRegion region) in hpuiRegions)
         {
             region.InitialiseUI();
@@ -183,7 +184,7 @@ public class MultiFingerCanvasManager : MonoBehaviour, IHPUICanvasUIManager
                 throw new ArgumentOutOfRangeException();
         }
     }
-        
+
     public virtual void SetUIActive(bool active)
     {
         foreach (KeyValuePair<Vector2Int?, HPUICanvasRegion> uiElement in hpuiRegions)
