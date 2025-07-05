@@ -20,6 +20,14 @@ MonoBehaviour:
     list:
     - Key: BaseScene
       Value: 1
+    - Key: Getting Started - JPickup
+      Value: 1
+    - Key: JPickup Demo
+      Value: 1
+    - Key: Getting Started - Sport Coupe
+      Value: 1
+    - Key: Sport Coupe Demo
+      Value: 1
   validatorTypesMap:
     list:
     - Key: Artifice_ValidatorModule_ScriptableObject
