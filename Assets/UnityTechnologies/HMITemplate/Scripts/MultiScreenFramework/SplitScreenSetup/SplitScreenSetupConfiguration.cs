@@ -167,7 +167,7 @@ namespace MultiScreenFramework.SplitScreenSetup
             }
 
             // Find all EventSystems in the open scenes. 
-            var EventSystems = GameObject.FindObjectsOfType<EventSystem>();
+            var EventSystems = FindObjectsByType<EventSystem>(FindObjectsSortMode.None);
 
             // Search through all cameras and destroy any event systems in the scene that isn't the first event system. 
             for (var k = 0; k < EventSystems.Length; k++)

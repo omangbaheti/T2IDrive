@@ -48,7 +48,7 @@ public class VehicleLightControl : MonoBehaviour
     {
         if (mobileInputController == null)
         {
-            mobileInputController = FindObjectOfType<CarInputController>();
+            mobileInputController = FindAnyObjectByType<CarInputController>();
         }
 
 

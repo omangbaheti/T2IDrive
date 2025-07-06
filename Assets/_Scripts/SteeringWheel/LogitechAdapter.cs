@@ -12,7 +12,7 @@ public class LogitechAdapter : MonoBehaviour
 {
     public SerializedDictionary<LogitechControls, UnityEvent<float>> InputActionEvents => InputActions;
     [SerializeField] private SerializedDictionary <string, LogitechControls> InputScheme= new();
-    [SerializeField] private SerializedDictionary<LogitechControls, UnityEvent<float>> InputActions = new SerializedDictionary<LogitechControls, UnityEvent<float>>();
+    [SerializeField] private SerializedDictionary<LogitechControls, UnityEvent<float>> InputActions = new();
     private DIInputManager drivingSimInputManager;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -23,7 +23,6 @@ public class LogitechAdapter : MonoBehaviour
         foreach (KeyValuePair<string, LogitechControls> controlScheme in InputScheme)
         {
             InputActions.Add(controlScheme.Value, new UnityEvent<float>());
-
         }
     }
 

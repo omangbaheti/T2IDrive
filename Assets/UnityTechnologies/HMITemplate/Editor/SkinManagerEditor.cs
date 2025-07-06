@@ -57,7 +57,7 @@ and assigning it through the Skin Manager.", MessageType.Info);
             GUILayout.Space(20f);
 
             using var cVerticalScope = new GUILayout.VerticalScope();
-            var swapperScripts = FindObjectsOfType<UISkinCollectionSwapper>();
+            var swapperScripts = FindObjectsByType<UISkinCollectionSwapper>(FindObjectsSortMode.None);
 
             if (swapperScripts != null && SelectedSkin == null)
             {

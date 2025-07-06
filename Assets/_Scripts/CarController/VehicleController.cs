@@ -68,7 +68,7 @@ public class VehicleController : MonoBehaviour
     {
         carRB = GetComponent<Rigidbody>();
         prevRotation = wheelData[WheelPlacement.FrontLeft].wheelTransform.rotation;
-        mobileInputController = FindObjectOfType<CarInputController>();
+        mobileInputController = FindAnyObjectByType<CarInputController>();
         engineSound = Resources.Load<AudioClip>($"EngineSound");
         targetPitch = engineAudioSource.pitch;
         StartCoroutine(DelayedEngineSound());

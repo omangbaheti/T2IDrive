@@ -13,7 +13,7 @@ namespace Util
         /// </summary>
         private void Awake()
         {
-            var audioListener = FindObjectsOfType<AudioListener>();
+            var audioListener = FindObjectsByType<AudioListener>(FindObjectsSortMode.None);
             if (audioListener == null || audioListener.Length == 0)
             {
                 gameObject.AddComponent<AudioListener>();
