@@ -20,6 +20,10 @@ MonoBehaviour:
     list:
     - Key: BaseScene
       Value: 1
+    - Key: 
+      Value: 1
+    - Key: PC Controller Scene AMR 01
+      Value: 1
   validatorTypesMap:
     list:
     - Key: Artifice_ValidatorModule_ScriptableObject
