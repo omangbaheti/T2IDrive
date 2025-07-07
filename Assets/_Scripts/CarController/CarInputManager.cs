@@ -8,7 +8,7 @@ public class CarInputManager : MonoBehaviour
     public float SteerInput => steeringAction.action.ReadValue<float>();
     public float AccelerationInput => accelerationAction.action.ReadValue<float>();
     public float BrakeInput => brakeAction.action.ReadValue<float>();
-    
+
     [SerializeField] private InputActionReference steeringAction;
     [SerializeField] private InputActionReference accelerationAction;
     [SerializeField] private InputActionReference brakeAction;
@@ -23,6 +23,11 @@ public class CarInputManager : MonoBehaviour
         steeringAction.action.Enable();
         accelerationAction.action.Enable();
         brakeAction.action.Enable();
+    }
+
+    private void Update()
+    {
+        Debug.Log($"{SteerInput} | {AccelerationInput} | {BrakeInput}");
     }
 }
 

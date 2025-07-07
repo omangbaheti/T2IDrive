@@ -37,20 +37,20 @@ public class VehicleController : MonoBehaviour
     public float brakeForce = 500f;
     public float[] gearRatios; // Array to store the gear ratios for each gear
     public float shiftThreshold = 5000f; // Threshold value for shifting to a higher gear
-    
+
     [Header("Wheel References")]
     public GameObject centerOfMassObject;
     public SerializedDictionary<WheelPlacement, WheelData> wheelData;
-    
+
     [Header("SFX References")]
     public AudioSource engineStartAudioSource; // Assign this in the Inspector
     public AudioSource engineAudioSource; // Assign this in the Inspector
-    
+
     private WheelData frontLeft => wheelData[WheelPlacement.FrontLeft];
     private WheelData frontRight => wheelData[WheelPlacement.FrontRight];
     private WheelData rearLeft => wheelData[WheelPlacement.RearLeft];
     private WheelData rearRight => wheelData[WheelPlacement.RearRight];
-    
+
     private Rigidbody carRB;
     private int currentGear = 1; // Variable to track the current gear
     private float stopSpeedThreshold = 1f; // Speed threshold for considering the vehicle stopped
@@ -62,7 +62,7 @@ public class VehicleController : MonoBehaviour
     private float steerInput;
     private float acceleratorInput;
     private float brakeInput;
-    
+
     void Start()
     {
         carRB = GetComponent<Rigidbody>();
@@ -97,11 +97,12 @@ public class VehicleController : MonoBehaviour
         brakeInput = carInputs.BrakeInput * brakeForce;
         steerInput = carInputs.SteerInput * maxSteerAngle;
 
+        Debug.Log($"{carInputs.AccelerationInput} x {carInputs.BrakeInput} x {carInputs.SteerInput}");
         frontLeft.collider.steerAngle = steerInput;
         frontRight.collider.steerAngle = steerInput;
 
         UpdateWheelPoses();
-        
+
         foreach ((WheelPlacement placement, WheelData _wheelData) in wheelData)
         {
             _wheelData.collider.brakeTorque = brakeInput;
@@ -110,10 +111,12 @@ public class VehicleController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!frontLeft.collider.GetGroundHit(out _))
+            Debug.LogWarning("Front left wheel not grounded!");
 
         // Calculate the current wheel speed in km/h
         float currentSpeedKmph =  frontLeft.collider.radius  * Mathf.PI * frontLeft.collider.rpm * 60f / 1000f;
-        // Debug.Log("Current Speed: " + currentSpeedKmph + " Kmph");
+        Debug.Log("Current Speed: " + currentSpeedKmph + " Kmph");
 
         // Calculate the current engine RPM based on the wheel speed and gear ratio
         float currentRPM = frontLeft.collider.rpm * gearRatios[Mathf.Clamp(currentGear - 1, 0, gearRatios.Length - 1)];
@@ -130,11 +133,11 @@ public class VehicleController : MonoBehaviour
 
         // Adjust the motor torque based on the current gear ratio
         float adjustedTorque = acceleratorInput * gearRatios[Mathf.Clamp(currentGear - 1, 0, gearRatios.Length - 1)];
-
+        Debug.Log($"Torque: {adjustedTorque}");
         // Apply motor torque to the wheels
         if (enable4x4)
         {
-            foreach ((WheelPlacement placement, WheelData _wheelData)  in wheelData)
+            foreach ((WheelPlacement _, WheelData _wheelData)  in wheelData)
             {
                 _wheelData.collider.motorTorque = adjustedTorque;
             }
@@ -159,7 +162,7 @@ public class VehicleController : MonoBehaviour
 
         // Check if the vehicle is in motion
         bool isMoving = carRB.linearVelocity.magnitude > 0.1f;
-        
+
 
         // Calculate the target pitch based on the current speed and direction
         float targetPitch = currentSpeedKmph > 0.1f ? Mathf.Lerp(0.5f, 2f, currentSpeedKmph / 100f) : 0.5f;
@@ -169,7 +172,7 @@ public class VehicleController : MonoBehaviour
         {
             targetPitch = Mathf.Lerp(0.5f, 2f, Mathf.Abs(currentSpeedKmph) / 100f);
         }
-       
+
         // Smoothly adjust the pitch towards the target pitch
         engineAudioSource.pitch = Mathf.Lerp(engineAudioSource.pitch, targetPitch, Time.deltaTime * 5f);
 
@@ -200,7 +203,7 @@ public class WheelData
     [HideInInspector] public bool isWheelSlipping;
     [HideInInspector] public bool isWheelDrifting;
     [HideInInspector] public bool isWheelBraking;
-    
+
     public bool IsWheelSlipping()
     {
         return collider.GetGroundHit(out WheelHit hit) && hit.sidewaysSlip > 0.1f;
@@ -215,7 +218,7 @@ public class WheelData
     {
         return collider.isGrounded && Mathf.Abs(collider.rpm) < 1f && collider.brakeTorque > 0f;
     }
-    
+
     public void UpdateWheelPose(bool flip = false)
     {
         collider.GetWorldPose(out Vector3 pos, out Quaternion quat);
