@@ -749,8 +749,9 @@ namespace DirectInputManager
         /// </returns>
         public static bool UpdateFrictionSimple(string guidInstance, int magnitude)
         {
+            //TODO: Make positive negative saturation a variable
             return UpdateConditionForceNative(guidInstance, FFBEffects.Friction,
-                0, magnitude, magnitude, 0, 0, 0);
+                0, magnitude, magnitude, 10000, 10000, 0);
         }
 
         /// <summary>

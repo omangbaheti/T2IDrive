@@ -7,12 +7,12 @@
             "actions": [
                 {
                     "name": "Steering",
-                    "type": "Value",
+                    "type": "PassThrough",
                     "id": "2b1767e8-f51e-450b-9574-df44be7c42c6",
                     "expectedControlType": "Axis",
-                    "processors": "",
+                    "processors": "AxisDeadzone(min=0.0001,max=0.925)",
                     "interactions": "",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Accelerator",

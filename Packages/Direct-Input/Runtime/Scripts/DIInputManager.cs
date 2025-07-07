@@ -452,178 +452,181 @@ Example: 'fanatec' for Fanatec devices";
 
     private void UpdateFFBEffects()
     {
-        if (ffbDevice != null)
+        if (ffbDevice == null)
         {
-            DIManager.showLogsRuntime = realTimeDirectInputManagerLogs;
-            if (ConstantForceEnabled)
-            {
-                if (ConstantForceWasEnabled)
-                {
-                    if (!DIManager.UpdateConstantForceSimple(ffbDevice.description.serial, ConstantForceMagnitude))
-                    {
-                        DIManager.DestroyFFBEffect(ffbDevice.description.serial, FFBEffects.ConstantForce);
-                        ConstantForceWasEnabled = false;
-                    }
-                    else
-                    {
-                        ConstantForceWasEnabled = true;
-                    }
-                }
-                else
-                {
-                    if (!DIManager.EnableFFBEffect(ffbDevice.description.serial, FFBEffects.ConstantForce))
-                    {
-                        DIManager.DestroyFFBEffect(ffbDevice.description.serial, FFBEffects.ConstantForce);
-                        ConstantForceWasEnabled = false;
-                    }
-                    else
-                    {
-                        ConstantForceWasEnabled = true;
-                    }
-                }
-            }
-            else if (ConstantForceWasEnabled)
-            {
-                ConstantForceWasEnabled = false;
-                DIManager.DestroyFFBEffect(ffbDevice.description.serial, FFBEffects.ConstantForce);
-            }
-
-            if (DamperForceEnabled)
-            {
-                if (DamperForceWasEnabled)
-                {
-                    if (!DIManager.UpdateDamperSimple(ffbDevice.description.serial, DamperMagnitude))
-                    {
-                        DIManager.DestroyFFBEffect(ffbDevice.description.serial, FFBEffects.Damper);
-                        DamperForceWasEnabled = false;
-                    }
-                    else
-                    {
-                        DamperForceWasEnabled = true;
-                    }
-                }
-                else
-                {
-                    if (!DIManager.EnableFFBEffect(ffbDevice.description.serial, FFBEffects.Damper))
-                    {
-                        DIManager.DestroyFFBEffect(ffbDevice.description.serial, FFBEffects.Damper);
-                        DamperForceWasEnabled = false;
-                    }
-                    else
-                    {
-                        DamperForceWasEnabled = true;
-                    }
-                }
-            }
-            else if (DamperForceWasEnabled)
-            {
-                DamperForceWasEnabled = false;
-                DIManager.DestroyFFBEffect(ffbDevice.description.serial, FFBEffects.Damper);
-            }
-
-            if (FrictionForceEnabled)
-            {
-                if (FrictionForceWasEnabled)
-                {
-                    if (!DIManager.UpdateFrictionSimple(ffbDevice.description.serial, FrictionMagnitude))
-                    {
-                        DIManager.DestroyFFBEffect(ffbDevice.description.serial, FFBEffects.Friction);
-                        FrictionForceWasEnabled = false;
-                    }
-                    else
-                    {
-                        FrictionForceWasEnabled = true;
-                    }
-                }
-                else
-                {
-                    if (!DIManager.EnableFFBEffect(ffbDevice.description.serial, FFBEffects.Friction))
-                    {
-                        DIManager.DestroyFFBEffect(ffbDevice.description.serial, FFBEffects.Friction);
-                        FrictionForceWasEnabled = false;
-                    }
-                    else
-                    {
-                        FrictionForceWasEnabled = true;
-                    }
-                }
-            }
-            else if (FrictionForceWasEnabled)
-            {
-                FrictionForceWasEnabled = false;
-                DIManager.DestroyFFBEffect(ffbDevice.description.serial, FFBEffects.Friction);
-            }
-
-            if (InertiaForceEnabled)
-            {
-                if (InertiaForceWasEnabled)
-                {
-                    if (!DIManager.UpdateInertiaSimple(ffbDevice.description.serial, InertiaMagnitude))
-                    {
-                        DIManager.DestroyFFBEffect(ffbDevice.description.serial, FFBEffects.Inertia);
-                        InertiaForceWasEnabled = false;
-                    }
-                    else
-                    {
-                        InertiaForceWasEnabled = true;
-                    }
-                }
-                else
-                {
-                    if (!DIManager.EnableFFBEffect(ffbDevice.description.serial, FFBEffects.Inertia))
-                    {
-                        DIManager.DestroyFFBEffect(ffbDevice.description.serial, FFBEffects.Inertia);
-                        InertiaForceWasEnabled = false;
-                    }
-                    else
-                    {
-                        InertiaForceWasEnabled = true;
-                    }
-                }
-            }
-            else if (InertiaForceWasEnabled)
-            {
-                InertiaForceWasEnabled = false;
-                DIManager.DestroyFFBEffect(ffbDevice.description.serial, FFBEffects.Inertia);
-            }
-
-            if (SpringForceEnabled)
-            {
-                if (SpringForceWasEnabled)
-                {
-                    if (!DIManager.UpdateSpringSimple(ffbDevice.description.serial, SpringDeadband, SpringOffset,
-                        SpringCoefficient, SpringCoefficient, SpringSaturation, SpringSaturation))
-                    {
-                        DIManager.DestroyFFBEffect(ffbDevice.description.serial, FFBEffects.Spring);
-                        SpringForceWasEnabled = false;
-                    }
-                    else
-                    {
-                        SpringForceWasEnabled = true;
-                    }
-                }
-                else
-                {
-                    if (!DIManager.EnableFFBEffect(ffbDevice.description.serial, FFBEffects.Spring))
-                    {
-                        DIManager.DestroyFFBEffect(ffbDevice.description.serial, FFBEffects.Spring);
-                        SpringForceWasEnabled = false;
-                    }
-                    else
-                    {
-                        SpringForceWasEnabled = true;
-                    }
-                }
-            }
-            else if (SpringForceWasEnabled)
-            {
-                SpringForceWasEnabled = false;
-                DIManager.DestroyFFBEffect(ffbDevice.description.serial, FFBEffects.Spring);
-            }
-
-            UpdatePeriodicForces();
-            TestDirectionalCollision();
+            Debug.LogError("No FFB device found");
+            return;
         }
+        DIManager.showLogsRuntime = realTimeDirectInputManagerLogs;
+        if (ConstantForceEnabled)
+        {
+            if (ConstantForceWasEnabled)
+            {
+                if (!DIManager.UpdateConstantForceSimple(ffbDevice.description.serial, ConstantForceMagnitude))
+                {
+                    DIManager.DestroyFFBEffect(ffbDevice.description.serial, FFBEffects.ConstantForce);
+                    ConstantForceWasEnabled = false;
+                }
+                else
+                {
+                    ConstantForceWasEnabled = true;
+                }
+            }
+            else
+            {
+                if (!DIManager.EnableFFBEffect(ffbDevice.description.serial, FFBEffects.ConstantForce))
+                {
+                    DIManager.DestroyFFBEffect(ffbDevice.description.serial, FFBEffects.ConstantForce);
+                    ConstantForceWasEnabled = false;
+                }
+                else
+                {
+                    ConstantForceWasEnabled = true;
+                }
+            }
+        }
+        else if (ConstantForceWasEnabled)
+        {
+            ConstantForceWasEnabled = false;
+            DIManager.DestroyFFBEffect(ffbDevice.description.serial, FFBEffects.ConstantForce);
+        }
+
+        if (DamperForceEnabled)
+        {
+            if (DamperForceWasEnabled)
+            {
+                if (!DIManager.UpdateDamperSimple(ffbDevice.description.serial, DamperMagnitude))
+                {
+                    DIManager.DestroyFFBEffect(ffbDevice.description.serial, FFBEffects.Damper);
+                    DamperForceWasEnabled = false;
+                }
+                else
+                {
+                    DamperForceWasEnabled = true;
+                }
+            }
+            else
+            {
+                if (!DIManager.EnableFFBEffect(ffbDevice.description.serial, FFBEffects.Damper))
+                {
+                    DIManager.DestroyFFBEffect(ffbDevice.description.serial, FFBEffects.Damper);
+                    DamperForceWasEnabled = false;
+                }
+                else
+                {
+                    DamperForceWasEnabled = true;
+                }
+            }
+        }
+        else if (DamperForceWasEnabled)
+        {
+            DamperForceWasEnabled = false;
+            DIManager.DestroyFFBEffect(ffbDevice.description.serial, FFBEffects.Damper);
+        }
+
+        if (FrictionForceEnabled)
+        {
+            if (FrictionForceWasEnabled)
+            {
+                if (!DIManager.UpdateFrictionSimple(ffbDevice.description.serial, FrictionMagnitude))
+                {
+                    DIManager.DestroyFFBEffect(ffbDevice.description.serial, FFBEffects.Friction);
+                    FrictionForceWasEnabled = false;
+                }
+                else
+                {
+                    FrictionForceWasEnabled = true;
+                }
+            }
+            else
+            {
+                if (!DIManager.EnableFFBEffect(ffbDevice.description.serial, FFBEffects.Friction))
+                {
+                    DIManager.DestroyFFBEffect(ffbDevice.description.serial, FFBEffects.Friction);
+                    FrictionForceWasEnabled = false;
+                }
+                else
+                {
+                    Debug.Log("Friction force enabled");
+                    FrictionForceWasEnabled = true;
+                }
+            }
+        }
+        else if (FrictionForceWasEnabled)
+        {
+            FrictionForceWasEnabled = false;
+            DIManager.DestroyFFBEffect(ffbDevice.description.serial, FFBEffects.Friction);
+        }
+
+        if (InertiaForceEnabled)
+        {
+            if (InertiaForceWasEnabled)
+            {
+                if (!DIManager.UpdateInertiaSimple(ffbDevice.description.serial, InertiaMagnitude))
+                {
+                    DIManager.DestroyFFBEffect(ffbDevice.description.serial, FFBEffects.Inertia);
+                    InertiaForceWasEnabled = false;
+                }
+                else
+                {
+                    InertiaForceWasEnabled = true;
+                }
+            }
+            else
+            {
+                if (!DIManager.EnableFFBEffect(ffbDevice.description.serial, FFBEffects.Inertia))
+                {
+                    DIManager.DestroyFFBEffect(ffbDevice.description.serial, FFBEffects.Inertia);
+                    InertiaForceWasEnabled = false;
+                }
+                else
+                {
+                    InertiaForceWasEnabled = true;
+                }
+            }
+        }
+        else if (InertiaForceWasEnabled)
+        {
+            InertiaForceWasEnabled = false;
+            DIManager.DestroyFFBEffect(ffbDevice.description.serial, FFBEffects.Inertia);
+        }
+
+        if (SpringForceEnabled)
+        {
+            if (SpringForceWasEnabled)
+            {
+                if (!DIManager.UpdateSpringSimple(ffbDevice.description.serial, SpringDeadband, SpringOffset,
+                        SpringCoefficient, SpringCoefficient, SpringSaturation, SpringSaturation))
+                {
+                    DIManager.DestroyFFBEffect(ffbDevice.description.serial, FFBEffects.Spring);
+                    SpringForceWasEnabled = false;
+                }
+                else
+                {
+                    SpringForceWasEnabled = true;
+                }
+            }
+            else
+            {
+                if (!DIManager.EnableFFBEffect(ffbDevice.description.serial, FFBEffects.Spring))
+                {
+                    DIManager.DestroyFFBEffect(ffbDevice.description.serial, FFBEffects.Spring);
+                    SpringForceWasEnabled = false;
+                }
+                else
+                {
+                    SpringForceWasEnabled = true;
+                }
+            }
+        }
+        else if (SpringForceWasEnabled)
+        {
+            SpringForceWasEnabled = false;
+            DIManager.DestroyFFBEffect(ffbDevice.description.serial, FFBEffects.Spring);
+        }
+
+        UpdatePeriodicForces();
+        TestDirectionalCollision();
     }
     private void UpdatePeriodicForces()
     {
