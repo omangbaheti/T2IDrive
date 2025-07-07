@@ -62,7 +62,7 @@ namespace HMI.Services
                     }
 
                     // Label for Telltales section of the user interface in the editor window.
-                    var carSystemsScript = FindObjectsOfType<CarSystems>().FirstOrDefault();
+                    CarSystems carSystemsScript = FindObjectsOfType<CarSystems>().FirstOrDefault();
 
                     // Checking if the Parking Brake Script is not null
                     // If not null, then create variables that are linked to scripts for interaction

@@ -30,7 +30,6 @@ using UnityEngine.Serialization;
 
 public class VehicleController : MonoBehaviour
 {
-    
     [Header("Vehicle Settings")]
     public float motorForce = 50f;
     public float maxSteerAngle = 30f;
@@ -41,7 +40,6 @@ public class VehicleController : MonoBehaviour
     
     [Header("Wheel References")]
     public GameObject centerOfMassObject;
-
     public SerializedDictionary<WheelPlacement, WheelData> wheelData;
     
     [Header("SFX References")]
@@ -57,17 +55,19 @@ public class VehicleController : MonoBehaviour
     private int currentGear = 1; // Variable to track the current gear
     private float stopSpeedThreshold = 1f; // Speed threshold for considering the vehicle stopped
     private Quaternion prevRotation; // Previous rotation of the wheel
-    private CarInputController mobileInputController;
+    private CarInputManager carInputs;
     private AudioClip engineSound;
     private float targetPitch;
     private bool hasStartedMoving = false;
+    private float steerInput;
+    private float acceleratorInput;
+    private float brakeInput;
     
-
     void Start()
     {
         carRB = GetComponent<Rigidbody>();
         prevRotation = wheelData[WheelPlacement.FrontLeft].wheelTransform.rotation;
-        mobileInputController = FindAnyObjectByType<CarInputController>();
+        carInputs = FindAnyObjectByType<CarInputManager>();
         engineSound = Resources.Load<AudioClip>($"EngineSound");
         targetPitch = engineAudioSource.pitch;
         StartCoroutine(DelayedEngineSound());
@@ -93,29 +93,23 @@ public class VehicleController : MonoBehaviour
             carRB.centerOfMass = transform.InverseTransformPoint(centerOfMassObject.transform.position);
         }
 
-        float v = mobileInputController != null ? mobileInputController.GetVerticalInput() : Input.GetAxis("Vertical") * motorForce;
-        float h = mobileInputController != null ? mobileInputController.GetHorizontalInput() : Input.GetAxis("Horizontal") * maxSteerAngle;
+        acceleratorInput = carInputs.AccelerationInput * motorForce;
+        brakeInput = carInputs.BrakeInput * brakeForce;
+        steerInput = carInputs.SteerInput * maxSteerAngle;
 
-        // Apply motor torque to the wheels
-        frontLeft.collider.motorTorque = v;
-        frontRight.collider.motorTorque = v;
-        
-        rearLeft.collider.motorTorque = h;
-        rearRight.collider.motorTorque = h;
+        frontLeft.collider.steerAngle = steerInput;
+        frontRight.collider.steerAngle = steerInput;
 
         UpdateWheelPoses();
         
-        float _brakeForce = (Input.GetKey(KeyCode.Space)) ? brakeForce : 0;
         foreach ((WheelPlacement placement, WheelData _wheelData) in wheelData)
         {
-            _wheelData.collider.brakeTorque = _brakeForce;
+            _wheelData.collider.brakeTorque = brakeInput;
         }
     }
 
     private void FixedUpdate()
     {
-        float v = mobileInputController != null ? mobileInputController.GetVerticalInput() * motorForce : 0f;
-        float h = mobileInputController != null ? mobileInputController.GetHorizontalInput() * maxSteerAngle : 0f;
 
         // Calculate the current wheel speed in km/h
         float currentSpeedKmph =  frontLeft.collider.radius  * Mathf.PI * frontLeft.collider.rpm * 60f / 1000f;
@@ -135,7 +129,7 @@ public class VehicleController : MonoBehaviour
         }
 
         // Adjust the motor torque based on the current gear ratio
-        float adjustedTorque = v * gearRatios[Mathf.Clamp(currentGear - 1, 0, gearRatios.Length - 1)];
+        float adjustedTorque = acceleratorInput * gearRatios[Mathf.Clamp(currentGear - 1, 0, gearRatios.Length - 1)];
 
         // Apply motor torque to the wheels
         if (enable4x4)
@@ -147,14 +141,14 @@ public class VehicleController : MonoBehaviour
         }
         else
         {
-            frontLeft.collider.motorTorque = adjustedTorque;
-            frontRight.collider.motorTorque = adjustedTorque;
-            rearLeft.collider.motorTorque = 0f;
-            rearRight.collider.motorTorque = 0f;
+            frontLeft.collider.motorTorque = 0f;
+            frontRight.collider.motorTorque = 0f;
+            rearLeft.collider.motorTorque = adjustedTorque;
+            rearRight.collider.motorTorque = adjustedTorque;
         }
 
-        frontLeft.collider.steerAngle = h;
-        frontRight.collider.steerAngle = h;
+        frontLeft.collider.steerAngle = steerInput;
+        frontRight.collider.steerAngle = steerInput;
 
         UpdateWheelPoses();
 
@@ -165,13 +159,7 @@ public class VehicleController : MonoBehaviour
 
         // Check if the vehicle is in motion
         bool isMoving = carRB.linearVelocity.magnitude > 0.1f;
-
-        // Check if any of the wheels are slipping or drifting
-        foreach ((WheelPlacement placement, WheelData _wheelData) in wheelData)
-        {
-            bool shouldPlayDustParticles =
-                _wheelData.isWheelSlipping || _wheelData.isWheelBraking || _wheelData.isWheelDrifting;
-        }
+        
 
         // Calculate the target pitch based on the current speed and direction
         float targetPitch = currentSpeedKmph > 0.1f ? Mathf.Lerp(0.5f, 2f, currentSpeedKmph / 100f) : 0.5f;

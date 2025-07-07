@@ -24,6 +24,16 @@ MonoBehaviour:
       Value: 1
     - Key: PC Controller Scene AMR 01
       Value: 1
+    - Key: CarTestBed
+      Value: 1
+    - Key: Cluster
+      Value: 1
+    - Key: MultiScreenSetup
+      Value: 1
+    - Key: IVI
+      Value: 1
+    - Key: HVAC
+      Value: 1
   validatorTypesMap:
     list:
     - Key: Artifice_ValidatorModule_ScriptableObject
