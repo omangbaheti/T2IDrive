@@ -46,7 +46,6 @@ public class VehicleController : MonoBehaviour
     
     [Header("SFX References")]
     public AudioSource engineStartAudioSource; // Assign this in the Inspector
-    public ParticleSystem frontLeftDustParticleSystem, frontRightDustParticleSystem, rearLeftDustParticleSystem, rearRightDustParticleSystem; // References to the dust particle systems for each wheel
     public AudioSource engineAudioSource; // Assign this in the Inspector
     
     private WheelData frontLeft => wheelData[WheelPlacement.FrontLeft];
@@ -106,7 +105,7 @@ public class VehicleController : MonoBehaviour
 
         UpdateWheelPoses();
         
-        float _brakeForce = (Input.GetKey(KeyCode.Space) || mobileInputController.brakeButton.IsButtonPressed()) ? brakeForce : 0;
+        float _brakeForce = (Input.GetKey(KeyCode.Space)) ? brakeForce : 0;
         foreach ((WheelPlacement placement, WheelData _wheelData) in wheelData)
         {
             _wheelData.collider.brakeTorque = _brakeForce;
@@ -120,7 +119,7 @@ public class VehicleController : MonoBehaviour
 
         // Calculate the current wheel speed in km/h
         float currentSpeedKmph =  frontLeft.collider.radius  * Mathf.PI * frontLeft.collider.rpm * 60f / 1000f;
-        Debug.Log("Current Speed: " + currentSpeedKmph + " Kmph");
+        // Debug.Log("Current Speed: " + currentSpeedKmph + " Kmph");
 
         // Calculate the current engine RPM based on the wheel speed and gear ratio
         float currentRPM = frontLeft.collider.rpm * gearRatios[Mathf.Clamp(currentGear - 1, 0, gearRatios.Length - 1)];
@@ -172,7 +171,6 @@ public class VehicleController : MonoBehaviour
         {
             bool shouldPlayDustParticles =
                 _wheelData.isWheelSlipping || _wheelData.isWheelBraking || _wheelData.isWheelDrifting;
-            SetDustParticleSystemState(frontLeftDustParticleSystem, shouldPlayDustParticles);
         }
 
         // Calculate the target pitch based on the current speed and direction
@@ -196,24 +194,6 @@ public class VehicleController : MonoBehaviour
         }
     }
 
-    private void SetDustParticleSystemState(ParticleSystem dustParticleSystem, bool shouldPlay)
-    {
-        if (shouldPlay)
-        {
-            if (!dustParticleSystem.isPlaying)
-            {
-                dustParticleSystem.Play();
-            }
-        }
-        else
-        {
-            if (dustParticleSystem.isPlaying)
-            {
-                dustParticleSystem.Stop();
-            }
-        }
-    }
-
     private void UpdateWheelPoses()
     {
         frontLeft.UpdateWheelPose();
@@ -228,6 +208,7 @@ public class WheelData
 {
     [FormerlySerializedAs("wheel")] public WheelCollider collider;
     public Transform wheelTransform;
+    [FormerlySerializedAs("rotOffset")] public Quaternion wheelRotOffset;
     [HideInInspector] public bool isWheelSlipping;
     [HideInInspector] public bool isWheelDrifting;
     [HideInInspector] public bool isWheelBraking;
@@ -257,7 +238,7 @@ public class WheelData
         }
 
         wheelTransform.position = pos;
-        wheelTransform.rotation = quat;
+        wheelTransform.rotation = quat * wheelRotOffset;
     }
 
 }

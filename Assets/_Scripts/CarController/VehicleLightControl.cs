@@ -52,19 +52,19 @@ public class VehicleLightControl : MonoBehaviour
         }
 
 
-        if (Input.GetKeyDown(KeyCode.H) || mobileInputController.headLightsButton.IsButtonClicked())
+        if (Input.GetKeyDown(KeyCode.H))
         {
             lightsOn = !lightsOn;
             ToggleLights();
         }
 
-        if (Input.GetKeyDown(KeyCode.T) || mobileInputController.signalLightsButton.IsButtonClicked())
+        if (Input.GetKeyDown(KeyCode.T))
         {
             signalOn = !signalOn;
             ToggleSignal();
         }
 
-        if (Input.GetKeyDown(KeyCode.E) || mobileInputController.extraLightsButton.IsButtonClicked())
+        if (Input.GetKeyDown(KeyCode.E))
         {
             extraLightsOn = !extraLightsOn;
             ToggleExtraLights();

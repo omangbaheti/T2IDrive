@@ -1,0 +1,190 @@
+{
+    "name": "DriverSim",
+    "maps": [
+        {
+            "name": "DrivingSim",
+            "id": "3e8cb4e6-e19a-4b79-afb5-447dfab737fe",
+            "actions": [
+                {
+                    "name": "Steering",
+                    "type": "Value",
+                    "id": "2b1767e8-f51e-450b-9574-df44be7c42c6",
+                    "expectedControlType": "Analog",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Accelerator",
+                    "type": "Value",
+                    "id": "d11626da-190a-4696-a099-fd730cd65bb6",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Brake",
+                    "type": "Value",
+                    "id": "76b14306-692d-4883-8a45-b1e10cb55083",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "3394bb11-a975-4289-b7c9-ff2499b18477",
+                    "path": "<HID::Logitech G920 Driving Force Racing Wheel for Xbox One>/stick/x",
+                    "interactions": "",
+                    "processors": "Shift(shift=-0.5)",
+                    "groups": "",
+                    "action": "Steering",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "f79d6459-55fe-49d8-98ee-34402c6655d8",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "Scale(factor=0.5)",
+                    "groups": "",
+                    "action": "Steering",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "14ccaca4-3064-418e-9dc9-35e0394cbdc3",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Steering",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "45c471c0-d648-46ab-b209-5a417e4a7ed0",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Steering",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "56cf67ca-c169-470a-9ec7-024c025d02bd",
+                    "path": "<HID::Logitech G920 Driving Force Racing Wheel for Xbox One>/stick/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Accelerator",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8fbc04a8-fa24-4199-9613-e5c54d0d74a9",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Accelerator",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "99d6dc38-3604-472a-9fbc-70db363cfd96",
+                    "path": "<HID::Logitech G920 Driving Force Racing Wheel for Xbox One>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Brake",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "770626a4-18f5-4913-9c94-6b2898dac76a",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Brake",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "Keyboard&Mouse",
+            "bindingGroup": "Keyboard&Mouse",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Mouse>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "Gamepad",
+            "bindingGroup": "Gamepad",
+            "devices": [
+                {
+                    "devicePath": "<Gamepad>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "Touch",
+            "bindingGroup": "Touch",
+            "devices": [
+                {
+                    "devicePath": "<Touchscreen>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "Joystick",
+            "bindingGroup": "Joystick",
+            "devices": [
+                {
+                    "devicePath": "<Joystick>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "XR",
+            "bindingGroup": "XR",
+            "devices": [
+                {
+                    "devicePath": "<XRController>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}

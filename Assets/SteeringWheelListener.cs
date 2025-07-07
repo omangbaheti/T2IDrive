@@ -30,6 +30,5 @@ public class SteeringWheelListener : MonoBehaviour
         // Debug.Log(steeringWheel);
         steeringInput = steeringWheel;
         transform.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles.x, transform.localRotation.eulerAngles.y, Mathf.Lerp(450f, -450f, steeringWheel));
-
     }
 }

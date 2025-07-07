@@ -39,7 +39,7 @@ public class JrsPoliceSiren : MonoBehaviour
         {
             mobileInputController = FindAnyObjectByType<CarInputController>();
         }
-        if (Input.GetKeyDown(KeyCode.P)  || mobileInputController.sirenButton.IsButtonClicked())
+        if (Input.GetKeyDown(KeyCode.P))
         {
             isSirenOn = !isSirenOn;
             ToggleSirenLights();
