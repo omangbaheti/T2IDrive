@@ -31,7 +31,7 @@ public class CarInputManager : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log($"{SteerInput} | {AccelerationInput} | {BrakeInput}");
+        
     }
 }
 

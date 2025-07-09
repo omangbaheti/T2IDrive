@@ -45,6 +45,7 @@ public class SelfDrivingManager : MonoBehaviour
     [SerializeField] private float angleToTarget;
     
     private OneEuroFilter oneEuroFilter;
+    [SerializeField] private float lookAheadDistance;
 
     private void Start()
     {
@@ -64,7 +65,7 @@ public class SelfDrivingManager : MonoBehaviour
         Vector3 carForward = transform.forward;
         
         float speed = vehicleController.CurrentSpeed;
-        float lookahead = lookAheadDistance + speed * speedLookAheadFactor;
+        float lookahead = lookAheadDistance;
         float targetSplinePoint = currentSplineT + lookahead;
         
         splineContainer.Evaluate(currentSplineIndex, targetSplinePoint, out float3 position, out float3 forward, out float3 upVector);

@@ -77,7 +77,6 @@ public class VehicleController : MonoBehaviour
         brakeInput = carInputs.BrakeInput * brakeForce;
         steerInput = carInputs.SteerInput * maxSteerAngle;
 
-        Debug.Log($"{carInputs.AccelerationInput} x {carInputs.BrakeInput} x {carInputs.SteerInput}");
         frontLeft.collider.steerAngle = steerInput;
         frontRight.collider.steerAngle = steerInput;
 
