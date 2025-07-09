@@ -21,6 +21,7 @@ public class SplineRoad : MonoBehaviour
     [SerializeField] private Material roadMaterial;
     [SerializeField] private List<GameObject> roadObjects = new();
 
+    private
     private void OnEnable()
     {
         Spline.Changed += BuildMesh;
@@ -30,7 +31,7 @@ public class SplineRoad : MonoBehaviour
     {
         Spline.Changed -= BuildMesh;
     }
-    
+
     // Update is called once per frame
     private void GetVertices()
     {
@@ -42,31 +43,35 @@ public class SplineRoad : MonoBehaviour
             for (int j = 0; j < resolution; j++)
             {
                 float t = j * step;
-                splineContainer.Evaluate(i, t, out position, out forward, out upVector);
-                //we can use either upVector or Vector3.up
-                //Vector3.up ensure road is flat, while upVector builds the road along the bezier curve's local up
-                float3 right = Vector3.Cross(forward, Vector3.up).normalized;
-                float3 p1 = position + (right * width/2);
-                float3 p2 = position + (-right * width/2);
+                SampleAlongSplineWidth(i, t, width, out float3 p1, out float3 p2);
                 p1_vertices.Add(p1);
                 p2_vertices.Add(p2);
             }
         }
-        
     }
-    
+
+    private void SampleAlongSplineWidth(int splineIndex, float step, float width, out float3 p1, out float3 p2)
+    {
+        splineContainer.Evaluate(splineIndex, step, out position, out forward, out upVector);
+        //we can use either upVector or Vector3.up
+        //Vector3.up ensure road is flat, while upVector builds the road along the bezier curve's local up
+        float3 right = Vector3.Cross(forward, Vector3.up).normalized;
+        p1 = position + (right * width/2);
+        p2 = position + (-right * width/2);
+    }
+
 
     private void BuildMesh(Spline spline, int i1, SplineModification arg3)
     {
         GetVertices();
         int offset = 0;
 
-        foreach (GameObject roadMesh in roadObjects)       
+        foreach (GameObject roadMesh in roadObjects)
         {
             DestroyImmediate(roadMesh);
         }
         roadObjects.Clear();
-        
+
         for (int currSplineIndex = 0; currSplineIndex < splineContainer.Splines.Count; currSplineIndex++)
         {
             List<Vector3> verts = new();
@@ -79,7 +84,7 @@ public class SplineRoad : MonoBehaviour
                 Vector3 p2 = p2_vertices[vertexIndex-1];
                 Vector3 p3 = p1_vertices[vertexIndex];
                 Vector3 p4 = p2_vertices[vertexIndex];
-                
+
                 int baseIndex = verts.Count;
 
                 int t1 = baseIndex + 0;
@@ -94,7 +99,7 @@ public class SplineRoad : MonoBehaviour
             mesh.SetTriangles(tris, 0);
             mesh.RecalculateNormals();
             mesh.RecalculateBounds();
-            
+
             GameObject splineGO = new($"SplineMesh_{currSplineIndex}");
             splineGO.transform.parent = transform;
             roadObjects.Add(splineGO);
@@ -103,7 +108,7 @@ public class SplineRoad : MonoBehaviour
             mf.mesh = mesh;
             mr.material = roadMaterial;
         }
-        
+
     }
 
     private void OnDrawGizmos()
@@ -120,6 +125,46 @@ public class SplineRoad : MonoBehaviour
         {
             Handles.SphereHandleCap(0, p2_vertices[i], Quaternion.identity, 0.8f, EventType.Repaint);
         }
+    }
 
+    public void AddJunction(Intersection intersection)
+    {
+        List<Vector3> verts = new();
+        List<int> tris = new();
+        int offset = verts.Count;
+
+        for (int i = 0; i < intersection.Terminals.Count; i++)
+        {
+
+        }
+    }
+}
+
+public struct SplineTerminalInfo
+{
+    public int splineIndex;
+    public int knotIndex;
+    public Spline spline;
+    public BezierKnot bezierKnot;
+
+    public SplineTerminalInfo(int splineIndex, int knotIndex, Spline spline, BezierKnot knot)
+    {
+        this.splineIndex = splineIndex;
+        this.knotIndex = knotIndex;
+        this.spline = spline;
+        this.bezierKnot = knot;
+    }
+}
+
+public class Intersection
+{
+    public List<SplineTerminalInfo> Terminals => terminals;
+
+    private List<SplineTerminalInfo> terminals;
+
+    public void AddTerminal(SplineTerminalInfo terminal)
+    {
+        terminals ??= new();
+        terminals.Add(terminal);
     }
 }

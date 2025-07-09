@@ -23,7 +23,7 @@ public class JunctionBuilderOverlay : Overlay
         {
             text = "Build"
         };
-        
+
         root.Add(SelectionInfoLabel);
         root.Add(buildButton);
         EditorApplication.update += OnSelectionChanged;
@@ -44,10 +44,8 @@ public class JunctionBuilderOverlay : Overlay
     private void OnSelectionChanged()
     {
         if(!IsSplineMode()) return;
-        Debug.Log("Selection Changed");
         ClearSelectionInfo();
         List<SelectedSplineElementInfo> infos = SplineToolUtility.GetSelection();
-        Debug.Log($"selection count: {infos.Count}");
         foreach (SelectedSplineElementInfo element in infos)
         {
             Debug.Log(element.ToString());
@@ -58,7 +56,7 @@ public class JunctionBuilderOverlay : Overlay
     private void OnBuildJunction()
     {
         List<SelectedSplineElementInfo> selections = SplineToolUtility.GetSelection();
-        
+
         Intersection intersection = new Intersection();
 
         foreach (SelectedSplineElementInfo selection in selections)
@@ -67,39 +65,16 @@ public class JunctionBuilderOverlay : Overlay
             Spline spline = container.Splines[selection.targetIndex];
             intersection.AddTerminal(new SplineTerminalInfo(selection.targetIndex, selection.knotIndex, spline, spline.Knots.ToList()[selection.knotIndex]));
         }
+
+        Selection.activeTransform.GetComponent<SplineRoad>().AddJunction(intersection);
     }
 
     private void ClearSelectionInfo()
     {
         SelectionInfoLabel.text = "Junction Overlay\n";
     }
-    
-    public struct SplineTerminalInfo
-    {
-        public int splineIndex;
-        public int knotIndex;
-        public Spline spline;
-        public BezierKnot bezierKnot;
-
-        public SplineTerminalInfo(int splineIndex, int knotIndex, Spline spline, BezierKnot knot)
-        {
-            this.splineIndex = splineIndex;
-            this.knotIndex = knotIndex;
-            this.spline = spline;
-            this.bezierKnot = knot;
-        }
-    }
-
-    public struct Intersection
-    {
-        public List<SplineTerminalInfo> Terminals => terminals;
-        
-        private List<SplineTerminalInfo> terminals;
-
-        public void AddTerminal(SplineTerminalInfo terminal)
-        {
-            terminals ??= new();
-            terminals.Add(terminal);
-        }
-    }
 }
+
+
+
+
