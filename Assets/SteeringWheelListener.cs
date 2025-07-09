@@ -7,7 +7,8 @@ public class SteeringWheelListener : MonoBehaviour
     [SerializeField] List<LogitechControls> Inputs = new List<LogitechControls>();
     [SerializeField] LogitechAdapter logitechAdapter;
     [SerializeField] Transform steeringWheelAnchor;
-    [Range(0,1), SerializeField] private float steeringInput;
+    [SerializeField] private SelfDrivingManager selfDrivingManager;
+    [Range(-1, 1), SerializeField] private float steeringInput;
     private void Start()
     {
         logitechAdapter.InputActionEvents[LogitechControls.Steering].AddListener(SteeringWheelInput);
@@ -21,7 +22,7 @@ public class SteeringWheelListener : MonoBehaviour
 
     private void Update()
     {
-        // SteeringWheelInput(0);
+       SteeringWheelInput(selfDrivingManager.SteerInput);
     }
 
 
@@ -29,6 +30,6 @@ public class SteeringWheelListener : MonoBehaviour
     {
         // Debug.Log(steeringWheel);
         steeringInput = steeringWheel;
-        transform.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles.x, transform.localRotation.eulerAngles.y, Mathf.Lerp(450f, -450f, steeringWheel));
+        transform.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles.x, transform.localRotation.eulerAngles.y, steeringInput * -450f);
     }
 }

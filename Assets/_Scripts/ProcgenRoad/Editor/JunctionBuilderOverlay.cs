@@ -14,18 +14,18 @@ public class JunctionBuilderOverlay : Overlay
 {
     private Label SelectionInfoLabel;
     private VisualElement root;
-    private Button buildButton;
+    private Button addJunction;
     public override VisualElement CreatePanelContent()
     {
         root = new() { name = "My Toolbar Root" };
         SelectionInfoLabel = new("Junction Overlay");
-        buildButton = new(OnBuildJunction)
+        addJunction = new(OnAddJunction)
         {
-            text = "Build"
+            text = "Add Junction"
         };
 
         root.Add(SelectionInfoLabel);
-        root.Add(buildButton);
+        root.Add(addJunction);
         EditorApplication.update += OnSelectionChanged;
         return root;
     }
@@ -48,16 +48,15 @@ public class JunctionBuilderOverlay : Overlay
         List<SelectedSplineElementInfo> infos = SplineToolUtility.GetSelection();
         foreach (SelectedSplineElementInfo element in infos)
         {
-            Debug.Log(element.ToString());
             SelectionInfoLabel.text += $"Spline {element.targetIndex}, Knot {element.knotIndex}\n";
         }
     }
 
-    private void OnBuildJunction()
+    private void OnAddJunction()
     {
         List<SelectedSplineElementInfo> selections = SplineToolUtility.GetSelection();
 
-        Intersection intersection = new Intersection();
+        Intersection intersection = new();
 
         foreach (SelectedSplineElementInfo selection in selections)
         {
@@ -65,7 +64,7 @@ public class JunctionBuilderOverlay : Overlay
             Spline spline = container.Splines[selection.targetIndex];
             intersection.AddTerminal(new SplineTerminalInfo(selection.targetIndex, selection.knotIndex, spline, spline.Knots.ToList()[selection.knotIndex]));
         }
-
+        
         Selection.activeTransform.GetComponent<SplineRoad>().AddJunction(intersection);
     }
 

@@ -45,7 +45,6 @@ public class LogitechAdapter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         foreach (var control in drivingSimInputManager.ffbDevice.allControls)
         {
             if (control is AxisControl or InputControl<float>)

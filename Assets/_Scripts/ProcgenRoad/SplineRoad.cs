@@ -1,7 +1,10 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Mathematics;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Serialization;
 using UnityEngine.Splines;
 
@@ -15,13 +18,13 @@ public class SplineRoad : MonoBehaviour
     private float3 forward;
     private float3 upVector;
 
-    [SerializeField] private List<Vector3> p1_vertices = new();
-    [SerializeField] private List<Vector3> p2_vertices = new();
+    [SerializeField] private List<SerializableList<Vector3>> p1_vertices = new();
+    [SerializeField] private List<SerializableList<Vector3>> p2_vertices = new();
     [SerializeField] private float width;
     [SerializeField] private Material roadMaterial;
     [SerializeField] private List<GameObject> roadObjects = new();
-
-    private
+    
+    [SerializeField] private List<Intersection> intersections = new();
     private void OnEnable()
     {
         Spline.Changed += BuildMesh;
@@ -40,13 +43,28 @@ public class SplineRoad : MonoBehaviour
         float step = 1f/resolution;
         for (int i = 0; i < splineContainer.Splines.Count; i++)
         {
+            List<Vector3> p1Vertices = new();
+            List<Vector3> p2Vertices = new();
             for (int j = 0; j < resolution; j++)
             {
                 float t = j * step;
                 SampleAlongSplineWidth(i, t, width, out float3 p1, out float3 p2);
-                p1_vertices.Add(p1);
-                p2_vertices.Add(p2);
+                p1Vertices.Add(p1);
+                p2Vertices.Add(p2);
             }
+            
+            SampleAlongSplineWidth(i, 100, width, out float3 lastp1, out float3 lastp2);
+            p1Vertices.Add(lastp1);
+            p2Vertices.Add(lastp2);
+            
+            p1_vertices.Add(new()
+            {
+                points = p1Vertices,
+            });
+            p2_vertices.Add(new()
+            {
+                points = p2Vertices,
+            });
         }
     }
 
@@ -59,8 +77,7 @@ public class SplineRoad : MonoBehaviour
         p1 = position + (right * width/2);
         p2 = position + (-right * width/2);
     }
-
-
+    
     private void BuildMesh(Spline spline, int i1, SplineModification arg3)
     {
         GetVertices();
@@ -76,14 +93,12 @@ public class SplineRoad : MonoBehaviour
         {
             List<Vector3> verts = new();
             List<int> tris = new();
-            int splineOffset = resolution * currSplineIndex;
-            for (int currSplinePoint = 1; currSplinePoint < resolution; currSplinePoint++)
+            for (int currSplinePoint = 1; currSplinePoint <= resolution; currSplinePoint++)
             {
-                int vertexIndex = splineOffset + currSplinePoint;
-                Vector3 p1 = p1_vertices[vertexIndex-1];
-                Vector3 p2 = p2_vertices[vertexIndex-1];
-                Vector3 p3 = p1_vertices[vertexIndex];
-                Vector3 p4 = p2_vertices[vertexIndex];
+                Vector3 p1 = p1_vertices[currSplineIndex].points[currSplinePoint-1];
+                Vector3 p2 = p2_vertices[currSplineIndex].points[currSplinePoint-1];
+                Vector3 p3 = p1_vertices[currSplineIndex].points[currSplinePoint];
+                Vector3 p4 = p2_vertices[currSplineIndex].points[currSplinePoint];
 
                 int baseIndex = verts.Count;
 
@@ -108,9 +123,132 @@ public class SplineRoad : MonoBehaviour
             mf.mesh = mesh;
             mr.material = roadMaterial;
         }
+        
+        BuildAllJunctions();
 
     }
+    
+    public void AddJunction(Intersection intersectionToAdd)
+    {
+        HashSet<int> newTerminals = new();
+        HashSet<int> newKnots = new();
+        foreach (SplineTerminalInfo terminal in intersectionToAdd.Terminals)
+        {
+            newTerminals.Add(terminal.splineIndex);
+            newKnots.Add(terminal.knotIndex);
+        }
+        bool intersectionExists = false;
+        foreach (Intersection _intersection in intersections)
+        {
+            HashSet<int> existingTerminals = new();
+            HashSet<int> existingKnots = new();
+            foreach (SplineTerminalInfo terminal in _intersection.Terminals)
+            {
+                existingTerminals.Add(terminal.splineIndex);
+                existingKnots.Add(terminal.knotIndex);
+            }
+            if (existingTerminals.SetEquals(newTerminals) && existingKnots.SetEquals(newKnots))
+            {
+                intersectionExists = true;
+            }
+        }
 
+        if (!intersectionExists)
+        {
+            intersections.Add(intersectionToAdd);
+        }
+        else
+        {
+            Debug.LogWarning("Duplicate intersection");
+        }
+    }
+
+    public void BuildAllJunctions()
+    {
+        foreach (Intersection intersection in intersections)
+        {
+            string intersectionID = intersection.Terminals.Aggregate("", (current, terminal) => current + $"{terminal.splineIndex}_");
+
+            int terminalCount = 0;
+            List<Vector3> points = new();
+            Vector3 center = Vector3.zero;
+            
+            //Calculating Centre
+            foreach (SplineTerminalInfo terminal in intersection.Terminals)
+            {
+                int terminalSplineIndex = terminal.splineIndex;
+                float t = terminal.knotIndex == 0 ? 0f : 1f;
+                // Debug.Log($"{intersectionID}:{t}");
+                SampleAlongSplineWidth(terminalSplineIndex, t, width, out float3 p1, out float3 p2);
+                Debug.Log($"{intersectionID}:{terminal.splineIndex}:{p1},{p2}");
+                points.Add(p1);
+                points.Add(p2);
+                center +=  (Vector3) p1;
+                center +=  (Vector3) p2;
+                terminalCount++;
+            }
+            Assert.IsTrue(terminalCount > 0, "No Intersections found");
+            //multiplying by 2 as each terminal has 2 points along the width
+            center /= terminalCount * 2;
+            
+            //Sorting points according to angle from centre
+            points.Sort((x, y) =>
+            {
+                Vector3 xDir = x - center;
+                Vector3 yDir = y - center;
+                float angleA = Vector3.SignedAngle(center.normalized, xDir.normalized, Vector3.up);
+                float angleB = Vector3.SignedAngle(center.normalized, yDir.normalized, Vector3.up);
+                if (angleA > angleB)
+                {
+                    return 1;
+                }
+                if (angleA < angleB)
+                {
+                    return -1;
+                }
+                return 0;
+            });
+            
+            //Finally making the mesh based on sorted points and centre
+            List<Vector3> verts = new();
+            List<int> tris = new();
+            int pointOffset = verts.Count;
+
+            for (int i = 1; i <= points.Count; i++)
+            {
+                verts.Add(center);
+                verts.Add(points[i -1]);
+                if (i == points.Count)
+                {
+                    verts.Add(points[0]);
+                }
+                else
+                {
+                    verts.Add(points[i]);
+                }
+                
+                tris.Add(pointOffset + ((i - 1) * 3) + 0);
+                tris.Add(pointOffset + ((i - 1) * 3) + 1);
+                tris.Add(pointOffset + ((i - 1) * 3) + 2);
+            }
+            
+            Mesh mesh = new();
+            mesh.SetVertices(verts);
+            mesh.SetTriangles(tris, 0);
+            mesh.RecalculateNormals();
+            mesh.RecalculateBounds();
+
+
+            GameObject intersectionGO = new($"SplineIntersection_{intersectionID}");
+            intersectionGO.transform.parent = transform;
+            roadObjects.Add(intersectionGO);
+            MeshFilter mf = intersectionGO.AddComponent<MeshFilter>();
+            MeshRenderer mr = intersectionGO.AddComponent<MeshRenderer>();
+            mf.mesh = mesh;
+            mr.material = roadMaterial;
+        }
+    }
+    
     private void OnDrawGizmos()
     {
 
@@ -118,29 +256,25 @@ public class SplineRoad : MonoBehaviour
         Handles.color = Color.red;
         for (int i = 0; i < p1_vertices.Count; i++)
         {
-            Handles.SphereHandleCap(0, p1_vertices[i], Quaternion.identity, 0.8f, EventType.Repaint);
+            for (int j = 0; j < p1_vertices[i].points.Count; j++)
+            {
+                Handles.SphereHandleCap(0, p1_vertices[i].points[j], Quaternion.identity, 0.8f, EventType.Repaint);
+            }
+            
         }
         Handles.color = Color.blue;
         for (int i = 0; i < p2_vertices.Count; i++)
         {
-            Handles.SphereHandleCap(0, p2_vertices[i], Quaternion.identity, 0.8f, EventType.Repaint);
-        }
-    }
-
-    public void AddJunction(Intersection intersection)
-    {
-        List<Vector3> verts = new();
-        List<int> tris = new();
-        int offset = verts.Count;
-
-        for (int i = 0; i < intersection.Terminals.Count; i++)
-        {
-
+            for (int j = 0; j < p2_vertices[i].points.Count; j++)
+            {
+                Handles.SphereHandleCap(0, p2_vertices[i].points[j], Quaternion.identity, 0.8f, EventType.Repaint);
+            }
         }
     }
 }
 
-public struct SplineTerminalInfo
+[Serializable]
+public class SplineTerminalInfo
 {
     public int splineIndex;
     public int knotIndex;
@@ -156,15 +290,23 @@ public struct SplineTerminalInfo
     }
 }
 
+[Serializable]
 public class Intersection
 {
     public List<SplineTerminalInfo> Terminals => terminals;
 
-    private List<SplineTerminalInfo> terminals;
+    [SerializeField] private List<SplineTerminalInfo> terminals;
 
     public void AddTerminal(SplineTerminalInfo terminal)
     {
         terminals ??= new();
         terminals.Add(terminal);
     }
+}
+
+//Hacky af but we ball
+[Serializable]
+public class SerializableList<T>
+{
+    public List<T> points;
 }
