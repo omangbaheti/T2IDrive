@@ -112,7 +112,7 @@ public class VehicleController : MonoBehaviour
 
         // Adjust the motor torque based on the current gear ratio
         float adjustedTorque = acceleratorInput * gearRatios[Mathf.Clamp(currentGear - 1, 0, gearRatios.Length - 1)];
-        Debug.Log($"Torque: {adjustedTorque}");
+        // Debug.Log($"Torque: {adjustedTorque}");
         // Apply motor torque to the wheels
         if (enable4x4)
         {

@@ -11,6 +11,8 @@ using UnityEngine.Splines;
 [ExecuteInEditMode]
 public class SplineRoad : MonoBehaviour
 {
+    public List<Intersection> Intersections => intersections;
+    
     [SerializeField] private SplineContainer splineContainer;
     [SerializeField] private int resolution;
 

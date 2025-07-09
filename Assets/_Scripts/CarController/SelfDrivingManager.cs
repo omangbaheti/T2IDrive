@@ -4,6 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.Splines;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(VehicleController))]
 public class SelfDrivingManager : MonoBehaviour
@@ -17,6 +18,7 @@ public class SelfDrivingManager : MonoBehaviour
     public float startDistance;
     public float endDistance;
     [SerializeField] private SplineContainer splineContainer;
+    [SerializeField] private SplineRoad splineRoad;
 
     
     [Header("Car Controller Properties")]
@@ -38,6 +40,7 @@ public class SelfDrivingManager : MonoBehaviour
     private Vector3 targetPoint;
     private Vector3 directionToTarget;
     private Vector3 splineTangent;
+    private CarInputManager carInputManager;
     
     [Header("Debug Variables")] [SerializeField]
     private float steerAngle;
@@ -51,22 +54,23 @@ public class SelfDrivingManager : MonoBehaviour
     {
         vehicleController = GetComponent<VehicleController>();
         currentSplineT = startDistance;
+        splineRoad = splineContainer.transform.GetComponent<SplineRoad>();
         oneEuroFilter = new(freq:50, minCutoff:0.01f, beta:0.010f, dCutoff:1f);
+        carInputManager = GetComponent<CarInputManager>();
     }
 
-    public void ChangeSpline(int index)
-    {
-        currentSplineIndex = index;
-    }
+    
 
     private void FixedUpdate()
     {
+        if(!carInputManager.IsSelfDrivingActive) return;
         Vector3 carPosition = transform.position;
+        carPosition.y = 0f;
         Vector3 carForward = transform.forward;
         
         float speed = vehicleController.CurrentSpeed;
         float lookahead = lookAheadDistance;
-        float targetSplinePoint = currentSplineT + lookahead;
+        float targetSplinePoint = currentSplineT;
         
         splineContainer.Evaluate(currentSplineIndex, targetSplinePoint, out float3 position, out float3 forward, out float3 upVector);
         targetPoint = position;
@@ -77,23 +81,27 @@ public class SelfDrivingManager : MonoBehaviour
             Debug.Log("Within Distance");
             currentSplineT += splineStep;
             steeringLerp = 0;
-            
-            if (currentSplineT >= 1)
-            {
-                Debug.Log("Spline Complete, Finding new spline");
-                acceleratorInput = 0;
-                return;
-                //Trigger some spline change mechanism
-            }
+        }
+        
+        if ( !(currentSplineT >= Mathf.Min(startDistance, endDistance) && currentSplineT <= Mathf.Max(startDistance, endDistance)) )
+        {
+            Debug.Log("Spline Complete, Finding new spline");
+            acceleratorInput = 0;
+            brakeInput = 0.25f;
+            ChangeSpline();
+            return;
+            //Trigger some spline change mechanism
         }
 
-        Vector3 directionToTarget = (targetPoint - transform.position).normalized;
+        Vector3 directionToTarget = (targetPoint - carPosition).normalized;
         angleToTarget = Vector3.SignedAngle(carForward, directionToTarget, Vector3.up);
         angleToTarget = Mathf.Clamp(angleToTarget, -maxSteeringAngle, maxSteeringAngle);
+        Debug.Log($"Angle: {angleToTarget}");
         if (Mathf.Abs(steerAngle - angleToTarget) < steeringThreshold)
         {
             steerAngle = Mathf.Lerp(steerAngle, 0, steeringLerp);
             steeringLerp += Time.fixedDeltaTime;
+            // steerAngle = 0;
         }
         else
         {
@@ -114,40 +122,81 @@ public class SelfDrivingManager : MonoBehaviour
         // Debug.Log($"Before:{steerAngle / maxSteeringAngle} After:{steerInput}");
         acceleratorInput = speed < maxSpeed ? 1f : 0f;
     }
+    
+    public void ChangeSpline()
+    {
+        int nextSplineIndex = -1;
+        int nextKnotIndex = -1;
 
-    // private void FixedUpdate()
-    // {
-    //     Vector3 carPosition = transform.position;
-    //     Vector3 carForward = transform.forward;
-    //     float speed = vehicleController.CurrentSpeed;
-    //     
-    //     float lookahead = lookAheadDistance + speed * speedLookAheadFactor;
-    //     float targetSplinePoint = currentSplineDistance + lookahead;
-    //     splineContainer.Evaluate(currentSpline, targetSplinePoint, out float3 position, out float3 forward, out float3 upVector);
-    //     
-    //     targetPoint = position;
-    //     splineTangent = forward;
-    //     directionToTarget = (targetPoint - carPosition).normalized;
-    //     
-    //     steerAngle = Vector3.SignedAngle(carForward, directionToTarget, Vector3.up) / maxSteeringAngle; // Normalize to -1..1
-    //     steerInput = Mathf.Clamp(steerAngle, -1f, 1f) * 0.5f;
-    //     steerInput += 1f;
-    //     float desiredSpeed = maxSpeed;
-    //     acceleratorInput = speed < desiredSpeed ? 1f : 0f;
-    //     brakeInput = speed > desiredSpeed * brakeThreshold ? 1f : 0f;
-    //     
-    //     float forwardDot = Vector3.Dot(carForward, splineTangent.normalized);
-    //     if ((targetPoint - carPosition).magnitude < 0.1f && forwardDot > 0.8f)
-    //     {
-    //         currentSplineDistance += 0.05f;
-    //     }
-    //     
-    // }
+        int currentKnotIndex = GetKnotIndexFromT(currentSplineIndex, endDistance);
+        Debug.Log($"Current Knot Index:{currentKnotIndex}");
+        foreach (Intersection intersection in splineRoad.Intersections)
+        {
+            Intersection currentIntersection = null;
+            foreach (SplineTerminalInfo terminal in intersection.Terminals)
+            {
+                Debug.Log($"Current spline: {currentSplineIndex}, Ends at {currentKnotIndex}");
+                Debug.Log($"----New spline: {terminal.splineIndex}, Ends at {terminal.knotIndex}");
+                if (terminal.knotIndex == currentKnotIndex && terminal.splineIndex == currentSplineIndex)
+                {
+                    Debug.Log("Found Intersection");
+                    currentIntersection = intersection;
+                    break;
+                }
+            }
 
+            if (currentIntersection != null)
+            {
+                Debug.Log("-------------------Assigning new spline");
+                nextSplineIndex = Random.Range(0, currentIntersection.Terminals.Count);
+                while (nextSplineIndex == currentSplineIndex)
+                {
+                    Debug.Log($"{currentSplineIndex} - {nextSplineIndex}");
+                    nextSplineIndex = Random.Range(0, currentIntersection.Terminals.Count);
+                }
+                
+                foreach (SplineTerminalInfo terminal in currentIntersection.Terminals)
+                {
+                    if (terminal.splineIndex == nextSplineIndex)
+                    {
+                        currentSplineIndex = nextSplineIndex;
+                        nextKnotIndex = terminal.knotIndex;
+                    }
+                }
+                break;
+            }
+        }
+        
+        startDistance = nextKnotIndex == 0 ? 0 : 1;
+        endDistance = nextKnotIndex == 0 ? 1 : 0;
+
+        if (Mathf.Approximately(startDistance, 1))
+        {
+            splineStep = -Mathf.Abs(splineStep);
+        }
+        else
+        {
+            splineStep = Mathf.Abs(splineStep);
+        }
+        
+        currentSplineT = startDistance;
+        currentSplineIndex = nextSplineIndex;
+        brakeInput = 0;
+    }
+    
+    public int GetKnotIndexFromT(int splineIndex, float T)
+    {
+        Spline currentSpline = splineContainer.Splines[splineIndex];
+        int segmentCount = currentSpline.Count;
+        float rawSegmentIndex = T * segmentCount;
+        int knotIndex = Mathf.FloorToInt(rawSegmentIndex);
+        return Mathf.Clamp(knotIndex, 0, segmentCount-1);
+    }
+    
     private void OnDrawGizmos()
     {
         Debug.DrawLine(transform.position, transform.position + transform.forward * 5f, Color.red);
-        Debug.DrawLine(transform.position, transform.position + directionToTarget.normalized * 5f, Color.green);
+        Debug.DrawLine(transform.position, transform.position + directionToTarget.normalized * 10f, Color.green);
         Handles.color = Color.yellow;
         Handles.SphereHandleCap(0, targetPoint, Quaternion.identity, 0.8f, EventType.Repaint);
     }
