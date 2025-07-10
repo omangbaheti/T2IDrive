@@ -12,7 +12,7 @@ using UnityEngine.Splines;
 public class SplineRoad : MonoBehaviour
 {
     public List<Intersection> Intersections => intersections;
-    
+
     [SerializeField] private SplineContainer splineContainer;
     [SerializeField] private int resolution;
 
@@ -22,10 +22,11 @@ public class SplineRoad : MonoBehaviour
 
     [SerializeField] private List<SerializableList<Vector3>> p1_vertices = new();
     [SerializeField] private List<SerializableList<Vector3>> p2_vertices = new();
-    [SerializeField] private float width;
+    [FormerlySerializedAs("width")] [SerializeField] private float leftWidth;
+    [SerializeField] private float rightWidth;
     [SerializeField] private Material roadMaterial;
     [SerializeField] private List<GameObject> roadObjects = new();
-    
+
     [SerializeField] private List<Intersection> intersections = new();
     private void OnEnable()
     {
@@ -50,15 +51,15 @@ public class SplineRoad : MonoBehaviour
             for (int j = 0; j < resolution; j++)
             {
                 float t = j * step;
-                SampleAlongSplineWidth(i, t, width, out float3 p1, out float3 p2);
+                SampleAlongSplineWidth(i, t, leftWidth, out float3 p1, out float3 p2);
                 p1Vertices.Add(p1);
                 p2Vertices.Add(p2);
             }
-            
-            SampleAlongSplineWidth(i, 100, width, out float3 lastp1, out float3 lastp2);
+
+            SampleAlongSplineWidth(i, 100, leftWidth, out float3 lastp1, out float3 lastp2);
             p1Vertices.Add(lastp1);
             p2Vertices.Add(lastp2);
-            
+
             p1_vertices.Add(new()
             {
                 points = p1Vertices,
@@ -76,10 +77,10 @@ public class SplineRoad : MonoBehaviour
         //we can use either upVector or Vector3.up
         //Vector3.up ensure road is flat, while upVector builds the road along the bezier curve's local up
         float3 right = Vector3.Cross(forward, Vector3.up).normalized;
-        p1 = position + (right * width/2);
-        p2 = position + (-right * width/2);
+        p1 = position + (right * rightWidth);
+        p2 = position + (-right * leftWidth);
     }
-    
+
     private void BuildMesh(Spline spline, int i1, SplineModification arg3)
     {
         GetVertices();
@@ -125,11 +126,11 @@ public class SplineRoad : MonoBehaviour
             mf.mesh = mesh;
             mr.material = roadMaterial;
         }
-        
+
         BuildAllJunctions();
 
     }
-    
+
     public void AddJunction(Intersection intersectionToAdd)
     {
         HashSet<int> newTerminals = new();
@@ -174,14 +175,14 @@ public class SplineRoad : MonoBehaviour
             int terminalCount = 0;
             List<Vector3> points = new();
             Vector3 center = Vector3.zero;
-            
+
             //Calculating Centre
             foreach (SplineTerminalInfo terminal in intersection.Terminals)
             {
                 int terminalSplineIndex = terminal.splineIndex;
                 float t = terminal.knotIndex == 0 ? 0f : 1f;
                 // Debug.Log($"{intersectionID}:{t}");
-                SampleAlongSplineWidth(terminalSplineIndex, t, width, out float3 p1, out float3 p2);
+                SampleAlongSplineWidth(terminalSplineIndex, t, leftWidth, out float3 p1, out float3 p2);
                 Debug.Log($"{intersectionID}:{terminal.splineIndex}:{p1},{p2}");
                 points.Add(p1);
                 points.Add(p2);
@@ -192,7 +193,7 @@ public class SplineRoad : MonoBehaviour
             Assert.IsTrue(terminalCount > 0, "No Intersections found");
             //multiplying by 2 as each terminal has 2 points along the width
             center /= terminalCount * 2;
-            
+
             //Sorting points according to angle from centre
             points.Sort((x, y) =>
             {
@@ -210,7 +211,7 @@ public class SplineRoad : MonoBehaviour
                 }
                 return 0;
             });
-            
+
             //Finally making the mesh based on sorted points and centre
             List<Vector3> verts = new();
             List<int> tris = new();
@@ -228,12 +229,12 @@ public class SplineRoad : MonoBehaviour
                 {
                     verts.Add(points[i]);
                 }
-                
+
                 tris.Add(pointOffset + ((i - 1) * 3) + 0);
                 tris.Add(pointOffset + ((i - 1) * 3) + 1);
                 tris.Add(pointOffset + ((i - 1) * 3) + 2);
             }
-            
+
             Mesh mesh = new();
             mesh.SetVertices(verts);
             mesh.SetTriangles(tris, 0);
@@ -250,7 +251,7 @@ public class SplineRoad : MonoBehaviour
             mr.material = roadMaterial;
         }
     }
-    
+
     private void OnDrawGizmos()
     {
 
@@ -262,7 +263,7 @@ public class SplineRoad : MonoBehaviour
             {
                 Handles.SphereHandleCap(0, p1_vertices[i].points[j], Quaternion.identity, 0.8f, EventType.Repaint);
             }
-            
+
         }
         Handles.color = Color.blue;
         for (int i = 0; i < p2_vertices.Count; i++)
@@ -306,6 +307,7 @@ public class Intersection
     }
 }
 
+//Shitty way to make a list of lists serializable
 //Hacky af but we ball
 [Serializable]
 public class SerializableList<T>

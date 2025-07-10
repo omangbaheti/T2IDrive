@@ -2,6 +2,7 @@ using System;
 using Unity.Mathematics;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Serialization;
 using UnityEngine.Splines;
 using Random = UnityEngine.Random;
@@ -12,7 +13,7 @@ public class SelfDrivingManager : MonoBehaviour
     public float SteerInput => steerInput;
     public float BrakeInput => brakeInput;
     public float AcceleratorInput => acceleratorInput;
-   
+
     [Header("Splines")]
     public int currentSplineIndex;
     public float startDistance;
@@ -20,16 +21,16 @@ public class SelfDrivingManager : MonoBehaviour
     [SerializeField] private SplineContainer splineContainer;
     [SerializeField] private SplineRoad splineRoad;
 
-    
+
     [Header("Car Controller Properties")]
     public float maxSpeed = 10f;
     public float brakeThreshold = 1.1f;
     public float maxSteeringAngle = 30f;
-    
+
 
     public float distanceThreshold = 0.2f;
     public float steeringThreshold = 4f;
-    
+
     [SerializeField] private float steerInput;
     [SerializeField] private float brakeInput;
     [SerializeField] private float acceleratorInput;
@@ -41,12 +42,12 @@ public class SelfDrivingManager : MonoBehaviour
     private Vector3 directionToTarget;
     private Vector3 splineTangent;
     private CarInputManager carInputManager;
-    
+
     [Header("Debug Variables")] [SerializeField]
     private float steerAngle;
     [SerializeField] private float steeringLerp = 0f;
     [SerializeField] private float angleToTarget;
-    
+
     private OneEuroFilter oneEuroFilter;
     [SerializeField] private float lookAheadDistance;
 
@@ -59,30 +60,29 @@ public class SelfDrivingManager : MonoBehaviour
         carInputManager = GetComponent<CarInputManager>();
     }
 
-    
-
     private void FixedUpdate()
     {
         if(!carInputManager.IsSelfDrivingActive) return;
+
         Vector3 carPosition = transform.position;
         carPosition.y = 0f;
         Vector3 carForward = transform.forward;
-        
+
         float speed = vehicleController.CurrentSpeed;
         float lookahead = lookAheadDistance;
         float targetSplinePoint = currentSplineT;
-        
+
         splineContainer.Evaluate(currentSplineIndex, targetSplinePoint, out float3 position, out float3 forward, out float3 upVector);
         targetPoint = position;
         splineTangent = forward;
-        
-        if (Vector3.Distance(transform.position, targetPoint) < distanceThreshold) // Check if car is facing the right way
+
+        if (Vector3.Distance(transform.position, targetPoint) < distanceThreshold) // TODO: Check if car is facing the right way
         {
             Debug.Log("Within Distance");
             currentSplineT += splineStep;
             steeringLerp = 0;
         }
-        
+
         if ( !(currentSplineT >= Mathf.Min(startDistance, endDistance) && currentSplineT <= Mathf.Max(startDistance, endDistance)) )
         {
             Debug.Log("Spline Complete, Finding new spline");
@@ -90,7 +90,6 @@ public class SelfDrivingManager : MonoBehaviour
             brakeInput = 0.25f;
             ChangeSpline();
             return;
-            //Trigger some spline change mechanism
         }
 
         Vector3 directionToTarget = (targetPoint - carPosition).normalized;
@@ -100,7 +99,7 @@ public class SelfDrivingManager : MonoBehaviour
         if (Mathf.Abs(steerAngle - angleToTarget) < steeringThreshold)
         {
             steerAngle = Mathf.Lerp(steerAngle, 0, steeringLerp);
-            steeringLerp += Time.fixedDeltaTime;
+            steeringLerp += Time.fixedDeltaTime/3;
             // steerAngle = 0;
         }
         else
@@ -108,12 +107,12 @@ public class SelfDrivingManager : MonoBehaviour
             if (angleToTarget > (maxSteeringAngle - maxSteeringAngle/3))
             {
                 steerAngle = Mathf.Lerp(steerAngle, angleToTarget, steeringLerp);
-                steeringLerp += Time.fixedDeltaTime * 2;
+                steeringLerp += Time.fixedDeltaTime/3;
             }
             else
             {
                 steerAngle = Mathf.Lerp(steerAngle, angleToTarget, steeringLerp);
-                steeringLerp += Time.fixedDeltaTime;
+                steeringLerp += Time.fixedDeltaTime/3;
             }
         }
 
@@ -122,7 +121,7 @@ public class SelfDrivingManager : MonoBehaviour
         // Debug.Log($"Before:{steerAngle / maxSteeringAngle} After:{steerInput}");
         acceleratorInput = speed < maxSpeed ? 1f : 0f;
     }
-    
+
     public void ChangeSpline()
     {
         int nextSplineIndex = -1;
@@ -133,9 +132,9 @@ public class SelfDrivingManager : MonoBehaviour
         foreach (Intersection intersection in splineRoad.Intersections)
         {
             Intersection currentIntersection = null;
+            Debug.Log($"Current spline: {currentSplineIndex}, Ends at {currentKnotIndex}");
             foreach (SplineTerminalInfo terminal in intersection.Terminals)
             {
-                Debug.Log($"Current spline: {currentSplineIndex}, Ends at {currentKnotIndex}");
                 Debug.Log($"----New spline: {terminal.splineIndex}, Ends at {terminal.knotIndex}");
                 if (terminal.knotIndex == currentKnotIndex && terminal.splineIndex == currentSplineIndex)
                 {
@@ -154,7 +153,7 @@ public class SelfDrivingManager : MonoBehaviour
                     Debug.Log($"{currentSplineIndex} - {nextSplineIndex}");
                     nextSplineIndex = Random.Range(0, currentIntersection.Terminals.Count);
                 }
-                
+
                 foreach (SplineTerminalInfo terminal in currentIntersection.Terminals)
                 {
                     if (terminal.splineIndex == nextSplineIndex)
@@ -166,7 +165,7 @@ public class SelfDrivingManager : MonoBehaviour
                 break;
             }
         }
-        
+
         startDistance = nextKnotIndex == 0 ? 0 : 1;
         endDistance = nextKnotIndex == 0 ? 1 : 0;
 
@@ -178,21 +177,22 @@ public class SelfDrivingManager : MonoBehaviour
         {
             splineStep = Mathf.Abs(splineStep);
         }
-        
+
+        Assert.AreNotEqual(nextSplineIndex, -1, "The spline was not found");
         currentSplineT = startDistance;
-        currentSplineIndex = nextSplineIndex;
         brakeInput = 0;
     }
-    
+
     public int GetKnotIndexFromT(int splineIndex, float T)
     {
         Spline currentSpline = splineContainer.Splines[splineIndex];
         int segmentCount = currentSpline.Count;
         float rawSegmentIndex = T * segmentCount;
         int knotIndex = Mathf.FloorToInt(rawSegmentIndex);
+        Debug.Log($"----{splineIndex} - {rawSegmentIndex} - {knotIndex}----");
         return Mathf.Clamp(knotIndex, 0, segmentCount-1);
     }
-    
+
     private void OnDrawGizmos()
     {
         Debug.DrawLine(transform.position, transform.position + transform.forward * 5f, Color.red);
