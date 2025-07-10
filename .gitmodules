@@ -7,6 +7,6 @@
 [submodule "Packages/UXF-extensions"]
 	path = Packages/UXF-extensions
 	url = https://github.com/ovi-lab/UXF-extensions
-[submodule "Packages/Packages/Direct-Input"]
-	path = Packages/Direct-Input
-	url = https://github.com/ovi-lab/Unity-DirectInput
+[submodule "Packages/Unity-DirectInput"]
+	path = Packages/Unity-DirectInput
+	url = https://github.com/ovi-lab/Unity-DirectInput.git
