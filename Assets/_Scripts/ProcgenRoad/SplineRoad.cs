@@ -12,7 +12,10 @@ using UnityEngine.Splines;
 public class SplineRoad : MonoBehaviour
 {
     public List<Intersection> Intersections => intersections;
-
+    public float RightWidth => rightWidth;
+    public float LeftWidth => leftWidth;
+    
+    
     [SerializeField] private SplineContainer splineContainer;
     [SerializeField] private int resolution;
 
@@ -22,7 +25,7 @@ public class SplineRoad : MonoBehaviour
 
     [SerializeField] private List<SerializableList<Vector3>> p1_vertices = new();
     [SerializeField] private List<SerializableList<Vector3>> p2_vertices = new();
-    [FormerlySerializedAs("width")] [SerializeField] private float leftWidth;
+    [SerializeField] private float leftWidth;
     [SerializeField] private float rightWidth;
     [SerializeField] private Material roadMaterial;
     [SerializeField] private List<GameObject> roadObjects = new();
