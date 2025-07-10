@@ -22,28 +22,28 @@ public class SelfDrivingManager : MonoBehaviour
     [SerializeField] private SplineContainer splineContainer;
     private SplineRoad splineRoad;
     private bool isSplineDirectionPositive;
-    private float splineLerpParam;
-    private float splineStep;
-    
+    [SerializeField] private float splineLerpParam;
+    [SerializeField] private float splineStep;
+
     [Header("Car Controller Properties")]
     public float maxSpeed = 10f;
     public float brakeThreshold = 1.1f;
     public float maxSteeringAngle = 30f;
     public float distanceThreshold = 0.2f;
     public float steeringThreshold = 4f;
-    
+
     [Header("Vehicle Inputs")]
     [SerializeField] private float steerInput;
     [SerializeField] private float brakeInput;
     [SerializeField] private float acceleratorInput;
-    
+
     private Vector3 targetPoint;
     private Vector3 directionToTarget;
     private Vector3 splineTangent;
     private CarInputManager carInputManager;
     private VehicleController vehicleController;
-    
-    [Header("Debug Variables")] 
+
+    [Header("Debug Variables")]
     [SerializeField] private float steerAngle;
     [SerializeField] private float steeringLerp = 0f;
     [SerializeField] private float angleToTarget;
@@ -62,6 +62,7 @@ public class SelfDrivingManager : MonoBehaviour
 
     private void SetupNewSpline(int _splineIndex, float _startPoint, float _endPoint)
     {
+        Debug.Log("Setting Up new Spline");
         currentSplineIndex = _splineIndex;
         splineStartPoint = _startPoint;
         splineEndPoint = _endPoint;
@@ -77,17 +78,16 @@ public class SelfDrivingManager : MonoBehaviour
         Vector3 carPosition = new(transform.position.x, 0f, transform.position.z);
         Vector3 carForward = transform.forward;
         float speed = vehicleController.CurrentSpeed;
-        float targetSplinePoint = splineLerpParam;
-        
-        splineContainer.Evaluate(currentSplineIndex, targetSplinePoint, out float3 position, out float3 forward, out float3 upVector);
+        float splineDirection = isSplineDirectionPositive ? 1 : -1;
+
+        splineContainer.Evaluate(currentSplineIndex, splineLerpParam, out float3 position, out float3 forward, out float3 upVector);
         float3 right = Vector3.Cross(forward, Vector3.up).normalized;
-        targetPoint = position + (-right * splineRoad.RightWidth/2);
+        targetPoint = position + (-right * splineRoad.RightWidth/2 * splineDirection );
         splineTangent = forward;
 
         if (Vector3.Distance(transform.position, targetPoint) < distanceThreshold) // TODO: Check if car is facing the right way
         {
             Debug.Log("Within Distance");
-            float splineDirection = isSplineDirectionPositive ? 1 : -1;
             splineLerpParam += splineStep * splineDirection;
             steeringLerp = 0;
         }
@@ -103,12 +103,12 @@ public class SelfDrivingManager : MonoBehaviour
         angleToTarget = Vector3.SignedAngle(carForward, directionToTarget, Vector3.up);
         angleToTarget = Mathf.Clamp(angleToTarget, -maxSteeringAngle, maxSteeringAngle);
         Debug.Log($"Angle: {angleToTarget}");
-        
+
         //If angle to target is below threshold, stop steering
         angleToTarget = Mathf.Abs(steerAngle - angleToTarget) < steeringThreshold ? 0 : angleToTarget;
         steerAngle = Mathf.Lerp(steerAngle, angleToTarget, steeringLerp);
         steerAngle = oneEuroFilter.Filter(steerAngle);
-        
+
         steeringLerp += Time.fixedDeltaTime/3;
         steerInput = steerAngle / (maxSteeringAngle);
 
@@ -123,14 +123,14 @@ public class SelfDrivingManager : MonoBehaviour
 
         int currentKnotIndex = GetKnotIndexFromT(currentSplineIndex, splineEndPoint);
         Debug.Log($"Current Knot Index:{currentKnotIndex}");
-        
+
         //looking through intersection and then finding the current one
         //each intersection is made up of multiple spline terminals
         foreach (Intersection intersection in splineRoad.Intersections)
         {
             Intersection currentIntersection = null;
             Debug.Log($"Current spline: {currentSplineIndex}, Ends at {currentKnotIndex}");
-            
+
             //Look through all terminals to verify which spline ended right now
             foreach (SplineTerminalInfo terminal in intersection.Terminals)
             {
@@ -143,8 +143,12 @@ public class SelfDrivingManager : MonoBehaviour
                 }
             }
 
-            if (currentIntersection == null) continue;
-            
+            if (currentIntersection == null)
+            {
+                Debug.LogError("No intersection found");
+                continue;
+            }
+
             Debug.Log("-------------------Assigning new spline");
             // brute force to make sure the new spline is not the same as where it ended
             nextSplineIndex = Random.Range(0, currentIntersection.Terminals.Count);
@@ -152,6 +156,7 @@ public class SelfDrivingManager : MonoBehaviour
             {
                 nextSplineIndex = Random.Range(0, currentIntersection.Terminals.Count);
             }
+            Debug.Log($"-----------------Next Spline Index {nextSplineIndex}");
             Assert.AreNotEqual(nextSplineIndex, -1, "The spline was not found");
             //Loop through all terminals to find the spline corresponding to the index above
             foreach (SplineTerminalInfo terminal in currentIntersection.Terminals)
@@ -159,15 +164,8 @@ public class SelfDrivingManager : MonoBehaviour
                 if (terminal.splineIndex == nextSplineIndex)
                 {
                     int nextKnotIndex = terminal.knotIndex;
-                    if (splineStartPoint == 1)
-                    {
-                        SplineUtility.ReverseFlow(splineContainer, nextSplineIndex);
-                    }
-
-                    splineStartPoint = 0;
-                    splineEndPoint = 1;
-                    // splineStartPoint = nextKnotIndex == 0 ? 0 : 1;
-                    // splineEndPoint = nextKnotIndex == 0 ? 1 : 0;
+                    splineStartPoint = nextKnotIndex == 0 ? 0 : 1;
+                    splineEndPoint = nextKnotIndex == 0 ? 1 : 0;
                     SetupNewSpline(nextSplineIndex, splineStartPoint, splineEndPoint);
                 }
             }

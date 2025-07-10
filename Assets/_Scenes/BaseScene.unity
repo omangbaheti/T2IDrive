@@ -4261,7 +4261,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Inputs: 
   logitechAdapter: {fileID: 1100896843}
-  steeringWheelAnchor: {fileID: 0}
+  selfDrivingManager: {fileID: 0}
+  carInputManager: {fileID: 0}
   steeringInput: 0
 --- !u!1 &1027697539
 GameObject:

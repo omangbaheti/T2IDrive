@@ -14,8 +14,8 @@ public class SplineRoad : MonoBehaviour
     public List<Intersection> Intersections => intersections;
     public float RightWidth => rightWidth;
     public float LeftWidth => leftWidth;
-    
-    
+
+
     [SerializeField] private SplineContainer splineContainer;
     [SerializeField] private int resolution;
 
@@ -259,6 +259,12 @@ public class SplineRoad : MonoBehaviour
     {
 
         // Handles.matrix = transform.localToWorldMatrix;
+
+        if (Application.isPlaying)
+        {
+            return;
+        }
+
         Handles.color = Color.red;
         for (int i = 0; i < p1_vertices.Count; i++)
         {

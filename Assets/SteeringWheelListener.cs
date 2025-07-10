@@ -8,6 +8,7 @@ public class SteeringWheelListener : MonoBehaviour
     [SerializeField] LogitechAdapter logitechAdapter;
     [SerializeField] private SelfDrivingManager selfDrivingManager;
     [SerializeField] CarInputManager carInputManager;
+    [SerializeField] DIInputManager diInputManager;
     [Range(-1, 1), SerializeField] private float steeringInput;
     private void Start()
     {
@@ -42,10 +43,12 @@ public class SteeringWheelListener : MonoBehaviour
 
     private void SteeringWheelInput(float steeringWheel)
     {
-        Debug.Log($"Steering Wheel Angle{steeringInput * -450f}");
+        Debug.Log($" \\ Steering Wheel Angle{steeringInput * -450f}");
         steeringInput = steeringWheel;
         transform.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles.x, transform.localRotation.eulerAngles.y, steeringInput * -450f);
-
+        diInputManager.SpringForceEnabled = true;
+        diInputManager.SpringDeadband = 0;
+        diInputManager.SpringOffset = (int)(steeringWheel * 10000f);
 
     }
 }
