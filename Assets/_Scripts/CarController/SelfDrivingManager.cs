@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEditor;
 using UnityEngine;
@@ -22,6 +24,7 @@ public class SelfDrivingManager : MonoBehaviour
     [SerializeField] private SplineContainer splineContainer;
     private SplineRoad splineRoad;
     private bool isSplineDirectionPositive;
+    private bool isFindingSpline;
     [SerializeField] private float splineLerpParam;
     [SerializeField] private float splineStep;
 
@@ -65,11 +68,13 @@ public class SelfDrivingManager : MonoBehaviour
         splineRoad = splineContainer.transform.GetComponent<SplineRoad>();
         oneEuroFilter = new(freq:50, minCutoff:0.01f, beta:0.010f, dCutoff:1f);
         carInputManager = GetComponent<CarInputManager>();
-        SetupNewSpline(currentSplineIndex, splineStartPoint, splineEndPoint);
+        StartCoroutine(SetupNewSpline(currentSplineIndex, splineStartPoint, splineEndPoint, 0f));
     }
 
-    private void SetupNewSpline(int _splineIndex, float _startPoint, float _endPoint)
+    private IEnumerator SetupNewSpline(int _splineIndex, float _startPoint, float _endPoint, float delay)
     {
+        isFindingSpline = true;
+        yield return new WaitForSeconds(delay);
         Debug.Log("Setting Up new Spline");
         currentSplineIndex = _splineIndex;
         splineStartPoint = _startPoint;
@@ -77,6 +82,7 @@ public class SelfDrivingManager : MonoBehaviour
         isSplineDirectionPositive = Mathf.Approximately(splineStartPoint, 0);
         splineStep = splineTravelStep / splineContainer.Splines[currentSplineIndex].GetLength();
         splineLerpParam = splineStartPoint;
+        isFindingSpline = false;
     }
 
     private void FixedUpdate()
@@ -102,8 +108,11 @@ public class SelfDrivingManager : MonoBehaviour
 
         if ( !(splineLerpParam >= Mathf.Min(splineStartPoint, splineEndPoint) && splineLerpParam <= Mathf.Max(splineStartPoint, splineEndPoint)) )
         {
-            Debug.Log("Spline Complete, Finding new spline");
-            ChangeSpline();
+            if (!isFindingSpline)
+            {
+                Debug.Log("Spline Complete, Finding new spline");
+                ChangeSpline(); 
+            }
             return;
         }
 
@@ -123,8 +132,10 @@ public class SelfDrivingManager : MonoBehaviour
         lastError = error;
 
         // Normalize to [-1,1]
-        steerInput = Mathf.Clamp(pidOutput / maxSteeringAngle, -1f, 1f);
-
+        float pidSteerInput = (pidOutput / maxSteeringAngle);
+        steerInput = Mathf.Lerp(steerInput, pidSteerInput, steeringLerp);
+        steeringLerp += Time.fixedDeltaTime/3;
+        steerInput = Mathf.Clamp(steerInput, -1f, 1f);
         acceleratorInput = 1 - Mathf.Abs(steerInput);
         brakeInput = speed > maxSpeed /3 ? Mathf.Abs(steerInput) : 0;
         acceleratorInput = speed < maxSpeed ? acceleratorInput : 0f;
@@ -136,12 +147,12 @@ public class SelfDrivingManager : MonoBehaviour
 
         int currentKnotIndex = GetKnotIndexFromT(currentSplineIndex, splineEndPoint);
         Debug.Log($"Current Knot Index:{currentKnotIndex}");
+        Intersection currentIntersection = null;
 
         //looking through intersection and then finding the current one
         //each intersection is made up of multiple spline terminals
         foreach (Intersection intersection in splineRoad.Intersections)
         {
-            Intersection currentIntersection = null;
             Debug.Log($"Current spline: {currentSplineIndex}, Ends at {currentKnotIndex}");
 
             //Look through all terminals to verify which spline ended right now
@@ -173,6 +184,7 @@ public class SelfDrivingManager : MonoBehaviour
             }
             Debug.Log($"-----------------Next Spline Index {nextSplineIndex}");
             Assert.AreNotEqual(nextSplineIndex, -1, "The spline was not found");
+            
             //Loop through all terminals to find the spline corresponding to the index above
             foreach (SplineTerminalInfo terminal in currentIntersection.Terminals)
             {
@@ -182,10 +194,17 @@ public class SelfDrivingManager : MonoBehaviour
                     int nextKnotIndex = terminal.knotIndex;
                     splineStartPoint = nextKnotIndex == 0 ? 0 : 1;
                     splineEndPoint = nextKnotIndex == 0 ? 1 : 0;
-                    SetupNewSpline(nextSplineIndex, splineStartPoint, splineEndPoint);
+                    StartCoroutine(SetupNewSpline(nextSplineIndex, splineStartPoint, splineEndPoint,1f));
+                    break;
                 }
             }
             break;
+        }
+
+        if (currentIntersection == null)
+        {
+            Debug.LogError("No intersection found Making a U-turn");
+            StartCoroutine(SetupNewSpline(currentSplineIndex, _startPoint:splineEndPoint, _endPoint:splineStartPoint, 1f));
         }
     }
 

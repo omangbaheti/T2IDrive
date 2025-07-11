@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class SteeringWheelListener : MonoBehaviour
 {
-    [SerializeField] List<LogitechControls> Inputs = new();
-    [SerializeField] LogitechAdapter logitechAdapter;
+    [SerializeField] private List<LogitechControls> Inputs = new();
+    [SerializeField] private LogitechAdapter logitechAdapter;
     [SerializeField] private SelfDrivingManager selfDrivingManager;
-    [SerializeField] CarInputManager carInputManager;
-    [SerializeField] DIInputManager diInputManager;
+    [SerializeField] private CarInputManager carInputManager;
+    [SerializeField] private DIInputManager diInputManager;
     [Range(-1, 1), SerializeField] private float steeringInput;
     private void Start()
     {
@@ -24,7 +24,8 @@ public class SteeringWheelListener : MonoBehaviour
     {
         if (carInputManager.IsSelfDrivingActive)
         {
-            SteeringWheelInput(selfDrivingManager.SteerInput);
+            steeringInput = selfDrivingManager.SteerInput;
+            SteeringWheelInput(steeringInput);
             return;
         }
     }
