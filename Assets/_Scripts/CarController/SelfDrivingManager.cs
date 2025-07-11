@@ -31,6 +31,14 @@ public class SelfDrivingManager : MonoBehaviour
     public float maxSteeringAngle = 30f;
     public float distanceThreshold = 0.2f;
     public float steeringThreshold = 4f;
+    
+    [Header("PID Steering Settings")]
+    [SerializeField] private float Kp = 0.5f;
+    [SerializeField] private float Ki = 0.1f;
+    [SerializeField] private float Kd = 0.05f;
+    [SerializeField] private float integratorLimit = 1f;
+    private float integral;
+    private float lastError;
 
     [Header("Vehicle Inputs")]
     [SerializeField] private float steerInput;
@@ -104,13 +112,18 @@ public class SelfDrivingManager : MonoBehaviour
         angleToTarget = Mathf.Clamp(angleToTarget, -maxSteeringAngle, maxSteeringAngle);
         Debug.Log($"Angle: {angleToTarget}");
 
-        //If angle to target is below threshold, stop steering
-        angleToTarget = Mathf.Abs(steerAngle - angleToTarget) < steeringThreshold ? 0 : angleToTarget;
-        steerAngle = Mathf.Lerp(steerAngle, angleToTarget, steeringLerp);
-        steerAngle = oneEuroFilter.Filter(steerAngle);
+        // PID calculations
+        float error = angleToTarget;
+        float deltaTime = Time.fixedDeltaTime;
+        integral += error * deltaTime;
+        // Clamp integral to avoid windup
+        integral = Mathf.Clamp(integral, -integratorLimit, integratorLimit);
+        float derivative = (error - lastError) / deltaTime;
+        float pidOutput = Kp * error + Ki * integral + Kd * derivative;
+        lastError = error;
 
-        steeringLerp += Time.fixedDeltaTime/3;
-        steerInput = steerAngle / (maxSteeringAngle);
+        // Normalize to [-1,1]
+        steerInput = Mathf.Clamp(pidOutput / maxSteeringAngle, -1f, 1f);
 
         acceleratorInput = 1 - Mathf.Abs(steerInput);
         brakeInput = speed > maxSpeed /3 ? Mathf.Abs(steerInput) : 0;
@@ -151,16 +164,19 @@ public class SelfDrivingManager : MonoBehaviour
 
             Debug.Log("-------------------Assigning new spline");
             // brute force to make sure the new spline is not the same as where it ended
-            nextSplineIndex = Random.Range(0, currentIntersection.Terminals.Count);
+            int randomInt = Random.Range(0, currentIntersection.Terminals.Count);
+            nextSplineIndex = currentIntersection.Terminals[randomInt].splineIndex;
             while (nextSplineIndex == currentSplineIndex)
             {
-                nextSplineIndex = Random.Range(0, currentIntersection.Terminals.Count);
+                randomInt = Random.Range(0, currentIntersection.Terminals.Count);
+                nextSplineIndex = currentIntersection.Terminals[randomInt].splineIndex;
             }
             Debug.Log($"-----------------Next Spline Index {nextSplineIndex}");
             Assert.AreNotEqual(nextSplineIndex, -1, "The spline was not found");
             //Loop through all terminals to find the spline corresponding to the index above
             foreach (SplineTerminalInfo terminal in currentIntersection.Terminals)
             {
+                Debug.Log($"In the for loop {terminal.splineIndex} - {nextSplineIndex}");
                 if (terminal.splineIndex == nextSplineIndex)
                 {
                     int nextKnotIndex = terminal.knotIndex;
