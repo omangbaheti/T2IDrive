@@ -53,7 +53,7 @@ public class SelfDrivingManager : MonoBehaviour
     private Vector3 splineTangent;
     private CarInputManager carInputManager;
     private VehicleController vehicleController;
-
+    private float lastSteeringInput;
     [Header("Debug Variables")]
     [SerializeField] private float steerAngle;
     [SerializeField] private float steeringLerp = 0f;
@@ -108,6 +108,7 @@ public class SelfDrivingManager : MonoBehaviour
 
         if ( !(splineLerpParam >= Mathf.Min(splineStartPoint, splineEndPoint) && splineLerpParam <= Mathf.Max(splineStartPoint, splineEndPoint)) )
         {
+            lastSteeringInput = steerInput;
             if (!isFindingSpline)
             {
                 Debug.Log("Spline Complete, Finding new spline");
@@ -133,12 +134,13 @@ public class SelfDrivingManager : MonoBehaviour
 
         // Normalize to [-1,1]
         float pidSteerInput = (pidOutput / maxSteeringAngle);
-        steerInput = Mathf.Lerp(steerInput, pidSteerInput, steeringLerp);
+        steerInput = Mathf.Lerp(lastSteeringInput, pidSteerInput, steeringLerp);
         steeringLerp += Time.fixedDeltaTime/3;
         steerInput = Mathf.Clamp(steerInput, -1f, 1f);
         acceleratorInput = 1 - Mathf.Abs(steerInput);
         brakeInput = speed > maxSpeed /3 ? Mathf.Abs(steerInput) : 0;
         acceleratorInput = speed < maxSpeed ? acceleratorInput : 0f;
+        lastSteeringInput = steerInput;
     }
 
     public void ChangeSpline()
