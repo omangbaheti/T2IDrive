@@ -40,7 +40,8 @@ public class SelfDrivingManager : MonoBehaviour
     public float cornerSpeedFactor = 0.3f;
     public float maxSteeringAngle = 30f;
     public float distanceThreshold = 0.2f;
-    
+    public float steeringThreshold = 4f;
+
     [Header("PID Steering Settings")]
     [SerializeField] private float Kp = 0.5f;
     [SerializeField] private float Ki = 0.1f;
