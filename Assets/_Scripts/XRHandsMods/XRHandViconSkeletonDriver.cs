@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using Unity.Collections;
+﻿using System.Collections.Generic;
 using Unity.XR.CoreUtils;
-
 #if BURST_PRESENT
 using Unity.Burst;
 #endif
@@ -20,12 +17,19 @@ namespace UnityEngine.XR.Hands
 #endif
     public class XRHandViconSkeletonDriver : XRHandSkeletonDriver
     {
-
+        
+        /// <summary>
+        /// See <see cref="MonoBehaviour"/>.
+        /// </summary>
         protected override void Reset()
         {
             base.Reset();
         }
-
+        
+        /// <summary>
+        /// See <see cref="MonoBehaviour"/>.
+        /// MonoBehaviour OnEnable method that subscribes to hand tracking events and allocates the joint local poses array.
+        /// </summary>
         protected override void OnEnable()
         {
             base.OnEnable();
@@ -43,16 +47,14 @@ namespace UnityEngine.XR.Hands
 
         protected override void OnRootPoseUpdated(Pose rootPose)
         {
+            if (!m_HasRootTransform)
+                return;
+            if (hasRootOffset)
+                rootTransform.localPosition = rootPose.position + rootOffset;
+            else
+                rootTransform.localPosition = rootPose.position;
 
-            // if (!m_HasRootTransform)
-            //     return;
-            //
-            // if (hasRootOffset)
-            //     m_RootTransform.localPosition = rootPose.position + rootOffset;
-            // else
-            //     m_RootTransform.localPosition = rootPose.position;
-            //
-            // m_RootTransform.localRotation = rootPose.rotation;
+            rootTransform.localRotation = rootPose.rotation;
         }
 
         /// <summary>
@@ -67,8 +69,8 @@ namespace UnityEngine.XR.Hands
         /// </remarks>
         protected override void OnJointsUpdated(XRHandJointsUpdatedEventArgs args)
         {
+            Debug.Log("Trying to Update joints on hand");
             UpdateJointLocalPoses(args);
-
             ApplyUpdatedTransformPoses();
         }
 
@@ -95,10 +97,26 @@ namespace UnityEngine.XR.Hands
                         continue;
                     }
 #endif
-                    m_JointTransforms[i].SetLocalPose(m_JointLocalPoses[i]);
-                }
+                    SetLocalPose(m_JointTransforms[i], m_JointLocalPoses[i]);
+                }  
             }
         }
+        
+        public static void SetLocalPose(Transform transform, Pose pose)
+        {
+            Debug.Log(transform.name + " is local pose: " + pose.position);
+            if (transform.parent != null)
+            {
+                transform.localPosition = transform.parent.InverseTransformPoint(pose.position);  
+                transform.localRotation = Quaternion.Inverse(transform.parent.rotation) * pose.rotation;
+            }
+            else
+            {
+                transform.localPosition = pose.position;
+                transform.localRotation = pose.rotation;
+            }
+        }
+
 
         /// <summary>
         /// Finds the joint transform references from the root.
@@ -111,7 +129,7 @@ namespace UnityEngine.XR.Hands
         /// <param name="missingJointNames">A list of strings to list the joints that were not found.</param>
         public override void FindJointsFromRoot(List<string> missingJointNames)
         {
-            // XRHandSkeletonDriverUtility.FindJointsFromRoot(this, missingJointNames);
+            XRHandSkeletonDriverUtility.FindJointsFromRoot(this, missingJointNames);
         }
     }
 }
