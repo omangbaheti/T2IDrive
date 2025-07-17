@@ -17,7 +17,10 @@ namespace UnityEngine.XR.Hands
 #endif
     public class XRHandViconSkeletonDriver : XRHandSkeletonDriver
     {
-        
+        [SerializeField] private Quaternion rotationOffset;
+        protected float viconUnitsToUnityUnits = 0.001f;  // This into vicon units = unity units
+
+
         /// <summary>
         /// See <see cref="MonoBehaviour"/>.
         /// </summary>
@@ -25,7 +28,7 @@ namespace UnityEngine.XR.Hands
         {
             base.Reset();
         }
-        
+
         /// <summary>
         /// See <see cref="MonoBehaviour"/>.
         /// MonoBehaviour OnEnable method that subscribes to hand tracking events and allocates the joint local poses array.
@@ -69,7 +72,7 @@ namespace UnityEngine.XR.Hands
         /// </remarks>
         protected override void OnJointsUpdated(XRHandJointsUpdatedEventArgs args)
         {
-            Debug.Log("Trying to Update joints on hand");
+            // Debug.Log("Trying to Update joints on hand");
             UpdateJointLocalPoses(args);
             ApplyUpdatedTransformPoses();
         }
@@ -98,24 +101,69 @@ namespace UnityEngine.XR.Hands
                     }
 #endif
                     SetLocalPose(m_JointTransforms[i], m_JointLocalPoses[i]);
-                }  
+                }
             }
         }
-        
-        public static void SetLocalPose(Transform transform, Pose pose)
+
+        public void SetLocalPose(Transform transform, Pose pose)
         {
-            Debug.Log(transform.name + " is local pose: " + pose.position);
             if (transform.parent != null)
             {
-                transform.localPosition = transform.parent.InverseTransformPoint(pose.position);  
-                transform.localRotation = Quaternion.Inverse(transform.parent.rotation) * pose.rotation;
+                pose.rotation = Quaternion.LookRotation(-pose.up, pose.forward);
+                transform.localPosition = pose.position;
+                transform.localRotation = pose.rotation;
+
             }
             else
             {
                 transform.localPosition = pose.position;
                 transform.localRotation = pose.rotation;
+
             }
+
+            // transform.SetLocalPositionAndRotation(pose.position, pose.rotation);
         }
+
+        // protected virtual void FindAndTransform(Transform iTransform, string BoneName)
+        // {
+        //     int ChildCount = iTransform.childCount;
+        //     for (int i = 0; i < ChildCount; ++i)
+        //     {
+        //         Transform Child = iTransform.GetChild(i);
+        //         if (Child.name == BoneName)
+        //         {
+        //             ApplyBoneTransform(Child);
+        //             TransformChildren(Child);
+        //             break;
+        //         }
+        //         // if not finding root in this layer, try the children
+        //         FindAndTransform(Child, BoneName);
+        //     }
+        // }
+        //
+        // /// <summary>
+        // /// Recursively assign the pose of the children starting from the transform passed in.
+        // /// </summary>
+        // protected void TransformChildren(Transform iTransform)
+        // {
+        //     int childCount = iTransform.childCount;
+        //     for (int i = 0; i < childCount; ++i)
+        //     {
+        //         Transform Child = iTransform.GetChild(i);
+        //         this.ApplyBoneTransform(Child);
+        //         TransformChildren(Child);
+        //     }
+        // }
+        //
+        // protected virtual void ApplyBoneTransform(XRHandJointID jointID)
+        // {
+        //     string BoneName = Bone.gameObject.name;
+        //     if (segments.TryGetValue(BoneName, out Vector3 segment))
+        //     {
+        //         Bone.position = segment * viconUnitsToUnityUnits;
+        //         Bone.rotation = segmentsRotation[BoneName];
+        //     }
+        // }
 
 
         /// <summary>
