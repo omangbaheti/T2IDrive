@@ -8,17 +8,15 @@ using UnityEngine.XR.Hands;
 public class JointFollowerManager : HandSubsystemSubscriber
 {
     public Dictionary<XRHandJointID, JointFollowerDatumProperty> JointFollowerData { get => jointFollowerData; set => jointFollowerData = value; }
-
     public override Handedness Handedness { get => handedness; set => handedness = value; }
 
     [SerializeField] private SerializedDictionary<XRHandJointID, Transform> handJoints;
-
-    [SerializeField]
-    [Tooltip("Joint follower data to use for this Joint.")]
+    [SerializeField] private Handedness handedness = Handedness.Right;
+    
     private Dictionary<XRHandJointID, JointFollowerDatumProperty> jointFollowerData = new();
-
-    [SerializeField]
-    private Handedness handedness = Handedness.Right;
+    private float cachedRadius = 0f;
+    [SerializeField] private Vector3 poseScale = Vector3.one;
+    [SerializeField] private Vector3 rotationOffset;
 
     private void Start()
     {
@@ -38,6 +36,8 @@ public class JointFollowerManager : HandSubsystemSubscriber
             jointFollowerData.Add(jointID, jointDatumProperty);
         }
 
+        cachedRadius = 0.01f;
+
     }
 
     protected override void ProcessJointData(XRHandSubsystem subsystem, XRHandSubsystem.UpdateSuccessFlags updateSuccessFlags)
@@ -56,12 +56,41 @@ public class JointFollowerManager : HandSubsystemSubscriber
             JointFollowerData jointFollowerDataValue = jointDatum.Value;
             XRHandJoint currentJoint = hand.GetJoint(jointFollowerDataValue.jointID);
             bool jointPoseExists = currentJoint.TryGetPose(out Pose mainJointPose);
-            bool jointRadiusExists = currentJoint.TryGetRadius(out float mainRadius);
-
             if (jointPoseExists)
             {
-
+                if (xrOrigin != null)
+                {
+                    Vector3 position = xrOrigin.transform.position;
+                    // position.y += xrOrigin.CameraYOffset;
+                    Pose xrOriginPose = new Pose(position, xrOrigin.transform.rotation);
+                    mainJointPose = mainJointPose.GetTransformedBy(xrOriginPose);
+                }
+                SetPose(mainJointPose, JointFollowerData[jointID],  handJoints[jointID]);
             }
         }
+    }
+
+    /// <summary>
+    /// This method uses the jointFollowerDataValue and sets the poses.
+    /// </summary>
+    protected void SetPose(Pose mainJointPose,JointFollowerDatumProperty jointFollowerDatum,  Transform TargetTransform)
+    {
+        Vector3 forward = mainJointPose.forward * poseScale.x;
+        Vector3 up = mainJointPose.up * poseScale.y;
+        
+        JointFollowerData jointFollowerDataValue = jointFollowerDatum.Value;
+
+        Vector3 jointPlaneOffset;
+        if (jointFollowerDataValue.offsetAngle == 0 || jointFollowerDataValue.offsetAsRatioToRadius == 0)
+        {
+            jointPlaneOffset = up;
+        }
+        else
+        {
+            jointPlaneOffset = Quaternion.AngleAxis(jointFollowerDataValue.offsetAngle, forward) * up;
+        }
+        
+        TargetTransform.rotation = Quaternion.LookRotation(forward, jointPlaneOffset) * Quaternion.Euler(rotationOffset);
+        TargetTransform.position = mainJointPose.position + jointPlaneOffset * (cachedRadius * jointFollowerDataValue.offsetAsRatioToRadius);
     }
 }
