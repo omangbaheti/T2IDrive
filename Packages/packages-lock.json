@@ -361,6 +361,15 @@
         "com.unity.burst": "1.8.18"
       }
     },
+    "ubc.ok.ovilab.skeleton-xr-hand-provider": {
+      "version": "https://github.com/omangbaheti/skeleton-xr-hand-provider.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.xr.hands": "1.5.0-pre.2"
+      },
+      "hash": "34353f375baae8ec15ab3370a3bdfa5431423713"
+    },
     "ubc.ok.ovilab.vicon-nexus-unity-stream": {
       "version": "file:vicon-nexus-unity-stream",
       "depth": 0,
