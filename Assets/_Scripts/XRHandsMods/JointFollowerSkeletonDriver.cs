@@ -2,21 +2,24 @@ using System;
 using System.Collections.Generic;
 using ArtificeToolkit.Runtime.SerializedDictionary;
 using ubco.ovilab.HPUI.Tracking;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.XR.Hands;
 
-public class JointFollowerManager : HandSubsystemSubscriber
+public class JointFollowerSkeletonDriver : HandSubsystemSubscriber
 {
     public Dictionary<XRHandJointID, JointFollowerDatumProperty> JointFollowerData { get => jointFollowerData; set => jointFollowerData = value; }
     public override Handedness Handedness { get => handedness; set => handedness = value; }
 
     [SerializeField] private SerializedDictionary<XRHandJointID, Transform> handJoints;
     [SerializeField] private Handedness handedness = Handedness.Right;
-    
+    [SerializeField] private Transform referenceTransform;
+
     private Dictionary<XRHandJointID, JointFollowerDatumProperty> jointFollowerData = new();
     private float cachedRadius = 0f;
     [SerializeField] private Vector3 poseScale = Vector3.one;
-    [SerializeField] private Vector3 rotationOffset;
+    [SerializeField] private Vector3 rotationOffset = new Vector3(90f, 0f, 0f);
+
 
     private void Start()
     {
@@ -34,6 +37,18 @@ public class JointFollowerManager : HandSubsystemSubscriber
             };
             JointFollowerDatumProperty jointDatumProperty = new (jointData);
             jointFollowerData.Add(jointID, jointDatumProperty);
+        }
+
+        if (referenceTransform == null)
+        {
+            if (xrOrigin != null)
+            {
+                referenceTransform = xrOrigin.transform;
+            }
+            else
+            {
+                Debug.LogError("XR Origin not found. Make sure an XR Origin Exists in the Scene");
+            }
         }
 
         cachedRadius = 0.01f;
@@ -55,17 +70,16 @@ public class JointFollowerManager : HandSubsystemSubscriber
         {
             JointFollowerData jointFollowerDataValue = jointDatum.Value;
             XRHandJoint currentJoint = hand.GetJoint(jointFollowerDataValue.jointID);
-            bool jointPoseExists = currentJoint.TryGetPose(out Pose mainJointPose);
+            bool jointPoseExists = currentJoint.TryGetPose(out Pose currentJointPose);
             if (jointPoseExists)
             {
-                if (xrOrigin != null)
+                if (referenceTransform != null)
                 {
-                    Vector3 position = xrOrigin.transform.position;
-                    // position.y += xrOrigin.CameraYOffset;
-                    Pose xrOriginPose = new Pose(position, xrOrigin.transform.rotation);
-                    mainJointPose = mainJointPose.GetTransformedBy(xrOriginPose);
+                    Vector3 position = referenceTransform.transform.position;
+                    Pose referencePose = new Pose(position, referenceTransform.transform.rotation);
+                    currentJointPose = currentJointPose.GetTransformedBy(referencePose);
                 }
-                SetPose(mainJointPose, JointFollowerData[jointID],  handJoints[jointID]);
+                SetPose(currentJointPose, JointFollowerData[jointID],  handJoints[jointID]);
             }
         }
     }
@@ -77,7 +91,7 @@ public class JointFollowerManager : HandSubsystemSubscriber
     {
         Vector3 forward = mainJointPose.forward * poseScale.x;
         Vector3 up = mainJointPose.up * poseScale.y;
-        
+
         JointFollowerData jointFollowerDataValue = jointFollowerDatum.Value;
 
         Vector3 jointPlaneOffset;
@@ -89,8 +103,7 @@ public class JointFollowerManager : HandSubsystemSubscriber
         {
             jointPlaneOffset = Quaternion.AngleAxis(jointFollowerDataValue.offsetAngle, forward) * up;
         }
-        
-        TargetTransform.rotation = Quaternion.LookRotation(forward, jointPlaneOffset) * Quaternion.Euler(rotationOffset);
         TargetTransform.position = mainJointPose.position + jointPlaneOffset * (cachedRadius * jointFollowerDataValue.offsetAsRatioToRadius);
+        TargetTransform.rotation = Quaternion.LookRotation(forward, jointPlaneOffset) * Quaternion.Euler(rotationOffset);
     }
 }

@@ -12,7 +12,7 @@ public class ShiftProcessor : InputProcessor<float>
 
     public override float Process(float value, InputControl control)
     {
-         Debug.Log($"{value + shift}:{value}");
+         // Debug.Log($"{value + shift}:{value}");
         return value + shift;
     }
 }
