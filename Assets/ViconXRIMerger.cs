@@ -28,20 +28,18 @@ public class ViconXRIMerger : MonoBehaviour
         Transform offsetTransform = container.offsetTransform;
         Transform unityObject = container.unityObject;
         offsetTransform.localRotation = Quaternion.identity;
-        // if (offsetTransform.name == "HandOffset")
-        // {
-        // }
-        // else
-        // {
-        //     offsetTransform.localRotation = Quaternion.Euler(0,0f,0);
-        // }
         offsetTransform.localPosition = Vector3.zero;
 
-
-        Quaternion localXRRotRelToParent = Quaternion.Inverse(viconToUnityOrigin.rotation) * unityObject.rotation;
-        Quaternion localViconRotRelToParent = Quaternion.Inverse(viconOrigin.rotation) * viconObject.rotation;
-        offsetTransform.localRotation = localViconRotRelToParent * Quaternion.Inverse(localXRRotRelToParent);
-
+        if (container.unityObject.name != "Hand")
+        {
+            Quaternion localXRRotRelToParent = Quaternion.Inverse(viconToUnityOrigin.rotation) * unityObject.rotation;
+            Quaternion localViconRotRelToParent = Quaternion.Inverse(viconOrigin.rotation) * viconObject.rotation;
+            offsetTransform.localRotation = localViconRotRelToParent * Quaternion.Inverse(localXRRotRelToParent);
+        }
+        else
+        {
+            offsetTransform.localRotation = Quaternion.Euler(0, -viconToUnityOrigin.rotation.eulerAngles.y, 0);
+        }
         Vector3 localXRPosRelToParent = viconToUnityOrigin.InverseTransformPoint(unityObject.position);
         Vector3 localViconPosRelToParent = viconOrigin.InverseTransformPoint(viconObject.position);
         offsetTransform.localPosition = localViconPosRelToParent - localXRPosRelToParent;
