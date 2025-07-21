@@ -30,18 +30,17 @@ public class SelfDrivingManager : MonoBehaviour
 
     [Header("Car Controller Properties")]
     public float maxSpeed = 10f;
-    public float brakeThreshold = 1.1f;
     public float maxSteeringAngle = 30f;
     public float distanceThreshold = 0.2f;
-    public float steeringThreshold = 4f;
 
-    [Header("PID Steering Settings")]
-    [SerializeField] private float Kp = 0.5f;
-    [SerializeField] private float Ki = 0.1f;
-    [SerializeField] private float Kd = 0.05f;
-    [SerializeField] private float integratorLimit = 1f;
-    private float integral;
-    private float lastError;
+    [Header("PID Controllers")] 
+    [SerializeField] private PIDController steeringPIDController;
+    
+    [Header("Stanley Controller Settings")]
+    [SerializeField] private float stanleyGain = 1.0f;
+    [SerializeField] private float softeningGain = 0.1f;
+    [SerializeField] private float headingGain = 0.5f;
+    [SerializeField] private float lookaheadDistance = 5f;
 
     [Header("Vehicle Inputs")]
     [SerializeField] private float steerInput;
@@ -69,6 +68,7 @@ public class SelfDrivingManager : MonoBehaviour
         oneEuroFilter = new(freq:50, minCutoff:0.01f, beta:0.010f, dCutoff:1f);
         carInputManager = GetComponent<CarInputManager>();
         StartCoroutine(SetupNewSpline(currentSplineIndex, splineStartPoint, splineEndPoint, 0f));
+        steeringPIDController = new PIDController();
     }
 
     private IEnumerator SetupNewSpline(int _splineIndex, float _startPoint, float _endPoint, float delay)
@@ -120,28 +120,78 @@ public class SelfDrivingManager : MonoBehaviour
         directionToTarget = (targetPoint - carPosition).normalized;
         angleToTarget = Vector3.SignedAngle(carForward, directionToTarget, Vector3.up);
         angleToTarget = Mathf.Clamp(angleToTarget, -maxSteeringAngle, maxSteeringAngle);
-        Debug.Log($"Angle: {angleToTarget}");
-
-        // PID calculations
-        float error = angleToTarget;
-        float deltaTime = Time.fixedDeltaTime;
-        integral += error * deltaTime;
-        // Clamp integral to avoid windup
-        integral = Mathf.Clamp(integral, -integratorLimit, integratorLimit);
-        float derivative = (error - lastError) / deltaTime;
-        float pidOutput = Kp * error + Ki * integral + Kd * derivative;
-        lastError = error;
-
+        // Debug.Log($"Angle: {angleToTarget}");
+        // // PID calculations
+        // float error = angleToTarget;
+        // float deltaTime = Time.fixedDeltaTime;
+        // integral += error * deltaTime;
+        // // Clamp integral to avoid windup
+        // integral = Mathf.Clamp(integral, -integratorLimit, integratorLimit);
+        // float derivative = (error - lastError) / deltaTime;
+        // float pidOutput = Kp * error + Ki * integral + Kd * derivative;
+        // lastError = error;
+        float pidOutput = steeringPIDController.CalculatePIDStep(angleToTarget);
         // Normalize to [-1,1]
         float pidSteerInput = (pidOutput / maxSteeringAngle);
         steerInput = Mathf.Lerp(lastSteeringInput, pidSteerInput, steeringLerp);
         steeringLerp += Time.fixedDeltaTime/3;
         steerInput = Mathf.Clamp(steerInput, -1f, 1f);
-        acceleratorInput = 1 - Mathf.Abs(steerInput);
-        brakeInput = speed > maxSpeed /3 ? Mathf.Abs(steerInput) : 0;
-        acceleratorInput = speed < maxSpeed ? acceleratorInput : 0f;
+        // acceleratorInput = 1 - Mathf.Abs(steerInput);
+        // brakeInput = speed > maxSpeed /3 ? Mathf.Abs(steerInput) : 0;
+        // acceleratorInput = speed < maxSpeed ? acceleratorInput : 0f;
+        CalculateThrottleAndBrake(speed);
         lastSteeringInput = steerInput;
     }
+    
+    private void CalculateThrottleAndBrake(float currentSpeed)
+    {
+        // Calculate desired speed based on path curvature
+        float pathCurvature = CalculatePathCurvature();
+        float desiredSpeed = CalculateDesiredSpeedForCurvature(pathCurvature);
+        Debug.Log($"Desired Speed {desiredSpeed}");
+    
+        float speedError = desiredSpeed - currentSpeed;
+    
+        // Separate throttle and brake logic
+        if (speedError > 0.5f) // Need to accelerate
+        {
+            acceleratorInput = Mathf.Clamp01(speedError * 0.2f) * (1f - Mathf.Abs(steerInput) * 0.3f);
+            brakeInput = 0f;
+        }
+        else if (speedError < -1f) // Need to brake
+        {
+            acceleratorInput = 0f;
+            brakeInput = Mathf.Clamp01(-speedError * 0.3f);
+        }
+        else // Maintain speed
+        {
+            float throttleReduction = Mathf.Abs(steerInput) * 0.4f;
+            acceleratorInput = Mathf.Clamp01(0.3f - throttleReduction);
+            brakeInput = 0f;
+        }
+    }
+
+    private float CalculatePathCurvature()
+    {
+        // Sample three points to estimate curvature
+        float t2 = splineLerpParam;
+    
+        splineContainer.Evaluate(currentSplineIndex, t2, out float3 p2, out _, out _);
+        
+        float curvature = splineContainer[currentSplineIndex].EvaluateCurvature(splineLerpParam);
+        Debug.Log("Curvature: " + curvature);
+        return curvature;
+    }
+
+    private float CalculateDesiredSpeedForCurvature(float curvature)
+    {
+        // Reduce speed in curves
+        float curvatureSpeedFactor = 1f / (1f + curvature * 50f);
+        Debug.Log($"curvatureSpeedFactor {curvatureSpeedFactor}");
+        float speed = Mathf.Clamp(maxSpeed * curvatureSpeedFactor, 0, maxSpeed);
+        return speed;
+    }
+
 
     public void ChangeSpline()
     {
@@ -246,9 +296,9 @@ public class SelfDrivingManager : MonoBehaviour
         Handles.color = Color.red;
         Handles.DrawLine(pos, pos + right * lineLength);
 
-        // Debug.DrawLine(transform.position, transform.position + transform.forward * 5f, Color.red);
-        // Debug.DrawLine(transform.position, transform.position + directionToTarget.normalized * 10f, Color.green);
-        // Handles.color = Color.yellow;
-        // Handles.SphereHandleCap(0, targetPoint, Quaternion.identity, 0.8f, EventType.Repaint);
+        Debug.DrawLine(transform.position, transform.position + transform.forward * 5f, Color.red);
+        Debug.DrawLine(transform.position, transform.position + directionToTarget.normalized * 10f, Color.green);
+        Handles.color = Color.yellow;
+        Handles.SphereHandleCap(0, targetPoint, Quaternion.identity, 0.8f, EventType.Repaint);
     }
 }

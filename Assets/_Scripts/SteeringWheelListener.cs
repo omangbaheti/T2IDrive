@@ -44,7 +44,7 @@ public class SteeringWheelListener : MonoBehaviour
 
     private void SteeringWheelInput(float steeringWheel)
     {
-        Debug.Log($" \\ Steering Wheel Angle{steeringInput * -450f}");
+        // Debug.Log($"Steering Wheel Angle{steeringInput * -450f}");
         steeringInput = steeringWheel;
         transform.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles.x, transform.localRotation.eulerAngles.y, steeringInput * -450f);
         diInputManager.SpringForceEnabled = true;

@@ -15,7 +15,6 @@ public class ViconXRIMerger : MonoBehaviour
     [Button]
     public void Merge()
     {
-
         foreach (ViconAndUnityObjectContainer container in viconToUnityObjects)
         {
             MergeObject(container);
