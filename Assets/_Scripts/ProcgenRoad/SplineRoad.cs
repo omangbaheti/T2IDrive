@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Mathematics;
+using Unity.VisualScripting.FullSerializer;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.Serialization;
 using UnityEngine.Splines;
 
@@ -51,15 +53,16 @@ public class SplineRoad : MonoBehaviour
         {
             List<Vector3> p1Vertices = new();
             List<Vector3> p2Vertices = new();
+            float t = 0;
             for (int j = 0; j < resolution; j++)
             {
-                float t = j * step;
+                t = j * step;
                 SampleAlongSplineWidth(i, t, leftWidth, out float3 p1, out float3 p2);
                 p1Vertices.Add(p1);
                 p2Vertices.Add(p2);
             }
-
-            SampleAlongSplineWidth(i, 100, leftWidth, out float3 lastp1, out float3 lastp2);
+            t = resolution * step;
+            SampleAlongSplineWidth(i, resolution, leftWidth, out float3 lastp1, out float3 lastp2);
             p1Vertices.Add(lastp1);
             p2Vertices.Add(lastp2);
 
@@ -88,24 +91,26 @@ public class SplineRoad : MonoBehaviour
     {
         GetVertices();
         int offset = 0;
-
         foreach (GameObject roadMesh in roadObjects)
         {
             DestroyImmediate(roadMesh);
         }
         roadObjects.Clear();
-
+        
         for (int currSplineIndex = 0; currSplineIndex < splineContainer.Splines.Count; currSplineIndex++)
         {
             List<Vector3> verts = new();
             List<int> tris = new();
+            float uvOffset = 0;
+            List<Vector2> uvs = new();
+            
             for (int currSplinePoint = 1; currSplinePoint <= resolution; currSplinePoint++)
             {
                 Vector3 p1 = p1_vertices[currSplineIndex].points[currSplinePoint-1];
                 Vector3 p2 = p2_vertices[currSplineIndex].points[currSplinePoint-1];
                 Vector3 p3 = p1_vertices[currSplineIndex].points[currSplinePoint];
                 Vector3 p4 = p2_vertices[currSplineIndex].points[currSplinePoint];
-
+                
                 int baseIndex = verts.Count;
 
                 int t1 = baseIndex + 0;
@@ -114,20 +119,33 @@ public class SplineRoad : MonoBehaviour
                 int t4 = baseIndex + 1;
                 verts.AddRange(new List<Vector3>{p1, p2, p3, p4});
                 tris.AddRange(new List<int>{t1, t2, t3, t3, t4, t1});
+                
+                float normalizedDistance = Vector3.Distance(p1, p3) / 4f;
+                float uvDistance = uvOffset + normalizedDistance;
+                uvs.AddRange(new List<Vector2>()
+                {
+                    new(uvOffset, 0),
+                    new(uvOffset,1),      
+                    new(uvDistance,0),    
+                    new(uvDistance,1)     
+                });
+                uvOffset += normalizedDistance;
             }
             Mesh mesh = new();
             mesh.SetVertices(verts);
             mesh.SetTriangles(tris, 0);
+            mesh.SetUVs(0, uvs);
             mesh.RecalculateNormals();
             mesh.RecalculateBounds();
 
             GameObject splineGO = new($"SplineMesh_{currSplineIndex}");
             splineGO.transform.parent = transform;
-            roadObjects.Add(splineGO);
+            roadObjects.Add(splineGO);  
             MeshFilter mf = splineGO.AddComponent<MeshFilter>();
             MeshRenderer mr = splineGO.AddComponent<MeshRenderer>();
             mf.mesh = mesh;
             mr.material = roadMaterial;
+            mr.sharedMaterial.mainTexture.wrapMode = TextureWrapMode.Repeat;
         }
 
         BuildAllJunctions();
