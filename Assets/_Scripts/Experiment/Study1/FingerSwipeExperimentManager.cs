@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using ArtificeToolkit.Runtime.SerializedDictionary;
 using ubco.ovilab.HPUI;
 using ubco.ovilab.HPUI.Core;
 using ubco.ovilab.HPUI.Interaction;
@@ -8,7 +7,6 @@ using ubco.ovilab.uxf.extensions;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.XR.Hands;
-using UnityEngine.XR.Management;
 using UXF;
 using static EulersCircuit;
 using Random = UnityEngine.Random;
@@ -23,7 +21,7 @@ namespace Experiment
         [SerializeField] private GestureLayoutSetup layoutSetup;
         [SerializeField] private AudioClip correct;
         [SerializeField] private AudioClip wrong;
-        [SerializeField] private SerializedDictionary<string, TrialManager> trialManager;
+        [SerializeField] private Unity.XR.CoreUtils.Collections.SerializableDictionary<string, TrialManager> trialManager;
         [SerializeField] private List<TwoStepEulerConnection> EulerCircuit;
         private UnityAction<bool> ParticipantAction;
         private XRHandSubsystem handSubsystem;

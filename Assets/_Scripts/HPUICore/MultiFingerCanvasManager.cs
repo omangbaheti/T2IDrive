@@ -100,14 +100,12 @@ public class MultiFingerCanvasManager : MonoBehaviour, IHPUICanvasUIManager
                 hpuiRegion.basePoint = new Vector2(xDivisions[i], yDivisions[j]);
                 hpuiRegion.area = new Vector2(xDivisions[i+1] - xDivisions[i], yDivisions[j+1] - yDivisions[j]);
                 hpuiRegion.UIVisual = layer2Prefab;
-                hpuiRegion.pressedColor = selectedColor;
-                hpuiRegion.defaultColor = defaultColor;
-                hpuiRegion.canvasManager = this;
+                // hpuiRegion.pressedColor = selectedColor;
+                // hpuiRegion.defaultColor = defaultColor;
+                // hpuiRegion.canvasManager = this;
                 Vector2 regionCenterPoint = hpuiRegion.basePoint + hpuiRegion.area/2f + hpuiRegion.centreOffset;
                 Vector2Int centreIndex = HPUICanvasComponentUtils.CalculateColliderIndex(regionCenterPoint, HPUICanvas);
                 Transform uiAnchor = HPUICanvas.coordsToCollider[centreIndex].transform;
-                SyncTransform syncTransform = newRegion.GetComponent<SyncTransform>();
-                syncTransform.target = uiAnchor;
             }
         }
 
