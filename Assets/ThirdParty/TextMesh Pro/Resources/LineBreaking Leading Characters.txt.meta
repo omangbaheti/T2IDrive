@@ -1,15 +1,8 @@
 fileFormatVersion: 2
-guid: 5b1526921ddc3b240adb62b81986f972
+guid: d82c1b31c7e74239bff1220585707d2b
 timeCreated: 1425440388
 licenseType: Store
 TextScriptImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 201095
-  packageName: Automotive HMI Template
-  packageVersion: 1.2
-  assetPath: Assets/TextMesh Pro/Resources/LineBreaking Leading Characters.txt
-  uploadId: 677189

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c61bad6489982a848b9139b426387f65
+guid: c8d12adcee749c344b8117cf7c7eb912
 ShaderImporter:
   externalObjects: {}
   defaultTextures: []
@@ -7,10 +7,3 @@ ShaderImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 201095
-  packageName: Automotive HMI Template
-  packageVersion: 1.2
-  assetPath: Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile SSD.shader
-  uploadId: 677189

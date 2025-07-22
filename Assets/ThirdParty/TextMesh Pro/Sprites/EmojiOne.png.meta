@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 240343dac0272054fb7c9b920186ca74
+guid: dffef66376be4fa480fb02b19edbe903
 TextureImporter:
   fileIDToRecycleName:
     21300000: EmojiOne_0
@@ -429,10 +429,3 @@ TextureImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 201095
-  packageName: Automotive HMI Template
-  packageVersion: 1.2
-  assetPath: Assets/TextMesh Pro/Sprites/EmojiOne.png
-  uploadId: 677189

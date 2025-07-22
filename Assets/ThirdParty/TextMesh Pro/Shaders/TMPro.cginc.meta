@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e6cef00ba62e8fa43a0e3becc356933b
+guid: 407bc68d299748449bbf7f48ee690f8d
 ShaderImporter:
   externalObjects: {}
   defaultTextures: []
@@ -7,10 +7,3 @@ ShaderImporter:
   userData: Version 2.0
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 201095
-  packageName: Automotive HMI Template
-  packageVersion: 1.2
-  assetPath: Assets/TextMesh Pro/Shaders/TMPro.cginc
-  uploadId: 677189

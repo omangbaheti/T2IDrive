@@ -1,15 +1,8 @@
 fileFormatVersion: 2
-guid: bbb2a088fab00e448a1c7000b8526fff
+guid: 8f05276190cf498a8153f6cbe761d4e6
 timeCreated: 1480316860
 licenseType: Pro
 TextScriptImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 201095
-  packageName: Automotive HMI Template
-  packageVersion: 1.2
-  assetPath: Assets/TextMesh Pro/Sprites/EmojiOne.json
-  uploadId: 677189

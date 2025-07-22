@@ -1,15 +1,8 @@
 fileFormatVersion: 2
-guid: e6766944bb025e44890a8ac6e7338eeb
+guid: fade42e8bc714b018fac513c043d323b
 timeCreated: 1425440388
 licenseType: Store
 TextScriptImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 201095
-  packageName: Automotive HMI Template
-  packageVersion: 1.2
-  assetPath: Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt
-  uploadId: 677189

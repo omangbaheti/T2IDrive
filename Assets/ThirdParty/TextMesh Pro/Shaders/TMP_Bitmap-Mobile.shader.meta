@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 5a46e2abe8079d64f9032f7de0e52973
+guid: 1e3b057af24249748ff873be7fafee47
 ShaderImporter:
   externalObjects: {}
   defaultTextures: []
@@ -7,10 +7,3 @@ ShaderImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 201095
-  packageName: Automotive HMI Template
-  packageVersion: 1.2
-  assetPath: Assets/TextMesh Pro/Shaders/TMP_Bitmap-Mobile.shader
-  uploadId: 677189
