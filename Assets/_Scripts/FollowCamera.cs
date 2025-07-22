@@ -9,9 +9,7 @@ public class FollowCamera : MonoBehaviour
 
     private void Update()
     {
+        transform.rotation = cameraTransform.rotation;
         transform.position = new Vector3(cameraTransform.position.x, cameraTransform.position.y - distance, cameraTransform.position.z);
-        transform.LookAt(cameraTransform);
-        transform.Rotate(0, 180, 0);
-        transform.localScale = new Vector3(size, size, size);
     }
 }
