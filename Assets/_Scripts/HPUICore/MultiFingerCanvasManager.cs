@@ -4,7 +4,9 @@ using ArtificeToolkit.Runtime.SerializedDictionary;
 using EditorAttributes;
 using ubco.ovilab.HPUI.Core;
 using ubco.ovilab.HPUI.Interaction;
+using ubco.ovilab.hpuiModel;
 using UnityEngine;
+using UXF;
 
 public class MultiFingerCanvasManager : MonoBehaviour, IHPUICanvasUIManager
 {
@@ -32,10 +34,12 @@ public class MultiFingerCanvasManager : MonoBehaviour, IHPUICanvasUIManager
 
     [SerializeField] private Color selectedColor;
     [SerializeField] private Color defaultColor;
+    [SerializeField] private HPUIInteractableCanvasTracker canvasTracker;
 
     private void OnEnable()
     {
         HPUICanvas = GetComponent<HPUIMultiFingerCanvas>();
+        canvasTracker = GetComponent<HPUIInteractableCanvasTracker>();
         HPUICanvas.OnCanvasInteractions.AddListener(HandleCanvasGesture);
         if (canvasInterfaceContainer == null)
         {
@@ -134,7 +138,7 @@ public class MultiFingerCanvasManager : MonoBehaviour, IHPUICanvasUIManager
             case HPUICanvasState.INVALID:
                 break;
             case HPUICanvasState.NotStarted:
-                //canvasTracker.RecordRow(gestureArgs, canvasArgs);
+                canvasTracker.RecordRow(gestureArgs, canvasArgs);
                 break;
             case HPUICanvasState.Started:
                 startRegion = GetInteractionRegion(canvasArgs.GesturePositions[^1]);
@@ -142,8 +146,8 @@ public class MultiFingerCanvasManager : MonoBehaviour, IHPUICanvasUIManager
                 canvasArgs.CurrentSwipeRegion = startRegion;
                 SetUIActive(false);
                 hpuiRegions[startRegion].OnGestureStarted(canvasArgs);
-                //Session.instance.CurrentTrial.settings.SetValue(StudyLogs.GestureStartRegion, StudyLogs.VectorToRegionDict[canvasArgs.SwipeStartRegion.Value]);
-                //canvasTracker.RecordRow(gestureArgs, canvasArgs);
+                Session.instance.CurrentTrial.settings.SetValue(StudyLogs.GestureStartRegion, StudyLogs.VectorToRegionDict[canvasArgs.SwipeStartRegion.Value]);
+                canvasTracker.RecordRow(gestureArgs, canvasArgs);
                 break;
             case HPUICanvasState.Processing:
                 currentRegion = GetInteractionRegion(canvasArgs.GesturePositions[^1]);
@@ -151,7 +155,7 @@ public class MultiFingerCanvasManager : MonoBehaviour, IHPUICanvasUIManager
                 canvasArgs.CurrentSwipeRegion = currentRegion;
                 canvasArgs.SwipeEndRegion = endRegion;
                 hpuiRegions[startRegion].OnGestureOnGoing(canvasArgs);
-                //canvasTracker.RecordRow(gestureArgs, canvasArgs);
+                canvasTracker.RecordRow(gestureArgs, canvasArgs);
                 break;
             case HPUICanvasState.Cancelled:
                 foreach (KeyValuePair<Vector2Int?, HPUICanvasRegion> region in hpuiRegions)
@@ -162,14 +166,14 @@ public class MultiFingerCanvasManager : MonoBehaviour, IHPUICanvasUIManager
                 {
                     uiButton.gameObject.SetActive(true);
                 }
-                //canvasTracker.RecordRow(gestureArgs, canvasArgs);
+                canvasTracker.RecordRow(gestureArgs, canvasArgs);
                 break;
             case HPUICanvasState.Completed:
                 endRegion = GetInteractionRegion(canvasArgs.GesturePositions[^1]);
                 canvasArgs.SwipeStartRegion = startRegion;
                 canvasArgs.CurrentSwipeRegion = endRegion;
                 canvasArgs.SwipeEndRegion = endRegion;
-                //canvasTracker.RecordRow(gestureArgs, canvasArgs);
+                canvasTracker.RecordRow(gestureArgs, canvasArgs);
                 hpuiRegions[startRegion].OnGestureEnded(canvasArgs);
                 foreach (KeyValuePair<Vector2Int?, HPUICanvasRegion> region in hpuiRegions)
                 {

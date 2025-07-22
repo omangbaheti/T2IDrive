@@ -36,6 +36,7 @@ public class TraceVisualiser : MonoBehaviour
         {
             target = GetComponent<HPUIMultiFingerCanvas>();
         }
+
         target.OnCanvasInteractions.AddListener(HandleGesture);
     }
 
@@ -44,9 +45,9 @@ public class TraceVisualiser : MonoBehaviour
         target.OnCanvasInteractions.RemoveListener(HandleGesture);
     }
 
-    public void HandleGesture(HPUIGestureEventArgs args, HPUICanvasEventArgs canvasArgs)
+    public void HandleGesture(HPUIGestureEventArgs args, HPUICanvasEventArgs hpuiCanvasEventArgs)
     {
-        if(!debugMode || canvasArgs.State == HPUICanvasState.NotStarted) return;
+        if(!debugMode || hpuiCanvasEventArgs.State == HPUICanvasState.NotStarted) return;
         Color debugColor = (gestureIndex % 4) switch
         {
             0 => Color.cyan,
@@ -56,7 +57,7 @@ public class TraceVisualiser : MonoBehaviour
             _ => Color.magenta
         };
 
-        if (canvasArgs.State == HPUICanvasState.Cancelled)
+        if (hpuiCanvasEventArgs.State == HPUICanvasState.Cancelled)
         {
             foreach (GameObject sphere in tempCache)
             {
@@ -66,7 +67,7 @@ public class TraceVisualiser : MonoBehaviour
             return;
         }
 
-        Vector2 processedTouchPos = canvasArgs.GesturePositions[^1];
+        Vector2 processedTouchPos = hpuiCanvasEventArgs.GesturePositions[^1];
         Vector2Int colliderVal = ComputeDebugPointPosition(processedTouchPos,target, out Vector2 localPos);
         GameObject tracePoint = Instantiate(debugPointPrefab, target.coordsToCollider[colliderVal].transform, true);
         tempCache.Add(tracePoint);
@@ -77,7 +78,7 @@ public class TraceVisualiser : MonoBehaviour
         tracePoint.transform.localPosition = new Vector3(localPos.x, 75f, localPos.y);
         tracePoint.transform.name = "Green" + sphereObjects.Count;
 
-        if (canvasArgs.State == HPUICanvasState.Completed)
+        if (hpuiCanvasEventArgs.State == HPUICanvasState.Completed)
         {
             foreach (GameObject sphere in tempCache)
             {
@@ -85,7 +86,7 @@ public class TraceVisualiser : MonoBehaviour
             }
             tempCache.Clear();
 
-            foreach (Vector2 point in canvasArgs.GesturePositions)
+            foreach (Vector2 point in hpuiCanvasEventArgs.GesturePositions)
             {
                 colliderVal = ComputeDebugPointPosition(point, target, out localPos);
                 tracePoint = Instantiate(debugPointPrefab);
@@ -124,7 +125,7 @@ public class TraceVisualiser : MonoBehaviour
                 index++;
             }
             gestureIndex++;
-            DebugDirection((Vector2)canvasArgs.RawDirection, debugColor);
+            DebugDirection((Vector2)hpuiCanvasEventArgs.RawDirection, debugColor);
             tempCache.Clear();
         }
     }

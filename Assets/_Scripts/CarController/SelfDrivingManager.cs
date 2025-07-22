@@ -142,6 +142,12 @@ public class SelfDrivingManager : MonoBehaviour
         CalculateThrottleAndBrake(speed);
         lastSteeringInput = steerInput;
     }
+
+    public void ToggleDrivingAgent()
+    {
+        GetComponent<Rigidbody>().isKinematic = carInputManager.IsSelfDrivingActive;
+        carInputManager.IsSelfDrivingActive = !carInputManager.IsSelfDrivingActive;
+    }
     
     private void CalculateThrottleAndBrake(float currentSpeed)
     {

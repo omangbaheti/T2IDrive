@@ -1,0 +1,70 @@
+[configuration]
+#order = ["Index-Standing", "Middle-Standing", "Ring-Standing","Index-Standing", "Middle-Standing", "Ring-Standing","Index-Standing", "Middle-Standing", "Ring-Standing"]
+order = [["Index-Standing","Index-Standing","Index-Standing","Index-Standing"],["Index-Walking","Index-Walking","Index-Walking","Index-Walking"]]
+# - "latin_square": Apply latin square to balance the values.
+# - "randomize": For each participant randomize the order of the values in the array.
+# - "as_is": Use the order of the values as specified.
+# When not specified, the default value is "as_is" for both keys.
+groups = "latin_square"
+within_groups= "as_is"
+# The random seed to use for any randomization. Default seed is 0. The seed will be
+# the value of random_seed + participant_index
+random_seed = 0
+
+[configuration.variables]
+TRIALS_PER_ITEM = 3
+
+[[blocks]]
+name = "Default-Empty"
+[blocks.config]
+calibrationName = "CalculateHandLength"
+FingerType=""
+Mobility=""
+
+[[blocks]]
+name = "Standing"
+extends = "Default-Empty"
+[blocks.config]
+Mobility="Standing"
+
+[[blocks]]
+name = "Walking"
+extends = "Default-Empty"
+[blocks.config]
+Mobility="Walking"
+
+[[blocks]]
+name = "Index-Standing"
+extends = "Standing"
+[blocks.config]
+FingerType="Index"
+
+[[blocks]]
+name = "Index-Walking"
+extends = "Walking"
+[blocks.config]
+FingerType="Index"
+
+[[blocks]]
+name = "Middle-Standing"
+extends = "Standing"
+[blocks.config]
+FingerType="Middle"
+
+[[blocks]]
+name = "Middle-Walking"
+extends = "Walking"
+[blocks.config]
+FingerType="Middle"
+
+[[blocks]]
+name = "Ring-Standing"
+extends = "Standing"
+[blocks.config]
+FingerType="Ring"
+
+[[blocks]]
+name = "Ring-Walking"
+extends = "Walking"
+[blocks.config]
+FingerType="Ring"
