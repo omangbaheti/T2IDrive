@@ -2,28 +2,31 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UXF;
+using Random = System.Random;
 
 public class EulersCircuit
 {
-    
-    [SerializeField] 
 
-    public static List<TwoStepEulerConnection> TwoStepEulersCircuit(int items, bool shuffle)
+    [SerializeField]
+
+    public static List<TwoStepEulerConnection> TwoStepEulersCircuit(int items, bool shuffle, System.Random rng)
     {
         string finalOutput2 = "";
         List<TwoStepEulerConnection> twoStepEulerConnections = new();
-        
-        
+
+
         List<int> els = Enumerable.Range(0, items).ToList();
-        Shuffle(els,shuffle);
+
+        Shuffle(els,shuffle, rng);
 
         Dictionary<int, List<List<int>>> adj = new();
         foreach (int el in els)
         {
             List<int> shuffledEls1 = new(els);
             List<int> shuffledEls2 = new(els);
-            Shuffle(shuffledEls1, shuffle);
-            Shuffle(shuffledEls2, shuffle);
+            Shuffle(shuffledEls1, shuffle, rng);
+            Shuffle(shuffledEls2, shuffle, rng);
             adj[el] = new List<List<int>> { shuffledEls1, shuffledEls2 };
         }
 
@@ -46,7 +49,7 @@ public class EulersCircuit
                     int next_node = adj[current_node][0].Last();
                     adj[current_node][0].RemoveAt(adj[current_node][0].Count - 1);
                     currentPath.Add(next_node);
-                    step0 = !step0;
+                    step0 = false;
                     //Debug.Log($"Step 0-- {string.Join(", ", adj[current_node][0])}");
                 }
                 else
@@ -63,7 +66,7 @@ public class EulersCircuit
                     int next_node = adj[current_node][1].Last();
                     adj[current_node][1].RemoveAt(adj[current_node][1].Count - 1);
                     currentPath.Add(next_node);
-                    step0 = !step0;
+                    step0 = true;
                     //Debug.Log($"Step 1 -- {string.Join(", ", adj[current_node][1])}");
                 }
                 else
@@ -122,10 +125,9 @@ public class EulersCircuit
         Liftoff = 1
     }
 
-    static void Shuffle<T>(List<T> list, bool shuffle)
+    static void Shuffle<T>(List<T> list, bool shuffle, System.Random rng)
     {
         if(!shuffle)return;
-        System.Random rng = new System.Random();
         int n = list.Count;
         while (n > 1)
         {

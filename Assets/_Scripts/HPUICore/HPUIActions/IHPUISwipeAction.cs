@@ -45,29 +45,29 @@ namespace ubco.ovilab.HPUI
     //         OnSwipeCompleted?.Invoke(canvasArgs);
     //     }
     // }
-    //
-    // [Serializable]
-    // public class ExperimentHandler : IHPUISwipeAction
-    // {
-    //     public UnityEvent<HPUICanvasEventArgs> OnSwipeStarted => onSwipeStarted;
-    //     public UnityEvent<HPUICanvasEventArgs> OnSwipeCompleted => onSwipeCompleted;
-    //     [SerializeField] public UnityEvent<HPUICanvasEventArgs> onSwipeStarted = new();
-    //     [SerializeField] public UnityEvent<HPUICanvasEventArgs> onSwipeCompleted = new();
-    //     [SerializeField, HideInInspector] public Vector2Int startRegion;
-    //     [SerializeField, HideInInspector] public Vector2Int endRegion;
-    //     bool isSwipeStarted = false;
-    //     public void GestureStarted(HPUICanvasEventArgs canvasArgs)
-    //     {
-    //         if(isSwipeStarted) return;
-    //         OnSwipeStarted?.Invoke(canvasArgs);
-    //         isSwipeStarted = true;
-    //     }
-    //
-    //     public void GestureCompleted(HPUICanvasEventArgs canvasArgs)
-    //     {
-    //         OnSwipeCompleted?.Invoke(canvasArgs);
-    //         isSwipeStarted = false;
-    //     }
-    // }
+
+    [Serializable]
+    public class ExperimentHandler : IHPUISwipeAction
+    {
+        public UnityEvent<HPUICanvasEventArgs> OnSwipeStarted => onSwipeStarted;
+        public UnityEvent<HPUICanvasEventArgs> OnSwipeCompleted => onSwipeCompleted;
+        [SerializeField] public UnityEvent<HPUICanvasEventArgs> onSwipeStarted = new();
+        [SerializeField] public UnityEvent<HPUICanvasEventArgs> onSwipeCompleted = new();
+        [SerializeField, HideInInspector] public Vector2Int startRegion;
+        [SerializeField, HideInInspector] public Vector2Int endRegion;
+        bool isSwipeStarted = false;
+        public void GestureStarted(HPUICanvasEventArgs canvasArgs)
+        {
+            if(isSwipeStarted) return;
+            OnSwipeStarted?.Invoke(canvasArgs);
+            isSwipeStarted = true;
+        }
+
+        public void GestureCompleted(HPUICanvasEventArgs canvasArgs)
+        {
+            OnSwipeCompleted?.Invoke(canvasArgs);
+            isSwipeStarted = false;
+        }
+    }
 
 }
