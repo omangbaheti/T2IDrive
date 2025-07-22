@@ -52,7 +52,7 @@ public class ViconXRIMerger : MonoBehaviour
 
         foreach (ViconAndUnityObjectContainer objectPair in viconToUnityObjects)
         {
-            Handles.SphereHandleCap(0,objectPair.unityObject.position, objectPair.unityObject.rotation, 0.1f, EventType.Repaint);
+            Handles.SphereHandleCap(0,objectPair.unityObject.position, objectPair.unityObject.rotation, 0.05f, EventType.Repaint);
 
             Vector3 pos = objectPair.unityObject.position;
             Quaternion rot = objectPair.unityObject.rotation;
