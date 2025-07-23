@@ -4569,13 +4569,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1087371002}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7597199, y: -0.05839846, z: 0.6435682, w: -0.0723549}
+  m_LocalRotation: {x: 0.7965473, y: -0.054004915, z: 0.5973834, w: -0.07569065}
   m_LocalPosition: {x: 1.6072121, y: 5.5712132, z: -0.17263672}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1530478641}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -3.214, y: 105.976, z: -169.82}
 --- !u!114 &1087371004
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5595,7 +5595,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1499550398}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.021999998, y: 0.021999998, z: 0.022}
   m_ConstrainProportionsScale: 1
@@ -5604,7 +5604,7 @@ Transform:
   - {fileID: 761999559}
   - {fileID: 1530478641}
   m_Father: {fileID: 915468394}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1499550400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5747,7 +5747,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1530478641
 Transform:
   m_ObjectHideFlags: 0
@@ -5819,11 +5819,12 @@ MonoBehaviour:
   canvasInterfaceContainer: {fileID: 0}
   layoutSetup: {fileID: 11400000, guid: 8f6ca950d7662b948b4ccd917072e900, type: 2}
   hpuiRegions:
-    list: []
+    m_Items: []
   layer1Prefab: {fileID: 5343600359055945396, guid: 87d59c8db822ad24c9164049edaf7d83, type: 3}
   layer2Prefab: {fileID: 5343600359055945396, guid: 87d59c8db822ad24c9164049edaf7d83, type: 3}
   selectedColor: {r: 0, g: 0, b: 0, a: 0}
   defaultColor: {r: 0, g: 0, b: 0, a: 0}
+  canvasTracker: {fileID: 0}
   references:
     version: 2
     RefIds: []
