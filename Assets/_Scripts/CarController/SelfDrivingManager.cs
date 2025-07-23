@@ -91,13 +91,14 @@ public class SelfDrivingManager : MonoBehaviour
         Vector3 carForward = transform.forward;
         float speed = vehicleController.CurrentSpeed;
         float splineDirection = currentSpline.isSplineDirectionPositive ? 1 : -1;
+        float nextSplineDirection = nextSpline.isSplineDirectionPositive ? 1 : -1;
         Vector3 targetPoint = pathPoints.ElementAt(1);
         
         if (Vector3.Distance(transform.position, targetPoint) < distanceThreshold) // TODO: Check if car is facing the right way
         {
             Debug.Log("Within Distance");
             currentSpline.lerpParam += currentSpline.splineStep * splineDirection;
-            nextSpline.lerpParam += currentSpline.splineStep * splineDirection;
+            nextSpline.lerpParam += nextSpline.splineStep * nextSplineDirection;
             pathPoints.Dequeue();
             pathPoints.Enqueue(pathManager.GetPointOnSpline(nextSpline, out float3 _));
             steeringLerp = 0;
