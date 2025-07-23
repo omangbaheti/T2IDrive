@@ -11,7 +11,8 @@ public class ViconXRIMerger : MonoBehaviour
     [SerializeField] private Transform viconOrigin;
     [SerializeField] private Transform viconToUnityOrigin;
     [SerializeField] private List<ViconAndUnityObjectContainer> viconToUnityObjects = new();
-
+    [SerializeField] private bool showGizmos = false;
+    
     [Button]
     public void Merge()
     {
@@ -48,6 +49,7 @@ public class ViconXRIMerger : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        if(!showGizmos) return;
         Handles.color = Color.red;
 
         foreach (ViconAndUnityObjectContainer objectPair in viconToUnityObjects)

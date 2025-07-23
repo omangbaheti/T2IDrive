@@ -16,6 +16,8 @@ public class SplineRoad : MonoBehaviour
     public List<Intersection> Intersections => intersections;
     public float RightWidth => rightWidth;
     public float LeftWidth => leftWidth;
+    [SerializeField] private bool showGizmos = false;
+    
 
 
     [SerializeField] private SplineContainer splineContainer;
@@ -278,7 +280,7 @@ public class SplineRoad : MonoBehaviour
 
         // Handles.matrix = transform.localToWorldMatrix;
 
-        if (Application.isPlaying)
+        if (Application.isPlaying || !showGizmos)
         {
             return;
         }

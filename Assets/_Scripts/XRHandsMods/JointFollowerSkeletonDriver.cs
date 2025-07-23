@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using ArtificeToolkit.Runtime.SerializedDictionary;
+using EditorAttributes;
 using ubco.ovilab.HPUI.Tracking;
 using UnityEditor;
 using UnityEngine;
@@ -52,7 +53,69 @@ public class JointFollowerSkeletonDriver : HandSubsystemSubscriber
         }
 
         cachedRadius = 0.01f;
+    }
 
+    [Button]
+    private void AutoAssignBonesToJoints()
+    {
+        Dictionary<XRHandJointID, string> skeletonTransformNamePair = new()
+        {
+            { XRHandJointID.Wrist , "Hand"},
+            { XRHandJointID.ThumbMetacarpal, "R1D1" },
+            { XRHandJointID.ThumbProximal, "R1D2" },
+            { XRHandJointID.ThumbDistal , "R1D3" },
+            { XRHandJointID.ThumbTip , "R1D4" },
+            
+            { XRHandJointID.IndexProximal, "R2D1"},
+            { XRHandJointID.IndexIntermediate, "R2D2" },
+            { XRHandJointID.IndexDistal, "R2D3" },
+            { XRHandJointID.IndexTip , "R2D4" },
+
+            { XRHandJointID.MiddleProximal, "R3D1"},
+            { XRHandJointID.MiddleIntermediate, "R3D2" },
+            { XRHandJointID.MiddleDistal, "R3D3" },
+            { XRHandJointID.MiddleTip , "R3D4" },
+
+            { XRHandJointID.RingProximal, "R4D1"},
+            { XRHandJointID.RingIntermediate, "R4D2" },
+            { XRHandJointID.RingDistal, "R4D3" },
+            { XRHandJointID.RingTip , "R4D4" },
+
+            { XRHandJointID.LittleProximal, "R5D1"},
+            { XRHandJointID.LittleIntermediate, "R5D2" },
+            { XRHandJointID.LittleDistal, "R5D3" },
+            { XRHandJointID.LittleTip , "R5D4" }
+        };
+        handJoints.Clear();
+        
+        foreach (KeyValuePair<XRHandJointID,string> pair in skeletonTransformNamePair)
+        {
+            XRHandJointID jointID = pair.Key;
+            Transform boneTransform = FindChildByName(transform.gameObject, pair.Value).transform;
+            handJoints.Add(jointID, boneTransform);
+        }
+    }
+        
+    public GameObject FindChildByName(GameObject parent, string childName)
+    {
+        // If the parent GameObject matches the name, return it
+        if (parent.name == childName)
+        {
+            return parent;
+        }
+
+        // Recursively search through all children
+        foreach (Transform child in parent.transform)
+        {
+            GameObject result = FindChildByName(child.gameObject, childName);
+            if (result != null)
+            {
+                return result;
+            }
+        }
+
+        // Return null if no matching GameObject is found
+        return null;
     }
 
     protected override void ProcessJointData(XRHandSubsystem subsystem, XRHandSubsystem.UpdateSuccessFlags updateSuccessFlags)
