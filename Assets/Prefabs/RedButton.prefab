@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebd3be72d125e634095545e77923b468, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: {r: 1, g: 0, b: 0, a: 1}
+  color: {r: 0.6320754, g: 0, b: 0.110628694, a: 1}
   hasEmission: 1
   emissionColor: {r: 0, g: 0, b: 0, a: 0}
   emissionIntensity: 0

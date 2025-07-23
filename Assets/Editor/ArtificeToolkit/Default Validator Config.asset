@@ -42,6 +42,10 @@ MonoBehaviour:
       Value: 1
     - Key: HandVisualizer
       Value: 1
+    - Key: BaseScene2
+      Value: 1
+    - Key: Test
+      Value: 1
   validatorTypesMap:
     list:
     - Key: Artifice_ValidatorModule_ScriptableObject
