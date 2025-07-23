@@ -12,7 +12,13 @@ public class PIDController
     [SerializeField] private float integratorLimit = 1f;
     private float integral;
     private float lastError;
-    
+
+    public PIDController(float kp, float ki, float kd)
+    {
+        Kp = kp;
+        Ki = ki;
+        Kd = kd;
+    }
     public float CalculatePIDStep(float error)
     {
         float deltaTime = Time.fixedDeltaTime;

@@ -137,7 +137,7 @@ public class TraceVisualiser : MonoBehaviour
         //tempSerie.lineStyle.color = debugColor;
     }
 
-    public Vector2Int ComputeDebugPointPosition(Vector2 coords, HPUIMultiFingerCanvas multiFinger, out Vector2 localPos)
+    public Vector2Int   ComputeDebugPointPosition(Vector2 coords, HPUIMultiFingerCanvas multiFinger, out Vector2 localPos)
     {
         int xVal = Mathf.FloorToInt(coords.x / multiFinger.MaxBounds.x * multiFinger.MeshXResolution );
         int yVal = Mathf.FloorToInt(coords.y / multiFinger.MaxBounds.y *  multiFinger.MeshYResolution );

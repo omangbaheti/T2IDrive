@@ -37,12 +37,17 @@ public class SplineRoad : MonoBehaviour
     [SerializeField] private List<Intersection> intersections = new();
     private void OnEnable()
     {
-        Spline.Changed += BuildMesh;
+        Spline.Changed += SplineChanged;
     }
 
     private void OnDisable()
     {
-        Spline.Changed -= BuildMesh;
+        Spline.Changed -= SplineChanged;
+    }
+
+    private void Awake()
+    {
+        BuildMesh();
     }
 
     // Update is called once per frame
@@ -89,7 +94,12 @@ public class SplineRoad : MonoBehaviour
         p2 = position + (-right * leftWidth);
     }
 
-    private void BuildMesh(Spline spline, int i1, SplineModification arg3)
+    private void SplineChanged(Spline spline, int i1, SplineModification arg3)
+    {
+        BuildMesh();
+    }
+
+    private void BuildMesh()
     {
         GetVertices();
         int offset = 0;
@@ -151,7 +161,6 @@ public class SplineRoad : MonoBehaviour
         }
 
         BuildAllJunctions();
-
     }
 
     public void AddJunction(Intersection intersectionToAdd)
