@@ -1,32 +1,34 @@
 using System;
 using System.Collections.Generic;
-using ArtificeToolkit.Runtime.SerializedDictionary;
 using Experiment;
 using TMPro;
 using ubco.ovilab.HPUI.Core;
 using ubco.ovilab.HPUI.Interaction;
 using ubco.ovilab.hpuiModel;
 using UnityEngine;
+using XRUtils = Unity.XR.CoreUtils.Collections;
+
+using Unity.XR.CoreUtils.Collections;
+using UnityEngine.Serialization;
 using UXF;
 
 [RequireComponent(typeof(HPUIInteractableCanvasTracker))]
 public class TrialManager : MonoBehaviour, IHPUICanvasUIManager
 {
+    public XRUtils.SerializableDictionary<Vector2Int?, HPUICanvasRegion> HPUIRegions => hpuiRegions;
 
     public List<float> XDivisions => xDivisions;
 
     public List<float> YDivisions => yDivisions;
 
-    public SerializedDictionary<Vector2Int?, HPUICanvasRegion> HPUIRegions => hpuiRegions;
 
     public HPUIMultiFingerCanvas HPUICanvas { get; set; }
-
     public List<MicrogestureAction> gestureActions = new();
     public Dictionary<Vector2Int, GameObject> layer1UIElements = new();
 
+    [SerializeField] public GameObject BlueButton;
     [SerializeField] public GameObject RedButton;
-    [SerializeField] public GameObject GreenButton;
-    [SerializeField] private SerializedDictionary<Vector2Int?, HPUICanvasRegion> hpuiRegions = new();
+    [SerializeField] XRUtils.SerializableDictionary<Vector2Int?, HPUICanvasRegion> hpuiRegions = new();
     [SerializeField] private GestureLayoutSetup gestureLayout;
     [SerializeField] private TextMeshProUGUI debugText;
     private Vector2Int ID;
@@ -42,6 +44,8 @@ public class TrialManager : MonoBehaviour, IHPUICanvasUIManager
     private Vector2Int endRegion;
     private bool startedCorrectly = false;
     private FingerSwipeExperimentManager expManager;
+    
+    
 
     private void OnEnable()
     {
@@ -93,7 +97,7 @@ public class TrialManager : MonoBehaviour, IHPUICanvasUIManager
                 hpuiRegion.ID = new Vector2Int(i, j);
                 hpuiRegion.basePoint = new Vector2(xDivisions[i], yDivisions[j]);
                 hpuiRegion.area = new Vector2(xDivisions[i+1] - xDivisions[i], yDivisions[j+1] - yDivisions[j]);
-                hpuiRegion.UIVisual = GreenButton;
+                hpuiRegion.UIVisual = RedButton;
                 hpuiRegions.Add(new Vector2Int(i,j), hpuiRegion);
             }
         }
@@ -123,8 +127,9 @@ public class TrialManager : MonoBehaviour, IHPUICanvasUIManager
             HPUICanvasRegion region = hpuiRegions[action.startRegion];
             Vector2 regionCenterPoint = region.basePoint + region.area/2f + region.centreOffset;
             Vector2Int centreIndex = HPUICanvasComponentUtils.CalculateColliderIndex(regionCenterPoint, HPUICanvas);
+            Debug.Log("Centre Index;" + centreIndex);
             Transform regionCentre = HPUICanvas.coordsToCollider[centreIndex].transform;
-            GameObject UI = Instantiate(RedButton, regionCentre.position, Quaternion.identity, regionCentre);
+            GameObject UI = Instantiate(BlueButton, regionCentre.position, Quaternion.identity, regionCentre);
             UI.transform.localPosition = new Vector3(0,50f,0);
             UI.transform.localRotation = Quaternion.Euler(90,90,0);
             layer1UIElements.Add(action.startRegion, UI);
@@ -134,7 +139,6 @@ public class TrialManager : MonoBehaviour, IHPUICanvasUIManager
 
     public void HandleCanvasGesture(HPUIGestureEventArgs gestureArgs, HPUICanvasEventArgs canvasArgs)
     {
-
         if (canvasArgs.GesturePositions.Count < 1)
         {
             Debug.LogWarning($"Gesture Positions are empty at {canvasArgs.State.ToString()}");
@@ -196,7 +200,7 @@ public class TrialManager : MonoBehaviour, IHPUICanvasUIManager
                     hpuiInteractableCanvasTracker.RecordRow(gestureArgs, canvasArgs);
                     Session.instance.CurrentTrial.settings.SetValue(StudyLogs.GestureEndRegion, StudyLogs.VectorToRegionDict[canvasArgs.SwipeEndRegion.Value]);
                     // Session.instance.CurrentTrial.settings.SetValue(StudyLogs.CumulativeDistance, thumbPositionTracker.CumulativeDistance);
-                    // Session.instance.CurrentTrial.settings.SetValue(StudyLogs.NetThumbDisplacement, thumbPositionTracker.NetDisplacement);
+                      // Session.instance.CurrentTrial.settings.SetValue(StudyLogs.NetThumbDisplacement, thumbPositionTracker.NetDisplacement);
                     // string currentFinger = Session.instance.CurrentTrial.settings.GetString(StudyLogs.FingerType);
 
                     // Session.instance.CurrentTrial.settings.SetValue(StudyLogs.CumulativeDistanceNormalised, thumbPositionTracker.CumulativeDistance / expManager.FingerLengths[currentFinger]);

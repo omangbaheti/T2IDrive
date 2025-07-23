@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using ArtificeToolkit.Runtime.SerializedDictionary;
-using Experiment;
-using TMPro;
+using XRUtils = Unity.XR.CoreUtils.Collections;
 using ubco.ovilab.HPUI.Core;
 using ubco.ovilab.HPUI.Interaction;
 using ubco.ovilab.hpuiModel;
@@ -15,7 +13,7 @@ public class ComfortStudyTrialManager : MonoBehaviour, IHPUICanvasUIManager
 
     public List<float> YDivisions => yDivisions;
 
-    public SerializedDictionary<Vector2Int?, HPUICanvasRegion> HPUIRegions => hpuiRegions;
+    public XRUtils.SerializableDictionary<Vector2Int?, HPUICanvasRegion> HPUIRegions => hpuiRegions;
 
     public HPUIMultiFingerCanvas HPUICanvas { get; set; }
 
@@ -24,7 +22,7 @@ public class ComfortStudyTrialManager : MonoBehaviour, IHPUICanvasUIManager
 
     [SerializeField] public GameObject RedButton;
     [SerializeField] public GameObject GreenButton;
-    [SerializeField] private SerializedDictionary<Vector2Int?, HPUICanvasRegion> hpuiRegions = new();
+    [SerializeField] private XRUtils.SerializableDictionary<Vector2Int?, HPUICanvasRegion> hpuiRegions = new();
     [SerializeField] private GestureLayoutSetup gestureLayout;
     private Vector2Int ID;
     private Vector2 centrePoint;

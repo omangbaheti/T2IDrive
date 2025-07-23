@@ -5,6 +5,8 @@ using TMPro;
 using ubco.ovilab.HPUI.Core;
 using ubco.ovilab.HPUI.Interaction;
 using UnityEngine;
+using XRUtils = Unity.XR.CoreUtils.Collections;
+
 using UnityEngine.Serialization;
 
 public class HPUICanvasRegionManager : MonoBehaviour, IHPUICanvasUIManager
@@ -21,7 +23,7 @@ public class HPUICanvasRegionManager : MonoBehaviour, IHPUICanvasUIManager
         set => yDivisions = value;
     }
 
-    public SerializedDictionary<Vector2Int?, HPUICanvasRegion> HPUIRegions
+    public XRUtils.SerializableDictionary<Vector2Int?, HPUICanvasRegion> HPUIRegions
     {
         get => hpuiRegions;
         set => hpuiRegions = value;
@@ -35,7 +37,7 @@ public class HPUICanvasRegionManager : MonoBehaviour, IHPUICanvasUIManager
 
     public List<MicrogestureAction> gestureActions = new();
 
-    [SerializeField] private SerializedDictionary<Vector2Int?, HPUICanvasRegion> hpuiRegions = new();
+    [SerializeField] private XRUtils.SerializableDictionary<Vector2Int?, HPUICanvasRegion> hpuiRegions = new();
     [SerializeField] private GestureLayoutSetup gestureLayout;
     [SerializeField] public GameObject textBox;
     [SerializeField] public TextMeshProUGUI textMesh;

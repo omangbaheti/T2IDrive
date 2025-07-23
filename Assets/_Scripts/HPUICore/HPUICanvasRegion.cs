@@ -75,6 +75,7 @@ public class HPUICanvasRegion : MonoBehaviour
             if (canvasArgs.SwipeStartRegion == gesture.startRegion)
             {
                 Debug.Log($"Starting region {canvasArgs.SwipeStartRegion} MicroGestureStartRegion {gesture.startRegion}");
+                Debug.Log($"Ending region {canvasArgs.SwipeEndRegion} MicroGestureEndRegion {gesture.endRegion}");
                 foreach (IHPUISwipeAction action in gesture.SwipeActions)
                 {
                     action.GestureStarted(canvasArgs);
@@ -106,6 +107,7 @@ public class HPUICanvasRegion : MonoBehaviour
             {
                 Debug.LogError("HUHHHHHH");
             }
+            Debug.Log("Chanigng Color to greeen");
             hotSwapColor.SetColor(Color.green);
         }
         else

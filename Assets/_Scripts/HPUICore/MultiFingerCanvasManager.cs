@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using ArtificeToolkit.Runtime.SerializedDictionary;
+using XRUtils = Unity.XR.CoreUtils.Collections;
 using EditorAttributes;
 using ubco.ovilab.HPUI.Core;
 using ubco.ovilab.HPUI.Interaction;
@@ -13,7 +13,7 @@ public class MultiFingerCanvasManager : MonoBehaviour, IHPUICanvasUIManager
     public List<float> XDivisions => xDivisions;
     public List<float> YDivisions => yDivisions;
     public HPUIMultiFingerCanvas HPUICanvas { get; set; }
-    public SerializedDictionary<Vector2Int?, HPUICanvasRegion> HPUIRegions => hpuiRegions;
+    public XRUtils.SerializableDictionary<Vector2Int?, HPUICanvasRegion> HPUIRegions => hpuiRegions;
 
     public List<MicrogestureAction> gestureActions = new();
     public Transform canvasInterfaceContainer;
@@ -21,7 +21,7 @@ public class MultiFingerCanvasManager : MonoBehaviour, IHPUICanvasUIManager
     private Transform layer2CanvasContainer;
 
     [SerializeField] private GestureLayoutSetup layoutSetup;
-    [SerializeField] private SerializedDictionary<Vector2Int?, HPUICanvasRegion> hpuiRegions = new();
+    [SerializeField] private XRUtils.SerializableDictionary<Vector2Int?, HPUICanvasRegion> hpuiRegions = new();
 
     private List<float> xDivisions = new();
     private List<float> yDivisions = new();

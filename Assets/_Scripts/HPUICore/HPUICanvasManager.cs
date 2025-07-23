@@ -3,6 +3,8 @@ using ArtificeToolkit.Runtime.SerializedDictionary;
 using ubco.ovilab.HPUI.Core;
 using ubco.ovilab.HPUI.Interaction;
 using UnityEngine;
+using XRUtils = Unity.XR.CoreUtils.Collections;
+
 
 public class HPUICanvasManager : MonoBehaviour, IHPUICanvasUIManager
 {
@@ -10,11 +12,11 @@ public class HPUICanvasManager : MonoBehaviour, IHPUICanvasUIManager
     public List<float> YDivisions => yDivisions;
 
     public HPUIMultiFingerCanvas HPUICanvas { get; set; }
-    public SerializedDictionary<Vector2Int?, HPUICanvasRegion> HPUIRegions => hpuiRegions;
+    public XRUtils.SerializableDictionary<Vector2Int?, HPUICanvasRegion> HPUIRegions => hpuiRegions;
 
     private List<float> xDivisions;
     private List<float> yDivisions;
-    [SerializeField] private SerializedDictionary<Vector2Int?, HPUICanvasRegion> hpuiRegions = new();
+    [SerializeField] private XRUtils.SerializableDictionary<Vector2Int?, HPUICanvasRegion> hpuiRegions = new();
 
     public void SpawnCanvasRegions()
     {
