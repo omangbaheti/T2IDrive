@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ubco.ovilab.HPUI;
@@ -261,7 +262,7 @@ namespace Experiment
 
         protected override void OnTrialBegin(Trial trial)
         {
-            Debug.Log($"Trial Started {trial.number}");
+            Debug.Log($"Trial Started {trial.number} {trial.settings.GetString(StudyLogs.StartRegion)}:{trial.settings.GetString(StudyLogs.EndRegion)}");
             string currentFinger = Session.instance.CurrentBlock.settings.GetString(StudyLogs.FingerType);
             trialManager[currentFinger].SetCurrentTrialActive(trial);
 
@@ -319,13 +320,19 @@ namespace Experiment
         {
             try
             {
-                Session.instance.EndCurrentTrial();
-                Session.instance.BeginNextTrial();
+                StartCoroutine(TransitionTrial());
             }
             catch(NoSuchTrialException)
             {
                 Debug.Log($"Block ended (i think)");
             }
+        }
+
+        private IEnumerator TransitionTrial()
+        {
+            Session.instance.EndCurrentTrial();
+            yield return new WaitForEndOfFrame();
+            Session.instance.BeginNextTrial();
         }
 
         private void CancelTrial()
