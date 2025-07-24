@@ -24,13 +24,13 @@ public class CarPathManager
     [SerializeField] private SplineContainer splineContainer;
     private SplineRoad splineRoad;
 
-    
+
     public CarPathManager(SplineContainer splineContainer)
     {
         this.splineContainer = splineContainer;
         splineRoad = splineContainer.transform.GetComponent<SplineRoad>();
     }
-    
+
     public SplinePathData SetupNewPath(int _splineIndex, float _startPoint, float _endPoint, float samplingRes)
     {
         Debug.Log("Setting Up new Spline");
@@ -57,7 +57,7 @@ public class CarPathManager
         Vector3 targetPoint = position + (-right * splineRoad.RightWidth/2 * splineDirection);
         return targetPoint;
     }
-    
+
     public SplinePathData ChangeSpline(SplinePathData _splineData)
     {
         int nextSplineIndex = -1;
@@ -86,7 +86,7 @@ public class CarPathManager
 
             if (currentIntersection == null)
             {
-                Debug.LogError("No intersection found");
+                // Debug.LogError("No intersection found");
                 continue;
             }
 
@@ -115,11 +115,11 @@ public class CarPathManager
                 }
             }
         }
-        
+
         Debug.LogWarning("No intersection found Making a U-turn");
         return SetupNewPath(_splineData.index, _startPoint: _splineData.endPoint, _endPoint: _splineData.startPoint, _splineData.splineSamplingResolution);
     }
-    
+
     public int GetKnotIndexFromT(int splineIndex, float T)
     {
         Spline currentSpline = splineContainer.Splines[splineIndex];

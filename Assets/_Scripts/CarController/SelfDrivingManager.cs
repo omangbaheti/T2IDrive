@@ -68,6 +68,7 @@ public class SelfDrivingManager : MonoBehaviour
     [SerializeField] private float steeringLerp = 0f;
     [SerializeField] private float angleToTarget;
     
+    [SerializeField] private bool showGizmos;
     private void Start()
     {
         vehicleController = GetComponent<VehicleController>();
@@ -102,7 +103,7 @@ public class SelfDrivingManager : MonoBehaviour
             pathPoints.Dequeue();
             pathPoints.Enqueue(pathManager.GetPointOnSpline(nextSpline, out float3 _));
             steeringLerp = 0;
-            Assert.IsFalse(pathPoints.Count == 3, $"Maybe too many points {pathPoints.Count}");
+            Assert.IsTrue(pathPoints.Count == 3, $"Maybe too many points {pathPoints.Count}");
         }
         
         if ( !(nextSpline.lerpParam >= Mathf.Min(nextSpline.startPoint, nextSpline.endPoint) && 
@@ -195,7 +196,7 @@ public class SelfDrivingManager : MonoBehaviour
     private void OnDrawGizmos()
     {
         
-        if(!Application.isPlaying) return;
+        if(!Application.isPlaying || !showGizmos) return;
         Handles.color = Color.red;
         Handles.SphereHandleCap(0,transform.position, transform.rotation, 0.1f, EventType.Repaint);
 
