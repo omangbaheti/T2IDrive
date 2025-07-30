@@ -48,6 +48,8 @@ MonoBehaviour:
       Value: 1
     - Key: Experiment1
       Value: 1
+    - Key: Experiment1Comfort
+      Value: 1
   validatorTypesMap:
     list:
     - Key: Artifice_ValidatorModule_ScriptableObject

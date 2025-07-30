@@ -15,4 +15,4 @@ MonoBehaviour:
   useLocalData: 0
   configJsonFile: {fileID: 0}
   experimentServerUrl: http://127.0.0.1:5000
-  experimentStartFrom0: 1
+  experimentStartFrom0: 0
