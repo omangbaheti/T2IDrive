@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using EditorAttributes;
 using ubco.ovilab.ViconUnityStream;
 using Unity.Mathematics;
 using UnityEditor;
@@ -36,14 +37,14 @@ public class SelfDrivingManager : MonoBehaviour
     public float maxSpeed = 10f;
     public float maxSteeringAngle = 30f;
     public float distanceThreshold = 2f;
-    
+
     [Header("PID Settings")]
     [SerializeField] private float Kp = 0.5f;
     [SerializeField] private float Ki = 0.1f;
     [SerializeField] private float Kd = 0.05f;
     [SerializeField] private float integratorLimit = 1f;
     private PIDController steeringPIDController;
-    
+
     [Header("Stanley Controller Settings")]
     [SerializeField] private float stanleyGain = 1.0f;
     [SerializeField] private float softeningGain = 0.1f;
@@ -60,15 +61,17 @@ public class SelfDrivingManager : MonoBehaviour
     private CarInputManager carInputManager;
     private VehicleController vehicleController;
     private float lastSteeringInput;
-    
+
     private  OneEuroFilter filter;
-    
+
     [Header("Debug Variables")]
     [SerializeField] private float steerAngle;
     [SerializeField] private float steeringLerp = 0f;
     [SerializeField] private float angleToTarget;
-    
+
     [SerializeField] private bool showGizmos;
+    private float previousAngle;
+
     private void Start()
     {
         vehicleController = GetComponent<VehicleController>();
@@ -82,8 +85,15 @@ public class SelfDrivingManager : MonoBehaviour
         pathPoints.Enqueue(transform.position);
         pathPoints.Enqueue(pathManager.GetPointOnSpline(currentSpline, out float3 _));
         pathPoints.Enqueue(pathManager.GetPointOnSpline(nextSpline, out float3 _));
-        filter = new OneEuroFilter(freq:50f, minCutoff: 0.1f, beta: 0.01f);
+        filter = new OneEuroFilter(freq:90f, minCutoff: 1f, beta: 0.01f);
     }
+
+    [Button]
+    public void ResetSteering()
+    {
+        steeringPIDController = new PIDController(Kp, Ki, Kd);
+    }
+
     private void FixedUpdate()
     {
         if(!carInputManager.IsSelfDrivingActive) return;
@@ -94,7 +104,7 @@ public class SelfDrivingManager : MonoBehaviour
         float splineDirection = currentSpline.isSplineDirectionPositive ? 1 : -1;
         float nextSplineDirection = nextSpline.isSplineDirectionPositive ? 1 : -1;
         Vector3 targetPoint = pathPoints.ElementAt(1);
-        
+
         if (Vector3.Distance(transform.position, targetPoint) < distanceThreshold) // TODO: Check if car is facing the right way
         {
             Debug.Log("Within Distance");
@@ -105,16 +115,16 @@ public class SelfDrivingManager : MonoBehaviour
             steeringLerp = 0;
             Assert.IsTrue(pathPoints.Count == 3, $"Maybe too many points {pathPoints.Count}");
         }
-        
-        if ( !(nextSpline.lerpParam >= Mathf.Min(nextSpline.startPoint, nextSpline.endPoint) && 
+
+        if ( !(nextSpline.lerpParam >= Mathf.Min(nextSpline.startPoint, nextSpline.endPoint) &&
                nextSpline.lerpParam <= Mathf.Max(nextSpline.startPoint, nextSpline.endPoint)))
         {
             nextSpline = pathManager.ChangeSpline(nextSpline);
             Debug.Log("Lookahead Spline Complete, Finding new spline");
         }
-        
 
-        if ( !(currentSpline.lerpParam >= Mathf.Min(splineStartPoint, splineEndPoint) && 
+
+        if ( !(currentSpline.lerpParam >= Mathf.Min(splineStartPoint, splineEndPoint) &&
                currentSpline.lerpParam <= Mathf.Max(splineStartPoint, splineEndPoint)))
         {
             lastSteeringInput = steerInput;
@@ -126,14 +136,16 @@ public class SelfDrivingManager : MonoBehaviour
         directionToTarget = (targetPoint - carPosition).normalized;
         angleToTarget = Vector3.SignedAngle(carForward, directionToTarget, Vector3.up);
         angleToTarget = Mathf.Clamp(angleToTarget, -maxSteeringAngle, maxSteeringAngle);
-        float pidOutput = steeringPIDController.CalculatePIDStep(angleToTarget);
+        float pidOutput = steeringPIDController.Calculate(angleToTarget, 0f , Time.fixedDeltaTime);
+        Debug.Log("PIDOUTPUT" + pidOutput);
         // Normalize to [-1,1]
-        float pidSteerInput = (pidOutput / maxSteeringAngle);
+        float pidSteerInput = (pidOutput);
         pidSteerInput = filter.Filter(pidSteerInput);
+        // pidSteerInput = filter.Filter(pidSteerInput);
         steerInput = Mathf.Lerp(lastSteeringInput, pidSteerInput, steeringLerp);
-        steeringLerp += Time.fixedDeltaTime/3;
-        steeringLerp %= 1f;
         steerInput = Mathf.Clamp(steerInput, -1f, 1f);
+        steeringLerp += Time.fixedDeltaTime/10;
+        steeringLerp %= 1f;
         // acceleratorInput = 1 - Mathf.Abs(steerInput);
         // brakeInput = speed > maxSpeed /3 ? Mathf.Abs(steerInput) : 0;
         // acceleratorInput = speed < maxSpeed ? acceleratorInput : 0f;
@@ -146,16 +158,16 @@ public class SelfDrivingManager : MonoBehaviour
         GetComponent<Rigidbody>().isKinematic = carInputManager.IsSelfDrivingActive;
         carInputManager.IsSelfDrivingActive = !carInputManager.IsSelfDrivingActive;
     }
-    
+
     private void CalculateThrottleAndBrake(float currentSpeed)
     {
         // Calculate desired speed based on path curvature
         float pathCurvature = CalculatePathCurvature(transform.position, pathPoints.ElementAt(1), pathPoints.ElementAt(2));
         float desiredSpeed = CalculateDesiredSpeedForCurvature(pathCurvature);
         Debug.Log($"Desired Speed {desiredSpeed}");
-    
+
         float speedError = desiredSpeed - currentSpeed;
-    
+
         // Separate throttle and brake logic
         if (speedError > 0.5f) // Need to accelerate
         {
@@ -195,7 +207,7 @@ public class SelfDrivingManager : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        
+
         if(!Application.isPlaying || !showGizmos) return;
         Handles.color = Color.red;
         Handles.SphereHandleCap(0,transform.position, transform.rotation, 0.1f, EventType.Repaint);
@@ -224,13 +236,13 @@ public class SelfDrivingManager : MonoBehaviour
 
         Debug.DrawLine(transform.position, transform.position + transform.forward * 5f, Color.red);
         Debug.DrawLine(transform.position, transform.position + directionToTarget.normalized * 10f, Color.green);
-        
+
         Handles.color = Color.red;
         Handles.SphereHandleCap(0, pathPoints.ElementAt(0), Quaternion.identity, 0.8f, EventType.Repaint);
-        
+
         Handles.color = Color.green;
         Handles.SphereHandleCap(0, pathPoints.ElementAt(1), Quaternion.identity, 0.8f, EventType.Repaint);
-        
+
         Handles.color = Color.blue;
         Handles.SphereHandleCap(0, pathPoints.ElementAt(2), Quaternion.identity, 0.8f, EventType.Repaint);
     }
