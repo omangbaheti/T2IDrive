@@ -12,7 +12,7 @@ public class ViconXRIMerger : MonoBehaviour
     [SerializeField] private Transform viconToUnityOrigin;
     [SerializeField] private List<ViconAndUnityObjectContainer> viconToUnityObjects = new();
     [SerializeField] private bool showGizmos = false;
-    
+
     [Button]
     public void Merge()
     {
@@ -38,7 +38,8 @@ public class ViconXRIMerger : MonoBehaviour
         }
         else
         {
-            offsetTransform.localRotation = Quaternion.Euler(0, -viconToUnityOrigin.rotation.eulerAngles.y, 0);
+            offsetTransform.localRotation = Quaternion.Euler(0, -viconOrigin.rotation.eulerAngles.y, 0);
+            Debug.Log("Angle:" + viconOrigin.rotation.eulerAngles.y);
         }
         Vector3 localXRPosRelToParent = viconToUnityOrigin.InverseTransformPoint(unityObject.position);
         Vector3 localViconPosRelToParent = viconOrigin.InverseTransformPoint(viconObject.position);
