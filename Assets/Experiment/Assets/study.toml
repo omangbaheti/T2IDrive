@@ -1,5 +1,5 @@
 [configuration]
-order = [["Index-OnWheel","Index-OnWheel","Index-OnWheel","Index-OnWheel"],["Index-OffWheel","Index-OffWheel","Index-OffWheel","Index-OffWheel"]]
+order = [["Index-OnWheel","Index-OnWheel","Index-OnWheel","Index-OnWheel","Index-OnWheel","Index-OnWheel","Index-OnWheel","Index-OnWheel"],["Index-OffWheel","Index-OffWheel","Index-OffWheel","Index-OffWheel","Index-OffWheel","Index-OffWheel","Index-OffWheel","Index-OffWheel"]]
 # - "latin_square": Apply latin square to balance the values.
 # - "randomize": For each participant randomize the order of the values in the array.
 # - "as_is": Use the order of the values as specified.
@@ -22,12 +22,14 @@ Mobility=""
 
 [[blocks]]
 name = "Index-OnWheel"
+extends = "Default-Empty"
 [blocks.config]
 FingerType="Index"
 Mobility="OnWheel"
 
 [[blocks]]
 name = "Index-OffWheel"
+extends = "Default-Empty"
 [blocks.config]
 FingerType="Index"
 Mobility="OffWheel"
