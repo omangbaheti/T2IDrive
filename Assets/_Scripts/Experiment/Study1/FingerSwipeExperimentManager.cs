@@ -252,6 +252,7 @@ namespace Experiment
                     ExperimentHandler handler = (ExperimentHandler)swipeAction;
                     handler.OnSwipeCompleted.RemoveListener(HandleTrial);
                 }
+                trialManager["Index"].SetUIActive(false);
             }
 
         }

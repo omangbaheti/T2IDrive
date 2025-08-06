@@ -9,6 +9,7 @@ using UnityEngine;
 using XRUtils = Unity.XR.CoreUtils.Collections;
 
 using Unity.XR.CoreUtils.Collections;
+using UnityEngine.Rendering;
 using UnityEngine.Serialization;
 using UXF;
 
@@ -24,10 +25,11 @@ public class TrialManager : MonoBehaviour, IHPUICanvasUIManager
 
     public HPUIMultiFingerCanvas HPUICanvas { get; set; }
     public List<MicrogestureAction> gestureActions = new();
-    public Dictionary<Vector2Int, GameObject> layer1UIElements = new();
-
+    public SerializedDictionary<Vector2Int, GameObject> layer1UIStartRegions = new();
+    public SerializedDictionary<Vector2Int, GameObject> layer1UIEndRegions = new();
+    [SerializeField] public Color startRegionColor = Color.blue;
+    [SerializeField] public Color endRegionColor = Color.red;
     [SerializeField] public GameObject BlueButton;
-    [SerializeField] public GameObject RedButton;
     [SerializeField] XRUtils.SerializableDictionary<Vector2Int?, HPUICanvasRegion> hpuiRegions = new();
     [SerializeField] private GestureLayoutSetup gestureLayout;
     [SerializeField] private TextMeshProUGUI debugText;
@@ -39,13 +41,13 @@ public class TrialManager : MonoBehaviour, IHPUICanvasUIManager
     private List<float> xDivisions = new();
     private List<float> yDivisions = new();
     private HPUIInteractableCanvasTracker hpuiInteractableCanvasTracker;
-    private Vector2Int startRegion;
+    [SerializeField] private Vector2Int startRegion;
     private Vector2Int currentRegion;
-    private Vector2Int endRegion;
+    [SerializeField] private Vector2Int endRegion;
     private bool startedCorrectly = false;
     private FingerSwipeExperimentManager expManager;
-    
-    
+
+
 
     private void OnEnable()
     {
@@ -97,7 +99,8 @@ public class TrialManager : MonoBehaviour, IHPUICanvasUIManager
                 hpuiRegion.ID = new Vector2Int(i, j);
                 hpuiRegion.basePoint = new Vector2(xDivisions[i], yDivisions[j]);
                 hpuiRegion.area = new Vector2(xDivisions[i+1] - xDivisions[i], yDivisions[j+1] - yDivisions[j]);
-                hpuiRegion.UIVisual = RedButton;
+                hpuiRegion.StartRegionVisual = BlueButton;
+                hpuiRegion.EndRegionVisual = BlueButton;
                 hpuiRegions.Add(new Vector2Int(i,j), hpuiRegion);
             }
         }
@@ -120,20 +123,37 @@ public class TrialManager : MonoBehaviour, IHPUICanvasUIManager
     {
         foreach (MicrogestureAction action in gestureActions)
         {
-            if (layer1UIElements.ContainsKey(action.startRegion))
+            // Handle start region
+            if (!layer1UIStartRegions.ContainsKey(action.startRegion))
             {
-                continue;
+                HPUICanvasRegion startRegion = hpuiRegions[action.startRegion];
+                Vector2 startCenterPoint = startRegion.basePoint + startRegion.area / 2f + startRegion.centreOffset;
+                Vector2Int startCentreIndex = HPUICanvasComponentUtils.CalculateColliderIndex(startCenterPoint, HPUICanvas);
+                Debug.Log("Start Centre Index: " + startCentreIndex);
+                Transform startRegionCentre = HPUICanvas.coordsToCollider[startCentreIndex].transform;
+                GameObject startUI = Instantiate(BlueButton, startRegionCentre.position, Quaternion.identity, startRegionCentre);
+                startUI.name = "BlueButtonStartRegion";
+                startUI.transform.localPosition = new Vector3(0, 50f, 0);
+                startUI.transform.localRotation = Quaternion.Euler(90, 90, 0);
+                layer1UIStartRegions.Add(action.startRegion, startUI);
+                startUI.SetActive(false);
             }
-            HPUICanvasRegion region = hpuiRegions[action.startRegion];
-            Vector2 regionCenterPoint = region.basePoint + region.area/2f + region.centreOffset;
-            Vector2Int centreIndex = HPUICanvasComponentUtils.CalculateColliderIndex(regionCenterPoint, HPUICanvas);
-            Debug.Log("Centre Index;" + centreIndex);
-            Transform regionCentre = HPUICanvas.coordsToCollider[centreIndex].transform;
-            GameObject UI = Instantiate(BlueButton, regionCentre.position, Quaternion.identity, regionCentre);
-            UI.transform.localPosition = new Vector3(0,50f,0);
-            UI.transform.localRotation = Quaternion.Euler(90,90,0);
-            layer1UIElements.Add(action.startRegion, UI);
-            UI.SetActive(false);
+
+            // Handle end region
+            if (!layer1UIEndRegions.ContainsKey(action.endRegion))
+            {
+                HPUICanvasRegion endRegion = hpuiRegions[action.endRegion];
+                Vector2 endCenterPoint = endRegion.basePoint + endRegion.area / 2f + endRegion.centreOffset;
+                Vector2Int endCentreIndex = HPUICanvasComponentUtils.CalculateColliderIndex(endCenterPoint, HPUICanvas);
+                Debug.Log("End Centre Index: " + endCentreIndex);
+                Transform endRegionCentre = HPUICanvas.coordsToCollider[endCentreIndex].transform;
+                GameObject endUI = Instantiate(BlueButton, endRegionCentre.position, Quaternion.identity, endRegionCentre);
+                endUI.name = "EndRegion";
+                endUI.transform.localPosition = new Vector3(0, 50f, 0);
+                endUI.transform.localRotation = Quaternion.Euler(90, 90, 0);
+                layer1UIEndRegions.Add(action.endRegion, endUI);
+                endUI.SetActive(false);
+            }
         }
     }
 
@@ -199,12 +219,6 @@ public class TrialManager : MonoBehaviour, IHPUICanvasUIManager
                     canvasArgs.SwipeEndRegion = endRegion;
                     hpuiInteractableCanvasTracker.RecordRow(gestureArgs, canvasArgs);
                     Session.instance.CurrentTrial.settings.SetValue(StudyLogs.GestureEndRegion, StudyLogs.VectorToRegionDict[canvasArgs.SwipeEndRegion.Value]);
-                    // Session.instance.CurrentTrial.settings.SetValue(StudyLogs.CumulativeDistance, thumbPositionTracker.CumulativeDistance);
-                      // Session.instance.CurrentTrial.settings.SetValue(StudyLogs.NetThumbDisplacement, thumbPositionTracker.NetDisplacement);
-                    // string currentFinger = Session.instance.CurrentTrial.settings.GetString(StudyLogs.FingerType);
-
-                    // Session.instance.CurrentTrial.settings.SetValue(StudyLogs.CumulativeDistanceNormalised, thumbPositionTracker.CumulativeDistance / expManager.FingerLengths[currentFinger]);
-                    // Session.instance.CurrentTrial.settings.SetValue(StudyLogs.NetDisplacementNormalised, thumbPositionTracker.NetDisplacement / expManager.FingerLengths[currentFinger]);
                     hpuiRegions[startRegion].OnGestureEnded(canvasArgs);
                     foreach (KeyValuePair<Vector2Int?, HPUICanvasRegion> region in hpuiRegions)
                     {
@@ -232,14 +246,42 @@ public class TrialManager : MonoBehaviour, IHPUICanvasUIManager
     {
         FingerRegions currentTrialStartRegion = (FingerRegions) trial.settings.GetObject(StudyLogs.StartRegion);
         Vector2Int startRegionIndex = StudyLogs.RegionToVectorDict[currentTrialStartRegion];
-        layer1UIElements[startRegionIndex].gameObject.SetActive(true);
+        GameObject startRegionButton = layer1UIStartRegions[startRegionIndex].transform.GetChild(0).gameObject;
+        startRegionButton.transform.parent.gameObject.SetActive(true);
+        startRegionButton.transform.parent.GetComponent<TextMeshPro>().text = "1";
+        startRegionButton.GetComponent<HotSwapColor>().SetColor(startRegionColor);
+
+        FingerRegions currentTrialEndRegion = (FingerRegions) trial.settings.GetObject(StudyLogs.EndRegion);
+        Vector2Int endRegionIndex = StudyLogs.RegionToVectorDict[currentTrialEndRegion];
+        GameObject endRegionButton = layer1UIEndRegions[endRegionIndex].transform.GetChild(0).gameObject;
+        endRegionButton.transform.parent.gameObject.SetActive(true);
+        if (currentTrialEndRegion == currentTrialStartRegion)
+        {
+
+            endRegionButton.transform.parent.GetComponent<TextMeshPro>().text = "1";
+            endRegionButton.GetComponent<HotSwapColor>().SetColor(startRegionColor);
+        }
+        else
+        {
+            endRegionButton.transform.parent.GetComponent<TextMeshPro>().text = "2";
+            endRegionButton.GetComponent<HotSwapColor>().SetColor(endRegionColor);
+        }
     }
 
     public virtual void SetUIActive(bool active)
     {
-        foreach (KeyValuePair<Vector2Int, GameObject> uiElement in layer1UIElements)
+        foreach (KeyValuePair<Vector2Int, GameObject> uiElement in layer1UIStartRegions)
         {
             uiElement.Value.SetActive(active);
+        }
+        foreach (KeyValuePair<Vector2Int, GameObject> uiElement in layer1UIEndRegions)
+        {
+            uiElement.Value.SetActive(active);
+        }
+
+        foreach (KeyValuePair<Vector2Int?, HPUICanvasRegion> region in hpuiRegions)
+        {
+            region.Value.DisableUI();
         }
     }
 
@@ -263,13 +305,7 @@ public class TrialManager : MonoBehaviour, IHPUICanvasUIManager
                 break;
             }
         }
-
+        Debug.Log($" >>>> Current Region: {regionX}, {regionY}");
         return new Vector2Int(regionX, regionY);
     }
-
-
 }
-
-
-
-
