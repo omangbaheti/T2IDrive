@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 3320973904843290395}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0, z: 20}
+  m_LocalPosition: {x: -1, y: -0, z: 20}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -65,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 325b3e9a414582244b6d05e51c722a63, type: 2}
+  - {fileID: 2100000, guid: 4b21706599ca2e444814403774442c08, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebd3be72d125e634095545e77923b468, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: {r: 0, g: 0, b: 1, a: 1}
+  color: {r: 0, g: 0, b: 0.6075471, a: 1}
   hasEmission: 0
   emissionColor: {r: 0, g: 0, b: 0, a: 0}
   emissionIntensity: 0
@@ -272,7 +272,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0.034903526, y: 0, z: 0, w: 0}
+  m_margin: {x: -0.971256, y: 0, z: 0.8663541, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   _SortingLayer: 0
