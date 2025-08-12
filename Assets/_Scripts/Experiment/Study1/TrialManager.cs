@@ -37,7 +37,7 @@ public class TrialManager : MonoBehaviour, IHPUICanvasUIManager
     private Vector2 centrePoint;
     private Vector2 area;
     private Vector2 basePoint;
-    private Vector2 centreOffset;
+    [SerializeField] private Vector2 centreOffset;
     private List<float> xDivisions = new();
     private List<float> yDivisions = new();
     private HPUIInteractableCanvasTracker hpuiInteractableCanvasTracker;
@@ -84,9 +84,10 @@ public class TrialManager : MonoBehaviour, IHPUICanvasUIManager
             xDivisions.Add(division * HPUICanvas.MaxBounds.x);
         }
 
+        var maxBounds = HPUICanvas.MaxBounds.y-0.15f;
         foreach (float division in gestureLayout.yDivisions)
         {
-            yDivisions.Add(division * HPUICanvas.MaxBounds.y);
+            yDivisions.Add(division * maxBounds);
         }
 
         gestureActions = gestureLayout.microGestureActions;
@@ -101,6 +102,7 @@ public class TrialManager : MonoBehaviour, IHPUICanvasUIManager
                 hpuiRegion.area = new Vector2(xDivisions[i+1] - xDivisions[i], yDivisions[j+1] - yDivisions[j]);
                 hpuiRegion.StartRegionVisual = BlueButton;
                 hpuiRegion.EndRegionVisual = BlueButton;
+                hpuiRegion.centreOffset = centreOffset;
                 hpuiRegions.Add(new Vector2Int(i,j), hpuiRegion);
             }
         }
@@ -180,7 +182,9 @@ public class TrialManager : MonoBehaviour, IHPUICanvasUIManager
                 Debug.Log($"Starting region {startRegion} : Target Region {trialStartRegion}");
                 startedCorrectly = StudyLogs.RegionToVectorDict[trialStartRegion] == startRegion;
                 SetUIActive(false);
+
                 hpuiRegions[startRegion].OnGestureStarted(canvasArgs);
+
                 Session.instance.CurrentTrial.settings.SetValue(StudyLogs.GestureStartRegion, StudyLogs.VectorToRegionDict[canvasArgs.SwipeStartRegion.Value]);
                 hpuiInteractableCanvasTracker.RecordRow(gestureArgs, canvasArgs);
                 break;
@@ -220,6 +224,7 @@ public class TrialManager : MonoBehaviour, IHPUICanvasUIManager
                     hpuiInteractableCanvasTracker.RecordRow(gestureArgs, canvasArgs);
                     Session.instance.CurrentTrial.settings.SetValue(StudyLogs.GestureEndRegion, StudyLogs.VectorToRegionDict[canvasArgs.SwipeEndRegion.Value]);
                     hpuiRegions[startRegion].OnGestureEnded(canvasArgs);
+                    // hpuiRegions[startRegion].OnGestureOnGoing(canvasArgs);
                     foreach (KeyValuePair<Vector2Int?, HPUICanvasRegion> region in hpuiRegions)
                     {
                         region.Value.DisableUI();
@@ -304,6 +309,11 @@ public class TrialManager : MonoBehaviour, IHPUICanvasUIManager
                 regionY = j;
                 break;
             }
+        }
+
+        if (regionX == -1 || regionY == -1)
+        {
+            return new Vector2Int(0, 0);
         }
         Debug.Log($" >>>> Current Region: {regionX}, {regionY}");
         return new Vector2Int(regionX, regionY);

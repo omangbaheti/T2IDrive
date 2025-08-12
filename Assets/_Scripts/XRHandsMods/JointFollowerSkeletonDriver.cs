@@ -10,6 +10,7 @@ using UnityEngine.XR.Hands;
 public class JointFollowerSkeletonDriver : HandSubsystemSubscriber
 {
     public Dictionary<XRHandJointID, JointFollowerDatumProperty> JointFollowerData { get => jointFollowerData; set => jointFollowerData = value; }
+    public SerializedDictionary<XRHandJointID, Transform> HandJoints { get => handJoints;}
     public override Handedness Handedness { get => handedness; set => handedness = value; }
 
     [SerializeField] private SerializedDictionary<XRHandJointID, Transform> handJoints;
@@ -65,7 +66,7 @@ public class JointFollowerSkeletonDriver : HandSubsystemSubscriber
             { XRHandJointID.ThumbProximal, "R1D2" },
             { XRHandJointID.ThumbDistal , "R1D3" },
             { XRHandJointID.ThumbTip , "R1D4" },
-            
+
             { XRHandJointID.IndexProximal, "R2D1"},
             { XRHandJointID.IndexIntermediate, "R2D2" },
             { XRHandJointID.IndexDistal, "R2D3" },
@@ -87,7 +88,7 @@ public class JointFollowerSkeletonDriver : HandSubsystemSubscriber
             { XRHandJointID.LittleTip , "R5D4" }
         };
         handJoints.Clear();
-        
+
         foreach (KeyValuePair<XRHandJointID,string> pair in skeletonTransformNamePair)
         {
             XRHandJointID jointID = pair.Key;
@@ -95,7 +96,7 @@ public class JointFollowerSkeletonDriver : HandSubsystemSubscriber
             handJoints.Add(jointID, boneTransform);
         }
     }
-        
+
     public GameObject FindChildByName(GameObject parent, string childName)
     {
         // If the parent GameObject matches the name, return it
@@ -118,7 +119,7 @@ public class JointFollowerSkeletonDriver : HandSubsystemSubscriber
         return null;
     }
 
-    protected override void ProcessJointData(XRHandSubsystem subsystem, XRHandSubsystem.UpdateSuccessFlags updateSuccessFlags)
+    protected override void ProcessJointData(XRHandSubsystem subsystem, XRHandSubsystem.UpdateSuccessFlags updateSuccessFlags )
     {
         XRHand hand;
         if (handedness == Handedness.Invalid)
