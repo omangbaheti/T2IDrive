@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 105894e3f052447a9ac26a82866a42cd, type: 3}
   m_Name: MainHandProperties
   m_EditorClassIdentifier: 
-  baseNormalOffset: 0.01
-  indexNormalOffset: 50
-  middleNormalOffset: -100
-  ringNormalOffset: -100
-  littleNormalOffset: -100
-  thumbNormalOffset: -100
+  baseNormalOffset: 0.005
+  indexNormalOffset: 0
+  middleNormalOffset: 0
+  ringNormalOffset: 0
+  littleNormalOffset: 0
+  thumbNormalOffset: 0
