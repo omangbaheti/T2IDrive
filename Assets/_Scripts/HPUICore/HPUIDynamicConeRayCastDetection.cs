@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ubco.ovilab.HPUI.utils;
 using Unity.XR.CoreUtils;
 using UnityEditor;
 using UnityEngine;
@@ -17,18 +18,23 @@ namespace ubco.ovilab.HPUI.Interaction
         [Tooltip("The HPUIInteractorConeRayAngles asset to use when using cone")]
         private HPUIDynamicConeRayData coneRayData;
         private HPUIInteractorFullRangeAngles fullRangeRayAngles;
-        private ClosestFingerData closestFingerData;
+        private TargetDirectionEstimator _targetDirectionEstimator;
 
         [SerializeField] private XRHandTrackingEvents _xrHandTrackingEvents;
         [SerializeField] private Transform XROrigin;
 
-        [SerializeField] float radiusA = 0.025f;
-        [SerializeField] float radiusB = 0.015f;
-        [SerializeField] float radiusC = 0.02f;
-        [SerializeField] float scalingFactor = 1.2f;
-        [SerializeField] private float rotationAngle = -20f;
-        [SerializeField] private float tiltRotation = 0f;
-        [SerializeField] private JointFollowerSkeletonDriver jointFollowerSkeletonDriver;
+        [SerializeReference, SubclassSelector] private IHPUIRaySubSampler coneType;
+
+        [Header("Dynamic Cone Properties")]
+        [SerializeField] [Tooltip("Rotates the target vector orientation along the vector formed between the closest two XRI bones")]
+        private float rotationAngle = 0;
+        [SerializeField] [Tooltip("Rotates the target vector orientation perpendicular to the vector formed between the closest two XRI bones")]
+        private float tiltRotation = 20f;
+        [SerializeField] [Tooltip("The bias for the cone to deviate towards proximal or tip. Higher Sensitivity gives less resolution in the middle parts of the finger. Lower sensitivity gives less resolution in the extremities")]
+        private float sensitivity = 2f;
+
+        // [SerializeField] private JointFollowerSkeletonDriver jointFollowerSkeletonDriver;
+        [SerializeField] private bool visualiseEllipsoid = true;
         public HPUIDynamicConeRayCastDetectionLogic()
         {
 
@@ -40,9 +46,9 @@ namespace ubco.ovilab.HPUI.Interaction
         {
             bool failed = false;
 
-            if (closestFingerData == null)
+            if (_targetDirectionEstimator == null)
             {
-                closestFingerData = new ClosestFingerData(_xrHandTrackingEvents, XROrigin, rotationAngle);
+                _targetDirectionEstimator = new TargetDirectionEstimator(_xrHandTrackingEvents, XROrigin);
             }
 
             if (_xrHandTrackingEvents == null || XROrigin == null)
@@ -52,82 +58,22 @@ namespace ubco.ovilab.HPUI.Interaction
                 return;
             }
 
-            closestFingerData.Estimate( jointFollowerSkeletonDriver,rotationAngle,tiltRotation, out XRHandFingerID? closestFingerID, out XRHandJointID closestJoint, out Vector3 vectorToFingerTip, out Vector3 vectorToFingerProximal, out Vector3 targetDirection, out Vector3 thumbPos);
-            float totalDistance = vectorToFingerTip.magnitude + vectorToFingerProximal.magnitude;
-            // float tipWeight = vectorToFingerProximal.magnitude / totalDistance;
-            float proximalWeight = vectorToFingerTip.magnitude / totalDistance;
-            Debug.Log($"Proximal weight: {vectorToFingerTip.magnitude} / {totalDistance}");
-            float scale = Mathf.Lerp(1, scalingFactor, proximalWeight);
-            Debug.Log("Scaling Factor" + scale);
+            _targetDirectionEstimator.Estimate(rotationAngle, tiltRotation, sensitivity, out HandJointEstimatedData estimatedData);
+
             Transform interactorObject = interactor.transform;
-            List<HPUIInteractorRayAngle> angles = EllipsoidSampler(interactorObject, targetDirection, 5, radiusA*scale, radiusB*scale, radiusC*scale);
-            Debug.DrawRay(interactor.transform.position, targetDirection, Color.magenta);
+            List<HPUIInteractorRayAngle> angles = coneType.SampleRays(interactorObject, estimatedData);
+            Debug.DrawRay(interactor.transform.position, estimatedData.TargetDirection, Color.magenta);
             Process(interactor, interactionManager, angles, validTargets, out hoverEndPoint);
         }
 
-        public List<HPUIInteractorRayAngle> EllipsoidSampler(Transform interactorObject, Vector3 targetDirection, int angleStep, float a, float b, float c)
-        {
-            List<HPUIInteractorRayAngle> allAngles = new();
-
-            float numberOfSamples = Mathf.Pow(360f / angleStep, 2);
-            float phi = Mathf.PI * (Mathf.Sqrt(5f) - 1f);
-
-            // Your cone limit in degrees
-            float maxAngleDeg = 30f; // example
-            float cosMaxAngle = Mathf.Cos(maxAngleDeg * Mathf.Deg2Rad);
-
-            // Direction from ellipsoid center you want rays near
-            Vector3 targetDir = targetDirection.normalized;
-            Vector3 localTargetDir = interactorObject.InverseTransformDirection(targetDir).normalized;
-            Quaternion rotationToTarget = Quaternion.FromToRotation(Vector3.forward, localTargetDir);
-            for (int i = 0; i < numberOfSamples; i++)
-            {
-                float y = 1f - (i / (numberOfSamples - 1f)) * 2f;
-                float radius = Mathf.Sqrt(1f - y * y);
-
-                float theta = phi * i;
-
-                float x = Mathf.Cos(theta) * radius;
-                float z = Mathf.Sin(theta) * radius;
-                Vector3 spherePoint = new Vector3(x, y, z);
-
-
-
-                // Rotate point so cone is aligned to targetDir
-                Vector3 rotatedDir = rotationToTarget * spherePoint;
-
-                // Stretch to ellipsoid dimensions
-                Vector3 ellipsoidPoint = new Vector3(rotatedDir.x * a, rotatedDir.y * b, rotatedDir.z * c);
-
-                // Debug.DrawLine(
-                //     interactorObject.position,
-                //     interactorObject.position + interactorObject.TransformDirection(ellipsoidPoint),
-                //     Color.yellow
-                // );
-
-                if (Vector3.Dot(Vector3.forward, spherePoint.normalized) < cosMaxAngle)
-                    continue;
-
-                // Angles + distance
-                float xAngle = Vector3.Angle(Vector3.up, new Vector3(0f, ellipsoidPoint.y, ellipsoidPoint.z)) * (ellipsoidPoint.z < 0f ? -1f : 1f);
-                float zAngle = Vector3.Angle(Vector3.up, new Vector3(ellipsoidPoint.x, ellipsoidPoint.y, 0f)) * (ellipsoidPoint.x < 0f ? -1f : 1f);
-                float distance = ellipsoidPoint.magnitude;
-
-                allAngles.Add(new HPUIInteractorRayAngle(xAngle, zAngle, distance));
-
-            }
-
-            return allAngles;
-        }
-
-        public void Reset(){ }
-
-        public void Dispose(){ }
+        // public void Reset(){ }
+        //
+        // public void Dispose(){ }
 
     }
 
     [Serializable]
-    public class ClosestFingerData : IDisposable
+    public class TargetDirectionEstimator : IDisposable
     {
         public XRHandTrackingEvents XRHandTrackingEvents
         {
@@ -164,16 +110,6 @@ namespace ubco.ovilab.HPUI.Interaction
             XRHandJointID.RingProximal, XRHandJointID.RingIntermediate, XRHandJointID.RingDistal, XRHandJointID.RingTip,
             XRHandJointID.LittleProximal, XRHandJointID.LittleIntermediate, XRHandJointID.LittleDistal, XRHandJointID.LittleTip,
             XRHandJointID.ThumbDistal, XRHandJointID.ThumbTip
-        };
-
-
-        private List<XRHandJointID> impJoints = new List<XRHandJointID>()
-        {
-            XRHandJointID.IndexProximal, XRHandJointID.IndexDistal,
-            XRHandJointID.MiddleProximal,  XRHandJointID.MiddleDistal,
-            XRHandJointID.RingProximal,  XRHandJointID.RingDistal,
-            XRHandJointID.LittleProximal,  XRHandJointID.LittleDistal,
-            XRHandJointID.ThumbTip
         };
 
         private Dictionary<XRHandJointID, XRHandJointID> trackedJointsToSegment = new ()
@@ -231,7 +167,7 @@ namespace ubco.ovilab.HPUI.Interaction
         private bool receivedNewJointData;
         private GameObject tipViz;
         private GameObject proximalViz;
-        public ClosestFingerData(XRHandTrackingEvents handTrackingEvents, Transform _xrOriginTransform, float _rotationAngle)
+        public TargetDirectionEstimator(XRHandTrackingEvents handTrackingEvents, Transform _xrOriginTransform)
         {
             this.XRHandTrackingEvents = handTrackingEvents;
             xrOriginTransform = _xrOriginTransform;
@@ -267,115 +203,75 @@ namespace ubco.ovilab.HPUI.Interaction
             }
         }
 
-        public void Estimate(JointFollowerSkeletonDriver skeletonDriver, float flatRotation, float tiltRotation,  out XRHandFingerID? _closestFinger, out XRHandJointID _closestJoint, out Vector3 vectorToFingerTip, out Vector3 vectorToFingerProximal, out Vector3 targetDirection, out Vector3 thumbMidPoint)
+        public void Estimate(float flatRotation, float tiltRotation, float sensitivity, out HandJointEstimatedData  estimatedData)
         {
-            _closestFinger = null;
-            _closestJoint = XRHandJointID.BeginMarker;
-            float angleToFingerTip = float.MinValue;
-            float angleToFingerProximal = float.MinValue;
-            vectorToFingerTip = Vector3.negativeInfinity;
-            vectorToFingerProximal = Vector3.negativeInfinity;
-            thumbMidPoint = Vector3.negativeInfinity;
-            targetDirection = Vector3.negativeInfinity;
-            if (receivedNewJointData)
+
+            XRHandFingerID? _closestFinger = null;
+            var _closestJoint = XRHandJointID.BeginMarker;
+            Vector3 vectorToFingerTip = Vector3.negativeInfinity;
+            Vector3 vectorToFingerProximal = Vector3.negativeInfinity;
+            Vector3 targetDirection = Vector3.negativeInfinity;
+            Vector3 thumbReferencePoint = Vector3.negativeInfinity;
+            estimatedData = new (_closestFinger, _closestJoint, vectorToFingerTip, vectorToFingerProximal,0, targetDirection, thumbReferencePoint);
+
+            if (!receivedNewJointData) return;
+
+            receivedNewJointData = false;
+            Vector3 thumbTipPos = jointLocations[XRHandJointID.ThumbTip].position;
+            float shortestDistance = float.MaxValue;
+            foreach (KeyValuePair<XRHandJointID, XRHandJointID> kvp in trackedJointsToSegment)
             {
-                receivedNewJointData = false;
-                Vector3 thumbTipPos = skeletonDriver.HandJoints[XRHandJointID.ThumbTip].position;
-                Vector3 toClosestPoint = skeletonDriver.HandJoints[XRHandJointID.ThumbTip].forward;
-                float shortestDistance = float.MaxValue;
-                foreach (KeyValuePair<XRHandJointID, XRHandJointID> kvp in trackedJointsToSegment)
+                Vector3 baseVector = jointLocations[kvp.Key].position;
+                Vector3 segmentVector = jointLocations[kvp.Value].position - baseVector;
+                Vector3 toTipVector = thumbTipPos - segmentVector;
+                float distanceOnSegmentVector = Mathf.Clamp(Vector3.Dot(toTipVector, segmentVector.normalized), 0, segmentVector.magnitude);
+                Vector3 closestPoint = distanceOnSegmentVector * segmentVector.normalized + baseVector;
+                Vector3 currentToClosestPoint = (closestPoint - thumbTipPos);
+                float distance = currentToClosestPoint.sqrMagnitude;
+                if (distance < shortestDistance)
                 {
-                    Vector3 baseVector = jointLocations[kvp.Key].position;
-                    Vector3 segmentVector = jointLocations[kvp.Value].position - baseVector;
-                    Vector3 toTipVector = thumbTipPos - segmentVector;
-                    float distanceOnSegmentVector = Mathf.Clamp(Vector3.Dot(toTipVector, segmentVector.normalized), 0, segmentVector.magnitude);
-                    Vector3 closestPoint = distanceOnSegmentVector * segmentVector.normalized + baseVector;
-                    Vector3 currentToClosestPoint = (closestPoint - thumbTipPos);
-                    float distance = currentToClosestPoint.sqrMagnitude;
-                    if (distance < shortestDistance)
-                    {
-                        toClosestPoint = currentToClosestPoint;
-                        shortestDistance = distance;
-                        _closestJoint = kvp.Key;
-                    }
+                    shortestDistance = distance;
+                    _closestJoint = kvp.Key;
                 }
-
-                _closestFinger = jointToFinger[_closestJoint];
-                (XRHandJointID start, XRHandJointID end) fingerExtremities = fingerToJointsExtremities[_closestFinger];
-                // Debug.Log($"=== Closest Finger{_closestFinger.Value.ToString()} ===");
-
-                Vector3 thumbToTipVector = Vector3.zero;
-                Vector3 thumbToProximalVector = Vector3.zero;
-                vectorToFingerTip = thumbToTipVector;
-                vectorToFingerProximal = thumbToProximalVector;
-                XRHandJointID thumbTip = XRHandJointID.ThumbTip;
-                XRHandJointID thumbDistal = XRHandJointID.ThumbDistal;
-                thumbMidPoint = thumbTipPos;
-
-                {
-                    XRHandJointID fingerTipID = trackedJointsToSegment[fingerExtremities.start];
-                    Vector3 fingerTipPos =   skeletonDriver.HandJoints[fingerTipID].position;
-                    Vector3 distalPos = skeletonDriver.HandJoints[fingerExtremities.start].position;
-                    // Offset the fingertip position along the segment vector
-                    Vector3 segmentVector = distalPos - fingerTipPos;
-                    thumbToTipVector = fingerTipPos  - thumbMidPoint;
-                    vectorToFingerTip = thumbToTipVector;
-                    float distanceOnSegmentVector = Mathf.Clamp(Vector3.Dot(thumbToTipVector, segmentVector.normalized), 0, segmentVector.magnitude);
-                    Vector3 closestPoint = distanceOnSegmentVector * segmentVector.normalized + fingerTipPos;
-                    Vector3 currentToClosestPoint = (closestPoint - thumbMidPoint);
-                    angleToFingerTip = Vector3.Dot(-jointLocations[fingerExtremities.start].right.normalized, thumbToTipVector.normalized);
-                    Debug.DrawLine(fingerTipPos, distalPos, Color.red);
-                    Debug.DrawRay(thumbMidPoint, thumbToTipVector, Color.blue);
-                    // Debug.DrawLine(closestPoint, thumbTipPos, Color.green);
-                    tipViz.transform.position = fingerTipPos;
-                    tipViz.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
-                }
-
-                {
-                    XRHandJointID intermediateID = trackedJointsToSegment[fingerExtremities.end];
-                    Vector3 fingerProximalPos = skeletonDriver.HandJoints[fingerExtremities.end].position;
-                    Vector3 intermediatePos = skeletonDriver.HandJoints[intermediateID].position;
-                    Vector3 segmentVector = intermediatePos - fingerProximalPos;
-                    thumbToProximalVector = fingerProximalPos - thumbMidPoint;
-                    vectorToFingerProximal = thumbToProximalVector;
-                    float distanceOnSegmentVector = Mathf.Clamp(Vector3.Dot(thumbToProximalVector, segmentVector.normalized), 0, segmentVector.magnitude);
-                    Vector3 closestPoint = distanceOnSegmentVector * segmentVector.normalized + fingerProximalPos;
-                    Vector3 currentToClosestPoint = (closestPoint - thumbMidPoint);
-                    angleToFingerProximal = Vector3.Dot(-jointLocations[fingerExtremities.end].right.normalized, thumbToProximalVector.normalized);
-                    Debug.DrawLine(fingerProximalPos, intermediatePos, Color.red);
-                    Debug.DrawRay(thumbMidPoint, thumbToProximalVector, Color.blue);
-                    // Debug.DrawLine(closestPoint, thumbTipPos, Color.green);
-                    proximalViz.transform.position = fingerProximalPos;
-                    proximalViz.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
-                }
-                Debug.Log($"angleToFingerTip: {Mathf.Acos(angleToFingerTip) *  Mathf.Rad2Deg} -> angleToFingerProximal {Mathf.Acos(angleToFingerProximal) *  Mathf.Rad2Deg }");
-                Debug.Log($"DotToFingerTip: {angleToFingerTip} -> DotToFingerProximal {angleToFingerProximal}");
-                float totalDistance = vectorToFingerTip.magnitude + vectorToFingerProximal.magnitude;
-                float tipWeight = vectorToFingerProximal.magnitude * 1.5f / totalDistance;
-                float proximalWeight = vectorToFingerTip.magnitude * 1.5f/ totalDistance;
-                Debug.Log($"total{totalDistance}  tip{tipWeight}  proximal{proximalWeight}----");
-                targetDirection = (tipWeight * vectorToFingerTip + proximalWeight * vectorToFingerProximal);
-                // Calculate plane normal
-
-                Vector3 planeNormal = Vector3.Cross(vectorToFingerProximal, vectorToFingerTip).normalized;
-
-                // 1️⃣ Rotate ALONG the plane (spin flat)
-                targetDirection -= Vector3.Dot(targetDirection, planeNormal) * planeNormal; // project into plane
-                Quaternion alongPlaneRot = Quaternion.AngleAxis(-flatRotation, planeNormal);
-                targetDirection = alongPlaneRot * targetDirection;
-
-                // 2️⃣ Rotate PERPENDICULAR to the plane (tilt out)
-                Vector3 perpendicularAxis = Vector3.Cross(planeNormal, targetDirection).normalized;
-                Quaternion perpendicularRot = Quaternion.AngleAxis(tiltRotation, perpendicularAxis);
-                targetDirection = perpendicularRot * targetDirection;
-
-
-
-                // Rotate around plane normal (negative angle = clockwise)
-                // Debug.Log($"RotationAngle {rotationAngle}");
-                Debug.Log($"Target: {targetDirection}");
-                Debug.DrawRay(thumbMidPoint, targetDirection, Color.magenta);
             }
+
+            _closestFinger = jointToFinger[_closestJoint];
+            (XRHandJointID start, XRHandJointID end) fingerExtremities = fingerToJointsExtremities[_closestFinger];
+            XRHandJointID thumbDistal = XRHandJointID.ThumbDistal;
+            thumbReferencePoint = (thumbTipPos + jointLocations[thumbDistal].position)/2;
+
+
+            XRHandJointID fingerTipID = trackedJointsToSegment[fingerExtremities.start];
+            XRHandJointID distalID = fingerExtremities.start;
+            XRHandJointID intermediateID = trackedJointsToSegment[fingerExtremities.end];
+            XRHandJointID proximalID = fingerExtremities.end;
+
+            Vector3 fingerTipPos =   jointLocations[fingerTipID].position;
+            Vector3 distalPos = jointLocations[distalID].position;
+            Vector3 thumbToTipVector = fingerTipPos  - thumbReferencePoint;
+            vectorToFingerTip = thumbToTipVector;
+
+
+            Vector3 fingerProximalPos = jointLocations[proximalID].position;
+            Vector3 intermediatePos = jointLocations[intermediateID].position;
+            //Proximal is too far off. Getting a mid-point between proximal and intermediate
+            Vector3 targetPoint = (intermediatePos + fingerProximalPos)/2;
+            Vector3 thumbToProximalVector = targetPoint - thumbReferencePoint;
+            vectorToFingerProximal = thumbToProximalVector;
+
+            //debug visuals
+            Debug.DrawLine(fingerTipPos, distalPos, Color.red);
+            Debug.DrawRay(thumbReferencePoint, thumbToTipVector, Color.blue);
+            Debug.DrawLine(fingerProximalPos, intermediatePos, Color.red);
+            Debug.DrawRay(thumbReferencePoint, thumbToProximalVector, Color.blue);
+            tipViz.transform.position = fingerTipPos;
+            tipViz.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
+            proximalViz.transform.position = targetPoint;
+            proximalViz.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
+
+            estimatedData = new HandJointEstimatedData(_closestFinger, _closestJoint, vectorToFingerTip, vectorToFingerProximal, sensitivity, targetDirection, thumbReferencePoint);
+            targetDirection = estimatedData.GetTargetDirection(tiltRotation, flatRotation);
+            Debug.DrawRay(thumbReferencePoint, targetDirection, Color.magenta);
         }
 
         /// <inheritdoc />
@@ -384,5 +280,82 @@ namespace ubco.ovilab.HPUI.Interaction
             XRHandTrackingEvents.jointsUpdated.RemoveListener(UpdateJointsData);
         }
 
+    }
+
+    public class HandJointEstimatedData
+    {
+        public Vector3 TargetDirection => targetDirection;
+        public XRHandFingerID? _closestFinger;
+        public XRHandJointID _closestJoint;
+        public Vector3 vectorToFingerTip;
+        public Vector3 vectorToFingerProximal;
+        public Vector3 thumbReferencePoint;
+        private Vector3 targetDirection;
+        private float sensitivity;
+        public HandJointEstimatedData(XRHandFingerID? closestFinger, XRHandJointID closestJoint, Vector3 vectorToFingerTip, Vector3 vectorToFingerProximal, float sensitivity, Vector3 targetDirection, Vector3 thumbReferencePoint)
+        {
+            _closestFinger = closestFinger;
+            _closestJoint = closestJoint;
+            this.vectorToFingerTip = vectorToFingerTip;
+            this.vectorToFingerProximal = vectorToFingerProximal;
+            this.sensitivity = sensitivity;
+            this.thumbReferencePoint = thumbReferencePoint;
+        }
+
+        public bool IsDataValid()
+        {
+            return true;
+        }
+
+        public float GetTipWeight()
+        {
+            float distTip = vectorToFingerTip.magnitude;
+            float distProximal = vectorToFingerProximal.magnitude;
+            // Apply nonlinear falloff so small differences have less impact
+            float tipScore = Mathf.Pow(1f / (distTip + 0.000001f), sensitivity);
+            float proximalScore = Mathf.Pow(1f / (distProximal + 0.000001f), sensitivity);
+            float totalScore = tipScore + proximalScore;
+            float tipWeight = tipScore / totalScore;
+            return tipWeight;
+        }
+
+        public float GetProximalWeight()
+        {
+
+            float distTip = vectorToFingerTip.magnitude;
+            float distProximal = vectorToFingerProximal.magnitude;
+            // Apply nonlinear falloff so small differences have less impact
+            float tipScore = Mathf.Pow(1f / (distTip + 0.000001f), sensitivity);
+            float proximalScore = Mathf.Pow(1f / (distProximal + 0.000001f), sensitivity);
+            float totalScore = tipScore + proximalScore;
+            float proximalWeight = proximalScore / totalScore;
+            return proximalWeight;
+        }
+
+        private Vector3 GetTargetDirection()
+        {
+            float tipWeight = GetTipWeight();
+            float proximalWeight = GetProximalWeight();
+            targetDirection = (tipWeight * vectorToFingerTip + proximalWeight * vectorToFingerProximal);
+            return targetDirection;
+        }
+
+        public Vector3 GetTargetDirection(float tiltRotation, float flatRotation)
+        {
+            targetDirection = GetTargetDirection();
+
+            Vector3 planeNormal = Vector3.Cross(vectorToFingerProximal, vectorToFingerTip).normalized;
+            // Rotate ALONG the plane (spin flat)
+            targetDirection -= Vector3.Dot(targetDirection, planeNormal) * planeNormal; // project into plane
+            Quaternion alongPlaneRot = Quaternion.AngleAxis(-flatRotation, planeNormal);
+            targetDirection = alongPlaneRot * targetDirection;
+
+            // Rotate PERPENDICULAR to the plane (tilt out)
+            Vector3 perpendicularAxis = Vector3.Cross(planeNormal, targetDirection).normalized;
+            Quaternion perpendicularRot = Quaternion.AngleAxis(tiltRotation, perpendicularAxis);
+            targetDirection = perpendicularRot * targetDirection;
+
+            return targetDirection;
+        }
     }
 }
