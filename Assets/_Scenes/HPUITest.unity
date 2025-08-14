@@ -951,7 +951,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4187165654652605942, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
       propertyPath: detectionLogic
-      value: 4893546095116288807
+      value: 4893546117066915929
       objectReference: {fileID: 0}
     - target: {fileID: 4187165654652605942, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
       propertyPath: 'managedReferences[4893546095116288805]'
@@ -962,7 +962,7 @@ PrefabInstance:
       value: ubco.ovilab.HPUI ubco.ovilab.HPUI.Interaction.HPUIFullRangeRayCastDetectionLogic
       objectReference: {fileID: 0}
     - target: {fileID: 4187165654652605942, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
-      propertyPath: 'managedReferences[4893546095116288807]'
+      propertyPath: 'managedReferences[4893546117066915929]'
       value: Assembly-CSharp ubco.ovilab.HPUI.Interaction.HPUIDynamicConeRayCastDetectionLogic
       objectReference: {fileID: 0}
     - target: {fileID: 4187165654652605942, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
@@ -1046,15 +1046,15 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4187165654652605942, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
-      propertyPath: managedReferences[4893546095116288807].radiusA
+      propertyPath: managedReferences[4893546117066915929].radiusA
       value: 0.025
       objectReference: {fileID: 0}
     - target: {fileID: 4187165654652605942, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
-      propertyPath: managedReferences[4893546095116288807].radiusB
+      propertyPath: managedReferences[4893546117066915929].radiusB
       value: 0.015
       objectReference: {fileID: 0}
     - target: {fileID: 4187165654652605942, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
-      propertyPath: managedReferences[4893546095116288807].radiusC
+      propertyPath: managedReferences[4893546117066915929].radiusC
       value: 0.02
       objectReference: {fileID: 0}
     - target: {fileID: 4187165654652605942, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
@@ -1074,7 +1074,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1970106644266877274}
     - target: {fileID: 4187165654652605942, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
-      propertyPath: managedReferences[4893546095116288807].XROrigin
+      propertyPath: managedReferences[4893546098478022735].XROrigin
+      value: 
+      objectReference: {fileID: 1970106644266877274}
+    - target: {fileID: 4187165654652605942, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
+      propertyPath: managedReferences[4893546117066915929].XROrigin
       value: 
       objectReference: {fileID: 1970106644266877274}
     - target: {fileID: 4187165654652605942, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
@@ -1102,7 +1106,7 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4187165654652605942, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
-      propertyPath: managedReferences[4893546095116288807].coneRayData
+      propertyPath: managedReferences[4893546117066915929].coneRayData
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4187165654652605942, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
@@ -1114,8 +1118,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4187165654652605942, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
-      propertyPath: managedReferences[4893546095116288807].tiltRotation
-      value: 0
+      propertyPath: managedReferences[4893546117066915929].tiltRotation
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4187165654652605942, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
       propertyPath: managedReferences[4893546095116288805].rotationAngle
@@ -1126,11 +1130,11 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4187165654652605942, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
-      propertyPath: managedReferences[4893546095116288807].rotationAngle
-      value: -20
+      propertyPath: managedReferences[4893546117066915929].rotationAngle
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4187165654652605942, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
-      propertyPath: managedReferences[4893546095116288807].scalingFactor
+      propertyPath: managedReferences[4893546117066915929].scalingFactor
       value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 4187165654652605942, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
@@ -1182,7 +1186,7 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4187165654652605942, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
-      propertyPath: managedReferences[4893546095116288807].debugRayVisual
+      propertyPath: managedReferences[4893546117066915929].debugRayVisual
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4187165654652605942, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
@@ -1346,7 +1350,11 @@ PrefabInstance:
       value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 4187165654652605942, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
-      propertyPath: managedReferences[4893546095116288807].physicsLayer.m_Bits
+      propertyPath: managedReferences[4893546117066915929].initalScalingFactor
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4187165654652605942, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
+      propertyPath: managedReferences[4893546117066915929].physicsLayer.m_Bits
       value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 4187165654652605942, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
@@ -1438,7 +1446,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1535766292}
     - target: {fileID: 4187165654652605942, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
-      propertyPath: managedReferences[4893546095116288807]._xrHandTrackingEvents
+      propertyPath: managedReferences[4893546098478022735]._xrHandTrackingEvents
+      value: 
+      objectReference: {fileID: 1535766292}
+    - target: {fileID: 4187165654652605942, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
+      propertyPath: managedReferences[4893546117066915929]._xrHandTrackingEvents
       value: 
       objectReference: {fileID: 1535766292}
     - target: {fileID: 4187165654652605942, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
@@ -1454,8 +1466,8 @@ PrefabInstance:
       value: 0.015
       objectReference: {fileID: 0}
     - target: {fileID: 4187165654652605942, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
-      propertyPath: managedReferences[4893546095116288807].interactionHoverRadius
-      value: 1
+      propertyPath: managedReferences[4893546117066915929].interactionHoverRadius
+      value: 0.02
       objectReference: {fileID: 0}
     - target: {fileID: 4187165654652605942, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
       propertyPath: managedReferences[5755281021160652863].interactionHoverRadius
@@ -1506,7 +1518,7 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4187165654652605942, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
-      propertyPath: managedReferences[4893546095116288807].physicsTriggerInteraction
+      propertyPath: managedReferences[4893546117066915929].physicsTriggerInteraction
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4187165654652605942, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
@@ -1558,7 +1570,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1535766291}
     - target: {fileID: 4187165654652605942, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
-      propertyPath: managedReferences[4893546095116288807].jointFollowerSkeletonDriver
+      propertyPath: managedReferences[4893546098478022735].jointFollowerSkeletonDriver
+      value: 
+      objectReference: {fileID: 1535766291}
+    - target: {fileID: 4187165654652605942, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
+      propertyPath: managedReferences[4893546117066915929].jointFollowerSkeletonDriver
       value: 
       objectReference: {fileID: 1535766291}
     - target: {fileID: 4187165654652605942, guid: f8602edf0681f184cbedf8aa248d5403, type: 3}
@@ -4016,17 +4032,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseURI: ws://viconmx.hcilab.ok.ubc.ca:5001/marker/
-  streamType: 2
+  streamType: 1
   enableWriteData: 0
   fileSaveLocationBase: 0
   fixedFileSaveLocationBase: 
   pathToDataFile: ..\data_output\recordings
-  fileNameBase: P101
-  totalFrames: 2841
+  fileNameBase: Omang
+  totalFrames: 647
   currentFrame: 0
   play: 0
   jsonlFilesToLoad:
-  - {fileID: 4900000, guid: cdc0747a06abac740b1d8d930015772a, type: 3}
+  - {fileID: 4900000, guid: 69d579153b681344280d2a5e44659946, type: 3}
 --- !u!4 &578986874
 Transform:
   m_ObjectHideFlags: 0
@@ -6537,6 +6553,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 6246da6b31196c347a1cba5457279481, type: 3}
       propertyPath: m_Name
       value: better_hand_adj_interactable
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6246da6b31196c347a1cba5457279481, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1205318737193600302, guid: 6246da6b31196c347a1cba5457279481, type: 3}
       propertyPath: m_IsActive

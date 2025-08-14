@@ -1,0 +1,4110 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72bb849f8bbc56f47b2e8d36b26d8c0c, type: 3}
+  m_Name: Luke
+  m_EditorClassIdentifier: 
+  fallbackSide: 0
+  IndexDistalAngles:
+  - side: 0
+    rayAngles: []
+  - side: 1
+    rayAngles:
+    - x: 0
+      z: 0
+      raySelectionThreshold: 0.009652164
+    - x: 2.578533
+      z: 0.2755364
+      raySelectionThreshold: 0.009447169
+    - x: -2.5166063
+      z: 2.3491874
+      raySelectionThreshold: 0.008909755
+    - x: 0.63857776
+      z: -4.3851247
+      raySelectionThreshold: 0.010383671
+    - x: 2.1989136
+      z: 4.2028155
+      raySelectionThreshold: 0.008718043
+    - x: -4.3292055
+      z: -1.4191349
+      raySelectionThreshold: 0.009394683
+    - x: -1.7794927
+      z: 5.913043
+      raySelectionThreshold: 0.0091886055
+    - x: -2.0998433
+      z: -6.1715217
+      raySelectionThreshold: 0.009851082
+    - x: 5.2432914
+      z: 2.9927096
+      raySelectionThreshold: 0.009921543
+    - x: -5.791361
+      z: 2.217791
+      raySelectionThreshold: 0.009358864
+    - x: 3.187149
+      z: -6.6718554
+      raySelectionThreshold: 0.010847551
+    - x: 1.4221654
+      z: 7.8277197
+      raySelectionThreshold: 0.009404
+    - x: -5.607731
+      z: -4.803547
+      raySelectionThreshold: 0.010056007
+    - x: 7.0257945
+      z: -1.1139935
+      raySelectionThreshold: 0.0113668945
+    - x: -4.7297363
+      z: 6.815207
+      raySelectionThreshold: 0.009543576
+    - x: -0.31403533
+      z: -9.146968
+      raySelectionThreshold: 0.009953834
+    - x: -7.9627447
+      z: -0.45067397
+      raySelectionThreshold: 0.00947405
+    - x: 6.2963157
+      z: -6.395649
+      raySelectionThreshold: 0.010999129
+    - x: -4.922906
+      z: -8.5702
+      raySelectionThreshold: 0.009691094
+    - x: 8.557838
+      z: 2.3598278
+      raySelectionThreshold: 0.010740321
+    - x: -7.7867155
+      z: 5.4492426
+      raySelectionThreshold: 0.009266901
+    - x: 2.799742
+      z: -10.570788
+      raySelectionThreshold: 0.010709804
+    - x: 3.938356
+      z: 10.281376
+      raySelectionThreshold: 0.009462702
+    - x: -8.773978
+      z: -4.4962306
+      raySelectionThreshold: 0.009541772
+    - x: -2.5762546
+      z: -11.738749
+      raySelectionThreshold: 0.009867858
+    - x: -10.191768
+      z: 2.1542232
+      raySelectionThreshold: 0.00938687
+    - x: 6.473054
+      z: -10.112388
+      raySelectionThreshold: 0.010958313
+    - x: 0.8902143
+      z: 12.857975
+      raySelectionThreshold: 0.0094225975
+    - x: -7.97895
+      z: -8.970275
+      raySelectionThreshold: 0.009682938
+    - x: 10.962823
+      z: 0.0656106
+      raySelectionThreshold: 0.010839013
+    - x: -8.277991
+      z: 9.128195
+      raySelectionThreshold: 0.008846354
+    - x: 1.0527626
+      z: -13.5710335
+      raySelectionThreshold: 0.010884205
+    - x: 6.9557867
+      z: 11.072009
+      raySelectionThreshold: 0.009948094
+    - x: -11.372015
+      z: -2.5503683
+      raySelectionThreshold: 0.00948138
+    - x: 9.9385395
+      z: -7.645498
+      raySelectionThreshold: 0.010822713
+    - x: -3.1708295
+      z: 13.82527
+      raySelectionThreshold: 0.009766234
+    - x: -5.532472
+      z: -12.940248
+      raySelectionThreshold: 0.009196401
+    - x: 11.380066
+      z: 5.19037
+      raySelectionThreshold: 0.010273578
+    - x: -11.371668
+      z: 5.692266
+      raySelectionThreshold: 0.008863047
+    - x: 5.3727193
+      z: -13.582337
+      raySelectionThreshold: 0.0106720645
+    - x: 3.7431896
+      z: 14.484335
+      raySelectionThreshold: 0.009787884
+    - x: -10.960398
+      z: -7.8666406
+      raySelectionThreshold: 0.009703303
+    - x: 12.506058
+      z: -3.3187122
+      raySelectionThreshold: 0.011239195
+    - x: -1.640679
+      z: -15.629631
+      raySelectionThreshold: 0.010592672
+    - x: 10.099913
+      z: 10.457412
+      raySelectionThreshold: 0.010366712
+    - x: -13.282281
+      z: 0.6006827
+      raySelectionThreshold: 0.009171515
+    - x: 9.641349
+      z: -11.519605
+      raySelectionThreshold: 0.011386104
+    - x: -0.70415574
+      z: 16.316864
+      raySelectionThreshold: 0.009188473
+    - x: -8.7996435
+      z: -12.848148
+      raySelectionThreshold: 0.009270993
+    - x: 13.653339
+      z: 2.3623147
+      raySelectionThreshold: 0.010927465
+    - x: -11.52075
+      z: 9.69625
+      raySelectionThreshold: 0.0088507915
+    - x: 3.204241
+      z: -16.500118
+      raySelectionThreshold: 0.010664756
+    - x: 7.0774536
+      z: 14.936789
+      raySelectionThreshold: 0.010265607
+    - x: -13.583952
+      z: -5.4509325
+      raySelectionThreshold: 0.009463141
+    - x: 13.119878
+      z: -7.3744564
+      raySelectionThreshold: 0.011282961
+    - x: -5.7605486
+      z: 16.145214
+      raySelectionThreshold: 0.009107381
+    - x: -4.969407
+      z: -16.63884
+      raySelectionThreshold: 0.010103076
+    - x: 13.050459
+      z: 8.534329
+      raySelectionThreshold: 0.010236237
+    - x: -14.370595
+      z: 4.607767
+      raySelectionThreshold: 0.009111034
+    - x: 8.268877
+      z: -15.229203
+      raySelectionThreshold: 0.011244976
+    - x: 2.5326548
+      z: 17.886448
+      raySelectionThreshold: 0.009122002
+    - x: -12.041038
+      z: -11.482265
+      raySelectionThreshold: 0.009755874
+    - x: 15.217706
+      z: -1.4788289
+      raySelectionThreshold: 0.010814218
+    - x: -10.627269
+      z: 13.741272
+      raySelectionThreshold: 0.009547366
+    - x: 0.15450507
+      z: -18.627117
+      raySelectionThreshold: 0.011306649
+    - x: 10.55719
+      z: 14.1748085
+      raySelectionThreshold: 0.010274462
+    - x: 12.742366
+      z: -11.686109
+      raySelectionThreshold: 0.011195883
+    - x: -2.9958475
+      z: 18.820528
+      raySelectionThreshold: 0.010154057
+    - x: -8.617758
+      z: -16.508474
+      raySelectionThreshold: 0.010013725
+    - x: -14.53251
+      z: 9.091223
+      raySelectionThreshold: 0.008968749
+    - x: 5.8826995
+      z: -18.43569
+      raySelectionThreshold: 0.011378519
+    - x: -14.96009
+      z: -8.872455
+      raySelectionThreshold: 0.0094764065
+    - x: -8.699852
+      z: 17.450521
+      raySelectionThreshold: 0.009172247
+    - x: -3.5466301
+      z: -19.791487
+      raySelectionThreshold: 0.011018564
+    - x: 13.868121
+      z: 12.172377
+      raySelectionThreshold: 0.011240376
+    - x: 11.337461
+      z: -15.852532
+      raySelectionThreshold: 0.01105483
+    - x: 0.5598809
+      z: 20.631222
+      raySelectionThreshold: 0.009510705
+    - x: -12.26482
+      z: -15.171933
+      raySelectionThreshold: 0.009630867
+    - x: 17.358017
+      z: 1.2207714
+      raySelectionThreshold: 0.0106199635
+    - x: 2.5926137
+      z: -20.884882
+      raySelectionThreshold: 0.011994461
+    - x: 10.167014
+      z: 17.765152
+      raySelectionThreshold: 0.00988173
+    - x: 15.693289
+      z: -10.846202
+      raySelectionThreshold: 0.01087033
+    - x: -5.790616
+      z: 20.52443
+      raySelectionThreshold: 0.00967095
+    - x: -7.6135507
+      z: -19.86999
+      raySelectionThreshold: 0.010528542
+    - x: 16.736504
+      z: 8.945229
+      raySelectionThreshold: 0.010697665
+    - x: -17.261303
+      z: 7.51481
+      raySelectionThreshold: 0.009115875
+    - x: 8.908739
+      z: -19.527287
+      raySelectionThreshold: 0.011222337
+    - x: 4.666904
+      z: 21.428001
+      raySelectionThreshold: 0.009866428
+    - x: -15.610276
+      z: -12.593992
+      raySelectionThreshold: 0.009457115
+    - x: 18.34986
+      z: -3.7396312
+      raySelectionThreshold: 0.010283013
+    - x: -11.825351
+      z: 17.878899
+      raySelectionThreshold: 0.009647088
+    - x: -1.416927
+      z: -22.39711
+      raySelectionThreshold: 0.011605771
+    - x: 14.434523
+      z: -15.576036
+      raySelectionThreshold: 0.010502748
+    - x: -2.0218756
+      z: 22.74584
+      raySelectionThreshold: 0.010018079
+    - x: -11.728135
+      z: -18.767982
+      raySelectionThreshold: 0.009726997
+    - x: -16.648987
+      z: 12.636055
+      raySelectionThreshold: 0.0091832625
+    - x: 5.515905
+      z: -22.448626
+      raySelectionThreshold: 0.012137564
+    - x: 9.022079
+      z: 21.099989
+      raySelectionThreshold: 0.010595379
+    - x: -18.403568
+      z: -8.791961
+      raySelectionThreshold: 0.009810217
+    - x: 18.401611
+      z: -9.106858
+      raySelectionThreshold: 0.010374739
+    - x: -8.927002
+      z: 21.483246
+      raySelectionThreshold: 0.009537989
+    - x: -5.881666
+      z: -22.84488
+      raySelectionThreshold: 0.011648975
+    - x: 17.281675
+      z: 12.785986
+      raySelectionThreshold: 0.010931119
+    - x: 12.123155
+      z: -19.831219
+      raySelectionThreshold: 0.010990765
+    - x: 2.399717
+      z: 23.965614
+      raySelectionThreshold: 0.009688633
+    - x: -15.575935
+      z: -16.414518
+      raySelectionThreshold: 0.009912044
+    - x: 20.334742
+      z: -0.6912548
+      raySelectionThreshold: 0.010498683
+    - x: 1.3014594
+      z: -24.435205
+      raySelectionThreshold: 0.012488096
+    - x: 13.297909
+      z: 19.555895
+      raySelectionThreshold: 0.010587531
+    - x: 17.429464
+      z: -14.452035
+      raySelectionThreshold: 0.0102055725
+    - x: -5.0780973
+      z: 24.230835
+      raySelectionThreshold: 0.009666428
+    - x: -10.478765
+      z: -22.127125
+      raySelectionThreshold: 0.011712472
+    - x: 19.975063
+      z: 8.4367075
+      raySelectionThreshold: 0.010501716
+    - x: 8.775836
+      z: -23.331013
+      raySelectionThreshold: 0.012339777
+    - x: 7.17999
+      z: 24.073786
+      raySelectionThreshold: 0.01070602
+    - x: -18.888298
+      z: -12.774948
+      raySelectionThreshold: 0.009662533
+    - x: -3.4954162
+      z: -25.363401
+      raySelectionThreshold: 0.011722139
+    - x: 17.185493
+      z: 16.724201
+      raySelectionThreshold: 0.010295243
+    - x: 15.37722
+      z: -19.365057
+      raySelectionThreshold: 0.010817865
+    - x: -0.4467493
+      z: 25.973742
+      raySelectionThreshold: 0.010043082
+    - x: -14.872739
+      z: -20.153337
+      raySelectionThreshold: 0.010267981
+    - x: 4.4906077
+      z: -25.885527
+      raySelectionThreshold: 0.011923729
+    - x: 11.976597
+      z: 22.97462
+      raySelectionThreshold: 0.010350265
+    - x: 20.210493
+      z: -12.505238
+      raySelectionThreshold: 0.010409846
+    - x: -8.470138
+      z: 25.077864
+      raySelectionThreshold: 0.009743513
+    - x: -8.551594
+      z: -25.136497
+      raySelectionThreshold: 0.010961661
+    - x: 12.224484
+      z: -23.527674
+      raySelectionThreshold: 0.011169271
+    - x: 4.693273
+      z: 26.609104
+      raySelectionThreshold: 0.009930203
+    - x: -18.762058
+      z: -16.853077
+      raySelectionThreshold: 0.009789158
+    - x: 22.783077
+      z: -3.215037
+      raySelectionThreshold: 0.010703285
+    - x: -0.53265774
+      z: -27.376085
+      raySelectionThreshold: 0.012384205
+    - x: 16.445911
+      z: 20.578705
+      raySelectionThreshold: 0.009976736
+    - x: 18.536203
+      z: -18.126
+      raySelectionThreshold: 0.010025587
+    - x: -3.7654083
+      z: 27.422318
+      raySelectionThreshold: 0.009942048
+    - x: -13.504757
+      z: -23.660845
+      raySelectionThreshold: 0.010574891
+    - x: 22.860285
+      z: 7.1827216
+      raySelectionThreshold: 0.0107492125
+    - x: 8.019638
+      z: -26.728775
+      raySelectionThreshold: 0.011351733
+    - x: 9.988005
+      z: 26.048
+      raySelectionThreshold: 0.01088619
+    - x: -21.91773
+      z: -12.20526
+      raySelectionThreshold: 0.009815057
+    - x: 22.687384
+      z: -9.756046
+      raySelectionThreshold: 0.00986814
+    - x: -5.9831066
+      z: -27.71624
+      raySelectionThreshold: 0.011685867
+    - x: 20.303053
+      z: 16.812685
+      raySelectionThreshold: 0.010264069
+    - x: 15.714172
+      z: -23.02279
+      raySelectionThreshold: 0.011089423
+    - x: 1.6265433
+      z: 28.653013
+      raySelectionThreshold: 0.010119502
+    - x: -18.01164
+      z: -20.843794
+      raySelectionThreshold: 0.010217203
+    - x: 24.342535
+      z: 0.76770335
+      raySelectionThreshold: 0.010326659
+    - x: 2.9104693
+      z: -28.848602
+      raySelectionThreshold: 0.011946392
+    - x: 15.055769
+      z: 24.197237
+      raySelectionThreshold: 0.0111098485
+    - x: -7.432155
+      z: 28.286879
+      raySelectionThreshold: 0.010223558
+    - x: -11.476653
+      z: -26.820936
+      raySelectionThreshold: 0.011115112
+    - x: 11.744873
+      z: -26.943233
+      raySelectionThreshold: 0.011309506
+    - x: 7.3567414
+      z: 28.694643
+      raySelectionThreshold: 0.01078577
+    - x: -21.805052
+      z: -16.61141
+      raySelectionThreshold: 0.009837899
+    - x: 24.791147
+      z: -6.2401705
+      raySelectionThreshold: 0.010140033
+    - x: -2.8261855
+      z: -29.812748
+      raySelectionThreshold: 0.013130189
+    - x: 19.563536
+      z: 20.95726
+      raySelectionThreshold: 0.010222566
+    - x: 19.108076
+      z: -21.790077
+      raySelectionThreshold: 0.011233825
+    - x: -1.9329995
+      z: 30.169964
+      raySelectionThreshold: 0.009854038
+    - x: -16.621061
+      z: -24.592604
+      raySelectionThreshold: 0.01123392
+    - x: 25.426502
+      z: 5.2706127
+      raySelectionThreshold: 0.010428456
+    - x: 6.7137294
+      z: -29.75446
+      raySelectionThreshold: 0.0122023765
+    - x: 13.009213
+      z: 27.463392
+      raySelectionThreshold: 0.01106966
+    - x: 24.131163
+      z: -13.280481
+      raySelectionThreshold: 0.010116843
+    - x: -8.801563
+      z: -29.552925
+      raySelectionThreshold: 0.01216395
+    - x: 23.264458
+      z: 16.255062
+      raySelectionThreshold: 0.010570556
+    - x: 15.517565
+      z: -26.50081
+      raySelectionThreshold: 0.010904598
+    - x: 4.1253076
+      z: 30.861574
+      raySelectionThreshold: 0.010050246
+    - x: -21.095331
+      z: -20.925117
+      raySelectionThreshold: 0.0104744695
+    - x: 26.470688
+      z: -2.0271926
+      raySelectionThreshold: 0.010185298
+    - x: 0.84000033
+      z: -31.390902
+      raySelectionThreshold: 0.012376173
+    - x: 18.192196
+      z: 24.853348
+      raySelectionThreshold: 0.010504404
+    - x: 22.287878
+      z: -19.795916
+      raySelectionThreshold: 0.010418526
+    - x: -5.8695564
+      z: 31.133387
+      raySelectionThreshold: 0.010200836
+    - x: -14.576053
+      z: -27.981821
+      raySelectionThreshold: 0.010650443
+    - x: 10.735462
+      z: -30.067928
+      raySelectionThreshold: 0.011598262
+    - x: 10.3094845
+      z: 30.296844
+      raySelectionThreshold: 0.010606969
+    - x: 26.405428
+      z: -9.668248
+      raySelectionThreshold: 0.010144654
+    - x: -5.511889
+      z: -31.80509
+      raySelectionThreshold: 0.012058276
+    - x: 22.60106
+      z: 20.751364
+      raySelectionThreshold: 0.010582996
+    - x: 19.195538
+      z: -25.36467
+      raySelectionThreshold: 0.009969468
+    - x: 0.36476895
+      z: 32.51515
+      raySelectionThreshold: 0.010921219
+    - x: -19.761026
+      z: -24.983845
+      raySelectionThreshold: 0.010937125
+    - x: 27.687729
+      z: 2.7633588
+      raySelectionThreshold: 0.009942454
+    - x: 4.9041657
+      z: -32.4253
+      raySelectionThreshold: 0.012398594
+    - x: 16.167685
+      z: 28.38099
+      raySelectionThreshold: 0.010563543
+    - x: 25.159191
+      z: -17.006254
+      raySelectionThreshold: 0.010444548
+    - x: -10.041773
+      z: 31.518038
+      raySelectionThreshold: 0.01035843
+    - x: -11.870875
+      z: -30.931171
+      raySelectionThreshold: 0.012386728
+    - x: 26.042736
+      z: 15.089613
+      raySelectionThreshold: 0.010976516
+    - x: 14.821734
+      z: -29.758135
+      raySelectionThreshold: 0.0113814995
+    - x: 6.9790974
+      z: 32.647408
+      raySelectionThreshold: 0.01025147
+    - x: -24.076044
+      z: -20.43678
+      raySelectionThreshold: 0.010390132
+    - x: 28.257692
+      z: -5.305371
+      raySelectionThreshold: 0.010262607
+    - x: -1.6697637
+      z: -33.54587
+      raySelectionThreshold: 0.01260995
+    - x: 22.654629
+      z: -23.488993
+      raySelectionThreshold: 0.010993075
+    - x: -3.8198776
+      z: 33.631973
+      raySelectionThreshold: 0.010169977
+    - x: -17.774807
+      z: -28.664328
+      raySelectionThreshold: 0.0107887685
+    - x: 28.41133
+      z: 7.9574676
+      raySelectionThreshold: 0.01028146
+    - x: 9.225796
+      z: -32.89225
+      raySelectionThreshold: 0.012143591
+    - x: 13.475961
+      z: 31.459547
+      raySelectionThreshold: 0.01040922
+    - x: 27.652128
+      z: -13.398998
+      raySelectionThreshold: 0.009865051
+    - x: -8.518228
+      z: -33.39197
+      raySelectionThreshold: 0.012594716
+    - x: 25.512526
+      z: 19.987576
+      raySelectionThreshold: 0.011051358
+    - x: 3.0691175
+      z: 34.486076
+      raySelectionThreshold: 0.010293476
+    - x: 2.6249518
+      z: -34.75449
+      raySelectionThreshold: 0.013194605
+    - x: 19.388361
+      z: 28.834099
+      raySelectionThreshold: 0.01129009
+    - x: 25.79589
+      z: -20.822975
+      raySelectionThreshold: 0.011052489
+    - x: -8.289723
+      z: 34.19026
+      raySelectionThreshold: 0.010464146
+    - x: -15.116652
+      z: -31.88385
+      raySelectionThreshold: 0.012531015
+    - x: 28.612534
+      z: 13.33739
+      raySelectionThreshold: 0.010826139
+    - x: 13.641977
+      z: -32.763874
+      raySelectionThreshold: 0.011543694
+    - x: 10.119932
+      z: 34.041607
+      raySelectionThreshold: 0.010687736
+    - x: 29.718065
+      z: -8.983189
+      raySelectionThreshold: 0.010283672
+    - x: -4.563041
+      z: -35.337467
+      raySelectionThreshold: 0.013003633
+    - x: 22.59898
+      z: -27.098137
+      raySelectionThreshold: 0.01101151
+    - x: -1.3220463
+      z: 35.7946
+      raySelectionThreshold: 0.010406037
+    - x: -20.99972
+      z: -28.89158
+      raySelectionThreshold: 0.010935749
+    - x: 7.2358694
+      z: -35.41205
+      raySelectionThreshold: 0.012437461
+    - x: 16.779854
+      z: 32.20759
+      raySelectionThreshold: 0.010748055
+    - x: 28.54815
+      z: -17.318367
+      raySelectionThreshold: 0.010425014
+    - x: -11.774834
+      z: -34.59851
+      raySelectionThreshold: 0.013045949
+    - x: 28.260954
+      z: 18.667992
+      raySelectionThreshold: 0.011362357
+    - x: 17.994114
+      z: -31.99931
+      raySelectionThreshold: 0.011478473
+    - x: -25.866613
+      z: -24.24218
+      raySelectionThreshold: 0.01062461
+    - x: 31.324081
+      z: -3.8202367
+      raySelectionThreshold: 0.0105697345
+    - x: -0.083929375
+      z: -36.753773
+      raySelectionThreshold: 0.0138132125
+    - x: 22.600687
+      z: 28.83718
+      raySelectionThreshold: 0.010914734
+    - x: 26.051369
+      z: -24.631899
+      raySelectionThreshold: 0.01094078
+    - x: -6.066597
+      z: 36.557938
+      raySelectionThreshold: 0.010414358
+    - x: -18.45761
+      z: -32.431187
+      raySelectionThreshold: 0.012205103
+    - x: 30.956442
+      z: 11.003728
+      raySelectionThreshold: 0.010480497
+    - x: 11.98895
+      z: -35.496338
+      raySelectionThreshold: 0.011743061
+    - x: 13.473132
+      z: 35.06435
+      raySelectionThreshold: 0.010631541
+    - x: 30.861404
+      z: -12.957973
+      raySelectionThreshold: 0.010692294
+    - x: -7.777535
+      z: -36.78406
+      raySelectionThreshold: 0.012780746
+    - x: 27.31789
+      z: 23.742294
+      raySelectionThreshold: 0.011278717
+    - x: 22.126926
+      z: -30.549875
+      raySelectionThreshold: 0.011472726
+    - x: -24.183601
+      z: -28.670443
+      raySelectionThreshold: 0.011060351
+    - x: 32.445778
+      z: 1.9424932
+      raySelectionThreshold: 0.011114665
+    - x: 4.7802444
+      z: -37.628925
+      raySelectionThreshold: 0.013606033
+    - x: 20.140596
+      z: 32.555107
+      raySelectionThreshold: 0.010850174
+    - x: 29.097391
+      z: -21.327284
+      raySelectionThreshold: 0.011026133
+    - x: -15.204821
+      z: -35.44028
+      raySelectionThreshold: 0.012974433
+    - x: 30.813408
+      z: 16.793985
+      raySelectionThreshold: 0.011155223
+    - x: 16.712793
+      z: -34.971664
+      raySelectionThreshold: 0.0121212285
+    - x: 9.484688
+      z: 37.3822
+      raySelectionThreshold: 0.011145763
+    - x: -3.1803236
+      z: -38.43498
+      raySelectionThreshold: 0.01392293
+    - x: 25.926947
+      z: -28.344414
+      raySelectionThreshold: 0.011527633
+    - x: -3.3885915
+      z: 38.624718
+      raySelectionThreshold: 0.011121594
+    - x: -21.81981
+      z: -32.57916
+      raySelectionThreshold: 0.012263236
+    - x: 9.864998
+      z: -37.946484
+      raySelectionThreshold: 0.013172844
+    - x: 16.959906
+      z: 35.72695
+      raySelectionThreshold: 0.01129027
+    - x: -11.24593
+      z: -37.898506
+      raySelectionThreshold: 0.014300914
+    - x: 30.094515
+      z: 22.35431
+      raySelectionThreshold: 0.011559561
+    - x: 21.232094
+      z: -33.792404
+      raySelectionThreshold: 0.011903988
+    - x: 4.8574452
+      z: 39.159573
+      raySelectionThreshold: 0.0108243385
+    - x: 1.8912404
+      z: -39.546787
+      raySelectionThreshold: 0.013392194
+    - x: -18.728382
+      z: -35.924503
+      raySelectionThreshold: 0.012666886
+    - x: 33.150402
+      z: 14.349818
+      raySelectionThreshold: 0.010755334
+    - x: 14.966716
+      z: -37.68141
+      raySelectionThreshold: 0.012527862
+    - x: 13.051245
+      z: 38.333824
+      raySelectionThreshold: 0.0110383965
+    - x: -6.610019
+      z: -39.80833
+      raySelectionThreshold: 0.0132233985
+    - x: 25.4162
+      z: -31.888418
+      raySelectionThreshold: 0.011551226
+    - x: 7.275995
+      z: -40.11234
+      raySelectionThreshold: 0.012345763
+    - x: 32.678402
+      z: 20.429865
+      raySelectionThreshold: 0.011398327
+    - x: 19.90252
+      z: -36.7895
+      raySelectionThreshold: 0.011978964
+    - x: 8.429116
+      z: 40.382168
+      raySelectionThreshold: 0.011438608
+    - x: -1.3998364
+      z: -41.17354
+      raySelectionThreshold: 0.013897487
+    - x: -5.810755
+      z: 41.089558
+      raySelectionThreshold: 0.011359727
+    - x: -22.27049
+      z: -36.048103
+      raySelectionThreshold: 0.012105467
+    - x: 12.755427
+      z: -40.11499
+      raySelectionThreshold: 0.01270144
+    - x: 16.752686
+      z: 38.96295
+      raySelectionThreshold: 0.011489007
+    - x: -10.304999
+      z: -40.881813
+      raySelectionThreshold: 0.013540303
+    - x: 24.502468
+      z: -35.21308
+      raySelectionThreshold: 0.011672152
+    - x: -28.338686
+      z: -31.650831
+      raySelectionThreshold: 0.011854339
+    - x: 4.2351246
+      z: -41.997227
+      raySelectionThreshold: 0.013754355
+    - x: 24.02217
+      z: 35.973976
+      raySelectionThreshold: 0.011399664
+    - x: -18.627802
+      z: -39.1566
+      raySelectionThreshold: 0.012805474
+    - x: -5.0436034
+      z: -42.516705
+      raySelectionThreshold: 0.013981728
+    - x: -25.75099
+      z: -35.8062
+      raySelectionThreshold: 0.012113194
+    - x: 10.069721
+      z: -42.27232
+      raySelectionThreshold: 0.013191703
+    - x: -14.19021
+      z: -41.65896
+      raySelectionThreshold: 0.014686232
+    - x: 34.25895
+      z: 24.170368
+      raySelectionThreshold: 0.011576494
+    - x: 23.172783
+      z: -38.27781
+      raySelectionThreshold: 0.01251245
+    - x: 0.7687222
+      z: -43.607426
+      raySelectionThreshold: 0.013819809
+    - x: -22.375212
+      z: -39.29865
+      raySelectionThreshold: 0.012585959
+    - x: 15.87115
+      z: -41.975334
+      raySelectionThreshold: 0.013152304
+    - x: -8.973056
+      z: -43.582703
+      raySelectionThreshold: 0.014435332
+    - x: 6.9119678
+      z: -44.15735
+      raySelectionThreshold: 0.01354023
+    - x: -18.168125
+      z: -42.142372
+      raySelectionThreshold: 0.013997613
+    - x: 21.400116
+      z: -41.0664
+      raySelectionThreshold: 0.011933145
+    - x: -3.0845149
+      z: -44.949944
+      raySelectionThreshold: 0.014441686
+    - x: -26.055155
+      z: -39.103912
+      raySelectionThreshold: 0.012716329
+    - x: 13.134644
+      z: -44.15514
+      raySelectionThreshold: 0.012982867
+    - x: -13.105592
+      z: -44.375546
+      raySelectionThreshold: 0.014818148
+    - x: 3.2985342
+      z: -45.777172
+      raySelectionThreshold: 0.013960577
+    - x: -22.154137
+      z: -42.32659
+      raySelectionThreshold: 0.014127658
+    - x: -7.2487636
+      z: -46.031506
+      raySelectionThreshold: 0.014321121
+    - x: 9.897178
+      z: -46.06594
+      raySelectionThreshold: 0.013240627
+    - x: -17.35251
+      z: -44.894436
+      raySelectionThreshold: 0.014604646
+    - x: -0.73382056
+      z: -47.13999
+      raySelectionThreshold: 0.014881867
+    - x: -26.068424
+      z: -42.198578
+      raySelectionThreshold: 0.013480506
+    - x: 16.412947
+      z: -45.799545
+      raySelectionThreshold: 0.0133666145
+    - x: -11.644001
+      z: -46.856773
+      raySelectionThreshold: 0.015088584
+    - x: -21.605343
+      z: -45.137764
+      raySelectionThreshold: 0.014892964
+    - x: -16.169254
+      z: -47.427258
+      raySelectionThreshold: 0.015301451
+    - x: 1.9940978
+      z: -49.112873
+      raySelectionThreshold: 0.015159116
+    - x: -25.77643
+      z: -45.095013
+      raySelectionThreshold: 0.014081063
+    - x: 19.878237
+      z: -47.2285
+      raySelectionThreshold: 0.012600149
+    - x: -9.785829
+      z: -49.123577
+      raySelectionThreshold: 0.01549598
+    - x: 9.37054
+      z: -49.44665
+      raySelectionThreshold: 0.01471187
+    - x: -20.716192
+      z: -47.740456
+      raySelectionThreshold: 0.015763504
+    - x: -2.6168861
+      z: -50.269444
+      raySelectionThreshold: 0.01564942
+    - x: 16.649021
+      z: -49.242706
+      raySelectionThreshold: 0.013044382
+    - x: -14.610074
+      z: -49.753357
+      raySelectionThreshold: 0.016857421
+    - x: 5.0708
+      z: -50.891613
+      raySelectionThreshold: 0.015053867
+    - x: -25.180109
+      z: -47.788803
+      raySelectionThreshold: 0.014990299
+    - x: -7.5390563
+      z: -51.19199
+      raySelectionThreshold: 0.016113978
+    - x: -19.476568
+      z: -50.14222
+      raySelectionThreshold: 0.016653126
+    - x: 0.29870716
+      z: -52.099777
+      raySelectionThreshold: 0.015368339
+    - x: -29.469675
+      z: -47.558548
+      raySelectionThreshold: 0.0149265565
+    - x: 8.500272
+      z: -52.494568
+      raySelectionThreshold: 0.014725106
+    - x: -24.277075
+      z: -50.28179
+      raySelectionThreshold: 0.016597943
+    - x: -4.8657866
+      z: -53.08096
+      raySelectionThreshold: 0.015978228
+    - x: 3.6009786
+      z: -53.761105
+      raySelectionThreshold: 0.015444552
+    - x: -28.881851
+      z: -50.166748
+      raySelectionThreshold: 0.015969116
+    - x: -10.30477
+      z: -53.84232
+      raySelectionThreshold: 0.016904173
+    - x: -15.870962
+      z: -54.38775
+      raySelectionThreshold: 0.017500825
+    - x: 7.2534175
+      z: -55.26957
+      raySelectionThreshold: 0.01561698
+    - x: -7.5031548
+      z: -55.63538
+      raySelectionThreshold: 0.01690198
+    - x: -21.40547
+      z: -54.717113
+      raySelectionThreshold: 0.018017374
+    - x: 1.7232873
+      z: -56.378345
+      raySelectionThreshold: 0.016365865
+    - x: -32.65692
+      z: -52.33466
+      raySelectionThreshold: 0.01643093
+    - x: -13.434837
+      z: -56.258904
+      raySelectionThreshold: 0.018484026
+    - x: -26.759161
+      z: -54.825607
+      raySelectionThreshold: 0.01790225
+    - x: -19.400774
+      z: -56.676155
+      raySelectionThreshold: 0.019167345
+    - x: -31.81118
+      z: -54.702736
+      raySelectionThreshold: 0.017373273
+    - x: -25.189754
+      z: -56.88832
+      raySelectionThreshold: 0.01900451
+    - x: -30.667967
+      z: -56.887184
+      raySelectionThreshold: 0.018797355
+    - x: -27.270515
+      z: -60.76691
+      raySelectionThreshold: 0.020369839
+    - x: -33.31639
+      z: -60.792606
+      raySelectionThreshold: 0.02033891
+    - x: 4.298514
+      z: -2.720885
+      raySelectionThreshold: 0.010250537
+    - x: 6.2606535
+      z: 18.401579
+      raySelectionThreshold: 0.00909244
+    - x: 13.935979
+      z: 15.905469
+      raySelectionThreshold: 0.010657816
+    - x: 20.786255
+      z: -6.5394497
+      raySelectionThreshold: 0.010349544
+    - x: 20.433357
+      z: 12.577378
+      raySelectionThreshold: 0.010539263
+    - x: 21.484932
+      z: -16.101507
+      raySelectionThreshold: 0.009919785
+    - x: 23.341274
+      z: 11.667058
+      raySelectionThreshold: 0.010564075
+    - x: 26.003218
+      z: 10.114002
+      raySelectionThreshold: 0.010735423
+    - x: 18.821375
+      z: -28.784922
+      raySelectionThreshold: 0.011492024
+    - x: 32.707825
+      z: -7.758155
+      raySelectionThreshold: 0.010744963
+    - x: 31.69206
+      z: -17.12276
+      raySelectionThreshold: 0.010733115
+    - x: 29.303982
+      z: -25.31086
+      raySelectionThreshold: 0.011056929
+    - x: -25.133617
+      z: -32.32375
+      raySelectionThreshold: 0.012157532
+    - x: 32.210377
+      z: -21.36334
+      raySelectionThreshold: 0.011416398
+    - x: -14.890357
+      z: -38.688602
+      raySelectionThreshold: 0.013643942
+    - x: 29.160807
+      z: -29.181417
+      raySelectionThreshold: 0.011045383
+    - x: 18.121662
+      z: -39.52012
+      raySelectionThreshold: 0.012332628
+    - x: 28.65609
+      z: -32.864914
+      raySelectionThreshold: 0.011158425
+    - x: 37.19144
+      z: 14.857683
+      raySelectionThreshold: 0.011148976
+    - x: 27.771877
+      z: -36.30769
+      raySelectionThreshold: 0.011394596
+    - x: 26.484161
+      z: -39.475883
+      raySelectionThreshold: 0.011527718
+    - x: 19.15754
+      z: -43.5724
+      raySelectionThreshold: 0.012867784
+    - x: 24.758974
+      z: -42.354843
+      raySelectionThreshold: 0.0116678635
+    - x: 6.180759
+      z: -47.714493
+      raySelectionThreshold: 0.01423129
+    - x: 22.570293
+      z: -44.93632
+      raySelectionThreshold: 0.012347098
+    - x: -5.1242647
+      z: -48.253487
+      raySelectionThreshold: 0.016053513
+    - x: 13.155276
+      z: -47.75336
+      raySelectionThreshold: 0.013727243
+    - x: 23.466858
+      z: -48.46527
+      raySelectionThreshold: 0.012523201
+    - x: 20.321096
+      z: -50.55418
+      raySelectionThreshold: 0.012844684
+    - x: 16.585241
+      z: -52.372646
+      raySelectionThreshold: 0.013772772
+    - x: -17.878853
+      z: -52.352325
+      raySelectionThreshold: 0.017276207
+    - x: 12.233739
+      z: -53.9386
+      raySelectionThreshold: 0.013809881
+    - x: -23.02467
+      z: -52.58896
+      raySelectionThreshold: 0.016332988
+    - x: 20.482046
+      z: -53.602486
+      raySelectionThreshold: 0.013230033
+    - x: 16.207043
+      z: -55.239635
+      raySelectionThreshold: 0.01420706
+    - x: 11.252932
+      z: -56.637825
+      raySelectionThreshold: 0.015077752
+    - x: -4.267235
+      z: -57.278183
+      raySelectionThreshold: 0.016535453
+    - x: -10.556594
+      z: -57.97782
+      raySelectionThreshold: 0.017819736
+    - x: 15.531652
+      z: -57.878445
+      raySelectionThreshold: 0.014623832
+    - x: -0.5549665
+      z: -58.784653
+      raySelectionThreshold: 0.017035328
+    - x: 9.923351
+      z: -59.125595
+      raySelectionThreshold: 0.015832365
+    - x: -7.1732926
+      z: -59.55918
+      raySelectionThreshold: 0.017248526
+    - x: -13.997035
+      z: -60.145924
+      raySelectionThreshold: 0.018445175
+    - x: -29.165964
+      z: -58.90567
+      raySelectionThreshold: 0.019474655
+    - x: -3.281038
+      z: -61.013706
+      raySelectionThreshold: 0.017742516
+    - x: -20.774975
+      z: -60.548664
+      raySelectionThreshold: 0.02039988
+    - x: -10.545515
+      z: -61.678146
+      raySelectionThreshold: 0.018389678
+    - x: -17.856993
+      z: -62.166786
+      raySelectionThreshold: 0.020284176
+    - x: -24.924488
+      z: -62.483505
+      raySelectionThreshold: 0.021155352
+    - x: -31.56099
+      z: -62.62123
+      raySelectionThreshold: 0.022037305
+    - x: -1.236539
+      z: -1.6430628
+      raySelectionThreshold: 0.009597467
+    - x: 9.111259
+      z: -4.017028
+      raySelectionThreshold: 0.010574114
+    - x: 15.539722
+      z: 5.4006577
+      raySelectionThreshold: 0.010546678
+    - x: 15.931518
+      z: -6.0110216
+      raySelectionThreshold: 0.0109724365
+    - x: -16.886862
+      z: 2.5326548
+      raySelectionThreshold: 0.009172655
+    - x: 18.94553
+      z: 4.5871024
+      raySelectionThreshold: 0.010280978
+    - x: 21.848774
+      z: 3.0022445
+      raySelectionThreshold: 0.010571417
+    - x: 34.0665
+      z: -1.8329097
+      raySelectionThreshold: 0.01071245
+    - x: 33.804497
+      z: -12.010321
+      raySelectionThreshold: 0.010858318
+    - x: 35.421974
+      z: -6.035204
+      raySelectionThreshold: 0.011100624
+    - x: 32.412247
+      z: -25.569475
+      raySelectionThreshold: 0.010706877
+    - x: 36.511868
+      z: -10.569019
+      raySelectionThreshold: 0.010802761
+    - x: 35.13825
+      z: -20.969326
+      raySelectionThreshold: 0.010570155
+    - x: 32.286297
+      z: -29.647984
+      raySelectionThreshold: 0.010722199
+    - x: 37.33496
+      z: -15.316042
+      raySelectionThreshold: 0.011034304
+    - x: 35.36634
+      z: -25.44072
+      raySelectionThreshold: 0.01171099
+    - x: 39.002945
+      z: -8.651765
+      raySelectionThreshold: 0.011141606
+    - x: 31.822392
+      z: -33.51282
+      raySelectionThreshold: 0.011169235
+    - x: 37.886745
+      z: -20.150324
+      raySelectionThreshold: 0.010819801
+    - x: 35.289776
+      z: -29.761553
+      raySelectionThreshold: 0.011397616
+    - x: 30.998144
+      z: -37.11349
+      raySelectionThreshold: 0.011096704
+    - x: 29.786774
+      z: -40.416943
+      raySelectionThreshold: 0.012207966
+    - x: 28.154888
+      z: -43.408703
+      raySelectionThreshold: 0.011511628
+    - x: 26.062977
+      z: -46.088406
+      raySelectionThreshold: 0.011892458
+    - x: 27.112312
+      z: -49.53001
+      raySelectionThreshold: 0.012260673
+    - x: 24.10155
+      z: -51.706413
+      raySelectionThreshold: 0.012826658
+    - x: -1.7718883
+      z: -54.804874
+      raySelectionThreshold: 0.01574265
+    - x: -27.983654
+      z: -52.587788
+      raySelectionThreshold: 0.016909864
+    - x: 20.3889
+      z: -56.407146
+      raySelectionThreshold: 0.014158412
+    - x: -16.94113
+      z: -58.482376
+      raySelectionThreshold: 0.019534584
+    - x: -23.207066
+      z: -58.79287
+      raySelectionThreshold: 0.020660697
+    - x: 3.6089084
+      z: -60.166046
+      raySelectionThreshold: 0.016962038
+    - x: 14.503193
+      z: -60.323227
+      raySelectionThreshold: 0.014728409
+    - x: 8.173563
+      z: -61.43396
+      raySelectionThreshold: 0.015815927
+    - x: 1.1019839
+      z: -62.352703
+      raySelectionThreshold: 0.017125854
+    - x: -29.364483
+      z: -64.30764
+      raySelectionThreshold: 0.021996923
+    - x: -26.648642
+      z: -65.864815
+      raySelectionThreshold: 0.02264566
+    - x: 5.4898367
+      z: 6.705779
+      raySelectionThreshold: 0.009287956
+    - x: -1.1251794
+      z: 10.077336
+      raySelectionThreshold: 0.008872653
+    - x: -4.6147337
+      z: 10.590354
+      raySelectionThreshold: 0.009516326
+    - x: 8.58538
+      z: 6.7397943
+      raySelectionThreshold: 0.010055449
+    - x: 29.65191
+      z: -0.2873554
+      raySelectionThreshold: 0.010313638
+    - x: 33.06217
+      z: 8.095314
+      raySelectionThreshold: 0.010537282
+    - x: 34.615646
+      z: -16.452797
+      raySelectionThreshold: 0.010706902
+    - x: 38.165016
+      z: -24.922655
+      raySelectionThreshold: 0.010509602
+    - x: 34.89326
+      z: -33.848454
+      raySelectionThreshold: 0.011014864
+    - x: 34.155613
+      z: -37.6437
+      raySelectionThreshold: 0.011280259
+    - x: 33.048916
+      z: -41.11426
+      raySelectionThreshold: 0.011197188
+    - x: 31.537811
+      z: -44.247814
+      raySelectionThreshold: 0.011632761
+    - x: 12.858158
+      z: -50.993122
+      raySelectionThreshold: 0.01348754
+    - x: 29.579262
+      z: -47.047432
+      raySelectionThreshold: 0.012122449
+    - x: -12.67104
+      z: -51.885765
+      raySelectionThreshold: 0.016403385
+    - x: 27.953754
+      z: -52.706547
+      raySelectionThreshold: 0.012625139
+    - x: 5.638576
+      z: -57.81463
+      raySelectionThreshold: 0.014901623
+    - x: 20.003574
+      z: -59.00381
+      raySelectionThreshold: 0.014189678
+    - x: -6.487699
+      z: -63.09273
+      raySelectionThreshold: 0.018359557
+    - x: -14.355342
+      z: -63.661934
+      raySelectionThreshold: 0.018948372
+    - x: -22.05959
+      z: -64.06799
+      raySelectionThreshold: 0.021552384
+    - x: -10.229393
+      z: -65.04397
+      raySelectionThreshold: 0.019578919
+    - x: -18.642933
+      z: -65.530495
+      raySelectionThreshold: 0.021056283
+    - x: -31.526821
+      z: -67.577194
+      raySelectionThreshold: 0.024582889
+    - x: 34.85852
+      z: -44.889874
+      raySelectionThreshold: 0.011237833
+    - x: 33.06148
+      z: -47.83067
+      raySelectionThreshold: 0.01140418
+    - x: 38.09742
+      z: -45.330013
+      raySelectionThreshold: 0.010887589
+    - x: 30.780771
+      z: -50.428352
+      raySelectionThreshold: 0.012182205
+    - x: 34.409054
+      z: -51.172726
+      raySelectionThreshold: 0.011700004
+    - x: 24.512117
+      z: -54.691013
+      raySelectionThreshold: 0.0128039485
+    - x: 31.80455
+      z: -53.56701
+      raySelectionThreshold: 0.012577474
+    - x: 37.94215
+      z: -51.774284
+      raySelectionThreshold: 0.011596078
+    - x: 28.593493
+      z: -55.650433
+      raySelectionThreshold: 0.0129595185
+    - x: 35.586807
+      z: -54.29939
+      raySelectionThreshold: 0.012082177
+    - x: 24.692095
+      z: -57.452984
+      raySelectionThreshold: 0.013438472
+    - x: 32.64621
+      z: -56.492447
+      raySelectionThreshold: 0.012569258
+    - x: 29.024927
+      z: -58.388756
+      raySelectionThreshold: 0.013060321
+    - x: 24.620384
+      z: -60.020382
+      raySelectionThreshold: 0.013967515
+    - x: 19.338282
+      z: -61.415417
+      raySelectionThreshold: 0.014631477
+    - x: 29.259869
+      z: -60.939972
+      raySelectionThreshold: 0.013897558
+    - x: 13.100681
+      z: -62.598515
+      raySelectionThreshold: 0.015192566
+    - x: 24.314318
+      z: -62.411716
+      raySelectionThreshold: 0.014715121
+    - x: 5.9951515
+      z: -63.586796
+      raySelectionThreshold: 0.016763164
+    - x: 18.325308
+      z: -63.667786
+      raySelectionThreshold: 0.015581635
+    - x: -1.9126432
+      z: -64.39823
+      raySelectionThreshold: 0.01787944
+    - x: 11.3207035
+      z: -64.72542
+      raySelectionThreshold: 0.01662952
+    - x: 3.284795
+      z: -65.6065
+      raySelectionThreshold: 0.017752972
+    - x: -5.433613
+      z: -66.323654
+      raySelectionThreshold: 0.018759772
+    - x: 9.008633
+      z: -66.72618
+      raySelectionThreshold: 0.017316943
+    - x: -14.505374
+      z: -66.887085
+      raySelectionThreshold: 0.020478351
+    - x: 0.048456643
+      z: -67.51109
+      raySelectionThreshold: 0.018746179
+    - x: -23.318506
+      z: -67.305214
+      raySelectionThreshold: 0.022616694
+    - x: -9.608914
+      z: -68.14594
+      raySelectionThreshold: 0.020227112
+    - x: -19.316116
+      z: -68.638985
+      raySelectionThreshold: 0.021809481
+    - x: -24.57898
+      z: -70.316315
+      raySelectionThreshold: 0.023325138
+    - x: 39.273506
+      z: -54.900986
+      raySelectionThreshold: 0.012235102
+    - x: 36.633503
+      z: -57.217327
+      raySelectionThreshold: 0.012890941
+    - x: 33.340157
+      z: -59.217106
+      raySelectionThreshold: 0.013544722
+    - x: 37.55333
+      z: -59.946445
+      raySelectionThreshold: 0.01366729
+    - x: 33.866016
+      z: -61.765457
+      raySelectionThreshold: 0.014242951
+    - x: 41.60672
+      z: -60.58158
+      raySelectionThreshold: 0.013094562
+    - x: 29.3259
+      z: -63.319912
+      raySelectionThreshold: 0.014839206
+    - x: 38.34292
+      z: -62.50479
+      raySelectionThreshold: 0.01343268
+    - x: 23.714552
+      z: -64.65069
+      raySelectionThreshold: 0.015760245
+    - x: 34.26869
+      z: -64.14687
+      raySelectionThreshold: 0.014521285
+    - x: 16.981575
+      z: -65.777466
+      raySelectionThreshold: 0.01646003
+    - x: 29.141945
+      z: -65.554794
+      raySelectionThreshold: 0.015306379
+    - x: 39.02055
+      z: -64.90361
+      raySelectionThreshold: 0.014388585
+    - x: 22.799826
+      z: -66.75334
+      raySelectionThreshold: 0.016495645
+    - x: 34.481518
+      z: -66.38694
+      raySelectionThreshold: 0.015297859
+    - x: 15.154648
+      z: -67.76602
+      raySelectionThreshold: 0.017239794
+    - x: 28.714396
+      z: -67.65652
+      raySelectionThreshold: 0.016173754
+    - x: 6.12199
+      z: -68.61613
+      raySelectionThreshold: 0.018871728
+    - x: 21.56669
+      z: -68.7341
+      raySelectionThreshold: 0.01733758
+    - x: -3.8998315
+      z: -69.31717
+      raySelectionThreshold: 0.019632248
+    - x: -28.42543
+      z: -68.99798
+      raySelectionThreshold: 0.024060505
+    - x: 12.798943
+      z: -69.64692
+      raySelectionThreshold: 0.017795963
+    - x: -14.425273
+      z: -69.880844
+      raySelectionThreshold: 0.02122955
+    - x: 2.6210716
+      z: -70.41018
+      raySelectionThreshold: 0.019471772
+    - x: -8.58538
+      z: -71.03886
+      raySelectionThreshold: 0.020666108
+    - x: -33.839897
+      z: -70.6251
+      raySelectionThreshold: 0.024919514
+    - x: -19.827877
+      z: -71.54347
+      raySelectionThreshold: 0.022522844
+    - x: -30.332014
+      z: -71.92903
+      raySelectionThreshold: 0.024117557
+    - x: -14.069243
+      z: -72.68914
+      raySelectionThreshold: 0.021516936
+    - x: -25.897999
+      z: -73.14402
+      raySelectionThreshold: 0.023571115
+    - x: -36.411682
+      z: -73.49087
+      raySelectionThreshold: 0.025626902
+    - x: -32.47591
+      z: -74.69499
+      raySelectionThreshold: 0.025012791
+    - x: -42.624084
+      z: -75.01515
+      raySelectionThreshold: 0.027279163
+    - x: 39.622578
+      z: -67.15329
+      raySelectionThreshold: 0.014715446
+    - x: 34.52263
+      z: -68.49562
+      raySelectionThreshold: 0.015644025
+    - x: 44.480293
+      z: -67.85941
+      raySelectionThreshold: 0.014247554
+    - x: 28.053293
+      z: -69.63791
+      raySelectionThreshold: 0.017084017
+    - x: 40.088406
+      z: -69.27699
+      raySelectionThreshold: 0.014898438
+    - x: 34.372555
+      z: -70.48703
+      raySelectionThreshold: 0.015994692
+    - x: 9.864381
+      z: -71.43371
+      raySelectionThreshold: 0.019152988
+    - x: 27.011982
+      z: -71.51764
+      raySelectionThreshold: 0.017624566
+    - x: -1.7374247
+      z: -72.12251
+      raySelectionThreshold: 0.020409347
+    - x: 40.445446
+      z: -71.28314
+      raySelectionThreshold: 0.015363695
+    - x: 17.5628
+      z: -72.39688
+      raySelectionThreshold: 0.018528456
+    - x: 34.050343
+      z: -72.3722
+      raySelectionThreshold: 0.01609201
+    - x: 46.098755
+      z: -72.03464
+      raySelectionThreshold: 0.014699659
+    - x: -7.024454
+      z: -73.76493
+      raySelectionThreshold: 0.020845365
+    - x: 40.731087
+      z: -73.18196
+      raySelectionThreshold: 0.015528086
+    - x: 14.649448
+      z: -74.10155
+      raySelectionThreshold: 0.018432993
+    - x: 51.262268
+      z: -72.74744
+      raySelectionThreshold: 0.013798018
+    - x: -20.297857
+      z: -74.28078
+      raySelectionThreshold: 0.022720091
+    - x: 33.4163
+      z: -74.16806
+      raySelectionThreshold: 0.01640293
+    - x: 1.2969409
+      z: -74.77858
+      raySelectionThreshold: 0.020361396
+    - x: 46.857685
+      z: -73.95615
+      raySelectionThreshold: 0.014620858
+    - x: 23.54476
+      z: -75.01392
+      raySelectionThreshold: 0.01758207
+    - x: 55.914314
+      z: -73.4273
+      raySelectionThreshold: 0.013429752
+    - x: -13.268019
+      z: -75.34918
+      raySelectionThreshold: 0.021520663
+    - x: 40.85136
+      z: -74.99077
+      raySelectionThreshold: 0.015832262
+    - x: 52.42895
+      z: -74.695786
+      raySelectionThreshold: 0.013893523
+    - x: -27.358025
+      z: -75.82292
+      raySelectionThreshold: 0.023945922
+    - x: 60.068783
+      z: -74.079956
+      raySelectionThreshold: 0.013254696
+    - x: -4.6914363
+      z: -76.358215
+      raySelectionThreshold: 0.02088798
+    - x: -39.339874
+      z: -76.20862
+      raySelectionThreshold: 0.026083585
+    - x: 20.890965
+      z: -76.65246
+      raySelectionThreshold: 0.018138409
+    - x: -20.6781
+      z: -76.88479
+      raySelectionThreshold: 0.022789884
+    - x: 40.825493
+      z: -76.71783
+      raySelectionThreshold: 0.016148478
+    - x: 63.745003
+      z: -74.716064
+      raySelectionThreshold: 0.01295557
+    - x: 5.611085
+      z: -77.31703
+      raySelectionThreshold: 0.01957599
+    - x: -35.021797
+      z: -77.326485
+      raySelectionThreshold: 0.025515394
+    - x: 31.089102
+      z: -77.52807
+      raySelectionThreshold: 0.017359104
+    - x: -12.006398
+      z: -77.88994
+      raySelectionThreshold: 0.021458039
+    - x: -46.39276
+      z: -77.69179
+      raySelectionThreshold: 0.02765357
+    - x: 17.142536
+      z: -78.23313
+      raySelectionThreshold: 0.01850918
+    - x: -29.094034
+      z: -78.381836
+      raySelectionThreshold: 0.023861058
+    - x: -42.964024
+      z: -78.802246
+      raySelectionThreshold: 0.026603224
+    - x: -20.968735
+      z: -79.38263
+      raySelectionThreshold: 0.02217695
+    - x: -38.24482
+      z: -79.84953
+      raySelectionThreshold: 0.025311735
+    - x: 19.84226
+      z: -70.61157
+      raySelectionThreshold: 0.01802631
+    - x: 6.0745735
+      z: -73.14066
+      raySelectionThreshold: 0.019684948
+    - x: 25.550438
+      z: -73.305725
+      raySelectionThreshold: 0.017605683
+    - x: 10.744718
+      z: -75.73846
+      raySelectionThreshold: 0.01900307
+    - x: 32.442104
+      z: -75.883446
+      raySelectionThreshold: 0.017017744
+    - x: -1.036843
+      z: -78.84704
+      raySelectionThreshold: 0.020055553
+  IndexIntermediateAngles:
+  - side: 0
+    rayAngles: []
+  - side: 1
+    rayAngles:
+    - x: 0
+      z: 0
+      raySelectionThreshold: 0.013135091
+    - x: -1.236539
+      z: -1.6430628
+      raySelectionThreshold: 0.012485629
+    - x: 2.578533
+      z: 0.2755364
+      raySelectionThreshold: 0.012486631
+    - x: 0.63857776
+      z: -4.3851247
+      raySelectionThreshold: 0.012524085
+    - x: 4.298514
+      z: -2.720885
+      raySelectionThreshold: 0.013294266
+    - x: -2.0998433
+      z: -6.1715217
+      raySelectionThreshold: 0.012735956
+    - x: 5.2432914
+      z: 2.9927096
+      raySelectionThreshold: 0.012991957
+    - x: 3.187149
+      z: -6.6718554
+      raySelectionThreshold: 0.012780512
+    - x: 1.4221654
+      z: 7.8277197
+      raySelectionThreshold: 0.01278947
+    - x: -5.607731
+      z: -4.803547
+      raySelectionThreshold: 0.013065087
+    - x: -0.31403533
+      z: -9.146968
+      raySelectionThreshold: 0.013614581
+    - x: 5.4898367
+      z: 6.705779
+      raySelectionThreshold: 0.012902389
+    - x: 6.2963157
+      z: -6.395649
+      raySelectionThreshold: 0.012991927
+    - x: -4.922906
+      z: -8.5702
+      raySelectionThreshold: 0.013117411
+    - x: 8.557838
+      z: 2.3598278
+      raySelectionThreshold: 0.012988809
+    - x: 2.799742
+      z: -10.570788
+      raySelectionThreshold: 0.013772865
+    - x: -8.773978
+      z: -4.4962306
+      raySelectionThreshold: 0.013653877
+    - x: 9.111259
+      z: -4.017028
+      raySelectionThreshold: 0.013452592
+    - x: -2.5762546
+      z: -11.738749
+      raySelectionThreshold: 0.01317822
+    - x: 8.58538
+      z: 6.7397943
+      raySelectionThreshold: 0.013161095
+    - x: 6.473054
+      z: -10.112388
+      raySelectionThreshold: 0.0132759875
+    - x: -7.97895
+      z: -8.970275
+      raySelectionThreshold: 0.013264955
+    - x: 10.962823
+      z: 0.0656106
+      raySelectionThreshold: 0.013353163
+    - x: 1.0527626
+      z: -13.5710335
+      raySelectionThreshold: 0.013871679
+    - x: 6.9557867
+      z: 11.072009
+      raySelectionThreshold: 0.013083077
+    - x: 9.9385395
+      z: -7.645498
+      raySelectionThreshold: 0.013756846
+    - x: -5.532472
+      z: -12.940248
+      raySelectionThreshold: 0.012369615
+    - x: 5.3727193
+      z: -13.582337
+      raySelectionThreshold: 0.013517865
+    - x: -10.960398
+      z: -7.8666406
+      raySelectionThreshold: 0.013729509
+    - x: 12.506058
+      z: -3.3187122
+      raySelectionThreshold: 0.013684834
+    - x: 10.099913
+      z: 10.457412
+      raySelectionThreshold: 0.013399818
+    - x: 9.641349
+      z: -11.519605
+      raySelectionThreshold: 0.013475184
+    - x: -8.7996435
+      z: -12.848148
+      raySelectionThreshold: 0.013283287
+    - x: 3.204241
+      z: -16.500118
+      raySelectionThreshold: 0.013547468
+    - x: 13.119878
+      z: -7.3744564
+      raySelectionThreshold: 0.014130496
+    - x: -4.969407
+      z: -16.63884
+      raySelectionThreshold: 0.013412904
+    - x: 8.268877
+      z: -15.229203
+      raySelectionThreshold: 0.013757956
+    - x: -12.041038
+      z: -11.482265
+      raySelectionThreshold: 0.0135838
+    - x: 0.15450507
+      z: -18.627117
+      raySelectionThreshold: 0.013687474
+    - x: 12.742366
+      z: -11.686109
+      raySelectionThreshold: 0.013469504
+    - x: -8.617758
+      z: -16.508474
+      raySelectionThreshold: 0.013384533
+    - x: 15.931518
+      z: -6.0110216
+      raySelectionThreshold: 0.013718537
+    - x: -3.5466301
+      z: -19.791487
+      raySelectionThreshold: 0.013739368
+    - x: 11.337461
+      z: -15.852532
+      raySelectionThreshold: 0.013997814
+    - x: -12.26482
+      z: -15.171933
+      raySelectionThreshold: 0.013494254
+    - x: 17.358017
+      z: 1.2207714
+      raySelectionThreshold: 0.013630417
+    - x: 2.5926137
+      z: -20.884882
+      raySelectionThreshold: 0.014159479
+    - x: 15.693289
+      z: -10.846202
+      raySelectionThreshold: 0.013892905
+    - x: -7.6135507
+      z: -19.86999
+      raySelectionThreshold: 0.013668848
+    - x: 8.908739
+      z: -19.527287
+      raySelectionThreshold: 0.013875791
+    - x: -1.416927
+      z: -22.39711
+      raySelectionThreshold: 0.014040035
+    - x: 14.434523
+      z: -15.576036
+      raySelectionThreshold: 0.014301543
+    - x: -11.728135
+      z: -18.767982
+      raySelectionThreshold: 0.012727263
+    - x: 5.515905
+      z: -22.448626
+      raySelectionThreshold: 0.014064528
+    - x: 18.401611
+      z: -9.106858
+      raySelectionThreshold: 0.014363107
+    - x: -5.881666
+      z: -22.84488
+      raySelectionThreshold: 0.013747356
+    - x: -15.575935
+      z: -16.414518
+      raySelectionThreshold: 0.014149974
+    - x: 1.3014594
+      z: -24.435205
+      raySelectionThreshold: 0.01400303
+    - x: 17.429464
+      z: -14.452035
+      raySelectionThreshold: 0.01407045
+    - x: -10.478765
+      z: -22.127125
+      raySelectionThreshold: 0.013804202
+    - x: 8.775836
+      z: -23.331013
+      raySelectionThreshold: 0.014232861
+    - x: -3.4954162
+      z: -25.363401
+      raySelectionThreshold: 0.014021753
+    - x: 15.37722
+      z: -19.365057
+      raySelectionThreshold: 0.014385178
+    - x: -14.872739
+      z: -20.153337
+      raySelectionThreshold: 0.013701225
+    - x: 4.4906077
+      z: -25.885527
+      raySelectionThreshold: 0.014353459
+    - x: 20.210493
+      z: -12.505238
+      raySelectionThreshold: 0.01444306
+    - x: -8.551594
+      z: -25.136497
+      raySelectionThreshold: 0.013942107
+    - x: 12.224484
+      z: -23.527674
+      raySelectionThreshold: 0.014466312
+    - x: -18.762058
+      z: -16.853077
+      raySelectionThreshold: 0.013760061
+    - x: -0.53265774
+      z: -27.376085
+      raySelectionThreshold: 0.014293825
+    - x: 18.536203
+      z: -18.126
+      raySelectionThreshold: 0.01473187
+    - x: -13.504757
+      z: -23.660845
+      raySelectionThreshold: 0.01351594
+    - x: 8.019638
+      z: -26.728775
+      raySelectionThreshold: 0.014448871
+    - x: -5.9831066
+      z: -27.71624
+      raySelectionThreshold: 0.014539217
+    - x: 15.714172
+      z: -23.02279
+      raySelectionThreshold: 0.014236435
+    - x: -18.01164
+      z: -20.843794
+      raySelectionThreshold: 0.014001022
+    - x: 2.9104693
+      z: -28.848602
+      raySelectionThreshold: 0.014455478
+    - x: 21.484932
+      z: -16.101507
+      raySelectionThreshold: 0.013521269
+    - x: -11.476653
+      z: -26.820936
+      raySelectionThreshold: 0.0141226305
+    - x: 11.744873
+      z: -26.943233
+      raySelectionThreshold: 0.014773932
+    - x: -2.8261855
+      z: -29.812748
+      raySelectionThreshold: 0.014407493
+    - x: -16.621061
+      z: -24.592604
+      raySelectionThreshold: 0.014109944
+    - x: 6.7137294
+      z: -29.75446
+      raySelectionThreshold: 0.014732724
+    - x: 24.131163
+      z: -13.280481
+      raySelectionThreshold: 0.01358538
+    - x: -8.801563
+      z: -29.552925
+      raySelectionThreshold: 0.014325993
+    - x: 15.517565
+      z: -26.50081
+      raySelectionThreshold: 0.014174143
+    - x: -21.095331
+      z: -20.925117
+      raySelectionThreshold: 0.014505349
+    - x: 0.84000033
+      z: -31.390902
+      raySelectionThreshold: 0.014758103
+    - x: 22.287878
+      z: -19.795916
+      raySelectionThreshold: 0.01376115
+    - x: -14.576053
+      z: -27.981821
+      raySelectionThreshold: 0.013908831
+    - x: 10.735462
+      z: -30.067928
+      raySelectionThreshold: 0.014840049
+    - x: -5.511889
+      z: -31.80509
+      raySelectionThreshold: 0.014935822
+    - x: 19.195538
+      z: -25.36467
+      raySelectionThreshold: 0.013142343
+    - x: -19.761026
+      z: -24.983845
+      raySelectionThreshold: 0.014296913
+    - x: -11.870875
+      z: -30.931171
+      raySelectionThreshold: 0.0146118
+    - x: 14.821734
+      z: -29.758135
+      raySelectionThreshold: 0.014515694
+    - x: -24.076044
+      z: -20.43678
+      raySelectionThreshold: 0.014294031
+    - x: -1.6697637
+      z: -33.54587
+      raySelectionThreshold: 0.015122623
+    - x: 22.654629
+      z: -23.488993
+      raySelectionThreshold: 0.013806182
+    - x: -17.774807
+      z: -28.664328
+      raySelectionThreshold: 0.014234457
+    - x: -8.518228
+      z: -33.39197
+      raySelectionThreshold: 0.014920642
+    - x: 18.821375
+      z: -28.784922
+      raySelectionThreshold: 0.013601915
+    - x: -22.862326
+      z: -24.863104
+      raySelectionThreshold: 0.014434596
+    - x: 2.6249518
+      z: -34.75449
+      raySelectionThreshold: 0.015189112
+    - x: -15.116652
+      z: -31.88385
+      raySelectionThreshold: 0.0146415625
+    - x: 13.641977
+      z: -32.763874
+      raySelectionThreshold: 0.0143334195
+    - x: -4.563041
+      z: -35.337467
+      raySelectionThreshold: 0.0151974615
+    - x: -20.99972
+      z: -28.89158
+      raySelectionThreshold: 0.0145941805
+    - x: 7.2358694
+      z: -35.41205
+      raySelectionThreshold: 0.015459257
+    - x: -11.774834
+      z: -34.59851
+      raySelectionThreshold: 0.01560111
+    - x: 17.994114
+      z: -31.99931
+      raySelectionThreshold: 0.013408753
+    - x: -25.866613
+      z: -24.24218
+      raySelectionThreshold: 0.014434516
+    - x: -0.083929375
+      z: -36.753773
+      raySelectionThreshold: 0.015401729
+    - x: -18.45761
+      z: -32.431187
+      raySelectionThreshold: 0.014511118
+    - x: 11.98895
+      z: -35.496338
+      raySelectionThreshold: 0.01512993
+    - x: -7.777535
+      z: -36.78406
+      raySelectionThreshold: 0.015463854
+    - x: 22.126926
+      z: -30.549875
+      raySelectionThreshold: 0.013595254
+    - x: -24.183601
+      z: -28.670443
+      raySelectionThreshold: 0.015067645
+    - x: 4.7802444
+      z: -37.628925
+      raySelectionThreshold: 0.015733393
+    - x: -15.204821
+      z: -35.44028
+      raySelectionThreshold: 0.014908911
+    - x: 16.712793
+      z: -34.971664
+      raySelectionThreshold: 0.013995715
+    - x: -3.1803236
+      z: -38.43498
+      raySelectionThreshold: 0.015635328
+    - x: -21.81981
+      z: -32.57916
+      raySelectionThreshold: 0.015484042
+    - x: 9.864998
+      z: -37.946484
+      raySelectionThreshold: 0.015251223
+    - x: -11.24593
+      z: -37.898506
+      raySelectionThreshold: 0.015790874
+    - x: 21.232094
+      z: -33.792404
+      raySelectionThreshold: 0.013412614
+    - x: -27.270374
+      z: -27.99117
+      raySelectionThreshold: 0.014973139
+    - x: 1.8912404
+      z: -39.546787
+      raySelectionThreshold: 0.015884068
+    - x: -18.728382
+      z: -35.924503
+      raySelectionThreshold: 0.015865058
+    - x: 14.966716
+      z: -37.68141
+      raySelectionThreshold: 0.015066849
+    - x: -6.610019
+      z: -39.80833
+      raySelectionThreshold: 0.01596315
+    - x: -25.133617
+      z: -32.32375
+      raySelectionThreshold: 0.015195041
+    - x: 7.275995
+      z: -40.11234
+      raySelectionThreshold: 0.016158924
+    - x: -14.890357
+      z: -38.688602
+      raySelectionThreshold: 0.015848158
+    - x: 19.90252
+      z: -36.7895
+      raySelectionThreshold: 0.014801721
+    - x: -30.207117
+      z: -26.842356
+      raySelectionThreshold: 0.014562043
+    - x: -1.3998364
+      z: -41.17354
+      raySelectionThreshold: 0.015829433
+    - x: -22.27049
+      z: -36.048103
+      raySelectionThreshold: 0.015114852
+    - x: 12.755427
+      z: -40.11499
+      raySelectionThreshold: 0.015236081
+    - x: -10.304999
+      z: -40.881813
+      raySelectionThreshold: 0.015741983
+    - x: -28.338686
+      z: -31.650831
+      raySelectionThreshold: 0.015398782
+    - x: 4.2351246
+      z: -41.997227
+      raySelectionThreshold: 0.016183842
+    - x: -18.627802
+      z: -39.1566
+      raySelectionThreshold: 0.015907586
+    - x: 18.121662
+      z: -39.52012
+      raySelectionThreshold: 0.0148448
+    - x: -5.0436034
+      z: -42.516705
+      raySelectionThreshold: 0.016430112
+    - x: -25.75099
+      z: -35.8062
+      raySelectionThreshold: 0.015518048
+    - x: 10.069721
+      z: -42.27232
+      raySelectionThreshold: 0.015959831
+    - x: -14.19021
+      z: -41.65896
+      raySelectionThreshold: 0.016297381
+    - x: 23.172783
+      z: -38.27781
+      raySelectionThreshold: 0.014205813
+    - x: -31.38616
+      z: -30.536226
+      raySelectionThreshold: 0.014915376
+    - x: -22.375212
+      z: -39.29865
+      raySelectionThreshold: 0.016323967
+    - x: 15.87115
+      z: -41.975334
+      raySelectionThreshold: 0.015203339
+    - x: -8.973056
+      z: -43.582703
+      raySelectionThreshold: 0.0166883
+    - x: -29.110697
+      z: -35.17916
+      raySelectionThreshold: 0.015438152
+    - x: -18.168125
+      z: -42.142372
+      raySelectionThreshold: 0.016636783
+    - x: 21.400116
+      z: -41.0664
+      raySelectionThreshold: 0.01454687
+    - x: -3.0845149
+      z: -44.949944
+      raySelectionThreshold: 0.016326807
+    - x: -26.055155
+      z: -39.103912
+      raySelectionThreshold: 0.015981153
+    - x: 13.134644
+      z: -44.15514
+      raySelectionThreshold: 0.015568393
+    - x: -13.105592
+      z: -44.375546
+      raySelectionThreshold: 0.016932208
+    - x: 26.484161
+      z: -39.475883
+      raySelectionThreshold: 0.01381523
+    - x: -32.299232
+      z: -34.139736
+      raySelectionThreshold: 0.015860554
+    - x: 3.2985342
+      z: -45.777172
+      raySelectionThreshold: 0.016557766
+    - x: -22.154137
+      z: -42.32659
+      raySelectionThreshold: 0.01663108
+    - x: 19.15754
+      z: -43.5724
+      raySelectionThreshold: 0.014794728
+    - x: -7.2487636
+      z: -46.031506
+      raySelectionThreshold: 0.016538091
+    - x: -29.604267
+      z: -38.550686
+      raySelectionThreshold: 0.016346473
+    - x: 9.897178
+      z: -46.06594
+      raySelectionThreshold: 0.015947284
+    - x: -17.35251
+      z: -44.894436
+      raySelectionThreshold: 0.017132761
+    - x: 24.758974
+      z: -42.354843
+      raySelectionThreshold: 0.014310054
+    - x: -35.27962
+      z: -32.650444
+      raySelectionThreshold: 0.015601794
+    - x: -0.73382056
+      z: -47.13999
+      raySelectionThreshold: 0.016966227
+    - x: -26.068424
+      z: -42.198578
+      raySelectionThreshold: 0.016035134
+    - x: 16.412947
+      z: -45.799545
+      raySelectionThreshold: 0.015224398
+    - x: -11.644001
+      z: -46.856773
+      raySelectionThreshold: 0.01754543
+    - x: 29.786774
+      z: -40.416943
+      raySelectionThreshold: 0.014224568
+    - x: -32.959244
+      z: -37.619987
+      raySelectionThreshold: 0.016308578
+    - x: 6.180759
+      z: -47.714493
+      raySelectionThreshold: 0.016454168
+    - x: -21.605343
+      z: -45.137764
+      raySelectionThreshold: 0.01732458
+    - x: 22.570293
+      z: -44.93632
+      raySelectionThreshold: 0.014609387
+    - x: -38.027668
+      z: -30.663137
+      raySelectionThreshold: 0.015743691
+    - x: -5.1242647
+      z: -48.253487
+      raySelectionThreshold: 0.01720531
+    - x: -29.829773
+      z: -41.744434
+      raySelectionThreshold: 0.016900737
+    - x: 13.155276
+      z: -47.75336
+      raySelectionThreshold: 0.015684495
+    - x: -16.169254
+      z: -47.427258
+      raySelectionThreshold: 0.017420674
+    - x: 28.154888
+      z: -43.408703
+      raySelectionThreshold: 0.014235246
+    - x: -36.092487
+      z: -36.264664
+      raySelectionThreshold: 0.016106483
+    - x: 1.9940978
+      z: -49.112873
+      raySelectionThreshold: 0.017105721
+    - x: -25.77643
+      z: -45.095013
+      raySelectionThreshold: 0.016984636
+    - x: 19.878237
+      z: -47.2285
+      raySelectionThreshold: 0.015066956
+    - x: -9.785829
+      z: -49.123577
+      raySelectionThreshold: 0.017497221
+    - x: -33.3858
+      z: -40.9355
+      raySelectionThreshold: 0.016632112
+    - x: 9.37054
+      z: -49.44665
+      raySelectionThreshold: 0.01617492
+    - x: -20.716192
+      z: -47.740456
+      raySelectionThreshold: 0.017409727
+    - x: 26.062977
+      z: -46.088406
+      raySelectionThreshold: 0.01479146
+    - x: -38.981457
+      z: -34.42832
+      raySelectionThreshold: 0.015920257
+    - x: -2.6168861
+      z: -50.269444
+      raySelectionThreshold: 0.017628836
+    - x: -29.785328
+      z: -44.74994
+      raySelectionThreshold: 0.017001431
+    - x: 16.649021
+      z: -49.242706
+      raySelectionThreshold: 0.015457711
+    - x: -14.610074
+      z: -49.753357
+      raySelectionThreshold: 0.01804713
+    - x: 31.537811
+      z: -44.247814
+      raySelectionThreshold: 0.014128844
+    - x: -36.69662
+      z: -39.734695
+      raySelectionThreshold: 0.016636925
+    - x: 5.0708
+      z: -50.891613
+      raySelectionThreshold: 0.017126093
+    - x: -25.180109
+      z: -47.788803
+      raySelectionThreshold: 0.017921558
+    - x: 23.466858
+      z: -48.46527
+      raySelectionThreshold: 0.014902257
+    - x: -41.60413
+      z: -32.065643
+      raySelectionThreshold: 0.01581
+    - x: -7.5390563
+      z: -51.19199
+      raySelectionThreshold: 0.018333204
+    - x: -33.56937
+      z: -44.07813
+      raySelectionThreshold: 0.017413324
+    - x: 12.858158
+      z: -50.993122
+      raySelectionThreshold: 0.015792198
+    - x: -19.476568
+      z: -50.14222
+      raySelectionThreshold: 0.01827654
+    - x: 29.579262
+      z: -47.047432
+      raySelectionThreshold: 0.014448515
+    - x: -39.738293
+      z: -38.092705
+      raySelectionThreshold: 0.016404333
+    - x: 0.29870716
+      z: -52.099777
+      raySelectionThreshold: 0.01754478
+    - x: -29.469675
+      z: -47.558548
+      raySelectionThreshold: 0.017691784
+    - x: 20.321096
+      z: -50.55418
+      raySelectionThreshold: 0.015264919
+    - x: -12.67104
+      z: -51.885765
+      raySelectionThreshold: 0.018275563
+    - x: 34.85852
+      z: -44.889874
+      raySelectionThreshold: 0.013968147
+    - x: -37.08534
+      z: -43.045174
+      raySelectionThreshold: 0.016936596
+    - x: 8.500272
+      z: -52.494568
+      raySelectionThreshold: 0.016384713
+    - x: -24.277075
+      z: -50.28179
+      raySelectionThreshold: 0.018142298
+    - x: 27.112312
+      z: -49.53001
+      raySelectionThreshold: 0.01462567
+    - x: -42.500427
+      z: -35.946163
+      raySelectionThreshold: 0.016501958
+    - x: -4.8657866
+      z: -53.08096
+      raySelectionThreshold: 0.018004706
+    - x: -33.513783
+      z: -47.02837
+      raySelectionThreshold: 0.017634382
+    - x: 16.585241
+      z: -52.372646
+      raySelectionThreshold: 0.01569748
+    - x: -17.878853
+      z: -52.352325
+      raySelectionThreshold: 0.018707871
+    - x: 33.06148
+      z: -47.83067
+      raySelectionThreshold: 0.014205241
+    - x: -40.308544
+      z: -41.604534
+      raySelectionThreshold: 0.01691201
+    - x: 3.6009786
+      z: -53.761105
+      raySelectionThreshold: 0.017251562
+    - x: -28.881851
+      z: -50.166748
+      raySelectionThreshold: 0.017921172
+    - x: 24.10155
+      z: -51.706413
+      raySelectionThreshold: 0.01497857
+    - x: -10.30477
+      z: -53.84232
+      raySelectionThreshold: 0.01868845
+    - x: 38.09742
+      z: -45.330013
+      raySelectionThreshold: 0.013603397
+    - x: -37.264233
+      z: -46.167583
+      raySelectionThreshold: 0.018026914
+    - x: 12.233739
+      z: -53.9386
+      raySelectionThreshold: 0.016142534
+    - x: -23.02467
+      z: -52.58896
+      raySelectionThreshold: 0.018608192
+    - x: 30.780771
+      z: -50.428352
+      raySelectionThreshold: 0.014028528
+    - x: -43.229668
+      z: -39.694977
+      raySelectionThreshold: 0.017238135
+    - x: -1.7718883
+      z: -54.804874
+      raySelectionThreshold: 0.017888663
+    - x: -33.220375
+      z: -49.7768
+      raySelectionThreshold: 0.018115273
+    - x: 20.482046
+      z: -53.602486
+      raySelectionThreshold: 0.01530539
+    - x: -15.870962
+      z: -54.38775
+      raySelectionThreshold: 0.019316426
+    - x: 36.484432
+      z: -48.436714
+      raySelectionThreshold: 0.013924718
+    - x: -40.70102
+      z: -44.92652
+      raySelectionThreshold: 0.017581455
+    - x: 7.2534175
+      z: -55.26957
+      raySelectionThreshold: 0.016553067
+    - x: -27.983654
+      z: -52.587788
+      raySelectionThreshold: 0.018565455
+    - x: 27.953754
+      z: -52.706547
+      raySelectionThreshold: 0.014477204
+    - x: -45.851006
+      z: -37.237957
+      raySelectionThreshold: 0.016806394
+    - x: -7.5031548
+      z: -55.63538
+      raySelectionThreshold: 0.018427411
+    - x: -37.23691
+      z: -49.085487
+      raySelectionThreshold: 0.018630829
+    - x: 16.207043
+      z: -55.239635
+      raySelectionThreshold: 0.015771708
+    - x: -21.40547
+      z: -54.717113
+      raySelectionThreshold: 0.01944726
+    - x: 34.409054
+      z: -51.172726
+      raySelectionThreshold: 0.014303037
+    - x: -43.8015
+      z: -43.261734
+      raySelectionThreshold: 0.017500263
+    - x: 1.7232873
+      z: -56.378345
+      raySelectionThreshold: 0.01735478
+    - x: -32.65692
+      z: -52.33466
+      raySelectionThreshold: 0.019036463
+    - x: 24.512117
+      z: -54.691013
+      raySelectionThreshold: 0.014987042
+    - x: -13.434837
+      z: -56.258904
+      raySelectionThreshold: 0.019057235
+    - x: -40.901665
+      z: -48.05562
+      raySelectionThreshold: 0.018483097
+    - x: 11.252932
+      z: -56.637825
+      raySelectionThreshold: 0.016235344
+    - x: -26.759161
+      z: -54.825607
+      raySelectionThreshold: 0.01920649
+    - x: 31.80455
+      z: -53.56701
+      raySelectionThreshold: 0.014362627
+    - x: -46.57801
+      z: -41.09215
+      raySelectionThreshold: 0.01722438
+    - x: -4.267235
+      z: -57.278183
+      raySelectionThreshold: 0.018353736
+    - x: -36.97772
+      z: -51.80767
+      raySelectionThreshold: 0.019515034
+    - x: 20.3889
+      z: -56.407146
+      raySelectionThreshold: 0.015488289
+    - x: -19.400774
+      z: -56.676155
+      raySelectionThreshold: 0.019799095
+    - x: -44.20628
+      z: -46.636227
+      raySelectionThreshold: 0.018612977
+    - x: 5.638576
+      z: -57.81463
+      raySelectionThreshold: 0.017033512
+    - x: -31.81118
+      z: -54.702736
+      raySelectionThreshold: 0.019520724
+    - x: 28.593493
+      z: -55.650433
+      raySelectionThreshold: 0.014921281
+    - x: -10.556594
+      z: -57.97782
+      raySelectionThreshold: 0.01905227
+    - x: -40.910805
+      z: -50.975147
+      raySelectionThreshold: 0.019507281
+    - x: 15.531652
+      z: -57.878445
+      raySelectionThreshold: 0.016006391
+    - x: -25.189754
+      z: -56.88832
+      raySelectionThreshold: 0.020214166
+    - x: -47.158062
+      z: -44.758854
+      raySelectionThreshold: 0.018514507
+    - x: -0.5549665
+      z: -58.784653
+      raySelectionThreshold: 0.017819826
+    - x: -36.47891
+      z: -54.33109
+      raySelectionThreshold: 0.019458063
+    - x: 24.692095
+      z: -57.452984
+      raySelectionThreshold: 0.015320727
+    - x: -16.94113
+      z: -58.482376
+      raySelectionThreshold: 0.020041341
+    - x: -44.447033
+      z: -49.79287
+      raySelectionThreshold: 0.018941285
+    - x: 9.923351
+      z: -59.125595
+      raySelectionThreshold: 0.01649429
+    - x: -30.667967
+      z: -56.887184
+      raySelectionThreshold: 0.020425167
+    - x: 32.64621
+      z: -56.492447
+      raySelectionThreshold: 0.014581884
+    - x: -49.774387
+      z: -42.332844
+      raySelectionThreshold: 0.018183656
+    - x: -7.1732926
+      z: -59.55918
+      raySelectionThreshold: 0.018652594
+    - x: -40.718422
+      z: -53.684566
+      raySelectionThreshold: 0.020157186
+    - x: 20.003574
+      z: -59.00381
+      raySelectionThreshold: 0.01591997
+    - x: -23.207066
+      z: -58.79287
+      raySelectionThreshold: 0.0205849
+    - x: -47.596153
+      z: -48.20034
+      raySelectionThreshold: 0.019076813
+    - x: 3.6089084
+      z: -60.166046
+      raySelectionThreshold: 0.017395092
+    - x: -35.730225
+      z: -56.659607
+      raySelectionThreshold: 0.020750137
+    - x: -13.997035
+      z: -60.145924
+      raySelectionThreshold: 0.01952894
+    - x: -44.525986
+      z: -52.719788
+      raySelectionThreshold: 0.019842625
+    - x: 14.503193
+      z: -60.323227
+      raySelectionThreshold: 0.016449768
+    - x: -29.165964
+      z: -58.90567
+      raySelectionThreshold: 0.02082128
+    - x: -50.37979
+      z: -46.115734
+      raySelectionThreshold: 0.019106189
+    - x: -3.281038
+      z: -61.013706
+      raySelectionThreshold: 0.018366912
+    - x: -40.319363
+      z: -56.184837
+      raySelectionThreshold: 0.020687195
+    - x: 24.620384
+      z: -60.020382
+      raySelectionThreshold: 0.015605048
+    - x: -20.774975
+      z: -60.548664
+      raySelectionThreshold: 0.020706858
+    - x: -47.89698
+      z: -51.39601
+      raySelectionThreshold: 0.020048605
+    - x: 8.173563
+      z: -61.43396
+      raySelectionThreshold: 0.01696839
+    - x: -34.680637
+      z: -58.81168
+      raySelectionThreshold: 0.021356327
+    - x: 33.340157
+      z: -59.217106
+      raySelectionThreshold: 0.0148383025
+    - x: -10.545515
+      z: -61.678146
+      raySelectionThreshold: 0.019110315
+    - x: -44.41934
+      z: -55.432404
+      raySelectionThreshold: 0.020696897
+    - x: 19.338282
+      z: -61.415417
+      raySelectionThreshold: 0.01620196
+    - x: -27.270515
+      z: -60.76691
+      raySelectionThreshold: 0.021279015
+    - x: 40.48965
+      z: -57.83286
+      raySelectionThreshold: 0.014462552
+    - x: -50.861347
+      z: -49.645454
+      raySelectionThreshold: 0.020052861
+    - x: 1.1019839
+      z: -62.352703
+      raySelectionThreshold: 0.01768876
+    - x: -39.673565
+      z: -58.49514
+      raySelectionThreshold: 0.021744527
+    - x: 29.259869
+      z: -60.939972
+      raySelectionThreshold: 0.015289051
+    - x: -17.856993
+      z: -62.166786
+      raySelectionThreshold: 0.01993535
+    - x: -48.043716
+      z: -54.359047
+      raySelectionThreshold: 0.020223932
+    - x: 13.100681
+      z: -62.598515
+      raySelectionThreshold: 0.016620954
+    - x: -33.31639
+      z: -60.792606
+      raySelectionThreshold: 0.02194722
+    - x: 37.55333
+      z: -59.946445
+      raySelectionThreshold: 0.014719306
+    - x: -53.468803
+      z: -47.344257
+      raySelectionThreshold: 0.01993141
+    - x: -6.487699
+      z: -63.09273
+      raySelectionThreshold: 0.018605294
+    - x: -44.129627
+      z: -57.92725
+      raySelectionThreshold: 0.02148103
+    - x: 24.314318
+      z: -62.411716
+      raySelectionThreshold: 0.015808325
+    - x: -24.924488
+      z: -62.483505
+      raySelectionThreshold: 0.020899191
+    - x: -51.229992
+      z: -52.896675
+      raySelectionThreshold: 0.020414187
+    - x: 5.9951515
+      z: -63.586796
+      raySelectionThreshold: 0.017230537
+    - x: -38.761307
+      z: -60.62253
+      raySelectionThreshold: 0.021939138
+    - x: 33.866016
+      z: -61.765457
+      raySelectionThreshold: 0.015019156
+    - x: -14.355342
+      z: -63.661934
+      raySelectionThreshold: 0.019751228
+    - x: -48.03438
+      z: -57.086937
+      raySelectionThreshold: 0.020738112
+    - x: 18.325308
+      z: -63.667786
+      raySelectionThreshold: 0.016437855
+    - x: -31.56099
+      z: -62.62123
+      raySelectionThreshold: 0.021787325
+    - x: -54.000557
+      z: -50.98459
+      raySelectionThreshold: 0.01998614
+    - x: -1.9126432
+      z: -64.39823
+      raySelectionThreshold: 0.018056098
+    - x: -43.619583
+      z: -60.226322
+      raySelectionThreshold: 0.022841934
+    - x: 29.3259
+      z: -63.319912
+      raySelectionThreshold: 0.015359428
+    - x: -22.05959
+      z: -64.06799
+      raySelectionThreshold: 0.020749228
+    - x: -51.459885
+      z: -55.90378
+      raySelectionThreshold: 0.020832391
+    - x: 11.3207035
+      z: -64.72542
+      raySelectionThreshold: 0.017102724
+    - x: -37.54448
+      z: -62.580654
+      raySelectionThreshold: 0.021939307
+    - x: -10.229393
+      z: -65.04397
+      raySelectionThreshold: 0.01914731
+    - x: -47.857174
+      z: -59.591045
+      raySelectionThreshold: 0.022596382
+    - x: 23.714552
+      z: -64.65069
+      raySelectionThreshold: 0.016094994
+    - x: -29.364483
+      z: -64.30764
+      raySelectionThreshold: 0.021683635
+    - x: -54.425026
+      z: -54.3327
+      raySelectionThreshold: 0.021866092
+    - x: 3.284795
+      z: -65.6065
+      raySelectionThreshold: 0.017870948
+    - x: -42.8712
+      z: -62.338493
+      raySelectionThreshold: 0.022908036
+    - x: 34.26869
+      z: -64.14687
+      raySelectionThreshold: 0.015281669
+    - x: -18.642933
+      z: -65.530495
+      raySelectionThreshold: 0.020188993
+    - x: -51.555843
+      z: -58.65899
+      raySelectionThreshold: 0.022019045
+    - x: 16.981575
+      z: -65.777466
+      raySelectionThreshold: 0.016613489
+    - x: -36.0044
+      z: -64.379036
+      raySelectionThreshold: 0.02215731
+    - x: -5.433613
+      z: -66.323654
+      raySelectionThreshold: 0.018689971
+    - x: -47.49539
+      z: -61.88618
+      raySelectionThreshold: 0.023410216
+    - x: 29.141945
+      z: -65.554794
+      raySelectionThreshold: 0.015791917
+    - x: -26.648642
+      z: -65.864815
+      raySelectionThreshold: 0.021382358
+    - x: -54.740505
+      z: -57.394817
+      raySelectionThreshold: 0.02193658
+    - x: 9.008633
+      z: -66.72618
+      raySelectionThreshold: 0.017367989
+    - x: -41.84886
+      z: -64.279045
+      raySelectionThreshold: 0.02274052
+    - x: -14.505374
+      z: -66.887085
+      raySelectionThreshold: 0.019636497
+    - x: -51.50871
+      z: -61.17739
+      raySelectionThreshold: 0.023111828
+    - x: 22.799826
+      z: -66.75334
+      raySelectionThreshold: 0.016291035
+    - x: -34.017307
+      z: -66.04186
+      raySelectionThreshold: 0.022482831
+    - x: -57.498676
+      z: -55.691986
+      raySelectionThreshold: 0.0222614
+    - x: 0.048456643
+      z: -67.51109
+      raySelectionThreshold: 0.018303057
+    - x: -46.94792
+      z: -63.981968
+      raySelectionThreshold: 0.02381057
+    - x: -23.318506
+      z: -67.305214
+      raySelectionThreshold: 0.020465922
+    - x: -54.956406
+      z: -60.173454
+      raySelectionThreshold: 0.02248084
+    - x: 15.154648
+      z: -67.76602
+      raySelectionThreshold: 0.016930014
+    - x: -40.504948
+      z: -66.06349
+      raySelectionThreshold: 0.022720788
+    - x: -9.608914
+      z: -68.14594
+      raySelectionThreshold: 0.019192252
+    - x: -51.305164
+      z: -63.477047
+      raySelectionThreshold: 0.023605065
+    - x: 28.714396
+      z: -67.65652
+      raySelectionThreshold: 0.015974145
+    - x: -31.526821
+      z: -67.577194
+      raySelectionThreshold: 0.021819614
+    - x: -57.901268
+      z: -58.823708
+      raySelectionThreshold: 0.022683358
+    - x: 6.12199
+      z: -68.61613
+      raySelectionThreshold: 0.017843597
+    - x: -46.142223
+      z: -65.91077
+      raySelectionThreshold: 0.023462424
+    - x: -19.316116
+      z: -68.638985
+      raySelectionThreshold: 0.02042649
+    - x: -55.041325
+      z: -62.713863
+      raySelectionThreshold: 0.022649812
+    - x: 21.56669
+      z: -68.7341
+      raySelectionThreshold: 0.016758103
+    - x: -38.77593
+      z: -67.70693
+      raySelectionThreshold: 0.022890165
+    - x: -3.8998315
+      z: -69.31717
+      raySelectionThreshold: 0.018662218
+    - x: -50.926617
+      z: -65.57734
+      raySelectionThreshold: 0.023701774
+    - x: -28.42543
+      z: -68.99798
+      raySelectionThreshold: 0.021190677
+    - x: -58.21104
+      z: -61.660866
+      raySelectionThreshold: 0.023103168
+    - x: 12.798943
+      z: -69.64692
+      raySelectionThreshold: 0.017674364
+    - x: -45.055428
+      z: -67.68135
+      raySelectionThreshold: 0.023341717
+    - x: -14.425273
+      z: -69.880844
+      raySelectionThreshold: 0.019690942
+    - x: -54.997715
+      z: -65.023926
+      raySelectionThreshold: 0.023139093
+    - x: 28.053293
+      z: -69.63791
+      raySelectionThreshold: 0.016521329
+    - x: -36.615974
+      z: -69.220604
+      raySelectionThreshold: 0.022366665
+    - x: -60.92397
+      z: -60.222107
+      raySelectionThreshold: 0.023358654
+    - x: 2.6210716
+      z: -70.41018
+      raySelectionThreshold: 0.018336514
+    - x: -50.36995
+      z: -67.491684
+      raySelectionThreshold: 0.023544021
+    - x: -24.57898
+      z: -70.316315
+      raySelectionThreshold: 0.020461034
+    - x: -58.42453
+      z: -64.22807
+      raySelectionThreshold: 0.022675188
+    - x: 19.84226
+      z: -70.61157
+      raySelectionThreshold: 0.017084718
+    - x: -43.629677
+      z: -69.31006
+      raySelectionThreshold: 0.023442822
+    - x: -8.58538
+      z: -71.03886
+      raySelectionThreshold: 0.019343618
+    - x: -54.8119
+      z: -67.12617
+      raySelectionThreshold: 0.02409518
+    - x: -33.839897
+      z: -70.6251
+      raySelectionThreshold: 0.021570068
+    - x: 9.864381
+      z: -71.43371
+      raySelectionThreshold: 0.01785274
+    - x: -49.55762
+      z: -69.25195
+      raySelectionThreshold: 0.02393118
+    - x: -19.827877
+      z: -71.54347
+      raySelectionThreshold: 0.020137774
+    - x: -58.550404
+      z: -66.54284
+      raySelectionThreshold: 0.023999201
+    - x: -41.78568
+      z: -70.81224
+      raySelectionThreshold: 0.022783022
+    - x: -1.7374247
+      z: -72.12251
+      raySelectionThreshold: 0.018566271
+    - x: -54.46467
+      z: -69.04258
+      raySelectionThreshold: 0.02459006
+    - x: -30.332014
+      z: -71.92903
+      raySelectionThreshold: 0.021369886
+    - x: 17.5628
+      z: -72.39688
+      raySelectionThreshold: 0.01723041
+    - x: -48.46092
+      z: -70.868675
+      raySelectionThreshold: 0.023949748
+    - x: -14.069243
+      z: -72.68914
+      raySelectionThreshold: 0.019644475
+    - x: -58.552734
+      z: -68.650406
+      raySelectionThreshold: 0.024121055
+    - x: -39.413784
+      z: -72.20215
+      raySelectionThreshold: 0.022289895
+    - x: 6.0745735
+      z: -73.14066
+      raySelectionThreshold: 0.01823217
+    - x: -53.929184
+      z: -70.794
+      raySelectionThreshold: 0.024373475
+    - x: -25.897999
+      z: -73.14402
+      raySelectionThreshold: 0.02064704
+    - x: -61.9355
+      z: -68.05833
+      raySelectionThreshold: 0.023292203
+    - x: -47.011574
+      z: -72.35831
+      raySelectionThreshold: 0.02358078
+    - x: -7.024454
+      z: -73.76493
+      raySelectionThreshold: 0.01927542
+    - x: -58.431988
+      z: -70.5652
+      raySelectionThreshold: 0.024825472
+    - x: -36.411682
+      z: -73.49087
+      raySelectionThreshold: 0.021692773
+    - x: 14.649448
+      z: -74.10155
+      raySelectionThreshold: 0.017608989
+    - x: -53.193775
+      z: -72.39553
+      raySelectionThreshold: 0.024442744
+    - x: -20.297857
+      z: -74.28078
+      raySelectionThreshold: 0.020276375
+    - x: -62.11505
+      z: -70.17203
+      raySelectionThreshold: 0.024437228
+    - x: -45.112656
+      z: -73.73588
+      raySelectionThreshold: 0.022830771
+    - x: 1.2969409
+      z: -74.77858
+      raySelectionThreshold: 0.0184659
+    - x: -58.170258
+      z: -72.31034
+      raySelectionThreshold: 0.02516735
+    - x: -32.47591
+      z: -74.69499
+      raySelectionThreshold: 0.02127399
+    - x: -52.15681
+      z: -73.87389
+      raySelectionThreshold: 0.023930607
+    - x: -13.268019
+      z: -75.34918
+      raySelectionThreshold: 0.019659508
+    - x: -62.222675
+      z: -72.079124
+      raySelectionThreshold: 0.024916073
+    - x: -42.624084
+      z: -75.01515
+      raySelectionThreshold: 0.02226112
+    - x: -57.741997
+      z: -73.90686
+      raySelectionThreshold: 0.025165277
+    - x: -27.358025
+      z: -75.82292
+      raySelectionThreshold: 0.020725243
+    - x: -50.76399
+      z: -75.240005
+      raySelectionThreshold: 0.023786733
+    - x: -4.6914363
+      z: -76.358215
+      raySelectionThreshold: 0.018904896
+    - x: -62.219826
+      z: -73.81862
+      raySelectionThreshold: 0.026095998
+    - x: -39.339874
+      z: -76.20862
+      raySelectionThreshold: 0.021742232
+    - x: -57.110435
+      z: -75.37371
+      raySelectionThreshold: 0.024676727
+    - x: -20.6781
+      z: -76.88479
+      raySelectionThreshold: 0.020059275
+    - x: -48.90087
+      z: -76.50829
+      raySelectionThreshold: 0.022968225
+    - x: -62.106667
+      z: -75.4061
+      raySelectionThreshold: 0.0257076
+    - x: -35.021797
+      z: -77.326485
+      raySelectionThreshold: 0.02114795
+    - x: -56.25174
+      z: -76.72519
+      raySelectionThreshold: 0.02395759
+    - x: -12.006398
+      z: -77.88994
+      raySelectionThreshold: 0.019402139
+    - x: -66.04114
+      z: -75.33632
+      raySelectionThreshold: 0.025767451
+    - x: -46.39276
+      z: -77.69179
+      raySelectionThreshold: 0.022164319
+    - x: -61.862896
+      z: -76.86201
+      raySelectionThreshold: 0.025110679
+    - x: -29.094034
+      z: -78.381836
+      raySelectionThreshold: 0.020589061
+    - x: -55.029915
+      z: -77.98242
+      raySelectionThreshold: 0.023313263
+    - x: -66.23084
+      z: -76.90911
+      raySelectionThreshold: 0.026706282
+    - x: -42.964024
+      z: -78.802246
+      raySelectionThreshold: 0.021601439
+    - x: -61.458385
+      z: -78.20443
+      raySelectionThreshold: 0.024536375
+    - x: -53.344765
+      z: -79.15563
+      raySelectionThreshold: 0.022945512
+    - x: -66.34068
+      z: -78.353096
+      raySelectionThreshold: 0.025722198
+    - x: -38.24482
+      z: -79.84953
+      raySelectionThreshold: 0.021078996
+    - x: -60.84725
+      z: -79.44938
+      raySelectionThreshold: 0.024175854
+    - x: -50.99037
+      z: -80.25702
+      raySelectionThreshold: 0.022204472
+    - x: -66.37627
+      z: -79.68264
+      raySelectionThreshold: 0.025100999
+    - x: -59.99195
+      z: -80.60946
+      raySelectionThreshold: 0.023093147
+    - x: -70.52141
+      z: -79.85803
+      raySelectionThreshold: 0.026669579
+    - x: -66.32354
+      z: -80.91464
+      raySelectionThreshold: 0.024547985
+    - x: -58.71081
+      z: -81.70084
+      raySelectionThreshold: 0.022640197
+    - x: -70.942
+      z: -81.172844
+      raySelectionThreshold: 0.026109667
+    - x: -66.18681
+      z: -82.062454
+      raySelectionThreshold: 0.024078356
+    - x: -74.38945
+      z: -81.390915
+      raySelectionThreshold: 0.027567616
+    - x: -71.37233
+      z: -82.390045
+      raySelectionThreshold: 0.02549885
+    - x: -75.13567
+      z: -82.687675
+      raySelectionThreshold: 0.0268018
+    - x: -75.96751
+      z: -83.887024
+      raySelectionThreshold: 0.026146546
+    - x: 7.0257945
+      z: -1.1139935
+      raySelectionThreshold: 0.013028535
+    - x: -1.640679
+      z: -15.629631
+      raySelectionThreshold: 0.013585371
+    - x: 5.8826995
+      z: -18.43569
+      raySelectionThreshold: 0.013520159
+    - x: -15.610276
+      z: -12.593992
+      raySelectionThreshold: 0.013515421
+    - x: 18.34986
+      z: -3.7396312
+      raySelectionThreshold: 0.0138695445
+    - x: 12.123155
+      z: -19.831219
+      raySelectionThreshold: 0.014118608
+    - x: 19.108076
+      z: -21.790077
+      raySelectionThreshold: 0.013803752
+    - x: 4.9041657
+      z: -32.4253
+      raySelectionThreshold: 0.014948745
+    - x: 9.225796
+      z: -32.89225
+      raySelectionThreshold: 0.0151984375
+    - x: 0.7687222
+      z: -43.607426
+      raySelectionThreshold: 0.01589158
+    - x: 27.771877
+      z: -36.30769
+      raySelectionThreshold: 0.014145625
+    - x: 6.9119678
+      z: -44.15735
+      raySelectionThreshold: 0.016013378
+    - x: 29.024927
+      z: -58.388756
+      raySelectionThreshold: 0.01523932
+    - x: 41.60672
+      z: -60.58158
+      raySelectionThreshold: 0.014527875
+    - x: 39.02055
+      z: -64.90361
+      raySelectionThreshold: 0.015149662
+    - x: 34.481518
+      z: -66.38694
+      raySelectionThreshold: 0.015478403
+    - x: 34.52263
+      z: -68.49562
+      raySelectionThreshold: 0.015675489
+    - x: 40.088406
+      z: -69.27699
+      raySelectionThreshold: 0.015755115
+    - x: 34.372555
+      z: -70.48703
+      raySelectionThreshold: 0.01620457
+    - x: 27.011982
+      z: -71.51764
+      raySelectionThreshold: 0.016502602
+    - x: 40.445446
+      z: -71.28314
+      raySelectionThreshold: 0.015646426
+    - x: 50.127243
+      z: -70.68968
+      raySelectionThreshold: 0.015267627
+    - x: 34.050343
+      z: -72.3722
+      raySelectionThreshold: 0.016461687
+    - x: 46.098755
+      z: -72.03464
+      raySelectionThreshold: 0.0155969625
+    - x: 25.550438
+      z: -73.305725
+      raySelectionThreshold: 0.016969597
+    - x: 40.731087
+      z: -73.18196
+      raySelectionThreshold: 0.01599896
+    - x: 51.262268
+      z: -72.74744
+      raySelectionThreshold: 0.0153677305
+    - x: 33.4163
+      z: -74.16806
+      raySelectionThreshold: 0.01684382
+    - x: 46.857685
+      z: -73.95615
+      raySelectionThreshold: 0.01581657
+    - x: 23.54476
+      z: -75.01392
+      raySelectionThreshold: 0.017227834
+    - x: 40.85136
+      z: -74.99077
+      raySelectionThreshold: 0.016529206
+    - x: 10.744718
+      z: -75.73846
+      raySelectionThreshold: 0.017972007
+    - x: 32.442104
+      z: -75.883446
+      raySelectionThreshold: 0.01686704
+    - x: 20.890965
+      z: -76.65246
+      raySelectionThreshold: 0.017564666
+    - x: 40.825493
+      z: -76.71783
+      raySelectionThreshold: 0.016932482
+    - x: 5.611085
+      z: -77.31703
+      raySelectionThreshold: 0.018505089
+    - x: 31.089102
+      z: -77.52807
+      raySelectionThreshold: 0.017458806
+    - x: 17.142536
+      z: -78.23313
+      raySelectionThreshold: 0.018040573
+    - x: -1.036843
+      z: -78.84704
+      raySelectionThreshold: 0.018929003
+    - x: 29.030436
+      z: -79.11413
+      raySelectionThreshold: 0.017629832
+    - x: -20.968735
+      z: -79.38263
+      raySelectionThreshold: 0.019987652
+    - x: 11.907428
+      z: -79.76448
+      raySelectionThreshold: 0.018316733
+    - x: -9.880355
+      z: -80.33774
+      raySelectionThreshold: 0.019153057
+    - x: -31.35567
+      z: -80.845406
+      raySelectionThreshold: 0.02030194
+    - x: 4.600577
+      z: -81.25544
+      raySelectionThreshold: 0.018837515
+    - x: -47.611702
+      z: -81.29759
+      raySelectionThreshold: 0.021465624
+    - x: -21.162275
+      z: -81.79769
+      raySelectionThreshold: 0.01975917
+    - x: -42.555916
+      z: -82.28738
+      raySelectionThreshold: 0.020812275
+    - x: -56.768993
+      z: -82.73369
+      raySelectionThreshold: 0.022011839
+    - x: -65.87959
+      z: -83.14252
+      raySelectionThreshold: 0.02334335
+    - x: -53.996452
+      z: -83.71517
+      raySelectionThreshold: 0.02138089
+    - x: -71.8288
+      z: -83.525154
+      raySelectionThreshold: 0.02454714
+    - x: -65.359
+      z: -84.16459
+      raySelectionThreshold: 0.022601418
+    - x: -72.336754
+      z: -84.59174
+      raySelectionThreshold: 0.023718024
+    - x: -76.927956
+      z: -85.00513
+      raySelectionThreshold: 0.025324415
+    - x: -72.938515
+      z: -85.60184
+      raySelectionThreshold: 0.023236329
+    - x: -80.16074
+      z: -85.41114
+      raySelectionThreshold: 0.027066758
+    - x: -78.083115
+      z: -86.05603
+      raySelectionThreshold: 0.024647506
+    - x: -81.51767
+      z: -86.51008
+      raySelectionThreshold: 0.026074791
+    - x: -83.16129
+      z: -87.54323
+      raySelectionThreshold: 0.025297431
+    - x: -85.598625
+      z: -88.05379
+      raySelectionThreshold: 0.027164314
+    - x: -2.5166063
+      z: 2.3491874
+      raySelectionThreshold: 0.013374898
+    - x: -34.543972
+      z: -83.23558
+      raySelectionThreshold: 0.020379702
+    - x: 58.4564
+      z: -71.94294
+      raySelectionThreshold: 0.014928107
+    - x: 55.914314
+      z: -73.4273
+      raySelectionThreshold: 0.015359049
+    - x: 52.42895
+      z: -74.695786
+      raySelectionThreshold: 0.015605182
+    - x: 47.64297
+      z: -75.78055
+      raySelectionThreshold: 0.01625645
+    - x: 53.69148
+      z: -76.54396
+      raySelectionThreshold: 0.015960505
+    - x: 48.395584
+      z: -77.523964
+      raySelectionThreshold: 0.016413936
+    - x: 58.963024
+      z: -77.29035
+      raySelectionThreshold: 0.015619395
+    - x: 40.61991
+      z: -78.37367
+      raySelectionThreshold: 0.017032318
+    - x: 49.17914
+      z: -79.194176
+      raySelectionThreshold: 0.016676186
+    - x: 40.253204
+      z: -79.967384
+      raySelectionThreshold: 0.017277503
+    - x: 26.003567
+      z: -80.649765
+      raySelectionThreshold: 0.01796859
+    - x: 50.091602
+      z: -80.800095
+      raySelectionThreshold: 0.01694704
+    - x: 39.487507
+      z: -81.51033
+      raySelectionThreshold: 0.01755103
+    - x: 58.26226
+      z: -81.62063
+      raySelectionThreshold: 0.016703958
+    - x: 21.543041
+      z: -82.14361
+      raySelectionThreshold: 0.018333718
+    - x: 51.02186
+      z: -82.35427
+      raySelectionThreshold: 0.017255818
+    - x: -6.1160307
+      z: -82.71483
+      raySelectionThreshold: 0.019340966
+    - x: -21.03653
+      z: -84.15077
+      raySelectionThreshold: 0.01952963
+    - x: 36.091602
+      z: -84.475296
+      raySelectionThreshold: 0.01830873
+    - x: -49.24411
+      z: -84.65855
+      raySelectionThreshold: 0.020704031
+    - x: 1.7480927
+      z: -85.041046
+      raySelectionThreshold: 0.019154
+    - x: -64.49761
+      z: -85.13916
+      raySelectionThreshold: 0.021773968
+    - x: 54.17413
+      z: -85.33383
+      raySelectionThreshold: 0.017919647
+    - x: -40.427345
+      z: -85.57084
+      raySelectionThreshold: 0.020120326
+    - x: 31.57808
+      z: -85.91438
+      raySelectionThreshold: 0.0186504
+    - x: -63.016174
+      z: -86.07583
+      raySelectionThreshold: 0.021284662
+    - x: 66.9001
+      z: -86.187904
+      raySelectionThreshold: 0.017619235
+    - x: -21.070753
+      z: -86.46026
+      raySelectionThreshold: 0.019739727
+    - x: -73.71158
+      z: -86.56619
+      raySelectionThreshold: 0.022590173
+    - x: 56.85217
+      z: -86.77805
+      raySelectionThreshold: 0.018432798
+    - x: -60.16802
+      z: -86.983406
+      raySelectionThreshold: 0.020857533
+    - x: -79.56994
+      z: -87.05111
+      raySelectionThreshold: 0.02384769
+    - x: 21.347042
+      z: -87.33464
+      raySelectionThreshold: 0.019103877
+    - x: -74.81617
+      z: -87.49453
+      raySelectionThreshold: 0.021764336
+    - x: 72.27234
+      z: -87.63963
+      raySelectionThreshold: 0.01794258
+    - x: -53.11521
+      z: -87.87019
+      raySelectionThreshold: 0.020209659
+    - x: -81.51752
+      z: -88.0037
+      raySelectionThreshold: 0.023032833
+    - x: 62.500854
+      z: -88.20162
+      raySelectionThreshold: 0.018917425
+    - x: -76.64757
+      z: -88.395805
+      raySelectionThreshold: 0.021353899
+    - x: -85.22801
+      z: -88.52324
+      raySelectionThreshold: 0.02460752
+    - x: -84.312584
+      z: -88.92218
+      raySelectionThreshold: 0.02258368
+    - x: -87.596375
+      z: -89.06517
+      raySelectionThreshold: 0.026227703
+    - x: -87.94257
+      z: -89.4613
+      raySelectionThreshold: 0.023909846
+    - x: -88.72959
+      z: -89.815575
+      raySelectionThreshold: 0.021870062
+    - x: -90.0757
+      z: -90.02563
+      raySelectionThreshold: 0.025353344
+    - x: -94.410835
+      z: -90.15016
+      raySelectionThreshold: 0.020311503
+    - x: -91.69945
+      z: -90.36743
+      raySelectionThreshold: 0.02325729
+    - x: -91.497185
+      z: -90.62989
+      raySelectionThreshold: 0.027243828
+    - x: -96.74528
+      z: -90.69232
+      raySelectionThreshold: 0.021432972
+    - x: -93.257164
+      z: -90.94648
+      raySelectionThreshold: 0.024598066
+    - x: -97.243484
+      z: -91.25073
+      raySelectionThreshold: 0.022527456
+    - x: -94.23254
+      z: -91.56797
+      raySelectionThreshold: 0.026313774
+    - x: -114.51477
+      z: -91.56039
+      raySelectionThreshold: 0.02074514
+    - x: -97.49686
+      z: -91.837845
+      raySelectionThreshold: 0.024019731
+    - x: -106.08612
+      z: -92.11967
+      raySelectionThreshold: 0.021813935
+    - x: -97.66325
+      z: -92.46877
+      raySelectionThreshold: 0.02545682
+    - x: -157.43828
+      z: -92.427475
+      raySelectionThreshold: 0.020180883
+    - x: -103.39
+      z: -92.70886
+      raySelectionThreshold: 0.023347946
+    - x: -121.32225
+      z: -92.98221
+      raySelectionThreshold: 0.021432929
+    - x: -102.07956
+      z: -93.34278
+      raySelectionThreshold: 0.024721595
+    - x: 157.05852
+      z: -93.30119
+      raySelectionThreshold: 0.019575551
+    - x: -111.83921
+      z: -93.56865
+      raySelectionThreshold: 0.022826174
+    - x: -101.38556
+      z: -94.03601
+      raySelectionThreshold: 0.026346235
+    - x: -147.20119
+      z: -93.84605
+      raySelectionThreshold: 0.020785935
+    - x: -107.92226
+      z: -94.19913
+      raySelectionThreshold: 0.024086993
+    - x: -124.522354
+      z: -94.42378
+      raySelectionThreshold: 0.022180513
+    - x: -105.82778
+      z: -94.88933
+      raySelectionThreshold: 0.02552909
+    - x: -142.90053
+      z: -95.28256
+      raySelectionThreshold: 0.02143372
+    - x: -126.64224
+      z: -95.89207
+      raySelectionThreshold: 0.022945065
+    - x: -165.56352
+      z: -96.1525
+      raySelectionThreshold: 0.020928279
+    - x: -140.97044
+      z: -96.74416
+      raySelectionThreshold: 0.02231572
+    - x: -158.18187
+      z: -97.61
+      raySelectionThreshold: 0.021449257
+    - x: 158.02911
+      z: -97.95609
+      raySelectionThreshold: 0.01989851
+    - x: -111.4814
+      z: -95.72818
+      raySelectionThreshold: 0.024899619
+    - x: -118.76488
+      z: -96.56092
+      raySelectionThreshold: 0.024239374
+    - x: -128.13957
+      z: -97.39537
+      raySelectionThreshold: 0.023577038
+    - x: -139.8869
+      z: -98.239044
+      raySelectionThreshold: 0.022969414
+    - x: -139.11559
+      z: -99.77715
+      raySelectionThreshold: 0.023566175
+  IndexProximalAngles:
+  - side: 0
+    rayAngles: []
+  - side: 1
+    rayAngles:
+    - x: 50.917374
+      z: -59.050476
+      raySelectionThreshold: 0.015648814
+    - x: 49.05847
+      z: -61.590645
+      raySelectionThreshold: 0.015830418
+    - x: 39.02055
+      z: -64.90361
+      raySelectionThreshold: 0.014977859
+    - x: 46.669888
+      z: -63.743935
+      raySelectionThreshold: 0.015464833
+    - x: 52.435028
+      z: -61.959393
+      raySelectionThreshold: 0.016063016
+    - x: 43.57081
+      z: -65.58603
+      raySelectionThreshold: 0.015516295
+    - x: 56.776573
+      z: -59.3314
+      raySelectionThreshold: 0.016815772
+    - x: 39.622578
+      z: -67.15329
+      raySelectionThreshold: 0.015436758
+    - x: 55.56347
+      z: -62.23934
+      raySelectionThreshold: 0.016191613
+    - x: 47.837097
+      z: -66.20303
+      raySelectionThreshold: 0.015848747
+    - x: 34.52263
+      z: -68.49562
+      raySelectionThreshold: 0.015423556
+    - x: 53.92641
+      z: -64.69385
+      raySelectionThreshold: 0.016137976
+    - x: 44.480293
+      z: -67.85941
+      raySelectionThreshold: 0.015346524
+    - x: 51.792118
+      z: -66.75847
+      raySelectionThreshold: 0.01616369
+    - x: 40.088406
+      z: -69.27699
+      raySelectionThreshold: 0.015638096
+    - x: 57.148106
+      z: -65.05784
+      raySelectionThreshold: 0.015861299
+    - x: 48.9748
+      z: -68.51559
+      raySelectionThreshold: 0.01567504
+    - x: 61.105278
+      z: -62.5193
+      raySelectionThreshold: 0.016623665
+    - x: 34.372555
+      z: -70.48703
+      raySelectionThreshold: 0.01622172
+    - x: 55.427822
+      z: -67.25542
+      raySelectionThreshold: 0.016181517
+    - x: 45.310375
+      z: -70.00651
+      raySelectionThreshold: 0.0159555
+    - x: 53.133595
+      z: -69.116394
+      raySelectionThreshold: 0.015801255
+    - x: 63.537304
+      z: -62.520767
+      raySelectionThreshold: 0.017022632
+    - x: 40.445446
+      z: -71.28314
+      raySelectionThreshold: 0.016411701
+    - x: 58.750748
+      z: -67.69632
+      raySelectionThreshold: 0.01569719
+    - x: 50.127243
+      z: -70.68968
+      raySelectionThreshold: 0.015606369
+    - x: 56.924755
+      z: -69.6707
+      raySelectionThreshold: 0.015420771
+    - x: 46.098755
+      z: -72.03464
+      raySelectionThreshold: 0.016309887
+    - x: 61.764507
+      z: -68.09169
+      raySelectionThreshold: 0.016160782
+    - x: 54.491447
+      z: -71.33661
+      raySelectionThreshold: 0.015596188
+    - x: 40.731087
+      z: -73.18196
+      raySelectionThreshold: 0.017002726
+    - x: 51.262268
+      z: -72.74744
+      raySelectionThreshold: 0.01526486
+    - x: 58.4564
+      z: -71.94294
+      raySelectionThreshold: 0.015236902
+    - x: 46.857685
+      z: -73.95615
+      raySelectionThreshold: 0.016730716
+    - x: 63.468536
+      z: -70.65467
+      raySelectionThreshold: 0.015636057
+    - x: 55.914314
+      z: -73.4273
+      raySelectionThreshold: 0.0153019875
+    - x: 62.017982
+      z: -72.518074
+      raySelectionThreshold: 0.015557462
+    - x: 52.42895
+      z: -74.695786
+      raySelectionThreshold: 0.015903415
+    - x: 60.068783
+      z: -74.079956
+      raySelectionThreshold: 0.016237644
+    - x: 47.64297
+      z: -75.78055
+      raySelectionThreshold: 0.016768143
+    - x: 57.38469
+      z: -75.40956
+      raySelectionThreshold: 0.01612694
+    - x: 71.388985
+      z: -69.1009
+      raySelectionThreshold: 0.017323432
+    - x: 53.69148
+      z: -76.54396
+      raySelectionThreshold: 0.016250156
+    - x: 61.7537
+      z: -76.1038
+      raySelectionThreshold: 0.015559745
+    - x: 71.10148
+      z: -71.87728
+      raySelectionThreshold: 0.016661298
+    - x: 48.395584
+      z: -77.523964
+      raySelectionThreshold: 0.016828645
+    - x: 67.02549
+      z: -75.33248
+      raySelectionThreshold: 0.016372137
+    - x: 58.963024
+      z: -77.29035
+      raySelectionThreshold: 0.016580425
+    - x: 70.63864
+      z: -74.10668
+      raySelectionThreshold: 0.016690679
+    - x: 65.58981
+      z: -76.78508
+      raySelectionThreshold: 0.015799249
+    - x: 55.026093
+      z: -78.308685
+      raySelectionThreshold: 0.016002761
+    - x: 69.939896
+      z: -75.94026
+      raySelectionThreshold: 0.016069472
+    - x: 63.569103
+      z: -78.021255
+      raySelectionThreshold: 0.015604668
+    - x: 72.94445
+      z: -74.61694
+      raySelectionThreshold: 0.01688894
+    - x: 49.17914
+      z: -79.194176
+      raySelectionThreshold: 0.017009586
+    - x: 68.95676
+      z: -77.46044
+      raySelectionThreshold: 0.016429268
+    - x: 60.727077
+      z: -79.0789
+      raySelectionThreshold: 0.016449723
+    - x: 72.53653
+      z: -76.54678
+      raySelectionThreshold: 0.016608857
+    - x: 67.55575
+      z: -78.74634
+      raySelectionThreshold: 0.01587021
+    - x: 75.03779
+      z: -75.11745
+      raySelectionThreshold: 0.017203057
+    - x: 71.90822
+      z: -78.14205
+      raySelectionThreshold: 0.016609017
+    - x: 65.58628
+      z: -79.84177
+      raySelectionThreshold: 0.015320696
+    - x: 71.010025
+      z: -79.47334
+      raySelectionThreshold: 0.016463319
+    - x: 62.68823
+      z: -80.79093
+      raySelectionThreshold: 0.016405664
+    - x: 69.704605
+      z: -80.607346
+      raySelectionThreshold: 0.01646293
+    - x: 76.94978
+      z: -77.791725
+      raySelectionThreshold: 0.016959501
+    - x: 58.26226
+      z: -81.62063
+      raySelectionThreshold: 0.016824936
+    - x: 74.014946
+      z: -80.21088
+      raySelectionThreshold: 0.01638278
+    - x: 67.82616
+      z: -81.58179
+      raySelectionThreshold: 0.016146144
+    - x: 76.86034
+      z: -79.53424
+      raySelectionThreshold: 0.01678332
+    - x: 73.23857
+      z: -81.37907
+      raySelectionThreshold: 0.016503878
+    - x: 76.63673
+      z: -80.97229
+      raySelectionThreshold: 0.016643254
+    - x: 72.1098
+      z: -82.37803
+      raySelectionThreshold: 0.016479177
+    - x: 78.92929
+      z: -80.28621
+      raySelectionThreshold: 0.01712958
+    - x: 80.56396
+      z: -79.16003
+      raySelectionThreshold: 0.017947616
+    - x: 70.418434
+      z: -83.24778
+      raySelectionThreshold: 0.0167822
+    - x: 78.956184
+      z: -81.7621
+      raySelectionThreshold: 0.016811358
+    - x: 75.702835
+      z: -83.188286
+      raySelectionThreshold: 0.016509403
+    - x: 80.80412
+      z: -81.07712
+      raySelectionThreshold: 0.017473223
+    - x: 67.70316
+      z: -84.01812
+      raySelectionThreshold: 0.016939187
+    - x: 78.90133
+      z: -82.98616
+      raySelectionThreshold: 0.016753834
+    - x: 74.795944
+      z: -84.075226
+      raySelectionThreshold: 0.016687216
+    - x: 78.744095
+      z: -84.02219
+      raySelectionThreshold: 0.016700434
+    - x: 73.41587
+      z: -84.8539
+      raySelectionThreshold: 0.016867936
+    - x: 78.4275
+      z: -84.91859
+      raySelectionThreshold: 0.016666686
+    - x: 81.3461
+      z: -84.89073
+      raySelectionThreshold: 0.016710019
+    - x: 77.920006
+      z: -85.70314
+      raySelectionThreshold: 0.016833706
+    - x: 83.22266
+      z: -84.75798
+      raySelectionThreshold: 0.017120637
+    - x: 81.44961
+      z: -85.7904
+      raySelectionThreshold: 0.016694143
+    - x: 77.06694
+      z: -86.40526
+      raySelectionThreshold: 0.017165618
+    - x: 81.53015
+      z: -86.57485
+      raySelectionThreshold: 0.016865613
+    - x: 84.00062
+      z: -86.701904
+      raySelectionThreshold: 0.016804643
+    - x: 81.569786
+      z: -87.27539
+      raySelectionThreshold: 0.01718075
+    - x: 85.56574
+      z: -86.78832
+      raySelectionThreshold: 0.017161278
+    - x: 86.18558
+      z: -87.66616
+      raySelectionThreshold: 0.017004807
+    - x: 85.075775
+      z: -88.17133
+      raySelectionThreshold: 0.016950687
+    - x: 86.93001
+      z: -88.42715
+      raySelectionThreshold: 0.017051345
+    - x: 85.88838
+      z: -88.80184
+      raySelectionThreshold: 0.01735413
+    - x: 88.08436
+      z: -88.698616
+      raySelectionThreshold: 0.017288268
+    - x: 87.877464
+      z: -89.10314
+      raySelectionThreshold: 0.01706025
+    - x: 89.0079
+      z: -89.4322
+      raySelectionThreshold: 0.017078158
+    - x: 91.72745
+      z: -90.67291
+      raySelectionThreshold: 0.0172813
+    - x: 93.94869
+      z: -91.22379
+      raySelectionThreshold: 0.01748137
+    - x: 93.78899
+      z: -91.677574
+      raySelectionThreshold: 0.017286435
+    - x: 96.11295
+      z: -92.19845
+      raySelectionThreshold: 0.0176245
+    - x: 87.31654
+      z: -87.8478
+      raySelectionThreshold: 0.017619843
+    - x: 97.83217
+      z: -93.22521
+      raySelectionThreshold: 0.017732238
+    - x: 84.06245
+      z: -82.88877
+      raySelectionThreshold: 0.018199043
+    - x: 86.65401
+      z: -86.828354
+      raySelectionThreshold: 0.01775093
+    - x: 95.498985
+      z: -92.744896
+      raySelectionThreshold: 0.017901404
+    - x: 99.53777
+      z: -92.698296
+      raySelectionThreshold: 0.017872246
+    - x: 107.44911
+      z: -96.21493
+      raySelectionThreshold: 0.018287597
+    - x: 113.26875
+      z: -96.60404
+      raySelectionThreshold: 0.01848713
+    - x: 107.98027
+      z: -97.34318
+      raySelectionThreshold: 0.018093403
+    - x: 113.06641
+      z: -97.6784
+      raySelectionThreshold: 0.018315695
+    - x: 101.50981
+      z: -96.75379
+      raySelectionThreshold: 0.018124728
+    - x: 108.46859
+      z: -98.55249
+      raySelectionThreshold: 0.018190635
+    - x: 112.98523
+      z: -98.8215
+      raySelectionThreshold: 0.018305315
+    - x: 112.996155
+      z: -100.04642
+      raySelectionThreshold: 0.018602729
+    - x: 113.081955
+      z: -101.367966
+      raySelectionThreshold: 0.018835537
+    - x: 117.92213
+      z: -101.52228
+      raySelectionThreshold: 0.01892129
+    - x: 124.29214
+      z: -101.75046
+      raySelectionThreshold: 0.018895129
+    - x: 117.5657
+      z: -102.85626
+      raySelectionThreshold: 0.018920712
+    - x: 123.12672
+      z: -103.00033
+      raySelectionThreshold: 0.01914715
+    - x: 130.39842
+      z: -103.22424
+      raySelectionThreshold: 0.01911925
+    - x: 122.28753
+      z: -104.34685
+      raySelectionThreshold: 0.019234471
+    - x: 128.5891
+      z: -104.48577
+      raySelectionThreshold: 0.019381156
+    - x: 106.49378
+      z: -101.2641
+      raySelectionThreshold: 0.018534724
+    - x: 125.90678
+      z: -100.58368
+      raySelectionThreshold: 0.018838555
+    - x: 132.8424
+      z: -102.04668
+      raySelectionThreshold: 0.018930512
+    - x: 140.00284
+      z: -103.524635
+      raySelectionThreshold: 0.01913607
+    - x: 121.69609
+      z: -105.805214
+      raySelectionThreshold: 0.019388935
+    - x: 136.75246
+      z: -104.71161
+      raySelectionThreshold: 0.019280784
+    - x: 127.3003
+      z: -105.8376
+      raySelectionThreshold: 0.01943934
+    - x: 121.3005
+      z: -107.39241
+      raySelectionThreshold: 0.019920029
+    - x: 134.29745
+      z: -105.98347
+      raySelectionThreshold: 0.019482803
+    - x: 126.29244
+      z: -107.305954
+      raySelectionThreshold: 0.01985937
+    - x: 143.01724
+      z: -106.230865
+      raySelectionThreshold: 0.019487822
+    - x: 121.065445
+      z: -109.12747
+      raySelectionThreshold: 0.020071678
+    - x: 132.42915
+      z: -107.35269
+      raySelectionThreshold: 0.01978603
+    - x: 125.55834
+      z: -108.9015
+      raySelectionThreshold: 0.020167908
+    - x: 139.98912
+      z: -107.51462
+      raySelectionThreshold: 0.019637564
+    - x: 131.00659
+      z: -108.83302
+      raySelectionThreshold: 0.02007566
+    - x: 149.10904
+      z: -107.788155
+      raySelectionThreshold: 0.019788776
+    - x: 137.64209
+      z: -108.89665
+      raySelectionThreshold: 0.019804932
+    - x: 129.93279
+      z: -110.43953
+      raySelectionThreshold: 0.020312116
+    - x: 145.69783
+      z: -109.079834
+      raySelectionThreshold: 0.01998376
+    - x: 135.82138
+      z: -110.3901
+      raySelectionThreshold: 0.02006376
+    - x: 129.13965
+      z: -112.188705
+      raySelectionThreshold: 0.020237746
+    - x: 142.9211
+      z: -110.47481
+      raySelectionThreshold: 0.020173274
+    - x: 134.41634
+      z: -112.00924
+      raySelectionThreshold: 0.020402368
+    - x: 124.54554
+      z: -114.63632
+      raySelectionThreshold: 0.02061579
+    - x: 128.57869
+      z: -114.09838
+      raySelectionThreshold: 0.020096868
+    - x: 133.34737
+      z: -113.76949
+      raySelectionThreshold: 0.0208224
+    - x: 148.01279
+      z: -112.11248
+      raySelectionThreshold: 0.020454565
+    - x: 128.21497
+      z: -116.187546
+      raySelectionThreshold: 0.020882122
+    - x: 139.01077
+      z: -113.614456
+      raySelectionThreshold: 0.020816792
+    - x: 132.60033
+      z: -115.67338
+      raySelectionThreshold: 0.021208681
+    - x: 137.67558
+      z: -115.38717
+      raySelectionThreshold: 0.021157581
+    - x: 143.53392
+      z: -115.28888
+      raySelectionThreshold: 0.021159273
+    - x: 136.66075
+      z: -117.31519
+      raySelectionThreshold: 0.021497553
+    - x: 141.96802
+      z: -117.08045
+      raySelectionThreshold: 0.021507146
+    - x: 144.36243
+      z: -102.411194
+      raySelectionThreshold: 0.019235512
+    - x: 146.9439
+      z: -105.03338
+      raySelectionThreshold: 0.019536696
+    - x: 153.54903
+      z: -106.57952
+      raySelectionThreshold: 0.019901287
+    - x: 156.24232
+      z: -112.38562
+      raySelectionThreshold: 0.020740995
+    - x: 131.44122
+      z: -98.45188
+      raySelectionThreshold: 0.018822322
+  MiddleDistalAngles:
+  - side: 0
+    rayAngles: []
+  - side: 1
+    rayAngles: []
+  MiddleIntermediateAngles:
+  - side: 0
+    rayAngles: []
+  - side: 1
+    rayAngles: []
+  MiddleProximalAngles:
+  - side: 0
+    rayAngles: []
+  - side: 1
+    rayAngles: []
+  RingDistalAngles:
+  - side: 0
+    rayAngles: []
+  - side: 1
+    rayAngles: []
+  RingIntermediateAngles:
+  - side: 0
+    rayAngles: []
+  - side: 1
+    rayAngles: []
+  RingProximalAngles:
+  - side: 0
+    rayAngles: []
+  - side: 1
+    rayAngles: []
+  LittleDistalAngles:
+  - side: 0
+    rayAngles: []
+  - side: 1
+    rayAngles: []
+  LittleIntermediateAngles:
+  - side: 0
+    rayAngles: []
+  - side: 1
+    rayAngles: []
+  LittleProximalAngles:
+  - side: 0
+    rayAngles: []
+  - side: 1
+    rayAngles: []
