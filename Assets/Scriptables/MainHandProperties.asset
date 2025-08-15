@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MainHandProperties
   m_EditorClassIdentifier: 
   baseNormalOffset: 0.005
-  indexNormalOffset: -99
+  indexNormalOffset: -123
   middleNormalOffset: 0
   ringNormalOffset: 0
   littleNormalOffset: 0
