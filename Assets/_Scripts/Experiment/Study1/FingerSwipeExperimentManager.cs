@@ -332,7 +332,7 @@ namespace Experiment
         private IEnumerator TransitionTrial()
         {
             Session.instance.EndCurrentTrial();
-            yield return new WaitForEndOfFrame();
+            yield return new WaitForSeconds(0.5f);
             Session.instance.BeginNextTrial();
         }
 

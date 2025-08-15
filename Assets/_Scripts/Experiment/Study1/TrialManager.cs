@@ -84,7 +84,7 @@ public class TrialManager : MonoBehaviour, IHPUICanvasUIManager
             xDivisions.Add(division * HPUICanvas.MaxBounds.x);
         }
 
-        var maxBounds = HPUICanvas.MaxBounds.y-0.15f;
+        var maxBounds = HPUICanvas.MaxBounds.y - 0.15f;
         foreach (float division in gestureLayout.yDivisions)
         {
             yDivisions.Add(division * maxBounds);
@@ -165,11 +165,11 @@ public class TrialManager : MonoBehaviour, IHPUICanvasUIManager
         {
             Debug.LogWarning($"Gesture Positions are empty at {canvasArgs.State.ToString()}");
         }
+        bool sessionInTrial = Session.instance.InTrial;
         switch (canvasArgs.State)
         {
             case HPUICanvasState.INVALID or HPUICanvasState.NotStarted:
             {
-                hpuiInteractableCanvasTracker.RecordRow(gestureArgs, canvasArgs);
                 break;
             }
             case HPUICanvasState.Started:
@@ -177,16 +177,13 @@ public class TrialManager : MonoBehaviour, IHPUICanvasUIManager
                 startRegion = GetInteractionRegion(canvasArgs.GesturePositions[^1]);
                 canvasArgs.SwipeStartRegion = startRegion;
                 canvasArgs.CurrentSwipeRegion = startRegion;
-
                 FingerRegions trialStartRegion = (FingerRegions) Session.instance.CurrentTrial.settings.GetObject(StudyLogs.StartRegion);
                 Debug.Log($"Starting region {startRegion} : Target Region {trialStartRegion}");
                 startedCorrectly = StudyLogs.RegionToVectorDict[trialStartRegion] == startRegion;
                 SetUIActive(false);
-
                 hpuiRegions[startRegion].OnGestureStarted(canvasArgs);
-
                 Session.instance.CurrentTrial.settings.SetValue(StudyLogs.GestureStartRegion, StudyLogs.VectorToRegionDict[canvasArgs.SwipeStartRegion.Value]);
-                hpuiInteractableCanvasTracker.RecordRow(gestureArgs, canvasArgs);
+                if(sessionInTrial)hpuiInteractableCanvasTracker.RecordRow(gestureArgs, canvasArgs);
                 break;
             }
             case HPUICanvasState.Processing:
@@ -196,7 +193,7 @@ public class TrialManager : MonoBehaviour, IHPUICanvasUIManager
                 canvasArgs.CurrentSwipeRegion = currentRegion;
                 canvasArgs.SwipeEndRegion = endRegion;
                 hpuiRegions[startRegion].OnGestureOnGoing(canvasArgs);
-                hpuiInteractableCanvasTracker.RecordRow(gestureArgs, canvasArgs);
+                if(sessionInTrial)hpuiInteractableCanvasTracker.RecordRow(gestureArgs, canvasArgs);
                 break;
             }
             case HPUICanvasState.Cancelled:
@@ -221,20 +218,19 @@ public class TrialManager : MonoBehaviour, IHPUICanvasUIManager
                     canvasArgs.SwipeStartRegion = startRegion;
                     canvasArgs.CurrentSwipeRegion = endRegion;
                     canvasArgs.SwipeEndRegion = endRegion;
-                    hpuiInteractableCanvasTracker.RecordRow(gestureArgs, canvasArgs);
-                    Session.instance.CurrentTrial.settings.SetValue(StudyLogs.GestureEndRegion, StudyLogs.VectorToRegionDict[canvasArgs.SwipeEndRegion.Value]);
+                    if (sessionInTrial) hpuiInteractableCanvasTracker.RecordRow(gestureArgs, canvasArgs);
+                    Session.instance.CurrentTrial.settings.SetValue(StudyLogs.GestureEndRegion,
+                        StudyLogs.VectorToRegionDict[canvasArgs.SwipeEndRegion.Value]);
                     hpuiRegions[startRegion].OnGestureEnded(canvasArgs);
-                    // hpuiRegions[startRegion].OnGestureOnGoing(canvasArgs);
-                    foreach (KeyValuePair<Vector2Int?, HPUICanvasRegion> region in hpuiRegions)
-                    {
-                        region.Value.DisableUI();
-                    }
-
+                    SetUIActive(false);
                 }
                 catch (ArgumentOutOfRangeException e)
                 {
-                    Debug.LogError($"{e}: {canvasArgs.GesturePositions.Count}");
                     throw;
+                }
+                finally
+                {
+                    SetUIActive(false);
                 }
 
                 break;
@@ -243,7 +239,6 @@ public class TrialManager : MonoBehaviour, IHPUICanvasUIManager
                 Debug.Log("Unhandled HPUICanvasState");
                 throw new ArgumentOutOfRangeException();
         }
-
         if (canvasArgs.CurrentSwipeRegion != null) debugText.text = canvasArgs.GesturePositions[^1].ToString();
     }
 

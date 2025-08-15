@@ -88,7 +88,7 @@ public class HPUICanvasRegion : MonoBehaviour
         catch (NoSuchTrialException e)
         {
             endRegionName = ComfortStudyExperimentManager.Instance.endRegion;
-            Debug.Log("Getting Here ig");
+            Debug.Log($"Getting Here ig {e}");
         }
         endRegion = StudyLogs.RegionToVectorDict[endRegionName];
         layer2UIEndRegions[endRegion].SetActive(true);

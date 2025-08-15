@@ -18,7 +18,6 @@ namespace ubco.ovilab.HPUI.Interaction
         [SerializeField] private float upperPercentile = 90f;
         [SerializeField] private float IQRThreshold = 0.4f;
 
-
         private XRHandFingerID previousFingerID = XRHandFingerID.Thumb;
         private List<HPUIInteractorRayAngle> fingerRelevantRays = new();
         private List<Vector3> rayDirections = new();
@@ -37,32 +36,34 @@ namespace ubco.ovilab.HPUI.Interaction
         public List<HPUIInteractorRayAngle> SampleRays(Transform interactorObject, HandJointEstimatedData estimatedData)
         {
             UnityEngine.Profiling.Profiler.BeginSample("Sampling Rays");
-            Vector3 targetDir = estimatedData.TargetDirection.normalized;
-            Vector3 localTargetDir = interactorObject.InverseTransformDirection(targetDir).normalized;
-            Debug.DrawRay(interactorObject.position, targetDir, Color.green);
-            List<HPUIInteractorRayAngle> filteredRays = new();
             if (estimatedData._closestFinger == null)
             {
-                Debug.LogError("No finger joints found.");
+                Debug.LogWarning("No finger joints found.");
                 return fingerRelevantRays;
             }
 
             if (previousFingerID != estimatedData._closestFinger.Value)
             {
-                fingerRelevantRays = CacheRayAngles(estimatedData);
+                fingerRelevantRays = CacheRayAngles(estimatedData, interactorObject);
             }
 
+            Vector3 targetDir = estimatedData.TargetDirection.normalized;
+            Vector3 localTargetDir = interactorObject.InverseTransformDirection(targetDir).normalized;
+            Debug.DrawRay(interactorObject.position, targetDir, Color.green);
+            List<HPUIInteractorRayAngle> filteredRays = new();
             float targetThreshold = Mathf.Lerp(Q1, Q3, estimatedData.GetProximalWeight());
             float thresholdRange = IQR * IQRThreshold;
             float lowerbound = targetThreshold - thresholdRange;
+            lowerbound = Mathf.Clamp(lowerbound, Q1, Q3);
             float upperbound = lowerbound + thresholdRange;
+            upperbound = Mathf.Clamp(upperbound, Q1, Q3);
             float cosMaxAngle = Mathf.Cos(coneAngle * Mathf.Deg2Rad);
 
             for (int i = 0; i < fingerRelevantRays.Count; i++)
             {
                 HPUIInteractorRayAngle ray = fingerRelevantRays[i];
                 Vector3 direction = rayDirections[i];
-                if (Vector3.Dot(direction.normalized, localTargetDir.normalized) < cosMaxAngle)
+                if (Vector3.Dot(localTargetDir.normalized, direction.normalized) < cosMaxAngle)
                     continue;
                 if (ray.RaySelectionThreshold < lowerbound || ray.RaySelectionThreshold > upperbound)
                     continue;
@@ -74,7 +75,7 @@ namespace ubco.ovilab.HPUI.Interaction
             return filteredRays;
         }
 
-        private List<HPUIInteractorRayAngle> CacheRayAngles(HandJointEstimatedData estimatedData)
+        private List<HPUIInteractorRayAngle> CacheRayAngles(HandJointEstimatedData estimatedData, Transform interactorObject)
         {
             rayDirections.Clear();
             List<HPUIInteractorRayAngle> rays = new List<HPUIInteractorRayAngle>();
@@ -136,10 +137,7 @@ namespace ubco.ovilab.HPUI.Interaction
             IQR = Q3 - Q1;
             foreach (HPUIInteractorRayAngle ray in fingerRelevantRays)
             {
-                Vector3 direction = Vector3.forward;
-                direction = Quaternion.Euler(ray.X, 0f, ray.Z) * direction;
-                direction *= ray.RaySelectionThreshold;
-                rayDirections.Add(direction);
+                rayDirections.Add(ray.GetDirection(false) * ray.RaySelectionThreshold);
             }
 
             return rays;

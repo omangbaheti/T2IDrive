@@ -32,9 +32,9 @@ public class JointFollowerSkeletonDriver : HandSubsystemSubscriber
                 handedness = handedness,
                 jointID = jointID,
                 useSecondJointID = false,
-                defaultJointRadius = 0.01f,
+                defaultJointRadius = 0.00f,
                 offsetAngle = 0f,
-                offsetAsRatioToRadius = 1f,
+                offsetAsRatioToRadius = 0f,
                 longitudinalOffset = 0f
             };
             JointFollowerDatumProperty jointDatumProperty = new (jointData);
@@ -53,7 +53,7 @@ public class JointFollowerSkeletonDriver : HandSubsystemSubscriber
             }
         }
 
-        cachedRadius = 0.01f;
+        cachedRadius = 0.00f;
     }
 
     [Button]
@@ -167,7 +167,8 @@ public class JointFollowerSkeletonDriver : HandSubsystemSubscriber
         {
             jointPlaneOffset = Quaternion.AngleAxis(jointFollowerDataValue.offsetAngle, forward) * up;
         }
-        TargetTransform.position = mainJointPose.position + jointPlaneOffset * (cachedRadius * jointFollowerDataValue.offsetAsRatioToRadius);
+
+        TargetTransform.position = mainJointPose.position;// + jointPlaneOffset * (cachedRadius * jointFollowerDataValue.offsetAsRatioToRadius);
         TargetTransform.rotation = Quaternion.LookRotation(forward, jointPlaneOffset) * Quaternion.Euler(rotationOffset);
     }
 }

@@ -33,6 +33,8 @@ namespace ubco.ovilab.HPUI.Interaction
         [SerializeField] [Tooltip("The bias for the cone to deviate towards proximal or tip. Higher Sensitivity gives less resolution in the middle parts of the finger. Lower sensitivity gives less resolution in the extremities")]
         private float sensitivity = 2f;
 
+        [SerializeField] private JointFollowerSkeletonDriver skeletonDriver;
+
         // [SerializeField] private JointFollowerSkeletonDriver jointFollowerSkeletonDriver;
         [SerializeField] private bool visualiseEllipsoid = true;
         public HPUIDynamicConeRayCastDetectionLogic()
@@ -44,11 +46,11 @@ namespace ubco.ovilab.HPUI.Interaction
 
         public override void DetectedInteractables(IHPUIInteractor interactor, XRInteractionManager interactionManager, Dictionary<IHPUIInteractable, HPUIInteractionInfo> validTargets, out Vector3 hoverEndPoint)
         {
-            bool failed = false;
+            // bool failed = false;
 
             if (_targetDirectionEstimator == null)
             {
-                _targetDirectionEstimator = new TargetDirectionEstimator(_xrHandTrackingEvents, XROrigin);
+                _targetDirectionEstimator = new TargetDirectionEstimator(_xrHandTrackingEvents, XROrigin, skeletonDriver);
             }
 
             if (_xrHandTrackingEvents == null || XROrigin == null)
@@ -101,6 +103,9 @@ namespace ubco.ovilab.HPUI.Interaction
         [Tooltip("The XR Hand Tracking Events component used to track the state of the segments.")]
         private XRHandTrackingEvents xrHandTrackingEvents;
 
+        [SerializeField]
+        [Tooltip("")]
+        private JointFollowerSkeletonDriver skeletonDriver;
         private Dictionary<XRHandJointID, Pose> jointLocations = new();
 
         private List<XRHandJointID> trackedJoints = new List<XRHandJointID>()
@@ -167,12 +172,15 @@ namespace ubco.ovilab.HPUI.Interaction
         private bool receivedNewJointData;
         private GameObject tipViz;
         private GameObject proximalViz;
-        public TargetDirectionEstimator(XRHandTrackingEvents handTrackingEvents, Transform _xrOriginTransform)
+        public TargetDirectionEstimator(XRHandTrackingEvents handTrackingEvents, Transform _xrOriginTransform, JointFollowerSkeletonDriver jointFollowerSkeletonDriver)
         {
             this.XRHandTrackingEvents = handTrackingEvents;
             xrOriginTransform = _xrOriginTransform;
             tipViz = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            tipViz.GetComponent<MeshRenderer>().enabled = false;
             proximalViz = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            proximalViz.GetComponent<MeshRenderer>().enabled = false;
+            this.skeletonDriver = jointFollowerSkeletonDriver;
             Reset();
         }
 
@@ -217,12 +225,16 @@ namespace ubco.ovilab.HPUI.Interaction
             if (!receivedNewJointData) return;
 
             receivedNewJointData = false;
-            Vector3 thumbTipPos = jointLocations[XRHandJointID.ThumbTip].position;
+            Vector3 thumbTipPos = skeletonDriver.HandJoints[XRHandJointID.ThumbTip].position;
             float shortestDistance = float.MaxValue;
             foreach (KeyValuePair<XRHandJointID, XRHandJointID> kvp in trackedJointsToSegment)
             {
-                Vector3 baseVector = jointLocations[kvp.Key].position;
-                Vector3 segmentVector = jointLocations[kvp.Value].position - baseVector;
+                if (!skeletonDriver.HandJoints.TryGetValue(kvp.Key, out Transform value))
+                {
+                    continue;
+                }
+                Vector3 baseVector = skeletonDriver.HandJoints[kvp.Key].position;
+                Vector3 segmentVector = skeletonDriver.HandJoints[kvp.Value].position - baseVector;
                 Vector3 toTipVector = thumbTipPos - segmentVector;
                 float distanceOnSegmentVector = Mathf.Clamp(Vector3.Dot(toTipVector, segmentVector.normalized), 0, segmentVector.magnitude);
                 Vector3 closestPoint = distanceOnSegmentVector * segmentVector.normalized + baseVector;
@@ -238,7 +250,7 @@ namespace ubco.ovilab.HPUI.Interaction
             _closestFinger = jointToFinger[_closestJoint];
             (XRHandJointID start, XRHandJointID end) fingerExtremities = fingerToJointsExtremities[_closestFinger];
             XRHandJointID thumbDistal = XRHandJointID.ThumbDistal;
-            thumbReferencePoint = (thumbTipPos + jointLocations[thumbDistal].position)/2;
+            thumbReferencePoint = (thumbTipPos + skeletonDriver.HandJoints[thumbDistal].position)/2;
 
 
             XRHandJointID fingerTipID = trackedJointsToSegment[fingerExtremities.start];
@@ -246,14 +258,14 @@ namespace ubco.ovilab.HPUI.Interaction
             XRHandJointID intermediateID = trackedJointsToSegment[fingerExtremities.end];
             XRHandJointID proximalID = fingerExtremities.end;
 
-            Vector3 fingerTipPos =   jointLocations[fingerTipID].position;
-            Vector3 distalPos = jointLocations[distalID].position;
+            Vector3 fingerTipPos =   skeletonDriver.HandJoints[fingerTipID].position;
+            Vector3 distalPos = skeletonDriver.HandJoints[distalID].position;
             Vector3 thumbToTipVector = fingerTipPos  - thumbReferencePoint;
             vectorToFingerTip = thumbToTipVector;
 
 
-            Vector3 fingerProximalPos = jointLocations[proximalID].position;
-            Vector3 intermediatePos = jointLocations[intermediateID].position;
+            Vector3 fingerProximalPos = skeletonDriver.HandJoints[proximalID].position;
+            Vector3 intermediatePos = skeletonDriver.HandJoints[intermediateID].position;
             //Proximal is too far off. Getting a mid-point between proximal and intermediate
             Vector3 targetPoint = (intermediatePos + fingerProximalPos)/2;
             Vector3 thumbToProximalVector = targetPoint - thumbReferencePoint;
@@ -321,7 +333,6 @@ namespace ubco.ovilab.HPUI.Interaction
 
         public float GetProximalWeight()
         {
-
             float distTip = vectorToFingerTip.magnitude;
             float distProximal = vectorToFingerProximal.magnitude;
             // Apply nonlinear falloff so small differences have less impact

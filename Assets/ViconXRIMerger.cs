@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using EditorAttributes;
+using ubco.ovilab.ViconUnityStream;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.XR;
@@ -44,6 +45,13 @@ public class ViconXRIMerger : MonoBehaviour
         Vector3 localXRPosRelToParent = viconToUnityOrigin.InverseTransformPoint(unityObject.position);
         Vector3 localViconPosRelToParent = viconOrigin.InverseTransformPoint(viconObject.position);
         offsetTransform.localPosition = localViconPosRelToParent - localXRPosRelToParent;
+
+        if (container.unityObject.name == "Hand")
+        {
+            container.viconObject.GetComponent<CustomHandScript>().XRIOffset.position = offsetTransform.localPosition;
+            container.viconObject.GetComponent<CustomHandScript>().XRIOffset.rotation= offsetTransform.localRotation;
+        }
+
     }
 
 
