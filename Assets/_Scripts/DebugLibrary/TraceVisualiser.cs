@@ -30,6 +30,7 @@ public class TraceVisualiser : MonoBehaviour
     private HPUIMultiFingerCanvas target;
     private int gestureIndex = 0;
     [SerializeField] List<Vector2> currentPoints = new List<Vector2>();
+    public Vector2 currentPosition { get; set; }
 
     private void Awake()
     {
@@ -75,14 +76,20 @@ public class TraceVisualiser : MonoBehaviour
         }
         Vector2 processedTouchPos = hpuiCanvasEventArgs.GesturePositions[^1];
         Vector2Int colliderVal = ComputeDebugPointPosition(processedTouchPos,target, out Vector2 localPos);
-        GameObject tracePoint = Instantiate(debugPointPrefab, target.coordsToCollider[colliderVal].transform, true);
-        tempCache.Add(tracePoint);
+        currentPosition = colliderVal + localPos;
+        GameObject tracePoint;
+        if (target.coordsToCollider.ContainsKey(colliderVal))
+        {
+            tracePoint = Instantiate(debugPointPrefab, target.coordsToCollider[colliderVal].transform, true);
+            tempCache.Add(tracePoint);
 
-        tracePoint.transform.position = transform.parent.position;
-        tracePoint.transform.localScale = Vector3.one;
-        tracePoint.transform.localRotation = Quaternion.Euler(90, 0, 0);
-        tracePoint.transform.localPosition = new Vector3(localPos.x, 75f, localPos.y);
-        tracePoint.transform.name = "Green" + sphereObjects.Count;
+            tracePoint.transform.position = transform.parent.position;
+            tracePoint.transform.localScale = Vector3.one;
+            tracePoint.transform.localRotation = Quaternion.Euler(90, 0, 0);
+            tracePoint.transform.localPosition = new Vector3(localPos.x, 75f, localPos.y);
+            tracePoint.transform.name = "Green" + sphereObjects.Count;
+        }
+
 
         if (hpuiCanvasEventArgs.State == HPUICanvasState.Completed)
         {
@@ -99,27 +106,31 @@ public class TraceVisualiser : MonoBehaviour
                 sphereObjects.Add(tracePoint);
                 tempCache.Add(tracePoint);
 
-                tracePoint.transform.parent = target.coordsToCollider[colliderVal].transform;
-                tracePoint.transform.position = transform.parent.position;
-                tracePoint.transform.localScale = Vector3.one;
-                tracePoint.transform.localPosition = new Vector3(localPos.x, 50f, localPos.y);
-                tracePoint.transform.localRotation = Quaternion.Euler(90, 0, 0);
-                tracePoint.transform.name = "DebugPoint" + sphereObjects.Count;
-
-                switch (gestureIndex)
+                if (target.coordsToCollider.ContainsKey(colliderVal))
                 {
-                    case 0:
-                        color1.Add(tracePoint);
-                        break;
-                    case 1:
-                        color2.Add(tracePoint);
-                        break;
-                    case 2:
-                        color3.Add(tracePoint);
-                        break;
-                    case 3:
-                        color4.Add(tracePoint);
-                        break;
+
+                    tracePoint.transform.parent = target.coordsToCollider[colliderVal].transform;
+                    tracePoint.transform.position = transform.parent.position;
+                    tracePoint.transform.localScale = Vector3.one;
+                    tracePoint.transform.localPosition = new Vector3(localPos.x, 50f, localPos.y);
+                    tracePoint.transform.localRotation = Quaternion.Euler(90, 0, 0);
+                    tracePoint.transform.name = "DebugPoint" + sphereObjects.Count;
+
+                    switch (gestureIndex)
+                    {
+                        case 0:
+                            color1.Add(tracePoint);
+                            break;
+                        case 1:
+                            color2.Add(tracePoint);
+                            break;
+                        case 2:
+                            color3.Add(tracePoint);
+                            break;
+                        case 3:
+                            color4.Add(tracePoint);
+                            break;
+                    }
                 }
             }
 
@@ -136,63 +147,63 @@ public class TraceVisualiser : MonoBehaviour
         }
     }
 
-    public Vector2Int   ComputeDebugPointPosition(Vector2 coords, HPUIMultiFingerCanvas multiFinger, out Vector2 localPos)
-    {
-        int xVal = Mathf.FloorToInt(coords.x / multiFinger.MaxBounds.x * multiFinger.MeshXResolution );
-        int yVal = Mathf.FloorToInt(coords.y / multiFinger.MaxBounds.y *  multiFinger.MeshYResolution );
-
-        xVal = Mathf.Clamp(xVal, 0, multiFinger.MeshXResolution - 2);
-        yVal = Mathf.Clamp(yVal, 0, multiFinger.MeshYResolution - 2);
-
-        float xRemainder = (coords.x * multiFinger.MeshXResolution / multiFinger.MaxBounds.x) - xVal;
-        float yRemainder = (coords.y * multiFinger.MeshYResolution / multiFinger.MaxBounds.y) - yVal;
-
-        localPos = new Vector2(xRemainder, yRemainder);
-        return new Vector2Int(xVal, yVal);
-    }
-
-    private void OnValidate()
-    {
-        if (Application.isPlaying)
+        public Vector2Int   ComputeDebugPointPosition(Vector2 coords, HPUIMultiFingerCanvas multiFinger, out Vector2 localPos)
         {
-            foreach (GameObject sphere in color1)
-            {
-                sphere.SetActive(enableColor1);
-            }
+            int xVal = Mathf.FloorToInt(coords.x / multiFinger.MaxBounds.x * multiFinger.MeshXResolution );
+            int yVal = Mathf.FloorToInt(coords.y / multiFinger.MaxBounds.y *  multiFinger.MeshYResolution );
 
-            foreach (GameObject sphere in color2)
-            {
-                sphere.SetActive(enableColor2);
-            }
+            xVal = Mathf.Clamp(xVal, 0, multiFinger.MeshXResolution - 2);
+            yVal = Mathf.Clamp(yVal, 0, multiFinger.MeshYResolution - 2);
 
-            foreach (GameObject sphere in color3)
-            {
-                sphere.SetActive(enableColor3);
-            }
-        }
-    }
+            float xRemainder = (coords.x * multiFinger.MeshXResolution / multiFinger.MaxBounds.x) - xVal;
+            float yRemainder = (coords.y * multiFinger.MeshYResolution / multiFinger.MaxBounds.y) - yVal;
 
-    [Button]
-    public void ClearPoints()
-    {
-        foreach (GameObject sphere in sphereObjects)
-        {
-            Destroy(sphere);
+            localPos = new Vector2(xRemainder, yRemainder);
+            return new Vector2Int(xVal, yVal);
         }
 
-
-        foreach (GameObject sphere in tempCache)
+        private void OnValidate()
         {
-            Destroy(sphere);
+            if (Application.isPlaying)
+            {
+                foreach (GameObject sphere in color1)
+                {
+                    sphere.SetActive(enableColor1);
+                }
+
+                foreach (GameObject sphere in color2)
+                {
+                    sphere.SetActive(enableColor2);
+                }
+
+                foreach (GameObject sphere in color3)
+                {
+                    sphere.SetActive(enableColor3);
+                }
+            }
         }
 
-        tempCache.Clear();
-        sphereObjects.Clear();
-        color1.Clear();
-        color2.Clear();
-        color3.Clear();
-        color4.Clear();
+        [Button]
+        public void ClearPoints()
+        {
+            foreach (GameObject sphere in sphereObjects)
+            {
+                Destroy(sphere);
+            }
+
+
+            foreach (GameObject sphere in tempCache)
+            {
+                Destroy(sphere);
+            }
+
+            tempCache.Clear();
+            sphereObjects.Clear();
+            color1.Clear();
+            color2.Clear();
+            color3.Clear();
+            color4.Clear();
+        }
+
+
     }
-
-
-}
