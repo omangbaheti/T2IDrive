@@ -28,7 +28,7 @@ public class PIDController
     }
     public float Calculate(float setpoint, float input, float deltaTime)
     {
-        Debug.Log($"Previous Angle {input}");
+        // Debug.Log($"Previous Angle {input}");
         float error = setpoint - input;
         float absError = Mathf.Abs(error);
         if (Mathf.Abs(error) < 3f) // Adjust threshold as needed
@@ -55,7 +55,7 @@ public class PIDController
         firstRun = false;
 
         float output = proportional + integralTerm + derivative;
-        Debug.Log("Angle Output:" + output);
+        // Debug.Log("Angle Output:" + output);
         return Mathf.Clamp(output, outputMin, outputMax);
     }
 }

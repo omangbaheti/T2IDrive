@@ -310,7 +310,7 @@ public class TrialManager : MonoBehaviour, IHPUICanvasUIManager
         {
             return new Vector2Int(0, 0);
         }
-        Debug.Log($" >>>> Current Region: {regionX}, {regionY}");
+        // Debug.Log($" >>>> Current Region: {regionX}, {regionY}");
         return new Vector2Int(regionX, regionY);
     }
 }

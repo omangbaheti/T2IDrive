@@ -66,7 +66,7 @@ namespace ubco.ovilab.HPUI.Interaction
             float upperbound = lowerbound + thresholdRange;
             lowerbound = Mathf.Clamp(lowerbound, Q1, Q3);
             upperbound = Mathf.Clamp(upperbound, Q1, Q3);
-            Debug.Log($"Target Length:{targetThreshold} LowerBound:{lowerbound} UpperBound:{upperbound}");
+            // Debug.Log($"Target Length:{targetThreshold} LowerBound:{lowerbound} UpperBound:{upperbound}");
             float cosMaxAngle = Mathf.Cos(coneAngle * Mathf.Deg2Rad);
             angleToPlane = estimatedData.GetPlaneOnClosestSegment(estimatedData._closestFinger.Value);
             float radialClampParameter = Mathf.Clamp(angleToPlane, 0,90)/ 90;
@@ -88,7 +88,7 @@ namespace ubco.ovilab.HPUI.Interaction
                     continue;
                 if (ray.RaySelectionThreshold < lowerbound || ray.RaySelectionThreshold > upperbound)
                     continue;
-                if (angleToPlane > 45)
+                if (angleToPlane > 35)
                 {
                     var hpuiInteractorRayAngle = new HPUIInteractorRayAngle(ray.X, ray.Z, Mathf.Clamp(ray.RaySelectionThreshold, 0, Q1));
                     filteredRays.Add(hpuiInteractorRayAngle);

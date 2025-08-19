@@ -36,7 +36,6 @@ namespace ubco.ovilab.HPUI.Interaction
         [SerializeField] private JointFollowerSkeletonDriver skeletonDriver;
 
         // [SerializeField] private JointFollowerSkeletonDriver jointFollowerSkeletonDriver;
-        [SerializeField] private bool visualiseEllipsoid = true;
         public HPUIDynamicConeRayCastDetectionLogic()
         {
 

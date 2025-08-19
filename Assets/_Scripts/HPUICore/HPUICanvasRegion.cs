@@ -74,7 +74,7 @@ public class HPUICanvasRegion : MonoBehaviour
 
     public virtual void OnGestureStarted(HPUICanvasEventArgs canvasArgs)
     {
-        Debug.Log("Getting Here???????");
+        // Debug.Log("Getting Here???????");
         foreach (KeyValuePair<Vector2Int, GameObject> uiElement in layer2UIEndRegions)
         {
             HotSwapColor hotSwapColor = uiElement.Value.transform.GetChild(0).gameObject.GetComponent<HotSwapColor>();
@@ -92,7 +92,7 @@ public class HPUICanvasRegion : MonoBehaviour
         }
         endRegion = StudyLogs.RegionToVectorDict[endRegionName];
         layer2UIEndRegions[endRegion].SetActive(true);
-        Debug.Log("========== " + endRegionName.ToString());
+        // Debug.Log("========== " + endRegionName.ToString());
         foreach (MicrogestureAction gesture in gestureActions)
         {
             if (canvasArgs.SwipeStartRegion == gesture.startRegion)
@@ -122,7 +122,7 @@ public class HPUICanvasRegion : MonoBehaviour
 
     public virtual void OnGestureOnGoing(HPUICanvasEventArgs canvasArgs)
     {
-        Debug.Log("OnGestureOnGoing");
+        // Debug.Log("OnGestureOnGoing");
         if (canvasArgs.CurrentSwipeRegion == endRegion)
         {
             HotSwapColor hotSwapColor = layer2UIEndRegions[endRegion].transform.GetChild(0).GetComponent<HotSwapColor>();
@@ -132,7 +132,7 @@ public class HPUICanvasRegion : MonoBehaviour
                 Debug.LogWarning("This shouldnt happen");
 
             }
-            Debug.Log("Chanigng Color to greeen");
+            // Debug.Log("Chanigng Color to greeen");
             Debug.Log($" >>> Within HPUI Region: {canvasArgs.CurrentSwipeRegion}");
             hotSwapColor.SetColor(Color.green);
         }

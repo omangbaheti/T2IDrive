@@ -137,7 +137,7 @@ public class SelfDrivingManager : MonoBehaviour
         angleToTarget = Vector3.SignedAngle(carForward, directionToTarget, Vector3.up);
         angleToTarget = Mathf.Clamp(angleToTarget, -maxSteeringAngle, maxSteeringAngle);
         float pidOutput = steeringPIDController.Calculate(angleToTarget, 0f , Time.fixedDeltaTime);
-        Debug.Log("PIDOUTPUT" + pidOutput);
+        // Debug.Log("PIDOUTPUT" + pidOutput);
         // Normalize to [-1,1]
         float pidSteerInput = (pidOutput);
         pidSteerInput = filter.Filter(pidSteerInput);
@@ -164,7 +164,7 @@ public class SelfDrivingManager : MonoBehaviour
         // Calculate desired speed based on path curvature
         float pathCurvature = CalculatePathCurvature(transform.position, pathPoints.ElementAt(1), pathPoints.ElementAt(2));
         float desiredSpeed = CalculateDesiredSpeedForCurvature(pathCurvature);
-        Debug.Log($"Desired Speed {desiredSpeed}");
+        // Debug.Log($"Desired Speed {desiredSpeed}");
 
         float speedError = desiredSpeed - currentSpeed;
 
@@ -200,7 +200,7 @@ public class SelfDrivingManager : MonoBehaviour
     {
         // Reduce speed in curves
         float curvatureSpeedFactor = 1f / (1f + curvature * 50f);
-        Debug.Log($"curvatureSpeedFactor {curvatureSpeedFactor}");
+        // Debug.Log($"curvatureSpeedFactor {curvatureSpeedFactor}");
         float speed = Mathf.Clamp(maxSpeed * curvatureSpeedFactor, 0, maxSpeed);
         return speed;
     }
