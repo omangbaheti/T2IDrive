@@ -52,7 +52,7 @@ MonoBehaviour:
       Value: 1
     - Key: HPUI Test
       Value: 1
-    - Key: HPUITest
+    - Key: UIToolkit
       Value: 1
   validatorTypesMap:
     list:
