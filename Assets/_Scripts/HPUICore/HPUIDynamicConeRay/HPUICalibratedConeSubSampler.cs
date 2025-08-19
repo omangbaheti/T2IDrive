@@ -68,7 +68,7 @@ namespace ubco.ovilab.HPUI.Interaction
             upperbound = Mathf.Clamp(upperbound, Q1, Q3);
             // Debug.Log($"Target Length:{targetThreshold} LowerBound:{lowerbound} UpperBound:{upperbound}");
             float cosMaxAngle = Mathf.Cos(coneAngle * Mathf.Deg2Rad);
-            angleToPlane = estimatedData.GetPlaneOnClosestSegment(estimatedData._closestFinger.Value);
+            angleToPlane = estimatedData.GetPlaneOnFingerPlane(estimatedData._closestFinger.Value);
             float radialClampParameter = Mathf.Clamp(angleToPlane, 0,90)/ 90;
             clampValue = Mathf.Lerp(upperbound, Q1, radialClampParameter);
             for (int i = 0; i < fingerRelevantRays.Count; i++)
