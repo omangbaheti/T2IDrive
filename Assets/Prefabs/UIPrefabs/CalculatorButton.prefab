@@ -148,6 +148,7 @@ GameObject:
   - component: {fileID: 579096003496624358}
   - component: {fileID: 2416263349960338516}
   - component: {fileID: 4647754442523908108}
+  - component: {fileID: 8581751869473099240}
   m_Layer: 5
   m_Name: CalculatorButton
   m_TagString: Untagged
@@ -257,3 +258,15 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8581751869473099240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5019197879137076412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56bd07177340b924b9df3f53d32f7341, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
