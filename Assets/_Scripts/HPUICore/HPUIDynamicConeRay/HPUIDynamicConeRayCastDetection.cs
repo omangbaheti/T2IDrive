@@ -14,9 +14,6 @@ namespace ubco.ovilab.HPUI.Interaction
     [Serializable]
     public class HPUIDynamicConeRayCastDetectionLogic : HPUIRayCastDetectionBaseLogic
     {
-        [SerializeField]
-        [Tooltip("The HPUIInteractorConeRayAngles asset to use when using cone")]
-        private HPUIDynamicConeRayData coneRayData;
         private HPUIInteractorFullRangeAngles fullRangeRayAngles;
         private TargetDirectionEstimator _targetDirectionEstimator;
 

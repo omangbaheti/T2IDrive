@@ -85,7 +85,7 @@ namespace ubco.ovilab.HPUI.Core
             {
                 for (int j = 0; j < HPUIInteractables.GridSize.y; j++)
                 {
-                    HPUIInteractables.GetCell(i,j).GestureEvent.AddListener(HandleGesture);
+                    HPUIInteractables.GetCell(i,j).GestureEvent.RemoveListener(HandleGesture);
                 }
             }
             posFilter = new(90, posFilterMinCutoff, posFilterBeta);
@@ -198,11 +198,13 @@ namespace ubco.ovilab.HPUI.Core
                     // Debug.Log("===== We are unsure if gesture has ended");
                     if (gestureEndRoutine == null)
                     {
+
+                        canvasState = HPUICanvasState.Processing;
+                        canvasArgs = new HPUICanvasEventArgs(canvasState, currentGesturePoints);
+
                         gestureEndRoutine = StartCoroutine(AttemptGestureEndRoutine());
                         // using the current gesture point from the previous frame
                         // TODO: Ensure this isn't breaking logic elsewhere
-                        canvasState = HPUICanvasState.Processing;
-                        canvasArgs = new HPUICanvasEventArgs(canvasState, currentGesturePoints);
                     }
                     break;
                 }
@@ -325,11 +327,9 @@ namespace ubco.ovilab.HPUI.Core
 
         private IEnumerator AttemptGestureEndRoutine()
         {
-            // Debug.Log("===== Coroutine triggered even once?");
             while (currentGestureStoppedFrameCount <= frameBufferBeforeEndingGesture)
             {
                 OnCanvasInteractions?.Invoke(lastCachedArgs, canvasArgs);
-                Debug.Log("===== ALLO?");
                 yield return new WaitForSeconds(0.1f);
                 currentGestureStoppedFrameCount++;
             }

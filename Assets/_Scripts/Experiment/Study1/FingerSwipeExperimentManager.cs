@@ -250,6 +250,7 @@ namespace Experiment
                 {
                     if (swipeAction.GetType() != typeof(ExperimentHandler)) continue;
                     ExperimentHandler handler = (ExperimentHandler)swipeAction;
+                    handler.OnSwipeStarted.RemoveListener(GestureStarted);
                     handler.OnSwipeCompleted.RemoveListener(HandleTrial);
                 }
                 trialManager["Index"].SetUIActive(false);

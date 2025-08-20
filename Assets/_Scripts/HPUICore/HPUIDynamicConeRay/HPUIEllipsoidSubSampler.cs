@@ -41,9 +41,17 @@ namespace ubco.ovilab.HPUI.Interaction
         [SerializeField]
         Dictionary<(XRHandJointID, FingerSide), float> xrConeRayAngleMedian = new();
 
+        [SerializeField] private float percentile = 35f;
         private XRHandFingerID previousFingerID = XRHandFingerID.Thumb;
+        [SerializeField] private bool recacheAngles;
+
         public List<HPUIInteractorRayAngle> SampleRays(Transform interactorObject, HandJointEstimatedData estimatedData)
         {
+            if (recacheAngles)
+            {
+                CacheRayAngles(estimatedData, interactorObject);
+                recacheAngles = false;
+            }
 
             if (previousFingerID != estimatedData._closestFinger.Value)
             {
@@ -114,7 +122,7 @@ namespace ubco.ovilab.HPUI.Interaction
 
         public static float LerpThreeSmooth(float a, float b, float c, float t)
         {
-            Debug.Log($"distal:{a}  intermediate:{b} volar:{c}");
+            // Debug.Log($"distal:{a}  intermediate:{b} volar:{c}");
             float u = (1 - t) * (1 - t);   // weight for a
             float v = 2 * (1 - t) * t;     // weight for b
             float w = t * t;               // weight for c
@@ -124,6 +132,7 @@ namespace ubco.ovilab.HPUI.Interaction
 
         public void CacheRayAngles(HandJointEstimatedData estimatedData, Transform interactorObject)
         {
+            Debug.Log("Cache Ray Angles");
             switch (estimatedData._closestFinger.Value)
             {
                 case XRHandFingerID.Index:
@@ -156,7 +165,7 @@ namespace ubco.ovilab.HPUI.Interaction
             List<float> values = jointConeData.rayAngles.Select(x => x.RaySelectionThreshold).OrderBy(x => x).ToList();
             List<float> binnedLengths = BinValues(values, 0.001f);
             // float medianSelectionThreshold = GetMedian(binnedLengths);// GetPercentile(binnedLengths, 25f);
-            float medianSelectionThreshold = GetPercentile(binnedLengths, 35f);
+            float medianSelectionThreshold = GetPercentile(binnedLengths, percentile);
             if (xrConeRayAngleMedian.ContainsKey((targetJoint, jointConeData.side)))
             {
                 xrConeRayAngleMedian[(targetJoint, jointConeData.side)] = medianSelectionThreshold;
