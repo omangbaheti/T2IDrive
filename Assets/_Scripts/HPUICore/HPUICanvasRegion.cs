@@ -133,7 +133,7 @@ public class HPUICanvasRegion : MonoBehaviour
 
             }
             // Debug.Log("Chanigng Color to greeen");
-            Debug.Log($" >>> Within HPUI Region: {canvasArgs.CurrentSwipeRegion}");
+            // Debug.Log($" >>> Within HPUI Region: {canvasArgs.CurrentSwipeRegion}");
             hotSwapColor.SetColor(Color.green);
         }
         else

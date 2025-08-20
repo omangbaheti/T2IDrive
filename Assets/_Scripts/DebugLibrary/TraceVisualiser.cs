@@ -98,7 +98,6 @@ public class TraceVisualiser : MonoBehaviour
                 Destroy(sphere);
             }
             tempCache.Clear();
-            Debug.Log(hpuiCanvasEventArgs.GesturePositions.Count + "-------------------");
             foreach (Vector2 point in hpuiCanvasEventArgs.GesturePositions)
             {
                 colliderVal = ComputeDebugPointPosition(point, target, out localPos);
