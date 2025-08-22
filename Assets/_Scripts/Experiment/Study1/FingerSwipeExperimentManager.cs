@@ -22,7 +22,7 @@ namespace Experiment
         [SerializeField] private GestureLayoutSetup layoutSetup;
         [SerializeField] private AudioClip correct;
         [SerializeField] private AudioClip wrong;
-        [SerializeField] private Unity.XR.CoreUtils.Collections.SerializableDictionary<string, TrialManager> trialManager;
+        [SerializeField] private Unity.XR.CoreUtils.Collections.SerializableDictionary<string, Study1TrialManager> trialManager;
         [SerializeField] private List<TwoStepEulerConnection> EulerCircuit;
         private UnityAction<bool> ParticipantAction;
         private XRHandSubsystem handSubsystem;
@@ -223,7 +223,7 @@ namespace Experiment
                 Debug.LogWarning("Make sure All Microgestures are setup correctly");
             }
 
-            foreach ((string _, TrialManager _trialManager) in trialManager)
+            foreach ((string _, Study1TrialManager _trialManager) in trialManager)
             {
                 _trialManager.GetComponent<HPUIMultiFingerCanvas>().enabled = false;
                 HPUIBaseInteractable[] interactables = _trialManager.GetComponentsInChildren<HPUIBaseInteractable>();
@@ -233,9 +233,9 @@ namespace Experiment
                 }
             }
 
-            TrialManager currentTrialManager = trialManager[block.settings.GetString(StudyLogs.FingerType)];
-            currentTrialManager.GetComponent<HPUIMultiFingerCanvas>().enabled = true;
-            HPUIBaseInteractable[] currentActiveInteractables = currentTrialManager.GetComponentsInChildren<HPUIBaseInteractable>();
+            Study1TrialManager currentStudy1TrialManager = trialManager[block.settings.GetString(StudyLogs.FingerType)];
+            currentStudy1TrialManager.GetComponent<HPUIMultiFingerCanvas>().enabled = true;
+            HPUIBaseInteractable[] currentActiveInteractables = currentStudy1TrialManager.GetComponentsInChildren<HPUIBaseInteractable>();
             foreach (HPUIBaseInteractable interactable in currentActiveInteractables)
             {
                 interactable.enabled = true;
