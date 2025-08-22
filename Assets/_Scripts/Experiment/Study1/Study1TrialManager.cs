@@ -7,14 +7,11 @@ using ubco.ovilab.HPUI.Interaction;
 using ubco.ovilab.hpuiModel;
 using UnityEngine;
 using XRUtils = Unity.XR.CoreUtils.Collections;
-
-using Unity.XR.CoreUtils.Collections;
 using UnityEngine.Rendering;
-using UnityEngine.Serialization;
 using UXF;
 
 [RequireComponent(typeof(HPUIInteractableCanvasTracker))]
-public class TrialManager : MonoBehaviour, IHPUICanvasUIManager
+public class Study1TrialManager : MonoBehaviour, IHPUICanvasUIManager
 {
     public XRUtils.SerializableDictionary<Vector2Int?, HPUICanvasRegion> HPUIRegions => hpuiRegions;
 
@@ -22,32 +19,31 @@ public class TrialManager : MonoBehaviour, IHPUICanvasUIManager
 
     public List<float> YDivisions => yDivisions;
 
-
     public HPUIMultiFingerCanvas HPUICanvas { get; set; }
     public List<MicrogestureAction> gestureActions = new();
     public SerializedDictionary<Vector2Int, GameObject> layer1UIStartRegions = new();
     public SerializedDictionary<Vector2Int, GameObject> layer1UIEndRegions = new();
+
     [SerializeField] public Color startRegionColor = Color.blue;
     [SerializeField] public Color endRegionColor = Color.red;
     [SerializeField] public GameObject BlueButton;
     [SerializeField] XRUtils.SerializableDictionary<Vector2Int?, HPUICanvasRegion> hpuiRegions = new();
     [SerializeField] private GestureLayoutSetup gestureLayout;
     [SerializeField] private TextMeshProUGUI debugText;
+    [SerializeField] private Vector2Int startRegion;
+    [SerializeField] private Vector2 centreOffset;
+    [SerializeField] private Vector2Int endRegion;
+
     private Vector2Int ID;
     private Vector2 centrePoint;
     private Vector2 area;
     private Vector2 basePoint;
-    [SerializeField] private Vector2 centreOffset;
     private List<float> xDivisions = new();
     private List<float> yDivisions = new();
     private HPUIInteractableCanvasTracker hpuiInteractableCanvasTracker;
-    [SerializeField] private Vector2Int startRegion;
     private Vector2Int currentRegion;
-    [SerializeField] private Vector2Int endRegion;
     private bool startedCorrectly = false;
     private FingerSwipeExperimentManager expManager;
-
-
 
     private void OnEnable()
     {
@@ -233,10 +229,6 @@ public class TrialManager : MonoBehaviour, IHPUICanvasUIManager
                     hpuiRegions[startRegion].OnGestureEnded(canvasArgs);
                     SetUIActive(false);
                 }
-                catch (ArgumentOutOfRangeException e)
-                {
-                    throw;
-                }
                 finally
                 {
                     SetUIActive(false);
@@ -248,7 +240,6 @@ public class TrialManager : MonoBehaviour, IHPUICanvasUIManager
                 Debug.Log("Unhandled HPUICanvasState");
                 throw new ArgumentOutOfRangeException();
         }
-        // if (canvasArgs.CurrentSwipeRegion != null) debugText.text = canvasArgs.GesturePositions[^1].ToString();
     }
 
     public void SetCurrentTrialActive(Trial trial)

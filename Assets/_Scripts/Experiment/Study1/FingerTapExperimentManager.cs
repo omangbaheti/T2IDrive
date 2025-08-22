@@ -23,7 +23,7 @@ namespace Experiment
         [SerializeField] private GestureLayoutSetup layoutSetup;
         [SerializeField] private AudioClip correct;
         [SerializeField] private AudioClip wrong;
-            [SerializeField] private SerializedDictionary<string, TrialManager> trialManagers;
+            [SerializeField] private SerializedDictionary<string, Study1TrialManager> trialManagers;
         [SerializeField] private List<TwoStepEulerConnection> EulerCircuit;
         private UnityAction<bool> ParticipantAction;
         private XRHandSubsystem handSubsystem;
@@ -241,7 +241,7 @@ namespace Experiment
                 Debug.LogWarning("Make sure All Microgestures are setup correctly");
             }
 
-            foreach ((string _, TrialManager _trialManager) in trialManagers)
+            foreach ((string _, Study1TrialManager _trialManager) in trialManagers)
             {
                 _trialManager.GetComponent<HPUIMultiFingerCanvas>().enabled = false;
                 HPUIBaseInteractable[] interactables = _trialManager.GetComponentsInChildren<HPUIBaseInteractable>();
@@ -251,9 +251,9 @@ namespace Experiment
                 }
             }
 
-            TrialManager currentTrialManager = trialManagers[block.settings.GetString(StudyLogs.FingerType)];
-            currentTrialManager.GetComponent<HPUIMultiFingerCanvas>().enabled = true;
-            HPUIBaseInteractable[] currentActiveInteractables = currentTrialManager.GetComponentsInChildren<HPUIBaseInteractable>();
+            Study1TrialManager currentStudy1TrialManager = trialManagers[block.settings.GetString(StudyLogs.FingerType)];
+            currentStudy1TrialManager.GetComponent<HPUIMultiFingerCanvas>().enabled = true;
+            HPUIBaseInteractable[] currentActiveInteractables = currentStudy1TrialManager.GetComponentsInChildren<HPUIBaseInteractable>();
             foreach (HPUIBaseInteractable interactable in currentActiveInteractables)
             {
                 interactable.enabled = true;
