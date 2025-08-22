@@ -16,10 +16,12 @@ public class HPUICanvasRegion : MonoBehaviour
     public List<MicrogestureAction> gestureActions = new();
     public Vector2 basePoint;
     public Vector2 centreOffset;
-
-    [SerializeField] private IHPUICanvasUIManager canvasManager;
+    public Color pressedColor;
+    public Color defaultColor;
+    public Transform followTransform;
+    private IHPUICanvasUIManager canvasManager;
     [SerializeField] public GameObject StartRegionVisual;
-    [FormerlySerializedAs("UIVisual")] [SerializeField] public GameObject EndRegionVisual;
+    [SerializeField] public GameObject EndRegionVisual;
     [SerializeField] public Color startColor;
     [SerializeField] public Color endColor;
     [SerializeField] public SerializedDictionary<Vector2Int, GameObject> layer2UIEndRegions = new();
@@ -27,19 +29,14 @@ public class HPUICanvasRegion : MonoBehaviour
 
     private Vector2 centrePoint;
     private Vector2Int endRegion;
-    private HPUIMultiFingerCanvas canvasInteractable;
+    public HPUIMultiFingerCanvas canvasInteractable;
 
-    private void Awake()
-    {
-        canvasManager = GetComponent<IHPUICanvasUIManager>();
-        canvasInteractable = canvasManager.HPUICanvas;
-    }
 
 
     public void InitialiseUI()
     {
         centrePoint = basePoint + new Vector2(area.x / 2f, area.y / 2f);
-
+        canvasInteractable = canvasManager.HPUICanvas;
         foreach (MicrogestureAction action in gestureActions)
         {
             HPUICanvasRegion startRegion = canvasManager.HPUIRegions[action.startRegion];
@@ -92,7 +89,6 @@ public class HPUICanvasRegion : MonoBehaviour
         }
         endRegion = StudyLogs.RegionToVectorDict[endRegionName];
         layer2UIEndRegions[endRegion].SetActive(true);
-        // Debug.Log("========== " + endRegionName.ToString());
         foreach (MicrogestureAction gesture in gestureActions)
         {
             if (canvasArgs.SwipeStartRegion == gesture.startRegion)
