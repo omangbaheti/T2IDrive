@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 using EditorAttributes;
 using ubco.ovilab.HPUI;
 using ubco.ovilab.HPUI.utils;
@@ -14,10 +11,43 @@ public class GestureLayoutSetup : ScriptableObject
 {
     [Tooltip("X implies Across the finger, Y is Along the finger")]
     [SerializeField, InlineButton(nameof(GenerateConditions),"Generate All Conditions", 200f)] public Vector2Int regions;
+    [SerializeField] public TextAsset layout;
 
     [SerializeField, HideInInspector] public List<float> xDivisions;
     [SerializeField, HideInInspector] public List<float> yDivisions;
     [SerializeField] public List<MicrogestureAction> microGestureActions = new();
+    
+    
+    public static readonly Dictionary<Vector2Int, string> VectorToRegionDict = new()
+    {
+        { new(0, 0), "VolarProximal"},
+        { new(0, 1), "VolarIntermediate"},
+        { new(0, 2), "VolarDistal"},
+        { new(1, 0), "RadialProximal"},
+        { new(1, 1), "RadialIntermediate"},
+        { new(1, 2), "RadialDistal"}
+    };
+
+    public static readonly Dictionary<string,Vector2Int> RegionToVectorDict = new()
+    {
+        { "VolarProximal",      new(0, 0)},
+        { "VolarIntermediate",  new(0, 1)},
+        { "VolarDistal",        new(0, 2)},
+        { "RadialProximal",     new(1, 0)},
+        { "RadialIntermediate", new(1, 1)},
+        { "RadialDistal" ,      new(1, 2)}
+    };
+
+    public static readonly Dictionary<string,int> Region2ToVectorDict = new()
+    {
+        { "VolarProximal",      5},
+        { "VolarIntermediate",  4},
+        { "VolarDistal",        3},
+        { "RadialProximal",     2},
+        { "RadialIntermediate", 1},
+        { "RadialDistal" ,      0}
+    };
+    
 
     [Button]
     private void ResetActions()
@@ -27,6 +57,45 @@ public class GestureLayoutSetup : ScriptableObject
             existingAction.SwipeActions.Clear();
         }
         GenerateConditions();
+    }
+    
+    [Button]
+    private void ApplyExperimentManager()
+    {
+        foreach (MicrogestureAction existingAction in microGestureActions)
+        {
+            existingAction.SwipeActions.Add(new ExperimentHandler());
+        }
+    }
+    
+    [Button]
+    private void ApplyCharacterAction()
+    {
+        microGestureActions.Clear();
+        string[] lines = layout.text.Split('\n');
+        if (lines.Length < 2) return; // Ensure there's data beyond headers
+
+        for (int i = 1; i < lines.Length; i++) // Start from 1 to skip header
+        {
+            string[] values = lines[i].Split(',');
+            if (values.Length < 3) continue; // Ensure enough columns exist
+            Debug.Log(values[0].ToString());
+            MicrogestureAction action = new MicrogestureAction
+            {
+                startRegion = RegionToVectorDict[values[0].Trim()],
+                endRegion = RegionToVectorDict[values[1].Trim()],
+                SwipeActions = new List<IHPUISwipeAction>()
+                {
+                    new CharacterOutput()
+                    {
+                        outputKey = values[2].Trim()
+                    }
+                }
+            };
+            microGestureActions.Add(action);
+        }
+
+        microGestureActions = Sort(microGestureActions);
     }
 
     private void SetDivisions()
@@ -50,7 +119,7 @@ public class GestureLayoutSetup : ScriptableObject
     {
         SetDivisions();
         HashSet<(Vector2Int, Vector2Int)> existingActions = new();
-        foreach (var existingAction in microGestureActions)
+        foreach (MicrogestureAction existingAction in microGestureActions)
         {
             existingActions.Add((existingAction.startRegion, existingAction.endRegion));
         }
