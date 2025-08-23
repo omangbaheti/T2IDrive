@@ -20,4 +20,5 @@ namespace Array2DEditor
     [System.Serializable]
     public class CellRowAudioClip : CellRow<AudioClip> { }
     
+   
 }
