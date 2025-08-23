@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using ubco.ovilab.HPUI;
 using ubco.ovilab.HPUI.Core;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
-using UnityEngine.Serialization;
 using UXF;
 
 public class HPUICanvasRegion : MonoBehaviour
@@ -19,9 +18,9 @@ public class HPUICanvasRegion : MonoBehaviour
     public Color pressedColor;
     public Color defaultColor;
     public Transform followTransform;
-    private IHPUICanvasUIManager canvasManager;
-    [SerializeField] public GameObject StartRegionVisual;
-    [SerializeField] public GameObject EndRegionVisual;
+    public Transform parentTransform;
+    public IHPUICanvasUIManager canvasManager;
+    [SerializeField] public GameObject UIVisual;
     [SerializeField] public Color startColor;
     [SerializeField] public Color endColor;
     [SerializeField] public SerializedDictionary<Vector2Int, GameObject> layer2UIEndRegions = new();
@@ -31,76 +30,58 @@ public class HPUICanvasRegion : MonoBehaviour
     private Vector2Int endRegion;
     public HPUIMultiFingerCanvas canvasInteractable;
 
-
-
     public void InitialiseUI()
     {
         centrePoint = basePoint + new Vector2(area.x / 2f, area.y / 2f);
         canvasInteractable = canvasManager.HPUICanvas;
+        GameObject regionParent = Instantiate(new  GameObject(), parentTransform);
+        regionParent.name = $"HPUIRegion ({ID.x},{ID.y})";
         foreach (MicrogestureAction action in gestureActions)
         {
             HPUICanvasRegion startRegion = canvasManager.HPUIRegions[action.startRegion];
             Vector2 startRegionSpawnPoint = startRegion.basePoint + startRegion.area/2 + startRegion.centreOffset;
             Vector2Int startRegionSpawnColliderIndex = HPUICanvasComponentUtils.CalculateColliderIndex(startRegionSpawnPoint , canvasInteractable);
-            Transform startRegionSpawnCollider = canvasInteractable.coordsToCollider[startRegionSpawnColliderIndex].transform;
-            GameObject key = Instantiate(StartRegionVisual, startRegionSpawnCollider.position, Quaternion.identity, startRegionSpawnCollider.transform);
+            followTransform = canvasInteractable.coordsToCollider[startRegionSpawnColliderIndex].transform;
+            
+            GameObject key = Instantiate(UIVisual, followTransform.position, Quaternion.identity, regionParent.transform);
             key.transform.localPosition = new(0,50f,0);
             key.transform.localRotation = Quaternion.Euler(90,90,0);
             layer2UIStartRegions.Add(action.endRegion, key);
             key.SetActive(false);
-
-            HPUICanvasRegion endRegion = canvasManager.HPUIRegions[action.endRegion];
-            Vector2 spawnPoint = endRegion.basePoint + endRegion.area/2 + endRegion.centreOffset;
-            Vector2Int spawnColliderIndex = HPUICanvasComponentUtils.CalculateColliderIndex(spawnPoint, canvasInteractable);
-            Transform spawnCollider = canvasInteractable.coordsToCollider[spawnColliderIndex].transform;
-            if (action.startRegion == action.endRegion)
+            
+            CharacterOutput outputHandler = null;
+            foreach (IHPUISwipeAction actionHandler in action.SwipeActions)
             {
-                key = Instantiate(StartRegionVisual, spawnCollider.position, Quaternion.identity, spawnCollider.transform);
+                if (actionHandler is CharacterOutput output)
+                {
+                    outputHandler = output;
+                }
             }
-            else
-            {
 
-                key = Instantiate(EndRegionVisual, spawnCollider.position, Quaternion.identity, spawnCollider.transform);
-            }
+            // if (outputHandler == null)
+            // {
+            //     Debug.LogError("Swipe Actions does not have a character output action. Apply the right layout on Study2TrialManager");
+            //     return;
+            // }
+            //
+            // key.GetComponent<TextMeshPro>().text = outputHandler.outputKey;
             key.transform.localPosition = new(0,50f,0);
             key.transform.localRotation = Quaternion.Euler(90,90,0);
-            layer2UIEndRegions.Add(action.endRegion, key);
             key.SetActive(false);
         }
     }
 
     public virtual void OnGestureStarted(HPUICanvasEventArgs canvasArgs)
     {
-        // Debug.Log("Getting Here???????");
-        foreach (KeyValuePair<Vector2Int, GameObject> uiElement in layer2UIEndRegions)
-        {
-            HotSwapColor hotSwapColor = uiElement.Value.transform.GetChild(0).gameObject.GetComponent<HotSwapColor>();
-            hotSwapColor.SetColor(Color.red);
-        }
-        FingerRegions endRegionName;
-        try
-        {
-            endRegionName = (FingerRegions)Session.instance.CurrentTrial.settings.GetObject(StudyLogs.EndRegion);
-        }
-        catch (NoSuchTrialException e)
-        {
-            endRegionName = ComfortStudyExperimentManager.Instance.endRegion;
-            Debug.Log($"Getting Here ig {e}");
-        }
-        endRegion = StudyLogs.RegionToVectorDict[endRegionName];
-        layer2UIEndRegions[endRegion].SetActive(true);
-        foreach (MicrogestureAction gesture in gestureActions)
-        {
-            if (canvasArgs.SwipeStartRegion == gesture.startRegion)
-            {
-                Debug.Log($"Starting region {canvasArgs.SwipeStartRegion} MicroGestureStartRegion {gesture.startRegion}");
-                Debug.Log($"Ending region {canvasArgs.SwipeEndRegion} MicroGestureEndRegion {gesture.endRegion}");
-                foreach (IHPUISwipeAction action in gesture.SwipeActions)
-                {
-                    action.GestureStarted(canvasArgs);
-                }
-            }
-        }
+        
+    }
+    public virtual void OnGestureOnGoing(HPUICanvasEventArgs canvasArgs)
+    {
+        
+    }
+    public virtual void OnGestureEnded(HPUICanvasEventArgs canvasArgs)
+    {
+       
     }
 
     public virtual void DisableUI()
@@ -114,52 +95,5 @@ public class HPUICanvasRegion : MonoBehaviour
         {
             uiElement.Value.SetActive(false);
         }
-    }
-
-    public virtual void OnGestureOnGoing(HPUICanvasEventArgs canvasArgs)
-    {
-        // Debug.Log("OnGestureOnGoing");
-        if (canvasArgs.CurrentSwipeRegion == endRegion)
-        {
-            HotSwapColor hotSwapColor = layer2UIEndRegions[endRegion].transform.GetChild(0).GetComponent<HotSwapColor>();
-            if (layer2UIEndRegions[endRegion].gameObject.activeSelf == false)
-            {
-                // layer2UIElements[endRegion].gameObject.SetActive(true);
-                Debug.LogWarning("This shouldnt happen");
-
-            }
-            // Debug.Log("Chanigng Color to greeen");
-            // Debug.Log($" >>> Within HPUI Region: {canvasArgs.CurrentSwipeRegion}");
-            hotSwapColor.SetColor(Color.green);
-        }
-        else
-        {
-            HotSwapColor hotSwapColor = layer2UIEndRegions[endRegion].transform.GetChild(0).GetComponent<HotSwapColor>();
-            if (layer2UIEndRegions[endRegion].gameObject.activeSelf == false)
-            {
-                // layer2UIElements[endRegion].gameObject.SetActive(true);
-                Debug.LogWarning("This shouldnt happen");
-            }
-            hotSwapColor.SetColor(Color.red);
-
-        }
-    }
-    public virtual void OnGestureEnded(HPUICanvasEventArgs canvasArgs)
-    {
-        foreach (MicrogestureAction gesture in gestureActions.Where
-                 (gesture => canvasArgs.SwipeStartRegion == gesture.startRegion &&
-                             canvasArgs.SwipeEndRegion == gesture.endRegion))
-        {
-            foreach (IHPUISwipeAction action in gesture.SwipeActions)
-            {
-                action.GestureCompleted(canvasArgs);
-            }
-        }
-        foreach (KeyValuePair<Vector2Int, GameObject> gameObject in layer2UIEndRegions)
-        {
-            HotSwapColor hotSwapColor = gameObject.Value.transform.GetChild(0).gameObject.GetComponent<HotSwapColor>();
-            hotSwapColor.SetColor(Color.red);
-        }
-        ActivateUIElements(false);
-    }
+    }  
 }

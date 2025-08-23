@@ -4,15 +4,16 @@ using ubco.ovilab.HPUI.Core;
 using ubco.ovilab.HPUI.Interaction;
 using ubco.ovilab.hpuiModel;
 using UnityEngine;
+using UXF;
 using XRUtils = Unity.XR.CoreUtils.Collections;
 public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
 {
     public List<float> XDivisions => xDivisions;
     public List<float> YDivisions => yDivisions;
     public List<MicrogestureAction> GestureActions => gestureLayout.microGestureActions;
-    public HPUIMultiFingerCanvas HPUICanvas { get; set; }
+    public HPUIMultiFingerCanvas HPUICanvas => hpuiCanvas;
 
-    public XRUtils.SerializableDictionary<Vector2Int?, HPUICanvasRegion> HPUIRegions { get; }
+    public XRUtils.SerializableDictionary<Vector2Int?, HPUICanvasRegion> HPUIRegions => hpuiRegions;
     public InteractionMapping InteractionMapping;
     public GestureLayoutSetup gestureLayout;
     public Transform UIParent;
@@ -24,6 +25,10 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
     private Transform layer1;
     private Transform layer2;
     private HPUIInteractableCanvasTracker canvasTracker;
+    private Vector2Int startRegion;
+    private Vector2Int currentRegion;
+    private Vector2Int endRegion;
+    [SerializeField] private HPUIMultiFingerCanvas hpuiCanvas;
 
     [SerializeField] private XRUtils.SerializableDictionary<Vector2Int?, HPUICanvasRegion> hpuiRegions = new();
     [SerializeField] private GameObject layer1Prefab;
@@ -31,12 +36,10 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
 
     private void OnEnable()
     {
-        HPUICanvas = GetComponent<HPUIMultiFingerCanvas>();
+        hpuiCanvas = GetComponent<HPUIMultiFingerCanvas>();
         canvasTracker = GetComponent<HPUIInteractableCanvasTracker>();
         HPUICanvas.OnCanvasInteractions.AddListener(HandleCanvasGesture);
         // experimentManager = FindAnyObjectByType<TypingExperimentManager>();
-        HPUICanvas.OnCanvasInteractions.AddListener(HandleCanvasGesture);
-
         if (UIParent == null)
         {
             UIParent = transform;
@@ -60,8 +63,8 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
     public void SpawnCanvasRegions()
     {
         ResetCanvasRegions();
-        foreach (float division in gestureLayout.xDivisions) xDivisions.Add(division * HPUICanvas.MaxBounds.x);
-        foreach (float division in gestureLayout.yDivisions) yDivisions.Add(division * HPUICanvas.MaxBounds.y);
+        foreach (float division in gestureLayout.xDivisions) {xDivisions.Add(division * HPUICanvas.MaxBounds.x);}
+        foreach (float division in gestureLayout.yDivisions) {yDivisions.Add(division * HPUICanvas.MaxBounds.y);}
         //Setup Layer 1
         for (int i = 0; i < xDivisions.Count-1; i++)
         {
@@ -73,10 +76,12 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
                 hpuiRegion.ID = new Vector2Int(i, j);
                 hpuiRegion.basePoint = new Vector2(xDivisions[i], yDivisions[j]);
                 hpuiRegion.area = new Vector2(xDivisions[i+1] - xDivisions[i], yDivisions[j+1] - yDivisions[j]);
-                hpuiRegion.EndRegionVisual = layer2Prefab;
+                hpuiRegion.UIVisual = layer2Prefab;
                 hpuiRegion.pressedColor = selectedColor;
                 hpuiRegion.defaultColor = defaultColor;
                 hpuiRegion.canvasInteractable = HPUICanvas;
+                hpuiRegion.parentTransform = layer2;
+                hpuiRegion.canvasManager = this;
                 SetFollowTransform(hpuiRegion);
                 hpuiRegions.Add(new Vector2Int(i,j), hpuiRegion);
             }
@@ -86,6 +91,10 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
         foreach (MicrogestureAction action in GestureActions)
         {
             hpuiRegions[action.startRegion].gestureActions.Add(action);
+        }
+        foreach ((Vector2Int? ID, HPUICanvasRegion region) in hpuiRegions)
+        {
+            region.InitialiseUI();
         }
 
     }
@@ -107,15 +116,15 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
 
     public void ResetCanvasRegions()
     {
-        HPUICanvasRegion[] CanvasRegions = GetComponents<HPUICanvasRegion>();
-        foreach (HPUICanvasRegion region in CanvasRegions)
-        {
-            Destroy(region);
-            Debug.Log("Destroying regions");
-        }
-        xDivisions.Clear();
-        yDivisions.Clear();
-        hpuiRegions.Clear();
+        // HPUICanvasRegion[] CanvasRegions = GetComponents<HPUICanvasRegion>();
+        // foreach (HPUICanvasRegion region in CanvasRegions)
+        // {
+        //     Destroy(region);
+        //     Debug.Log("Destroying regions");
+        // }
+        // xDivisions.Clear();
+        // yDivisions.Clear();
+        // hpuiRegions.Clear();
     }
 
     public void InitialiseRegions()
@@ -125,7 +134,103 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
 
     public void HandleCanvasGesture(HPUIGestureEventArgs gestureArgs, HPUICanvasEventArgs canvasArgs)
     {
+        if (!Session.instance.InTrial)
+        {
+            Debug.LogWarning("Interaction when not in trial");
+            return;
+        }
+        if (canvasArgs.GesturePositions.Count <= 0)
+        {
+            Debug.Log("Not enough points, cancelling gesture");
+            return;
+        }
+        switch (canvasArgs.State)
+        {
+            case HPUICanvasState.INVALID:
+                break;
+            case HPUICanvasState.NotStarted:
+                //canvasTracker.RecordRow(gestureArgs, canvasArgs);
+                break;
+            case HPUICanvasState.Started:
+                startRegion = GetInteractionRegion(canvasArgs.GesturePositions[^1]);
+                canvasArgs.SwipeStartRegion = startRegion;
+                canvasArgs.CurrentSwipeRegion = startRegion;
+                SetUIActive(false);
+                hpuiRegions[startRegion].OnGestureStarted(canvasArgs);
+                Session.instance.CurrentTrial.settings.SetValue(StudyLogs.GestureStartRegion, StudyLogs.VectorToRegionDict[canvasArgs.SwipeStartRegion.Value]);
+                canvasTracker.RecordRow(gestureArgs, canvasArgs);
+                break;
+            case HPUICanvasState.Processing:
+                currentRegion = GetInteractionRegion(canvasArgs.GesturePositions[^1]);
+                canvasArgs.SwipeStartRegion = startRegion;
+                canvasArgs.CurrentSwipeRegion = currentRegion;
+                canvasArgs.SwipeEndRegion = endRegion;
+                hpuiRegions[startRegion].OnGestureOnGoing(canvasArgs);
+                canvasTracker.RecordRow(gestureArgs, canvasArgs);
+                break;
+            case HPUICanvasState.Cancelled:
+                foreach (KeyValuePair<Vector2Int?, HPUICanvasRegion> region in hpuiRegions)
+                {
+                    region.Value.DisableUI();
+                }
+                foreach (GameObject uiButton in layer1)
+                {
+                    uiButton.gameObject.SetActive(true);
+                }
+                canvasTracker.RecordRow(gestureArgs, canvasArgs);
+                break;
+            case HPUICanvasState.Completed:
+                endRegion = GetInteractionRegion(canvasArgs.GesturePositions[^1]);
+                canvasArgs.SwipeStartRegion = startRegion;
+                canvasArgs.CurrentSwipeRegion = endRegion;
+                canvasArgs.SwipeEndRegion = endRegion;
+                canvasTracker.RecordRow(gestureArgs, canvasArgs);
+                hpuiRegions[startRegion].OnGestureEnded(canvasArgs);
+                foreach (KeyValuePair<Vector2Int?, HPUICanvasRegion> region in hpuiRegions)
+                {
+                    region.Value.DisableUI();
+                }
+                foreach (GameObject uiButton in layer1)
+                {
+                    uiButton.gameObject.SetActive(true);
+                }
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+        
+    }
+    
+    public virtual void SetUIActive(bool active)
+    {
+        foreach (KeyValuePair<Vector2Int, GameObject> uiElement in layer1)
+        {
+            uiElement.Value.SetActive(active);
+        }
+    }
+    
+    private Vector2Int GetInteractionRegion(Vector2 touchPoint)
+    {
+        int regionX = -1, regionY = -1;
+        for (int i = 0; i < xDivisions.Count-1; i++)
+        {
+            if (touchPoint.x > xDivisions[i] && touchPoint.x <= xDivisions[i + 1])
+            {
+                regionX = i;
+                break;
+            }
+        }
 
+        for (int j = 0; j < yDivisions.Count-1; j++)
+        {
+            if (touchPoint.y > yDivisions[j] && touchPoint.y <= yDivisions[j + 1])
+            {
+                regionY = j;
+                break;
+            }
+        }
+
+        return new Vector2Int(regionX, regionY);
     }
 }
 

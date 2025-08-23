@@ -1,4 +1,5 @@
 ﻿using System;
+using Experiment;
 // using Experiment;
 using ubco.ovilab.HPUI.Core;
 using UnityEngine;
@@ -16,35 +17,35 @@ namespace ubco.ovilab.HPUI
         public void GestureCompleted(HPUICanvasEventArgs canvasArgs);
     }
 
-    // [Serializable]
-    // public class CharacterOutput : IHPUISwipeAction
-    // {
-    //     [SerializeField] public string  outputKey;
-    //     public UnityEvent<HPUICanvasEventArgs> OnSwipeStarted => onSwipeStarted;
-    //     public UnityEvent<HPUICanvasEventArgs> OnSwipeCompleted => onSwipeCompleted;
-    //
-    //     [SerializeField] public UnityEvent<HPUICanvasEventArgs> onSwipeStarted = new();
-    //     [SerializeField] public UnityEvent<HPUICanvasEventArgs> onSwipeCompleted = new();
-    //     [NonSerialized] public KeyboardInputStreamTracker inputStreamTracker;
-    //     public void GestureStarted(HPUICanvasEventArgs canvasArgs)
-    //     {
-    //         OnSwipeStarted?.Invoke(canvasArgs);
-    //     }
-    //
-    //     public void GestureCompleted(HPUICanvasEventArgs canvasArgs)
-    //     {
-    //         InputStreamArgs inputStreamArgs = new InputStreamArgs
-    //         {
-    //             SwipeStartRegion = canvasArgs.SwipeStartRegion,
-    //             SwipeEndRegion = canvasArgs.SwipeEndRegion,
-    //             inputAction = outputKey.ToLower()
-    //         };
-    //         Debug.LogWarning($"Gesture Completed: === From {inputStreamArgs.SwipeStartRegion} to {inputStreamArgs.SwipeEndRegion} producing {inputStreamArgs.inputAction}");
-    //         Debug.Log("gesture completed in interface");
-    //         inputStreamTracker.OnCharacterInput(canvasArgs, inputStreamArgs);
-    //         OnSwipeCompleted?.Invoke(canvasArgs);
-    //     }
-    // }
+    [Serializable]
+    public class CharacterOutput : IHPUISwipeAction
+    {
+        [SerializeField] public string  outputKey;
+        public UnityEvent<HPUICanvasEventArgs> OnSwipeStarted => onSwipeStarted;
+        public UnityEvent<HPUICanvasEventArgs> OnSwipeCompleted => onSwipeCompleted;
+    
+        [SerializeField] public UnityEvent<HPUICanvasEventArgs> onSwipeStarted = new();
+        [SerializeField] public UnityEvent<HPUICanvasEventArgs> onSwipeCompleted = new();
+        [NonSerialized] public KeyboardInputStreamTracker inputStreamTracker;
+        public void GestureStarted(HPUICanvasEventArgs canvasArgs)
+        {
+            OnSwipeStarted?.Invoke(canvasArgs);
+        }
+    
+        public void GestureCompleted(HPUICanvasEventArgs canvasArgs)
+        {
+            InputStreamArgs inputStreamArgs = new InputStreamArgs
+            {
+                SwipeStartRegion = canvasArgs.SwipeStartRegion,
+                SwipeEndRegion = canvasArgs.SwipeEndRegion,
+                inputAction = outputKey.ToLower()
+            };
+            Debug.LogWarning($"Gesture Completed: === From {inputStreamArgs.SwipeStartRegion} to {inputStreamArgs.SwipeEndRegion} producing {inputStreamArgs.inputAction}");
+            Debug.Log("gesture completed in interface");
+            inputStreamTracker.OnCharacterInput(canvasArgs, inputStreamArgs);
+            OnSwipeCompleted?.Invoke(canvasArgs);
+        }
+    }
 
     [Serializable]
     public class ExperimentHandler : IHPUISwipeAction

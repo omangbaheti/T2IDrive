@@ -95,8 +95,8 @@ public class Study1TrialManager : MonoBehaviour, IHPUICanvasUIManager
                 hpuiRegion.ID = new Vector2Int(i, j);
                 hpuiRegion.basePoint = new Vector2(xDivisions[i], yDivisions[j]);
                 hpuiRegion.area = new Vector2(xDivisions[i+1] - xDivisions[i], yDivisions[j+1] - yDivisions[j]);
-                hpuiRegion.StartRegionVisual = BlueButton;
-                hpuiRegion.EndRegionVisual = BlueButton;
+                hpuiRegion.UIVisual = BlueButton;
+                // hpuiRegion.EndRegionVisual = BlueButton;
                 hpuiRegion.centreOffset = centreOffset;
                 hpuiRegions.Add(new Vector2Int(i,j), hpuiRegion);
             }

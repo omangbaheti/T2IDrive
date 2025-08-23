@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Array2DEditor;
 using BasicStats;
 using ubco.ovilab.HPUI.Interaction;
 using ubco.ovilab.HPUI.Legacy.utils;
@@ -21,7 +22,6 @@ namespace ubco.ovilab.HPUI.Core
         public Vector2 MinBounds => minBounds;
         public Vector2 MaxBounds => maxBounds;
 
-        public HPUIMeshContinuousInteractable[,] HPUICanvasComponents => HPUIInteractables.GetCells();
         [SerializeField] private HPUIInteractable2DArray HPUIInteractables = new();
 
         [Tooltip("In Percent")]
