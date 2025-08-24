@@ -1,8 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using EditorAttributes;
+using TMPro;
+using ubco.ovilab.HPUI;
 using ubco.ovilab.HPUI.Core;
 using ubco.ovilab.HPUI.Interaction;
 using ubco.ovilab.hpuiModel;
+using UnityEditor.VersionControl;
 using UnityEngine;
 using UXF;
 using XRUtils = Unity.XR.CoreUtils.Collections;
@@ -28,11 +33,20 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
     private Vector2Int startRegion;
     private Vector2Int currentRegion;
     private Vector2Int endRegion;
-    [SerializeField] private HPUIMultiFingerCanvas hpuiCanvas;
+    private HPUIMultiFingerCanvas hpuiCanvas;
 
     [SerializeField] private XRUtils.SerializableDictionary<Vector2Int?, HPUICanvasRegion> hpuiRegions = new();
     [SerializeField] private GameObject layer1Prefab;
     [SerializeField] private GameObject layer2Prefab;
+    [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private Transform prompter;
+    [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private XRUtils.SerializableDictionary<Vector2Int?, HPUICanvasRegion> indirectMappingTransforms;
+    [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private Transform radialDistal;
+    [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private Transform radialIntermediate;
+    [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private Transform radialProximal;
+    [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private Transform volarDistal;
+    [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private Transform volarIntermediate;
+    [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private Transform volarProximal;
+    private Dictionary<Vector2Int, Transform> interactionMappingTransforms = new();
 
     private void OnEnable()
     {
@@ -56,6 +70,15 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
 
     private void Start()
     {
+        interactionMappingTransforms = new()
+        {
+            {new Vector2Int(1,2), radialDistal},
+            {new Vector2Int(1,1), radialIntermediate},
+            {new Vector2Int(1,0), radialProximal},
+            {new Vector2Int(0,2), volarDistal},
+            {new Vector2Int(0,1), volarIntermediate},
+            {new Vector2Int(0,0), volarProximal},
+        };
         SpawnCanvasRegions();
     }
 
@@ -72,6 +95,7 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
             {
                 GameObject regionGameObject = Instantiate(layer1Prefab, layer1);
                 HPUICanvasRegion hpuiRegion =  regionGameObject.AddComponent<HPUICanvasRegion>();
+                
                 regionGameObject.name = $"HPUIRegion ({i},{j})";
                 hpuiRegion.ID = new Vector2Int(i, j);
                 hpuiRegion.basePoint = new Vector2(xDivisions[i], yDivisions[j]);
@@ -82,6 +106,22 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
                 hpuiRegion.canvasInteractable = HPUICanvas;
                 hpuiRegion.parentTransform = layer2;
                 hpuiRegion.canvasManager = this;
+                List<MicrogestureAction> actions = GestureActions.FindAll(action => action.startRegion == hpuiRegion.ID);
+                List<TextMeshPro> textFields = regionGameObject.GetComponentsInChildren<TextMeshPro>().ToList();
+                Debug.Log($"Text Field Length: {textFields.Count}");
+                textFields.Sort((x, y) => string.Compare(x.text, y.text, StringComparison.Ordinal));
+                for (int k  = 0; k < actions.Count; k++)
+                {
+                    CharacterOutput charOutput = actions[k].SwipeActions.OfType<CharacterOutput>().First();
+                    textFields[k].text = String.Empty;
+                    Debug.Log($"{hpuiRegion.ID}: {charOutput.outputKey} {textFields[k].name}");
+                    // charOutput.inputStreamTracker = keyboardInputStreamTracker;
+                    textFields[k].text = charOutput.outputKey;
+                }
+                if (actions.Count != textFields.Count)
+                {
+                    Debug.LogError("Mismatched gesture action count");
+                }
                 SetFollowTransform(hpuiRegion);
                 hpuiRegions.Add(new Vector2Int(i,j), hpuiRegion);
             }
@@ -107,10 +147,19 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
             Vector2Int centreIndex = HPUICanvasComponentUtils.CalculateColliderIndex(regionCenterPoint, HPUICanvas);
             Transform regionCentre = HPUICanvas.coordsToCollider[centreIndex].transform;
             region.followTransform = regionCentre;
+            TransformFollower transformFollower = region.gameObject.AddComponent<TransformFollower>();
+            transformFollower.SetTarget(region.followTransform);
+            transformFollower.SetRotationOffset(new Vector3(90,0,-90));
+            transformFollower.SetScaleOffset(transform.lossyScale);
         }
         else
         {
-
+            TransformFollower transformFollower = region.gameObject.AddComponent<TransformFollower>();
+            transformFollower.SetTarget(interactionMappingTransforms[region.ID]);
+            transformFollower.SetRotationOffset(new Vector3(90,0,0));
+            Transform targetTransform = interactionMappingTransforms[region.ID].transform;
+            Vector3 targetScale = new Vector3(targetTransform.lossyScale.x/targetTransform.parent.lossyScale.x, targetTransform.lossyScale.y/targetTransform.parent.lossyScale.y, targetTransform.lossyScale.z/targetTransform.parent.lossyScale.z); 
+            transformFollower.SetScaleOffset(targetScale*2);
         }
     }
 
