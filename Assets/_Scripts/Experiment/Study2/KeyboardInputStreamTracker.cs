@@ -20,8 +20,8 @@ namespace Experiment
             "start_region","end_region", "target_character", "input_action"
         };
 
-        [SerializeField] private TextMeshProUGUI targetPhrase;
-        [SerializeField] private TextMeshProUGUI outputPhrase;
+        [SerializeField] private TextMeshPro targetPhrase;
+        [SerializeField] private TextMeshPro outputPhrase;
 
         private InputStreamArgs inputStream;
         private HPUICanvasEventArgs canvasEventArgs;

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using EditorAttributes;
+using Experiment;
 using TMPro;
 using ubco.ovilab.HPUI;
 using ubco.ovilab.HPUI.Core;
@@ -30,6 +31,7 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
     private Transform layer1;
     private Transform layer2;
     private HPUIInteractableCanvasTracker canvasTracker;
+    private KeyboardInputStreamTracker keyboardInputStreamTracker;
     private Vector2Int startRegion;
     private Vector2Int currentRegion;
     private Vector2Int endRegion;
@@ -53,6 +55,7 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
         hpuiCanvas = GetComponent<HPUIMultiFingerCanvas>();
         canvasTracker = GetComponent<HPUIInteractableCanvasTracker>();
         HPUICanvas.OnCanvasInteractions.AddListener(HandleCanvasGesture);
+        keyboardInputStreamTracker = FindAnyObjectByType<KeyboardInputStreamTracker>();
         // experimentManager = FindAnyObjectByType<TypingExperimentManager>();
         if (UIParent == null)
         {
@@ -113,6 +116,7 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
                 for (int k  = 0; k < actions.Count; k++)
                 {
                     CharacterOutput charOutput = actions[k].SwipeActions.OfType<CharacterOutput>().First();
+                    charOutput.inputStreamTracker = keyboardInputStreamTracker;
                     textFields[k].text = String.Empty;
                     Debug.Log($"{hpuiRegion.ID}: {charOutput.outputKey} {textFields[k].name}");
                     // charOutput.inputStreamTracker = keyboardInputStreamTracker;
@@ -124,6 +128,7 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
                 }
                 SetFollowTransform(hpuiRegion);
                 hpuiRegions.Add(new Vector2Int(i,j), hpuiRegion);
+
             }
         }
 
@@ -137,6 +142,11 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
             region.InitialiseUI();
         }
 
+    }
+
+    public void InitialiseRegions()
+    {
+        
     }
 
     private void SetFollowTransform(HPUICanvasRegion region)
@@ -165,20 +175,15 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
 
     public void ResetCanvasRegions()
     {
-        // HPUICanvasRegion[] CanvasRegions = GetComponents<HPUICanvasRegion>();
-        // foreach (HPUICanvasRegion region in CanvasRegions)
-        // {
-        //     Destroy(region);
-        //     Debug.Log("Destroying regions");
-        // }
-        // xDivisions.Clear();
-        // yDivisions.Clear();
-        // hpuiRegions.Clear();
-    }
-
-    public void InitialiseRegions()
-    {
-
+        HPUICanvasRegion[] CanvasRegions = layer1.GetComponents<HPUICanvasRegion>();
+        foreach (HPUICanvasRegion region in CanvasRegions)
+        {
+            Destroy(region);
+            Debug.Log("Destroying regions");
+        }
+        xDivisions.Clear();
+        yDivisions.Clear();
+        hpuiRegions.Clear();
     }
 
     public void HandleCanvasGesture(HPUIGestureEventArgs gestureArgs, HPUICanvasEventArgs canvasArgs)
@@ -278,7 +283,6 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
                 break;
             }
         }
-
         return new Vector2Int(regionX, regionY);
     }
 }
