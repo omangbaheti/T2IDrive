@@ -29,12 +29,13 @@ public class HPUICanvasRegion : MonoBehaviour
     private Vector2 centrePoint;
     private Vector2Int endRegion;
     public HPUIMultiFingerCanvas canvasInteractable;
+    private Transform regionParent;
 
     public void InitialiseUI()
     {
         centrePoint = basePoint + new Vector2(area.x / 2f, area.y / 2f);
         canvasInteractable = canvasManager.HPUICanvas;
-        GameObject regionParent = Instantiate(new  GameObject(), parentTransform);
+        regionParent = Instantiate(new  GameObject(), parentTransform).transform;
         regionParent.name = $"HPUIRegion ({ID.x},{ID.y})";
         foreach (MicrogestureAction action in gestureActions)
         {
@@ -58,13 +59,13 @@ public class HPUICanvasRegion : MonoBehaviour
                 }
             }
 
-            // if (outputHandler == null)
-            // {
-            //     Debug.LogError("Swipe Actions does not have a character output action. Apply the right layout on Study2TrialManager");
-            //     return;
-            // }
-            //
-            // key.GetComponent<TextMeshPro>().text = outputHandler.outputKey;
+            if (outputHandler == null)
+            {
+                Debug.LogError("Swipe Actions does not have a character output action. Apply the right layout on Study2TrialManager");
+                return;
+            }
+            
+            key.GetComponent<TextMeshPro>().text = outputHandler.outputKey;
             key.transform.localPosition = new(0,50f,0);
             key.transform.localRotation = Quaternion.Euler(90,90,0);
             key.SetActive(false);
@@ -73,15 +74,29 @@ public class HPUICanvasRegion : MonoBehaviour
 
     public virtual void OnGestureStarted(HPUICanvasEventArgs canvasArgs)
     {
-        
+        ActivateUIElements(true);
     }
     public virtual void OnGestureOnGoing(HPUICanvasEventArgs canvasArgs)
     {
-        
+        foreach (MicrogestureAction gesture in gestureActions.Where
+                 (gesture => canvasArgs.SwipeStartRegion == gesture.startRegion &&
+                             canvasArgs.SwipeEndRegion == gesture.endRegion))
+        {
+            foreach (IHPUISwipeAction action in gesture.SwipeActions)
+            {
+                action.GestureCompleted(canvasArgs);
+            }
+        }
+        foreach (Transform uiElement in regionParent)
+        {
+            HotSwapColor hotSwapColor = uiElement.transform.GetChild(0).gameObject.GetComponent<HotSwapColor>();
+            hotSwapColor.SetColor(defaultColor);
+        }
+        ActivateUIElements(false);
     }
     public virtual void OnGestureEnded(HPUICanvasEventArgs canvasArgs)
     {
-       
+        ActivateUIElements(false);
     }
 
     public virtual void DisableUI()
@@ -91,9 +106,18 @@ public class HPUICanvasRegion : MonoBehaviour
 
     public virtual void ActivateUIElements(bool active)
     {
-        foreach (KeyValuePair<Vector2Int, GameObject> uiElement in layer2UIEndRegions)
+        foreach (KeyValuePair<Vector2Int, GameObject> uiElement in regionParent)
         {
             uiElement.Value.SetActive(false);
         }
-    }  
+    }
+
+    private void OnDestroy()
+    {
+        foreach (Transform region in regionParent)
+        {
+            Destroy(region.gameObject);
+        }
+        Destroy(regionParent);
+    }
 }
