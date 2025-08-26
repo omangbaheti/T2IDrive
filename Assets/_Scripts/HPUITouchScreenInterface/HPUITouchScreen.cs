@@ -15,6 +15,7 @@ public class HPUITouchScreen : MonoBehaviour//, IPointerClickHandler, IPointerEn
     private RectTransform canvasRectTransform;
     private Button initialButton;
     private Button currentButton;
+    private Camera interfaceEventCamera;
 
     private void OnEnable()
     {
@@ -41,6 +42,7 @@ public class HPUITouchScreen : MonoBehaviour//, IPointerClickHandler, IPointerEn
         
         eventSystem = EventSystem.current;
         canvasRectTransform = targetCanvas.transform as RectTransform;
+        interfaceEventCamera = canvasRectTransform.GetComponent<Canvas>().worldCamera;
     }
     
     
@@ -72,21 +74,27 @@ public class HPUITouchScreen : MonoBehaviour//, IPointerClickHandler, IPointerEn
     private void HandleGestureStart(Vector2 screenPosition, HPUIGestureEventArgs arg)
     {
         Button button = GetButtonAtPosition(screenPosition);
-        if (!button) return;
+        if (!button)
+        {
+            Debug.LogError("Something went wrong");
+            return;
+        }
         initialButton = button;
         currentButton = button;
-        SendPointerEvents(button, pointerDown: true, pointerEnter: true);
+        Debug.Log($"===1111 {arg.interactableObject.transform.name} {screenPosition:F4} {initialButton} {currentButton?.name}");
+        SendPointerEvents(screenPosition, button, pointerDown: true, pointerEnter: true);
     }
 
     private void HandleGestureUpdate(Vector2 screenPosition, HPUIGestureEventArgs arg)
     {
         if (!initialButton) return;
         Button button = GetButtonAtPosition(screenPosition);
+        Debug.Log($"---== {button}");
         if (currentButton == button) return;
         currentButton = button;
         if (currentButton && currentButton == initialButton)
         {
-            SendPointerEvents(currentButton, pointerDown: true, pointerEnter: true);
+            SendPointerEvents(screenPosition, currentButton, pointerDown: true, pointerEnter: true);
         }
     }
 
@@ -95,11 +103,11 @@ public class HPUITouchScreen : MonoBehaviour//, IPointerClickHandler, IPointerEn
         if (!initialButton) return;
         
         Button button = GetButtonAtPosition(screenPosition);
-        SendPointerEvents(initialButton, pointerUp: true, pointerExit: true);
+        SendPointerEvents(screenPosition, initialButton, pointerUp: true, pointerExit: true);
         
         if (button == initialButton)
         {
-            SendPointerEvents(initialButton, pointerClick: true);
+            SendPointerEvents(screenPosition, initialButton, pointerClick: true);
         }
         ResetInteraction();
     }
@@ -108,19 +116,19 @@ public class HPUITouchScreen : MonoBehaviour//, IPointerClickHandler, IPointerEn
     {
         if (initialButton)
         {
-            SendPointerEvents(initialButton, pointerUp: true, pointerExit: true);
+            SendPointerEvents(Vector2.negativeInfinity, initialButton, pointerUp: true, pointerExit: true);
         }
         ResetInteraction();
     }
 
     private Button GetButtonAtPosition(Vector2 screenPosition)
     {
-        Vector3 worldPosition = canvasRectTransform.TransformPoint(screenPosition);
+       Vector3 worldPosition = canvasRectTransform.TransformPoint(screenPosition);
+       Debug.Log($"{worldPosition}:{interfaceEventCamera.WorldToScreenPoint(worldPosition)}");
         PointerEventData pointerData = new(eventSystem)
         {
-            position = Camera.main.WorldToScreenPoint(worldPosition),
+            position = interfaceEventCamera.WorldToScreenPoint(worldPosition),
         };
-        
         List<RaycastResult> results = new();
         UIraycaster.Raycast(pointerData, results);
         
@@ -128,22 +136,31 @@ public class HPUITouchScreen : MonoBehaviour//, IPointerClickHandler, IPointerEn
         {
             Button button = result.gameObject.GetComponent<Button>();
             if (button)
+            {
+                Debug.Log(button.name);
                 return button;
+            }
+
         }
         
         return null;
     }
 
-    private void SendPointerEvents(Button button, bool pointerEnter = false, bool pointerDown = false, 
+    private void SendPointerEvents(Vector2 screenPoint, Button button, bool pointerEnter = false, bool pointerDown = false, 
                                   bool pointerUp = false, bool pointerExit = false, bool pointerClick = false)
     {
-        if (!button) return;
+        if (!button)
+        {
+            Debug.Log("No button ");
+            return;
+        }
         
         Vector3 worldPosition = button.transform.position;
         PointerEventData pointerData = new(eventSystem)
         {
-            position = Camera.main.WorldToScreenPoint(worldPosition),
+            position = interfaceEventCamera.WorldToScreenPoint(worldPosition),
         };
+        Debug.Log($">>>> {worldPosition}");
         
         if (pointerEnter)
             ExecuteEvents.Execute(button.gameObject, pointerData, ExecuteEvents.pointerEnterHandler);
