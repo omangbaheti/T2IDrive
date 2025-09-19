@@ -7,6 +7,7 @@ using TMPro;
 using ubco.ovilab.HPUI;
 using ubco.ovilab.HPUI.Core;
 using ubco.ovilab.HPUI.Interaction;
+using ubco.ovilab.HPUI.utils;
 using ubco.ovilab.hpuiModel;
 using UnityEditor.VersionControl;
 using UnityEngine;
@@ -31,7 +32,7 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
     private Transform layer1;
     private Transform layer2;
     private HPUIInteractableCanvasTracker canvasTracker;
-    private KeyboardInputStreamTracker keyboardInputStreamTracker;
+    [SerializeField]  private List<KeyboardInputStream> keyboardInputStreamTracker;
     private Vector2Int startRegion;
     private Vector2Int currentRegion;
     private Vector2Int endRegion;
@@ -55,15 +56,15 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
         hpuiCanvas = GetComponent<HPUIMultiFingerCanvas>();
         canvasTracker = GetComponent<HPUIInteractableCanvasTracker>();
         HPUICanvas.OnCanvasInteractions.AddListener(HandleCanvasGesture);
-        keyboardInputStreamTracker = FindAnyObjectByType<KeyboardInputStreamTracker>();
         // experimentManager = FindAnyObjectByType<TypingExperimentManager>();
         if (UIParent == null)
         {
             UIParent = transform;
         }
-
-        layer1 = Instantiate(new GameObject("Layer1").transform, UIParent);
-        layer2 = Instantiate(new GameObject("Layer2").transform, UIParent);
+        layer1 = new GameObject("Layer1").transform;
+        layer1.parent = UIParent;
+        layer2 = new GameObject("Layer2").transform;
+        layer2.parent = UIParent;
     }
 
     private void OnDisable()
@@ -71,6 +72,10 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
         HPUICanvas.OnCanvasInteractions.RemoveListener(HandleCanvasGesture);
     }
 
+    private void OnDestroy()
+    {
+        HPUICanvas.OnCanvasInteractions.RemoveListener(HandleCanvasGesture);
+    }
     private void Start()
     {
         interactionMappingTransforms = new()
@@ -84,7 +89,6 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
         };
         SpawnCanvasRegions();
     }
-
 
     public void SpawnCanvasRegions()
     {
@@ -109,6 +113,8 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
                 hpuiRegion.canvasInteractable = HPUICanvas;
                 hpuiRegion.parentTransform = layer2;
                 hpuiRegion.canvasManager = this;
+                hpuiRegion.interactionMapping = InteractionMapping;
+                hpuiRegion.interactionMappingTransforms = interactionMappingTransforms;
                 List<MicrogestureAction> actions = GestureActions.FindAll(action => action.startRegion == hpuiRegion.ID);
                 List<TextMeshPro> textFields = regionGameObject.GetComponentsInChildren<TextMeshPro>().ToList();
                 Debug.Log($"Text Field Length: {textFields.Count}");
@@ -116,7 +122,7 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
                 for (int k  = 0; k < actions.Count; k++)
                 {
                     CharacterOutput charOutput = actions[k].SwipeActions.OfType<CharacterOutput>().First();
-                    charOutput.inputStreamTracker = keyboardInputStreamTracker;
+                    charOutput.inputStreamTrackers = keyboardInputStreamTracker;
                     textFields[k].text = String.Empty;
                     Debug.Log($"{hpuiRegion.ID}: {charOutput.outputKey} {textFields[k].name}");
                     // charOutput.inputStreamTracker = keyboardInputStreamTracker;
@@ -128,7 +134,6 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
                 }
                 SetFollowTransform(hpuiRegion);
                 hpuiRegions.Add(new Vector2Int(i,j), hpuiRegion);
-
             }
         }
 
@@ -168,6 +173,7 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
             transformFollower.SetTarget(interactionMappingTransforms[region.ID]);
             transformFollower.SetRotationOffset(new Vector3(90,0,0));
             Transform targetTransform = interactionMappingTransforms[region.ID].transform;
+            region.followTransform = targetTransform;
             Vector3 targetScale = new Vector3(targetTransform.lossyScale.x/targetTransform.parent.lossyScale.x, targetTransform.lossyScale.y/targetTransform.parent.lossyScale.y, targetTransform.lossyScale.z/targetTransform.parent.lossyScale.z); 
             transformFollower.SetScaleOffset(targetScale*2);
         }
@@ -188,16 +194,17 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
 
     public void HandleCanvasGesture(HPUIGestureEventArgs gestureArgs, HPUICanvasEventArgs canvasArgs)
     {
-        if (!Session.instance.InTrial)
-        {
-            Debug.LogWarning("Interaction when not in trial");
-            return;
-        }
+        // if (!Session.instance.InTrial)
+        // {
+        //     Debug.LogWarning("Interaction when not in trial");
+        //     return;
+        // }
         if (canvasArgs.GesturePositions.Count <= 0)
         {
             Debug.Log("Not enough points, cancelling gesture");
             return;
         }
+        Debug.Log(canvasArgs.State + ">>>>>>>>>>>>>>>>>>>>>>>>");
         switch (canvasArgs.State)
         {
             case HPUICanvasState.INVALID:
@@ -209,7 +216,7 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
                 startRegion = GetInteractionRegion(canvasArgs.GesturePositions[^1]);
                 canvasArgs.SwipeStartRegion = startRegion;
                 canvasArgs.CurrentSwipeRegion = startRegion;
-                SetUIActive(false);
+                SetLayer1Active(false);
                 hpuiRegions[startRegion].OnGestureStarted(canvasArgs);
                 Session.instance.CurrentTrial.settings.SetValue(StudyLogs.GestureStartRegion, StudyLogs.VectorToRegionDict[canvasArgs.SwipeStartRegion.Value]);
                 canvasTracker.RecordRow(gestureArgs, canvasArgs);
@@ -227,10 +234,7 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
                 {
                     region.Value.DisableUI();
                 }
-                foreach (GameObject uiButton in layer1)
-                {
-                    uiButton.gameObject.SetActive(true);
-                }
+                SetLayer1Active(true);
                 canvasTracker.RecordRow(gestureArgs, canvasArgs);
                 break;
             case HPUICanvasState.Completed:
@@ -244,10 +248,7 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
                 {
                     region.Value.DisableUI();
                 }
-                foreach (GameObject uiButton in layer1)
-                {
-                    uiButton.gameObject.SetActive(true);
-                }
+                SetLayer1Active(true);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -255,11 +256,11 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
         
     }
     
-    public virtual void SetUIActive(bool active)
+    public virtual void SetLayer1Active(bool active)
     {
-        foreach (KeyValuePair<Vector2Int, GameObject> uiElement in layer1)
+        foreach (Transform uiElement in layer1)
         {
-            uiElement.Value.SetActive(active);
+            uiElement.gameObject.SetActive(active);
         }
     }
     

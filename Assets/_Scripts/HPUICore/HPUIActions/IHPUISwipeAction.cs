@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Experiment;
 // using Experiment;
 using ubco.ovilab.HPUI.Core;
@@ -26,7 +27,7 @@ namespace ubco.ovilab.HPUI
     
         [SerializeField] public UnityEvent<HPUICanvasEventArgs> onSwipeStarted = new();
         [SerializeField] public UnityEvent<HPUICanvasEventArgs> onSwipeCompleted = new();
-        [NonSerialized] public KeyboardInputStreamTracker inputStreamTracker;
+        [NonSerialized] public List<KeyboardInputStream> inputStreamTrackers;
         public void GestureStarted(HPUICanvasEventArgs canvasArgs)
         {
             OnSwipeStarted?.Invoke(canvasArgs);
@@ -42,7 +43,10 @@ namespace ubco.ovilab.HPUI
             };
             Debug.LogWarning($"Gesture Completed: === From {inputStreamArgs.SwipeStartRegion} to {inputStreamArgs.SwipeEndRegion} producing {inputStreamArgs.inputAction}");
             Debug.Log("gesture completed in interface");
-            inputStreamTracker.OnCharacterInput(canvasArgs, inputStreamArgs);
+            foreach (IKeyboardInputStream keyboardInputStream in inputStreamTrackers)
+            {
+                keyboardInputStream.OnCharacterInput(canvasArgs, inputStreamArgs);
+            }
             OnSwipeCompleted?.Invoke(canvasArgs);
         }
     }
