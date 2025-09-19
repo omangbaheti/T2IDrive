@@ -3,6 +3,8 @@ using UnityEngine;
 
     public class HotSwapColor : MonoBehaviour
     {
+        [SerializeField] public Color CurrentColor => color;
+        
         [SerializeField] private Color color;
         [SerializeField] private bool hasEmission;
         [SerializeField] private Color emissionColor;

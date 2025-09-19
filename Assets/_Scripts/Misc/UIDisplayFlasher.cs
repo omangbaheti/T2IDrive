@@ -4,7 +4,7 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DisplayFlasher : MonoBehaviour
+public class UIDisplayFlasher : MonoBehaviour
 {
     [SerializeField] Color _flashColor;
     Color defaultColor;
