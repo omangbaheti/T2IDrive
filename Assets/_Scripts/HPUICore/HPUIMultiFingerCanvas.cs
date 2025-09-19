@@ -7,6 +7,7 @@ using ubco.ovilab.HPUI.Interaction;
 using ubco.ovilab.HPUI.Legacy.utils;
 using UnityEngine;
 using UnityEngine.Events;
+using UXF;
 
 namespace ubco.ovilab.HPUI.Core
 {
@@ -139,6 +140,10 @@ namespace ubco.ovilab.HPUI.Core
                 return;
             }
 
+            if (!Session.instance.InTrial)
+            {
+                return;
+            }
             switch (eventArgs.State)
             {
                 case HPUIGestureState.Started or HPUIGestureState.Updated:
@@ -238,7 +243,7 @@ namespace ubco.ovilab.HPUI.Core
             }
 
             canvasState = HPUICanvasState.Completed;
-            if (currentGesturePoints.Count < 5)
+            if (currentGesturePoints.Count < 3)
             {
                 Debug.Log("cancelled");
                 canvasState = HPUICanvasState.Cancelled;
@@ -271,7 +276,6 @@ namespace ubco.ovilab.HPUI.Core
         {
             canvasState = HPUICanvasState.INVALID;
             currentGesturePoints.Clear();
-            Debug.Log($"Current Gesture Points --- {currentGesturePoints.Count}");
             posFilter = new(90, posFilterMinCutoff, posFilterBeta);
             hasGestureStarted = false;
             currentGestureStoppedFrameCount = 0;
