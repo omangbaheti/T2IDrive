@@ -3,8 +3,8 @@ RadialDistal,RadialDistal,1
 RadialDistal,RadialIntermediate,2
 RadialDistal,RadialProximal,3
 RadialDistal,VolarIntermediate,
-RadialDistal,VolarDistal,
-RadialDistal,VolarProximal,0
+RadialDistal,VolarDistal,0
+RadialDistal,VolarProximal,
 RadialIntermediate,RadialDistal,4
 RadialIntermediate,RadialIntermediate,5
 RadialIntermediate,RadialProximal,6
