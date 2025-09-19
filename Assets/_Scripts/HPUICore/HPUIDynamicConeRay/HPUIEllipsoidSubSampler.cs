@@ -44,7 +44,7 @@ namespace ubco.ovilab.HPUI.Interaction
         [SerializeField] private float percentile = 35f;
         private XRHandFingerID previousFingerID = XRHandFingerID.Thumb;
         [SerializeField] private bool recacheAngles;
-
+        [SerializeField] private FingerSide fingerSide;
         List<HPUIInteractorRayAngle> allAngles = new();
         List<Vector3> spherePoints = new();
         private float phi = Mathf.PI * (Mathf.Sqrt(5f) - 1f);
@@ -73,18 +73,20 @@ namespace ubco.ovilab.HPUI.Interaction
             if(estimatedData.GetPlaneOnFingerPlane(estimatedData._closestFinger.Value) > 30)
             {
                 FingerSide targetSide = FingerSide.radial;
+                fingerSide = FingerSide.radial;
                 float distalRadius  = xrConeRayAngleMedian[(XRHandJointID.IndexDistal, targetSide)];
                 float intermediateRadius  = xrConeRayAngleMedian[(XRHandJointID.IndexIntermediate, targetSide)];
                 float proximalRadius  = xrConeRayAngleMedian[(XRHandJointID.IndexProximal, targetSide)];
-                targetRadius = LerpThreeSmooth(distalRadius, intermediateRadius, proximalRadius, estimatedData.GetTipWeight());
+                targetRadius = LerpThreeSmooth(distalRadius, intermediateRadius, proximalRadius, estimatedData.GetProximalWeight());
             }
             else
             {
+                fingerSide = FingerSide.volar;
                 FingerSide targetSide = FingerSide.volar;
                 float distalRadius  = xrConeRayAngleMedian[(XRHandJointID.IndexDistal, targetSide)];
                 float intermediateRadius  = xrConeRayAngleMedian[(XRHandJointID.IndexIntermediate, targetSide)];
                 float proximalRadius  = xrConeRayAngleMedian[(XRHandJointID.IndexProximal, targetSide)];
-                targetRadius = LerpThreeSmooth(distalRadius, intermediateRadius, proximalRadius, estimatedData.GetTipWeight());
+                targetRadius = LerpThreeSmooth(distalRadius, intermediateRadius, proximalRadius, estimatedData.GetProximalWeight());
             }
             // Your cone limit in degrees
             float cosMaxAngle = Mathf.Cos(coneAngularWidth * Mathf.Deg2Rad);
@@ -188,6 +190,13 @@ namespace ubco.ovilab.HPUI.Interaction
             List<float> binnedLengths = BinValues(values, 0.001f);
             // float medianSelectionThreshold = GetMedian(binnedLengths);// GetPercentile(binnedLengths, 25f);
             float medianSelectionThreshold = GetPercentile(binnedLengths, percentile);
+            foreach (var value in values)
+            {
+                if (value < 0f)
+                {
+                    Debug.LogError("Value is less than zero");
+                }
+            }
             if (xrConeRayAngleMedian.ContainsKey((targetJoint, jointConeData.side)))
             {
                 xrConeRayAngleMedian[(targetJoint, jointConeData.side)] = medianSelectionThreshold;
@@ -207,6 +216,7 @@ namespace ubco.ovilab.HPUI.Interaction
                 .OrderBy(v => v)
                 .ToList();
         }
+        
         private float GetPercentile(List<float> sortedValues, float percentile)
         {
             if (sortedValues.Count == 0) return 0;
