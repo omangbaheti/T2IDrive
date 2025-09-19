@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 444652644574849595}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0.51, z: -1}
+  m_LocalPosition: {x: 0, y: -0.51, z: -0.03399992}
   m_LocalScale: {x: 0.019999998, y: 1.04, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -113,7 +113,7 @@ Transform:
   m_GameObject: {fileID: 452501784111389448}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.51, z: -1}
+  m_LocalPosition: {x: 0, y: 0.51, z: -0.03399992}
   m_LocalScale: {x: 0.019999998, y: 1.04, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -200,7 +200,7 @@ Transform:
   m_GameObject: {fileID: 940482332804987511}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.51, y: 0, z: -1}
+  m_LocalPosition: {x: 0.51, y: 0, z: -0.03399992}
   m_LocalScale: {x: 0.020000003, y: 1.04, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -287,7 +287,7 @@ Transform:
   m_GameObject: {fileID: 2931673649139312476}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.51, y: 0, z: -1}
+  m_LocalPosition: {x: -0.51, y: 0, z: -0.034}
   m_LocalScale: {x: 0.020000003, y: 1.04, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -359,6 +359,7 @@ GameObject:
   - component: {fileID: 5917867907004508382}
   - component: {fileID: 5821011104002847194}
   - component: {fileID: 6785809561984117787}
+  - component: {fileID: 2985064592015894521}
   m_Layer: 0
   m_Name: Quad
   m_TagString: Untagged
@@ -438,6 +439,23 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &2985064592015894521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7439376674859847678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebd3be72d125e634095545e77923b468, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: {r: 0, g: 0, b: 0, a: 0.5294118}
+  hasEmission: 0
+  emissionColor: {r: 0, g: 0, b: 0, a: 0}
+  emissionIntensity: 0
+  mr: {fileID: 6785809561984117787}
 --- !u!1 &8025679157044350684
 GameObject:
   m_ObjectHideFlags: 0
@@ -479,6 +497,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3557452588984087902}
     m_Modifications:
+    - target: {fileID: 2116617860233889581, guid: d446c491a0305cb47a039a4226c45b8b, type: 3}
+      propertyPath: m_text
+      value: B
+      objectReference: {fileID: 0}
     - target: {fileID: 2116617860233889581, guid: d446c491a0305cb47a039a4226c45b8b, type: 3}
       propertyPath: m_fontSize
       value: 67.35
@@ -561,7 +583,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7274803291691727743, guid: d446c491a0305cb47a039a4226c45b8b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.07
       objectReference: {fileID: 0}
     - target: {fileID: 7274803291691727743, guid: d446c491a0305cb47a039a4226c45b8b, type: 3}
       propertyPath: m_LocalRotation.w
