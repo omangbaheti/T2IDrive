@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72bb849f8bbc56f47b2e8d36b26d8c0c, type: 3}
+  m_Name: BakDaurenLocationBased
+  m_EditorClassIdentifier: 
+  fallbackSide: 0
+  IndexDistalAngles:
+  - side: 0
+    rayAngles: []
+  - side: 1
+    rayAngles: []
+  IndexIntermediateAngles:
+  - side: 0
+    rayAngles: []
+  - side: 1
+    rayAngles: []
+  IndexProximalAngles:
+  - side: 0
+    rayAngles: []
+  - side: 1
+    rayAngles: []
+  MiddleDistalAngles:
+  - side: 0
+    rayAngles: []
+  - side: 1
+    rayAngles: []
+  MiddleIntermediateAngles:
+  - side: 0
+    rayAngles: []
+  - side: 1
+    rayAngles: []
+  MiddleProximalAngles:
+  - side: 0
+    rayAngles: []
+  - side: 1
+    rayAngles: []
+  RingDistalAngles:
+  - side: 0
+    rayAngles: []
+  - side: 1
+    rayAngles: []
+  RingIntermediateAngles:
+  - side: 0
+    rayAngles: []
+  - side: 1
+    rayAngles: []
+  RingProximalAngles:
+  - side: 0
+    rayAngles: []
+  - side: 1
+    rayAngles: []
+  LittleDistalAngles:
+  - side: 0
+    rayAngles: []
+  - side: 1
+    rayAngles: []
+  LittleIntermediateAngles:
+  - side: 0
+    rayAngles: []
+  - side: 1
+    rayAngles: []
+  LittleProximalAngles:
+  - side: 0
+    rayAngles: []
+  - side: 1
+    rayAngles: []
