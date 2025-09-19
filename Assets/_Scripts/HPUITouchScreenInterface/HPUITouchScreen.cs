@@ -9,6 +9,7 @@ public class HPUITouchScreen : MonoBehaviour//, IPointerClickHandler, IPointerEn
 {
     [SerializeField] private HPUIBaseInteractable hpuiInteractable;
     [SerializeField] private Canvas targetCanvas;
+    [SerializeField] private GameObject debugCursor;
     
     private EventSystem eventSystem;
     private GraphicRaycaster UIraycaster;
@@ -16,7 +17,6 @@ public class HPUITouchScreen : MonoBehaviour//, IPointerClickHandler, IPointerEn
     private Button initialButton;
     private Button currentButton;
     private Camera interfaceEventCamera;
-
     private void OnEnable()
     {
         hpuiInteractable.GestureEvent.AddListener(HandleTapEvent);
@@ -50,8 +50,8 @@ public class HPUITouchScreen : MonoBehaviour//, IPointerClickHandler, IPointerEn
     private void HandleTapEvent(HPUIGestureEventArgs arg)
     {
         // Debug.Log($"Interactable Point = {arg.CurrentTrackingInteractablePoint} Position = {arg.Position}");
-        Vector2 screenPosition = ConvertHitPointToCanvasCoordinates(arg.CurrentTrackingInteractablePoint, arg.CurrentTrackingInteractable);
-        
+        Vector3 screenPosition = debugCursor.transform.position;
+        Debug.Log(screenPosition);
         switch (arg.State)
         {
             case HPUIGestureState.Started:
@@ -71,12 +71,11 @@ public class HPUITouchScreen : MonoBehaviour//, IPointerClickHandler, IPointerEn
         }
     }
 
-    private void HandleGestureStart(Vector2 screenPosition, HPUIGestureEventArgs arg)
+    private void HandleGestureStart(Vector3 screenPosition, HPUIGestureEventArgs arg)
     {
         Button button = GetButtonAtPosition(screenPosition);
         if (!button)
         {
-            Debug.LogError("Something went wrong");
             return;
         }
         initialButton = button;
@@ -85,7 +84,7 @@ public class HPUITouchScreen : MonoBehaviour//, IPointerClickHandler, IPointerEn
         SendPointerEvents(screenPosition, button, pointerDown: true, pointerEnter: true);
     }
 
-    private void HandleGestureUpdate(Vector2 screenPosition, HPUIGestureEventArgs arg)
+    private void HandleGestureUpdate(Vector3 screenPosition, HPUIGestureEventArgs arg)
     {
         if (!initialButton) return;
         Button button = GetButtonAtPosition(screenPosition);
@@ -98,7 +97,7 @@ public class HPUITouchScreen : MonoBehaviour//, IPointerClickHandler, IPointerEn
         }
     }
 
-    private void HandleGestureEnd(Vector2 screenPosition, HPUIGestureEventArgs arg)
+    private void HandleGestureEnd(Vector3 screenPosition, HPUIGestureEventArgs arg)
     {
         if (!initialButton) return;
         
@@ -123,7 +122,7 @@ public class HPUITouchScreen : MonoBehaviour//, IPointerClickHandler, IPointerEn
 
     private Button GetButtonAtPosition(Vector2 screenPosition)
     {
-       Vector3 worldPosition = canvasRectTransform.TransformPoint(screenPosition);
+       Vector3 worldPosition = debugCursor.transform.position;
        Debug.Log($"{worldPosition}:{interfaceEventCamera.WorldToScreenPoint(worldPosition)}");
         PointerEventData pointerData = new(eventSystem)
         {
@@ -180,12 +179,14 @@ public class HPUITouchScreen : MonoBehaviour//, IPointerClickHandler, IPointerEn
         currentButton = null;
     }
     
-    private Vector2 ConvertHitPointToCanvasCoordinates(Vector2 hitPoint, IHPUIInteractable interactable)
+    private Vector2 ConvertHitPointToCanvasCoordinates(Vector3 hitPoint, IHPUIInteractable interactable)
     {
-        Vector3 interactableExtents = interactable.colliders[0].bounds.extents;
-        Vector2 normalizedPoint = new(hitPoint.x / interactableExtents.x * 0.5f, hitPoint.y / interactableExtents.y * 0.5f);
+        Vector3 interactableExtents = interactable.colliders[0].bounds.size/2;
+        Debug.Log($"Extents = {interactableExtents}");
+        Vector3 normalizedPoint = new(hitPoint.x / interactableExtents.x * 0.5f, hitPoint.y / interactableExtents.y * 0.5f, hitPoint.z / interactableExtents.z * 0.5f);
         Vector2 canvasPosition = new(normalizedPoint.x * canvasRectTransform.sizeDelta.x, normalizedPoint.y * canvasRectTransform.sizeDelta.y);
         return canvasPosition;
     }
+    
     
 }
