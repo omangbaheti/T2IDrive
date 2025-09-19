@@ -12,7 +12,8 @@ using UnityEngine.InputSystem;
 
 namespace Experiment
 {
-    public class KeyboardInputStreamTracker : Tracker
+    
+    public class KeyboardInputStreamTracker : Tracker, IKeyboardInputStream
     {
         public override string MeasurementDescriptor => "KeyboardInputStreamTracker";
         public override IEnumerable<string> CustomHeader => new[]

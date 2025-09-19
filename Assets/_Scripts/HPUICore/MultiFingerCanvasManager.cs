@@ -17,8 +17,6 @@ public class MultiFingerCanvasManager : MonoBehaviour, IHPUICanvasUIManager
 
     public List<MicrogestureAction> gestureActions = new();
     public Transform canvasInterfaceContainer;
-    private Transform layer1CanvasContainer;
-    private Transform layer2CanvasContainer;
 
     [SerializeField] private GestureLayoutSetup layoutSetup;
     [SerializeField] private XRUtils.SerializableDictionary<Vector2Int?, HPUICanvasRegion> hpuiRegions = new();
@@ -28,9 +26,6 @@ public class MultiFingerCanvasManager : MonoBehaviour, IHPUICanvasUIManager
     private Vector2Int startRegion;
     private Vector2Int currentRegion;
     private Vector2Int endRegion;
-
-    [SerializeField] private GameObject layer1Prefab;
-    [SerializeField] private GameObject layer2Prefab;
 
     [SerializeField] private Color selectedColor;
     [SerializeField] private Color defaultColor;
@@ -51,12 +46,6 @@ public class MultiFingerCanvasManager : MonoBehaviour, IHPUICanvasUIManager
         {
             canvasInterfaceContainer.localScale = Vector3.one;
         }
-        layer1CanvasContainer = new GameObject("Layer1CanvasContainer").transform;
-        layer1CanvasContainer.parent = canvasInterfaceContainer;
-        layer1CanvasContainer.localScale = Vector3.one;
-        layer2CanvasContainer = new GameObject("Layer2CanvasContainer").transform;
-        layer2CanvasContainer.parent = canvasInterfaceContainer;
-        layer2CanvasContainer.localScale = Vector3.one;
     }
 
     private void OnDisable()
@@ -89,25 +78,6 @@ public class MultiFingerCanvasManager : MonoBehaviour, IHPUICanvasUIManager
 
         gestureActions = layoutSetup.microGestureActions;
 
-        for (int i = 0; i < xDivisions.Count-1; i++)
-        {
-            for (int j = 0; j < yDivisions.Count-1; j++)
-            {
-                GameObject newRegion = Instantiate(layer1Prefab, layer1CanvasContainer, false);
-                newRegion.name = "Layer 1:"+" " + i + "-" + j;
-                HPUICanvasRegion hpuiRegion = newRegion.AddComponent<HPUICanvasRegion>();
-                hpuiRegion.ID = new Vector2Int(i, j);
-                hpuiRegion.basePoint = new Vector2(xDivisions[i], yDivisions[j]);
-                hpuiRegion.area = new Vector2(xDivisions[i+1] - xDivisions[i], yDivisions[j+1] - yDivisions[j]);
-                // hpuiRegion.EndRegionVisual = layer2Prefab;
-                // hpuiRegion.pressedColor = selectedColor;
-                // hpuiRegion.defaultColor = defaultColor;
-                // hpuiRegion.canvasManager = this;
-                Vector2 regionCenterPoint = hpuiRegion.basePoint + hpuiRegion.area/2f + hpuiRegion.centreOffset;
-                Vector2Int centreIndex = HPUICanvasComponentUtils.CalculateColliderIndex(regionCenterPoint, HPUICanvas);
-                Transform uiAnchor = HPUICanvas.coordsToCollider[centreIndex].transform;
-            }
-        }
 
         foreach (MicrogestureAction action in gestureActions)
         {
@@ -126,6 +96,10 @@ public class MultiFingerCanvasManager : MonoBehaviour, IHPUICanvasUIManager
     public void HandleCanvasGesture(HPUIGestureEventArgs gestureArgs, HPUICanvasEventArgs canvasArgs)
     {
 
+        if (!Session.instance.InTrial)
+        {
+            return;
+        }
         if (canvasArgs.GesturePositions.Count <= 0)
         {
             Debug.Log("Not enough points, cancelling gesture");
