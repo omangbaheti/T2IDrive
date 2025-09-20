@@ -14,9 +14,6 @@ namespace ubco.ovilab.HPUI.Interaction
     [Serializable]
     public class HPUIDynamicConeRayCastDetectionLogic : HPUIRayCastDetectionBaseLogic
     {
-        [SerializeField]
-        [Tooltip("The HPUIInteractorConeRayAngles asset to use when using cone")]
-        private HPUIDynamicConeRayData coneRayData;
         private HPUIInteractorFullRangeAngles fullRangeRayAngles;
         private TargetDirectionEstimator _targetDirectionEstimator;
 
@@ -332,7 +329,7 @@ namespace ubco.ovilab.HPUI.Interaction
             return tipWeight;
         }
 
-        public float GetPlaneOnClosestSegment(XRHandFingerID fingerID)
+        public float GetPlaneOnFingerPlane(XRHandFingerID fingerID)
         {
             Vector3 v1 = Vector3.zero;
             Vector3 v2 = Vector3.one;

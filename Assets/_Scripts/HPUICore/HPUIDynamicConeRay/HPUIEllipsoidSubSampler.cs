@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using ubco.ovilab.HPUI.Interaction;
 using UnityEngine;
+using UnityEngine.XR.Hands;
+using UXF.UI;
 
 
 namespace ubco.ovilab.HPUI.Interaction
@@ -11,24 +14,28 @@ namespace ubco.ovilab.HPUI.Interaction
 
     public class HPUIEllipsoidSubSampler : IHPUIRaySubSampler
     {
-        [Header("Pill Properties")]
-        [SerializeField] [Tooltip("Length along local X")]
-        float radiusA = 0.025f;
-        [SerializeField] [Tooltip("Length along local Y")]
-        float radiusB = 0.015f;
-        [SerializeField] [Tooltip("Length along local Z")]
-        float radiusC = 0.02f;
-        [SerializeField] [Tooltip("Scaling factor of rays at index distal")]
-        private float initalScalingFactor = 1f;
-        [SerializeField] [Tooltip("Scaling factor of rays at index proximal")]
-        float scalingFactor = 1.2f;
-
+        // [Header("Pill Properties")] [SerializeField] [Tooltip("Length along local X")]
+        // float radiusA = 1f;
+        //
+        // [SerializeField] [Tooltip("Length along local Y")]
+        // float radiusB = 1f;
+        //
+        // [SerializeField] [Tooltip("Length along local Z")]
+        // float radiusC = 1f;
+        //
+        // [SerializeField] [Tooltip("Scaling factor of rays at index distal")]
+        // private float initalScalingFactor = 1f;
+        //
+        // [SerializeField] [Tooltip("Scaling factor of rays at index proximal")]
+        // float scalingFactor = 1.2f;
+        [SerializeField] private float targetRadius = 0;
         [SerializeField] [Tooltip("Rays are created at every X degrees. Higher value requires more compute")]
         float angleStep = 5f;
 
         [SerializeField] [Tooltip("Angular Width of the cone from the target direction")]
         float coneAngularWidth = 45f;
 
+        [SerializeField] private HPUIInteractorConeRayAngles coneRayData;
         [SerializeField] private bool visualiseEllipsoid = false;
 
         [SerializeField]
@@ -37,7 +44,7 @@ namespace ubco.ovilab.HPUI.Interaction
         [SerializeField] private float percentile = 35f;
         private XRHandFingerID previousFingerID = XRHandFingerID.Thumb;
         [SerializeField] private bool recacheAngles;
-
+        [SerializeField] private FingerSide fingerSide;
         List<HPUIInteractorRayAngle> allAngles = new();
         List<Vector3> spherePoints = new();
         private float phi = Mathf.PI * (Mathf.Sqrt(5f) - 1f);
@@ -66,22 +73,23 @@ namespace ubco.ovilab.HPUI.Interaction
             if(estimatedData.GetPlaneOnFingerPlane(estimatedData._closestFinger.Value) > 30)
             {
                 FingerSide targetSide = FingerSide.radial;
+                fingerSide = FingerSide.radial;
                 float distalRadius  = xrConeRayAngleMedian[(XRHandJointID.IndexDistal, targetSide)];
                 float intermediateRadius  = xrConeRayAngleMedian[(XRHandJointID.IndexIntermediate, targetSide)];
                 float proximalRadius  = xrConeRayAngleMedian[(XRHandJointID.IndexProximal, targetSide)];
-                targetRadius = LerpThreeSmooth(distalRadius, intermediateRadius, proximalRadius, estimatedData.GetTipWeight());
+                targetRadius = LerpThreeSmooth(distalRadius, intermediateRadius, proximalRadius, estimatedData.GetProximalWeight());
             }
             else
             {
+                fingerSide = FingerSide.volar;
                 FingerSide targetSide = FingerSide.volar;
                 float distalRadius  = xrConeRayAngleMedian[(XRHandJointID.IndexDistal, targetSide)];
                 float intermediateRadius  = xrConeRayAngleMedian[(XRHandJointID.IndexIntermediate, targetSide)];
                 float proximalRadius  = xrConeRayAngleMedian[(XRHandJointID.IndexProximal, targetSide)];
-                targetRadius = LerpThreeSmooth(distalRadius, intermediateRadius, proximalRadius, estimatedData.GetTipWeight());
+                targetRadius = LerpThreeSmooth(distalRadius, intermediateRadius, proximalRadius, estimatedData.GetProximalWeight());
             }
             // Your cone limit in degrees
-            float maxAngleDeg = 45f; // example
-            float cosMaxAngle = Mathf.Cos(maxAngleDeg * Mathf.Deg2Rad);
+            float cosMaxAngle = Mathf.Cos(coneAngularWidth * Mathf.Deg2Rad);
             // Direction from ellipsoid center you want rays near
             Vector3 targetDir = estimatedData.TargetDirection.normalized;
             
@@ -182,6 +190,13 @@ namespace ubco.ovilab.HPUI.Interaction
             List<float> binnedLengths = BinValues(values, 0.001f);
             // float medianSelectionThreshold = GetMedian(binnedLengths);// GetPercentile(binnedLengths, 25f);
             float medianSelectionThreshold = GetPercentile(binnedLengths, percentile);
+            foreach (var value in values)
+            {
+                if (value < 0f)
+                {
+                    Debug.LogError("Value is less than zero");
+                }
+            }
             if (xrConeRayAngleMedian.ContainsKey((targetJoint, jointConeData.side)))
             {
                 xrConeRayAngleMedian[(targetJoint, jointConeData.side)] = medianSelectionThreshold;
@@ -201,6 +216,7 @@ namespace ubco.ovilab.HPUI.Interaction
                 .OrderBy(v => v)
                 .ToList();
         }
+        
         private float GetPercentile(List<float> sortedValues, float percentile)
         {
             if (sortedValues.Count == 0) return 0;
@@ -238,7 +254,5 @@ namespace ubco.ovilab.HPUI.Interaction
         {
 
         }
-
-
     }
 }
