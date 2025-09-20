@@ -54,6 +54,8 @@ MonoBehaviour:
       Value: 1
     - Key: HPUITest
       Value: 1
+    - Key: Experiment2
+      Value: 1
   validatorTypesMap:
     list:
     - Key: Artifice_ValidatorModule_ScriptableObject
