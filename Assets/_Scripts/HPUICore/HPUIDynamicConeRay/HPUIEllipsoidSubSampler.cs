@@ -77,7 +77,7 @@ namespace ubco.ovilab.HPUI.Interaction
                 float distalRadius  = xrConeRayAngleMedian[(XRHandJointID.IndexDistal, targetSide)];
                 float intermediateRadius  = xrConeRayAngleMedian[(XRHandJointID.IndexIntermediate, targetSide)];
                 float proximalRadius  = xrConeRayAngleMedian[(XRHandJointID.IndexProximal, targetSide)];
-                targetRadius = LerpThreeSmooth(distalRadius, intermediateRadius, proximalRadius, estimatedData.GetProximalWeight());
+                targetRadius = LerpThreeSmooth(distalRadius, intermediateRadius, proximalRadius, estimatedData.GetTipWeight());
             }
             else
             {
@@ -86,7 +86,7 @@ namespace ubco.ovilab.HPUI.Interaction
                 float distalRadius  = xrConeRayAngleMedian[(XRHandJointID.IndexDistal, targetSide)];
                 float intermediateRadius  = xrConeRayAngleMedian[(XRHandJointID.IndexIntermediate, targetSide)];
                 float proximalRadius  = xrConeRayAngleMedian[(XRHandJointID.IndexProximal, targetSide)];
-                targetRadius = LerpThreeSmooth(distalRadius, intermediateRadius, proximalRadius, estimatedData.GetProximalWeight());
+                targetRadius = LerpThreeSmooth(distalRadius, intermediateRadius, proximalRadius, estimatedData.GetTipWeight());
             }
             // Your cone limit in degrees
             float cosMaxAngle = Mathf.Cos(coneAngularWidth * Mathf.Deg2Rad);
