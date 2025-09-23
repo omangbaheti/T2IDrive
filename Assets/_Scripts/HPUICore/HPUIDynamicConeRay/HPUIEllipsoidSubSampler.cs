@@ -45,8 +45,10 @@ namespace ubco.ovilab.HPUI.Interaction
         private XRHandFingerID previousFingerID = XRHandFingerID.Thumb;
         [SerializeField] private bool recacheAngles;
         [SerializeField] private FingerSide fingerSide;
+        [SerializeField] private float volarRadialThreshold = 30f;
         List<HPUIInteractorRayAngle> allAngles = new();
         List<Vector3> spherePoints = new();
+        
         private float phi = Mathf.PI * (Mathf.Sqrt(5f) - 1f);
         private int _cachedSamples;
         private float numberOfSamples;
@@ -70,7 +72,7 @@ namespace ubco.ovilab.HPUI.Interaction
             }
             
             allAngles.Clear();
-            if(estimatedData.GetPlaneOnFingerPlane(estimatedData._closestFinger.Value) > 30)
+            if(estimatedData.GetPlaneOnFingerPlane(estimatedData._closestFinger.Value) > volarRadialThreshold)
             {
                 FingerSide targetSide = FingerSide.radial;
                 fingerSide = FingerSide.radial;
