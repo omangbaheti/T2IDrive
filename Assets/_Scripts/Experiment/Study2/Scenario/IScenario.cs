@@ -1,0 +1,10 @@
+﻿
+
+public interface IScenario
+{
+    
+    
+        
+}
+
+
