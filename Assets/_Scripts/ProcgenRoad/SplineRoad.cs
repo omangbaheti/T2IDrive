@@ -11,14 +11,13 @@ using UnityEngine.Serialization;
 using UnityEngine.Splines;
 
 [ExecuteInEditMode]
+[RequireComponent(typeof(SplineContainer))]
 public class SplineRoad : MonoBehaviour
 {
     public List<Intersection> Intersections => intersections;
     public float RightWidth => rightWidth;
     public float LeftWidth => leftWidth;
     [SerializeField] private bool showGizmos = false;
-    
-
 
     [SerializeField] private SplineContainer splineContainer;
     [SerializeField] private int resolution;
@@ -37,12 +36,18 @@ public class SplineRoad : MonoBehaviour
     [SerializeField] private List<Intersection> intersections = new();
     private void OnEnable()
     {
-        Spline.Changed += SplineChanged;
+        foreach (Spline spline in splineContainer.Splines)
+        {
+            spline.changed += SplineChanged;
+        }
     }
 
     private void OnDisable()
     {
-        Spline.Changed -= SplineChanged;
+        foreach (Spline spline in splineContainer.Splines)
+        {
+            spline.changed -= SplineChanged;
+        }
     }
 
     private void Awake()
@@ -94,7 +99,7 @@ public class SplineRoad : MonoBehaviour
         p2 = position + (-right * leftWidth);
     }
 
-    private void SplineChanged(Spline spline, int i1, SplineModification arg3)
+    private void SplineChanged()
     {
         BuildMesh();
     }
@@ -273,7 +278,6 @@ public class SplineRoad : MonoBehaviour
             mesh.RecalculateNormals();
             mesh.RecalculateBounds();
 
-
             GameObject intersectionGO = new($"SplineIntersection_{intersectionID}");
             intersectionGO.transform.parent = transform;
             roadObjects.Add(intersectionGO);
@@ -286,9 +290,7 @@ public class SplineRoad : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-
         // Handles.matrix = transform.localToWorldMatrix;
-
         if (Application.isPlaying || !showGizmos)
         {
             return;

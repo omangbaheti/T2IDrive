@@ -1,8 +1,35 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
-namespace Experiment.Scenario
+
+[System.Serializable]
+public class BrakeScenario : MonoBehaviour, IScenario
 {
-    public class BrakeScenario : MonoBehaviour
+    public UnityEvent<bool> IsScenarioFinishedSuccessfully()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void InitializeScenario()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void StartScenario()
+    {
+        
+    }
+
+    public void TriggerScenarioEvent()
+    {
+        
+    }
+
+    public void ResetScenario()
+    {
+    }
+
+    public void EndScenario()
     {
         
     }

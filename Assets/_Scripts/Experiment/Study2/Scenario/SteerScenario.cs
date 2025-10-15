@@ -1,9 +1,34 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
-namespace Experiment.Scenario
+
+[System.Serializable]
+public class SteerScenario :  MonoBehaviour, IScenario 
 {
-    public class SteerScenario : MonoBehaviour
+    public UnityEvent<bool> IsScenarioFinishedSuccessfully()
     {
-        
+        throw new System.NotImplementedException();
+    }
+
+    public void InitializeScenario()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void StartScenario()
+    {
+    }
+
+    public void TriggerScenarioEvent()
+    {
+    }
+
+    public void ResetScenario()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void EndScenario()
+    {
     }
 }
