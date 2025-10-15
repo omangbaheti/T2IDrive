@@ -16,6 +16,7 @@
     "com.unity.visualscripting": "1.9.5",
     "com.unity.xr.openxr": "1.13.2",
     "com.v0lt.editor-attributes": "https://github.com/v0lt13/EditorAttributes.git",
+    "com.zigurous.importer.cc0textures": "https://github.com/zigurous/unity-cc0textures-importer.git",
     "ubc.ok.ovilab.skeleton-xr-hand-provider": "https://github.com/omangbaheti/skeleton-xr-hand-provider.git",
     "com.unity.modules.accessibility": "1.0.0",
     "com.unity.modules.ai": "1.0.0",

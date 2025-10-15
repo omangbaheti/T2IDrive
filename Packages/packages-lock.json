@@ -349,6 +349,13 @@
       },
       "hash": "b8341ba8f4c2b5ee4c58fb34dd2c8380e751caad"
     },
+    "com.zigurous.importer.cc0textures": {
+      "version": "https://github.com/zigurous/unity-cc0textures-importer.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "a992c7824f21a847705da76789f5467f534dfdc7"
+    },
     "ubc.ok.ovilab.hpui-core": {
       "version": "file:HPUI-Core",
       "depth": 0,
