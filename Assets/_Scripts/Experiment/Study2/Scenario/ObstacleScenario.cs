@@ -5,10 +5,10 @@ using UnityEngine.Events;
 [System.Serializable]
 public class ObstacleScenario : MonoBehaviour, IScenario
 {
-    public UnityEvent<bool> IsScenarioFinishedSuccessfully()
-    {
-        throw new System.NotImplementedException();
-    }
+    public string Key => "Obstacle";
+    public UnityEvent<bool> IsScenarioFinishedSuccessfully => isScenarioFinishedSuccessfully;
+    
+    private UnityEvent<bool> isScenarioFinishedSuccessfully = new();
 
     public void InitializeScenario()
     {

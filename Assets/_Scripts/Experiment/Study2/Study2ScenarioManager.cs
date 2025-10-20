@@ -5,36 +5,21 @@ using UnityEngine;
 
 public class Study2ScenarioManager : MonoBehaviour
 {
-    private Dictionary<string, IScenario> scenarios = new();
     [SerializeField] private SelfDrivingManager selfDrivingCar;
-    private IScenario currentScenario;
-
+    
+    private Dictionary<string, IScenario> scenarios = new();
+     
+    
+    [Header("Tests")] 
     [SerializeField] string testScenarioName;
+    private IScenario currentScenario;
     private void Awake()
     {
         foreach (Transform child in transform)
         {
             if(child.TryGetComponent(out IScenario scenario))
             {
-                MonoBehaviour component = scenario as MonoBehaviour;
-                switch (component)
-                {
-                    case BrakeScenario brakeScenario:
-                        scenarios.Add("Brake", scenario);
-                        break;
-                    case SteerScenario steerScenario:
-                        scenarios.Add("Steer", scenario);
-                        break;
-                    case PedestrianScenario pedestrianScenario:
-                        scenarios.Add("Pedestrian", scenario);
-                        break;
-                    case ObstacleScenario obstacleScenario:
-                        scenarios.Add("Obstacle", scenario);
-                        break;
-                    default:
-                        Debug.LogWarning($"Unknown scenario type: {component?.GetType()}");
-                        break;
-                }
+                scenarios[scenario.Key] = scenario;
             }
         } 
     }

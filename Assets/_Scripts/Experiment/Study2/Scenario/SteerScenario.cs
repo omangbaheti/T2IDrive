@@ -1,22 +1,25 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Splines;
 
 
 [System.Serializable]
 public class SteerScenario :  MonoBehaviour, IScenario 
 {
-    public UnityEvent<bool> IsScenarioFinishedSuccessfully()
-    {
-        throw new System.NotImplementedException();
-    }
+    public string Key => "Steer";
+    public UnityEvent<bool> IsScenarioFinishedSuccessfully => isScenarioFinishedSuccessfully;
 
+    public SplineContainer CurrentSpline { get; }
+
+    private UnityEvent<bool> isScenarioFinishedSuccessfully;
     public void InitializeScenario()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public void StartScenario()
     {
+        
     }
 
     public void TriggerScenarioEvent()

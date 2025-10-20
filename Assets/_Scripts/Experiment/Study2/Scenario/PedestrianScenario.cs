@@ -1,13 +1,24 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Splines;
 
 
 [System.Serializable]
 public class PedestrianScenario: MonoBehaviour, IScenario
 {
-    public UnityEvent<bool> IsScenarioFinishedSuccessfully()
+    public string Key => "Pedestrian";
+    public UnityEvent<bool> IsScenarioFinishedSuccessfully => isScenarioFinishedSuccessfully;
+    public SplineContainer CurrentSpline => currentSpline;
+    
+    [SerializeField] private SplineContainer currentSpline;
+    private UnityEvent<bool> isScenarioFinishedSuccessfully = new();
+
+    private void Start()
     {
-        throw new System.NotImplementedException();
+        
+        currentSpline = GetComponentInChildren<SplineContainer>();
+        
     }
 
     public void InitializeScenario()
