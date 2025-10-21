@@ -19,6 +19,12 @@ public class SelfDrivingManager : MonoBehaviour
     public float BrakeInput => brakeInput;
     public float AcceleratorInput => acceleratorInput;
 
+    public SplineContainer Spline
+    {
+        get => splineContainer;
+        set => splineContainer = value;
+    } 
+    
     [Header("Spline Properties")]
     public int initialSplineIndex;
     public float splineStartPoint;
@@ -28,7 +34,7 @@ public class SelfDrivingManager : MonoBehaviour
     private SplineRoad splineRoad;
     private CarPathManager pathManager;
     private SplinePathData currentSpline;
-    private SplinePathData nextSpline;
+    [SerializeField] private SplinePathData nextSpline;
 
     //using queue to access previous, current and next point
     private Queue<Vector3> pathPoints = new();
@@ -58,7 +64,7 @@ public class SelfDrivingManager : MonoBehaviour
 
     private Vector3 directionToTarget;
     private Vector3 splineTangent;
-    private CarInputManager carInputManager;
+    [SerializeField] private CarInputManager carInputManager;
     private VehicleController vehicleController;
     private float lastSteeringInput;
 
@@ -72,15 +78,34 @@ public class SelfDrivingManager : MonoBehaviour
     [SerializeField] private bool showGizmos;
     private float previousAngle;
 
-    private void Start()
+    private void Awake()
     {
         vehicleController = GetComponent<VehicleController>();
+        carInputManager = GetComponent<CarInputManager>();
+    }
+
+    private void Start()
+    {
         pathManager = new CarPathManager(splineContainer);
         splineRoad = splineContainer.GetComponent<SplineRoad>();
         currentSpline = pathManager.SetupNewPath(initialSplineIndex, splineStartPoint, splineEndPoint, splineTravelStep);
         nextSpline = pathManager.SetupNewPath(initialSplineIndex, splineStartPoint, splineEndPoint, splineTravelStep);
         nextSpline.lerpParam += nextSpline.splineStep;
-        carInputManager = GetComponent<CarInputManager>();
+        steeringPIDController = new PIDController(Kp, Ki, Kd);
+        pathPoints.Enqueue(transform.position);
+        pathPoints.Enqueue(pathManager.GetPointOnSpline(currentSpline, out float3 _));
+        pathPoints.Enqueue(pathManager.GetPointOnSpline(nextSpline, out float3 _));
+        filter = new OneEuroFilter(freq:90f, minCutoff: 1f, beta: 0.01f);
+    }
+
+    public void SetupNewPath()
+    {
+        pathPoints.Clear();
+        pathManager = new CarPathManager(splineContainer);
+        splineRoad = splineContainer.GetComponent<SplineRoad>();
+        currentSpline = pathManager.SetupNewPath(initialSplineIndex, splineStartPoint, splineEndPoint, splineTravelStep);
+        nextSpline = pathManager.SetupNewPath(initialSplineIndex, splineStartPoint, splineEndPoint, splineTravelStep);
+        nextSpline.lerpParam += nextSpline.splineStep;
         steeringPIDController = new PIDController(Kp, Ki, Kd);
         pathPoints.Enqueue(transform.position);
         pathPoints.Enqueue(pathManager.GetPointOnSpline(currentSpline, out float3 _));

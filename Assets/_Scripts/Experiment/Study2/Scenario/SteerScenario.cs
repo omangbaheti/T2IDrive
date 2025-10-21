@@ -8,10 +8,12 @@ public class SteerScenario :  MonoBehaviour, IScenario
 {
     public string Key => "Steer";
     public UnityEvent<bool> IsScenarioFinishedSuccessfully => isScenarioFinishedSuccessfully;
-
-    public SplineContainer CurrentSpline { get; }
-
+    public SplineContainer CurrentSpline => currentSpline;
+    
+    [SerializeField] private SplineContainer currentSpline;
+    
     private UnityEvent<bool> isScenarioFinishedSuccessfully;
+    
     public void InitializeScenario()
     {
         
@@ -28,7 +30,6 @@ public class SteerScenario :  MonoBehaviour, IScenario
 
     public void ResetScenario()
     {
-        throw new System.NotImplementedException();
     }
 
     public void EndScenario()

@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.Splines;
 using Random = UnityEngine.Random;
 
+[Serializable]
 public class SplinePathData
 {
     public int index;
@@ -33,7 +34,7 @@ public class CarPathManager
 
     public SplinePathData SetupNewPath(int _splineIndex, float _startPoint, float _endPoint, float samplingRes)
     {
-        Debug.Log("Setting Up new Spline");
+        Debug.Log($"Setting Up new Spline {_splineIndex}");
         SplinePathData splineData = new()
         {
             index = _splineIndex,

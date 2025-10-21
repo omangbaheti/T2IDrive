@@ -9,7 +9,6 @@ public class Study2ScenarioManager : MonoBehaviour
     
     private Dictionary<string, IScenario> scenarios = new();
      
-    
     [Header("Tests")] 
     [SerializeField] string testScenarioName;
     private IScenario currentScenario;
@@ -27,8 +26,7 @@ public class Study2ScenarioManager : MonoBehaviour
     [Button]
     public void LoadScenarioTest()
     {
-        LoadScenario(testScenarioName);  
-            
+        LoadScenario(testScenarioName);
     }
     public void LoadScenario(string scenarioName)
     {
@@ -39,20 +37,27 @@ public class Study2ScenarioManager : MonoBehaviour
 
         if (scenarios.TryGetValue(scenarioName, out IScenario scenario))
         {
+            Debug.Log("Loading scenario " + scenarioName);
             currentScenario = scenario;
             currentScenario.InitializeScenario();
+            Transform currentScenarioTransform = currentScenario.CurrentSpline.transform;
+            Vector3 bezierKnotPos = currentScenarioTransform.TransformPoint(currentScenario.CurrentSpline.Spline[0].Position);
+            selfDrivingCar.transform.GetComponent<Rigidbody>().position = bezierKnotPos + new Vector3(1, 1, -2); 
+            selfDrivingCar.Spline = currentScenario.CurrentSpline;
+            selfDrivingCar.SetupNewPath();
+            selfDrivingCar.initialSplineIndex = 0;
         }
         else
         {
             Debug.LogError($"No scenario found => {scenarioName}");
         }
         
-            
     }
 
     private void ResetScenario(IScenario scenario)
     {
         scenario.ResetScenario();
+        
     }
     
     public void ChangeScenario()

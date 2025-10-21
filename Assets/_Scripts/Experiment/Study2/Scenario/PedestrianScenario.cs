@@ -12,13 +12,13 @@ public class PedestrianScenario: MonoBehaviour, IScenario
     public SplineContainer CurrentSpline => currentSpline;
     
     [SerializeField] private SplineContainer currentSpline;
+    
     private UnityEvent<bool> isScenarioFinishedSuccessfully = new();
+    
 
     private void Start()
     {
-        
         currentSpline = GetComponentInChildren<SplineContainer>();
-        
     }
 
     public void InitializeScenario()

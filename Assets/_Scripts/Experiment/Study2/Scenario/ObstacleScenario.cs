@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Splines;
 
 
 [System.Serializable]
@@ -7,12 +8,16 @@ public class ObstacleScenario : MonoBehaviour, IScenario
 {
     public string Key => "Obstacle";
     public UnityEvent<bool> IsScenarioFinishedSuccessfully => isScenarioFinishedSuccessfully;
+    public SplineContainer CurrentSpline => currentSpline;
+    
+    [SerializeField] private SplineContainer currentSpline;
     
     private UnityEvent<bool> isScenarioFinishedSuccessfully = new();
+    
 
     public void InitializeScenario()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public void StartScenario()
