@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using EditorAttributes;
 using UnityEngine;
@@ -6,7 +7,7 @@ using UnityEngine;
 public class Study2ScenarioManager : MonoBehaviour
 {
     [SerializeField] private SelfDrivingManager selfDrivingCar;
-    
+    [SerializeField] private Blinds blinds;
     private Dictionary<string, IScenario> scenarios = new();
      
     [Header("Tests")] 
@@ -20,7 +21,8 @@ public class Study2ScenarioManager : MonoBehaviour
             {
                 scenarios[scenario.Key] = scenario;
             }
-        } 
+        }
+        blinds = selfDrivingCar.GetComponentInChildren<Blinds>();
     }
 
     [Button]
@@ -37,15 +39,7 @@ public class Study2ScenarioManager : MonoBehaviour
 
         if (scenarios.TryGetValue(scenarioName, out IScenario scenario))
         {
-            Debug.Log("Loading scenario " + scenarioName);
-            currentScenario = scenario;
-            currentScenario.InitializeScenario();
-            Transform currentScenarioTransform = currentScenario.CurrentSpline.transform;
-            Vector3 bezierKnotPos = currentScenarioTransform.TransformPoint(currentScenario.CurrentSpline.Spline[0].Position);
-            selfDrivingCar.transform.GetComponent<Rigidbody>().position = bezierKnotPos + new Vector3(1, 1, -2); 
-            selfDrivingCar.Spline = currentScenario.CurrentSpline;
-            selfDrivingCar.SetupNewPath();
-            selfDrivingCar.initialSplineIndex = 0;
+            StartCoroutine(ChangeScenario(scenarioName, scenario));
         }
         else
         {
@@ -54,14 +48,25 @@ public class Study2ScenarioManager : MonoBehaviour
         
     }
 
-    private void ResetScenario(IScenario scenario)
+    private void ResetScenario( IScenario scenario)
     {
         scenario.ResetScenario();
-        
     }
     
-    public void ChangeScenario()
+    public IEnumerator ChangeScenario(string scenarioName, IScenario scenario)
     {
+        
+        Debug.Log("Loading scenario " + scenarioName);
+        currentScenario = scenario;
+        currentScenario.InitializeScenario();
+        blinds.MoveBlindsUp();
+        yield return new WaitForSeconds(2f);
+        Transform currentScenarioTransform = currentScenario.CurrentSpline.transform;
+        Vector3 bezierKnotPos = currentScenarioTransform.TransformPoint(currentScenario.CurrentSpline.Spline[0].Position);
+        selfDrivingCar.RB.position = bezierKnotPos + new Vector3(1, 1, -2); 
+        selfDrivingCar.Spline = currentScenario.CurrentSpline;
+        selfDrivingCar.SetupNewPath();
+        blinds.MoveBlindsDown();
         // TODO: Start a Coroutine to 
         // 1. Add Sliding Windows
         // 2. Change Car Position

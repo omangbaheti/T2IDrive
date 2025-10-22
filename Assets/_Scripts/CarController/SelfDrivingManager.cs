@@ -18,7 +18,7 @@ public class SelfDrivingManager : MonoBehaviour
     public float SteerInput => steerInput;
     public float BrakeInput => brakeInput;
     public float AcceleratorInput => acceleratorInput;
-
+    public Rigidbody RB => GetComponent<Rigidbody>();
     public SplineContainer Spline
     {
         get => splineContainer;
@@ -100,6 +100,7 @@ public class SelfDrivingManager : MonoBehaviour
 
     public void SetupNewPath()
     {
+        initialSplineIndex = 0;
         pathPoints.Clear();
         pathManager = new CarPathManager(splineContainer);
         splineRoad = splineContainer.GetComponent<SplineRoad>();
