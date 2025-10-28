@@ -97,6 +97,7 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
         {
             for (int j = 0; j < yDivisions.Count-1; j++)
             {
+                // Debug.Log($">>>> {i}, {j}");
                 GameObject regionGameObject = Instantiate(layer1Prefab, layer1);
                 HPUICanvasRegionTextInput hpuiRegionTextInput =  regionGameObject.AddComponent<HPUICanvasRegionTextInput>();
                 regionGameObject.name = $"HPUIRegion ({i},{j})";
@@ -199,7 +200,7 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
             Debug.Log("Not enough points, cancelling gesture");
             return;
         }
-        Debug.Log(canvasArgs.State + ">>>>>>>>>>>>>>>>>>>>>>>>");
+        // Debug.Log(canvasArgs.State + ">>>>>>>>>>>>>>>>>>>>>>>>");
         switch (canvasArgs.State)
         {
             case HPUICanvasState.INVALID:

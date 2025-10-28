@@ -220,7 +220,7 @@ public class SplineRoad : MonoBehaviour
                 float t = terminal.knotIndex == 0 ? 0f : 1f;
                 // Debug.Log($"{intersectionID}:{t}");
                 SampleAlongSplineWidth(terminalSplineIndex, t, leftWidth, out float3 p1, out float3 p2);
-                Debug.Log($"{intersectionID}:{terminal.splineIndex}:{p1},{p2}");
+                // Debug.Log($"{intersectionID}:{terminal.splineIndex}:{p1},{p2}");
                 points.Add(p1);
                 points.Add(p2);
                 center +=  (Vector3) p1;
