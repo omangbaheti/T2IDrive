@@ -5,9 +5,10 @@
       "depth": 0,
       "source": "git",
       "dependencies": {
-        "com.unity.editorcoroutines": "1.0.0"
+        "com.unity.editorcoroutines": "1.0.0",
+        "com.unity.nuget.newtonsoft-json": "3.0.2"
       },
-      "hash": "0ba6424eb63f69c63f366f64b422646685e62d4f"
+      "hash": "09207beedccab2dad1f481959cb8356fc12bd804"
     },
     "com.mrtimcakes.directinput": {
       "version": "file:Unity-DirectInput",
