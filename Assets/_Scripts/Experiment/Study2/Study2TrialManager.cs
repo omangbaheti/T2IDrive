@@ -99,7 +99,7 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
             {
                 // Debug.Log($">>>> {i}, {j}");
                 GameObject regionGameObject = Instantiate(layer1Prefab, layer1);
-                HPUICanvasRegionTextInput hpuiRegionTextInput =  regionGameObject.AddComponent<HPUICanvasRegionTextInput>();
+                HPUICanvasRegionIcon hpuiRegionTextInput =  regionGameObject.AddComponent<HPUICanvasRegionIcon>();
                 regionGameObject.name = $"HPUIRegion ({i},{j})";
                 hpuiRegionTextInput.ID = new Vector2Int(i, j);
                 hpuiRegionTextInput.basePoint = new Vector2(xDivisions[i], yDivisions[j]);
@@ -112,29 +112,34 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
                 hpuiRegionTextInput.canvasManager = this;
                 hpuiRegionTextInput.interactionMapping = InteractionMapping;
                 hpuiRegionTextInput.interactionMappingTransforms = interactionMappingTransforms;
-                List<MicrogestureAction> actions = GestureActions.FindAll(action => action.startRegion == hpuiRegionTextInput.ID);
-                List<TextMeshPro> textFields = regionGameObject.GetComponentsInChildren<TextMeshPro>().ToList();
-                Debug.Log($"Text Field Length: {textFields.Count}");
-                textFields.Sort((x, y) => string.Compare(x.text, y.text, StringComparison.Ordinal));
-                for (int k  = 0; k < actions.Count; k++)
-                {
-                    CharacterOutput charOutput = actions[k].SwipeActions.OfType<CharacterOutput>().First();
-                    charOutput.inputStreamTrackers = keyboardInputStreamTracker;
-                    textFields[k].text = String.Empty;
-                    Debug.Log($"{hpuiRegionTextInput.ID}: {charOutput.outputKey} {textFields[k].name}");
-                    // charOutput.inputStreamTracker = keyboardInputStreamTracker;
-                    textFields[k].text = charOutput.outputKey;
-                }
-                if (actions.Count != textFields.Count)
-                {
-                    Debug.LogError("Mismatched gesture action count");
-                }
+                MicrogestureAction action = GestureActions.Find(action => action.startRegion == hpuiRegionTextInput.ID 
+                                                                          && action.endRegion == hpuiRegionTextInput.ID);
+                IconAction iconAction = action.SwipeActions.OfType<IconAction>().FirstOrDefault();
+                if (iconAction != null)
+                    regionGameObject.GetComponentInChildren<SpriteRenderer>().sprite = iconAction.displayImage;
+                // List<TextMeshPro> textFields = regionGameObject.GetComponentsInChildren<TextMeshPro>().ToList();
+                // Debug.Log($"Text Field Length: {textFields.Count}");
+                // textFields.Sort((x, y) => string.Compare(x.text, y.text, StringComparison.Ordinal));
+                // for (int k  = 0; k < actions.Count; k++)
+                // {
+                //     IconAction icon = actions[k].SwipeActions.OfType<IconAction>().First();
+                //     // charOutput.inputStreamTrackers = keyboardInputStreamTracker;
+                //     textFields[k].text = String.Empty;
+                //     Debug.Log($"{hpuiRegionTextInput.ID}: {icon.actionLabel} {textFields[k].name}");
+                //     // charOutput.inputStreamTracker = keyboardInputStreamTracker;
+                //     textFields[k].text = icon.actionLabel;
+                // }
+                // if (actions.Count != textFields.Count)
+                // {
+                //     Debug.LogError("Mismatched gesture action count");
+                // }
                 SetFollowTransform(hpuiRegionTextInput);
                 hpuiRegions.Add(new Vector2Int(i,j), hpuiRegionTextInput);
             }
         }
 
         //Setup Layer 2
+        
         foreach (MicrogestureAction action in GestureActions)
         {
             hpuiRegions[action.startRegion].gestureActions.Add(action);

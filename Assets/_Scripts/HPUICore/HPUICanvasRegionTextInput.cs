@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -6,46 +5,21 @@ using ubco.ovilab.HPUI;
 using ubco.ovilab.HPUI.Core;
 using UnityEngine;
 using UnityEngine.Rendering;
-using UXF;
 
-public class HPUICanvasRegion : MonoBehaviour
+public class HPUICanvasRegionTextInput : HPUICanvasRegion
 {
-    public Vector2Int ID;
-    public Vector2 area;
-    public List<MicrogestureAction> gestureActions = new();
-    public Vector2 basePoint;
-    public Vector2 centreOffset;
-    public Color pressedColor;
-    public Color defaultColor;
-    public Transform followTransform;
-    public Transform parentTransform;
-    public IHPUICanvasUIManager canvasManager;
     [SerializeField] public GameObject UIVisual;
-    [SerializeField] public Color startColor;
-    [SerializeField] public Color endColor;
-    [SerializeField] public SerializedDictionary<Vector2Int, GameObject> layer2UIEndRegions = new();
     [SerializeField] public SerializedDictionary<Vector2Int, GameObject> layer2UIStartRegions = new();
-    public Dictionary<Vector2Int, GameObject> layer2UIElements = new();
-    private Vector2 centrePoint;
-    private Vector2Int endRegion;
-    public HPUIMultiFingerCanvas canvasInteractable;
     private Transform regionParent;
-    public InteractionMapping interactionMapping;
-    public Dictionary<Vector2Int, Transform> interactionMappingTransforms = new();
-    public void InitialiseUI()
+    public override void InitialiseUI()
     {
-        layer2UIElements.Clear();
-        centrePoint = basePoint + new Vector2(area.x / 2f, area.y / 2f);
-        canvasInteractable = canvasManager.HPUICanvas;
-        regionParent = new GameObject().transform;
-        regionParent.parent = parentTransform;
-        regionParent.name = $"HPUIRegion ({ID.x},{ID.y})";
+        base.InitialiseUI();
         foreach (MicrogestureAction action in gestureActions)
         {
-            HPUICanvasRegion startRegion = canvasManager.HPUIRegions[action.startRegion];
-            HPUICanvasRegion endRegion = canvasManager.HPUIRegions[action.endRegion];
-            Vector2 startRegionSpawnPoint = startRegion.basePoint + startRegion.area/2 + startRegion.centreOffset;
-            Vector2 endRegionSpawnPoint = endRegion.basePoint + endRegion.area/2 + endRegion.centreOffset;
+            HPUICanvasRegion startRegionTextInput = canvasManager.HPUIRegions[action.startRegion];
+            HPUICanvasRegion endRegionTextInput = canvasManager.HPUIRegions[action.endRegion];
+            Vector2 startRegionSpawnPoint = startRegionTextInput.basePoint + startRegionTextInput.area/2 + startRegionTextInput.centreOffset;
+            Vector2 endRegionSpawnPoint = endRegionTextInput.basePoint + endRegionTextInput.area/2 + endRegionTextInput.centreOffset;
             Vector2Int startRegionSpawnColliderIndex = HPUICanvasComponentUtils.CalculateColliderIndex(startRegionSpawnPoint , canvasInteractable);
             Vector2Int endRegionSpawnColliderIndex = HPUICanvasComponentUtils.CalculateColliderIndex(endRegionSpawnPoint, canvasInteractable);
             Debug.Log($"Follow Transform: >>>> {followTransform.name}");
@@ -94,11 +68,11 @@ public class HPUICanvasRegion : MonoBehaviour
         }
     }
 
-    public virtual void OnGestureStarted(HPUICanvasEventArgs canvasArgs)
+    public override void OnGestureStarted(HPUICanvasEventArgs canvasArgs)
     {
         ActivateUIElements(true);
     }
-    public virtual void OnGestureOnGoing(HPUICanvasEventArgs canvasArgs)
+    public override void OnGestureOnGoing(HPUICanvasEventArgs canvasArgs)
     {
         foreach (KeyValuePair<Vector2Int, GameObject> uiElement in layer2UIElements)
         {
@@ -114,7 +88,7 @@ public class HPUICanvasRegion : MonoBehaviour
         }
     }
     
-    public virtual void OnGestureEnded(HPUICanvasEventArgs canvasArgs)
+    public override void OnGestureEnded(HPUICanvasEventArgs canvasArgs)
     {
         
         foreach (MicrogestureAction gesture in gestureActions.Where
@@ -133,13 +107,12 @@ public class HPUICanvasRegion : MonoBehaviour
         }
         ActivateUIElements(false);
     }
-
-    public virtual void DisableUI()
+    public override void DisableUI()
     {
         ActivateUIElements(false);
     }
 
-    public virtual void ActivateUIElements(bool active)
+    public override void ActivateUIElements(bool active)
     {
         foreach (Transform uiElement in regionParent)
         {

@@ -95,11 +95,11 @@ public class MultiFingerCanvasManager : MonoBehaviour, IHPUICanvasUIManager
     }
     public void HandleCanvasGesture(HPUIGestureEventArgs gestureArgs, HPUICanvasEventArgs canvasArgs)
     {
-
-        if (!Session.instance.InTrial)
-        {
-            return;
-        }
+        Debug.Log("HandleCanvasGesture");
+        // if (!Session.instance.InTrial)
+        // {
+        //     return;
+        // }
         if (canvasArgs.GesturePositions.Count <= 0)
         {
             Debug.Log("Not enough points, cancelling gesture");
@@ -134,7 +134,7 @@ public class MultiFingerCanvasManager : MonoBehaviour, IHPUICanvasUIManager
                 {
                     region.Value.DisableUI();
                 }
-                foreach (HPUICanvasRegion uiButton in hpuiRegions.Values)
+                foreach (HPUICanvasRegionTextInput uiButton in hpuiRegions.Values)
                 {
                     uiButton.gameObject.SetActive(true);
                 }
@@ -151,7 +151,7 @@ public class MultiFingerCanvasManager : MonoBehaviour, IHPUICanvasUIManager
                 {
                     region.Value.DisableUI();
                 }
-                foreach (HPUICanvasRegion uiButton in hpuiRegions.Values)
+                foreach (HPUICanvasRegionTextInput uiButton in hpuiRegions.Values)
                 {
                     uiButton.gameObject.SetActive(true);
                 }

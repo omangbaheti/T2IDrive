@@ -65,8 +65,8 @@ public class HPUICanvasRegionManager : MonoBehaviour, IHPUICanvasUIManager
 
     public void SpawnCanvasRegions()
     {
-        HPUICanvasRegion[] CanvasRegions = GetComponents<HPUICanvasRegion>();
-        foreach (HPUICanvasRegion region in CanvasRegions)
+        HPUICanvasRegionTextInput[] CanvasRegions = GetComponents<HPUICanvasRegionTextInput>();
+        foreach (HPUICanvasRegionTextInput region in CanvasRegions)
         {
             DestroyImmediate(region);
             Debug.Log($"Added Region {region.ID}");
@@ -89,12 +89,12 @@ public class HPUICanvasRegionManager : MonoBehaviour, IHPUICanvasUIManager
         {
             for (int j = 0; j < yDivisions.Count-1; j++)
             {
-                HPUICanvasRegion hpuiRegion = gameObject.AddComponent<HPUICanvasRegion>();
-                hpuiRegion.ID = new Vector2Int(i, j);
-                hpuiRegion.basePoint = new Vector2(xDivisions[i], yDivisions[j]);
-                hpuiRegion.area = new Vector2(xDivisions[i+1] - xDivisions[i], yDivisions[j+1] - yDivisions[j]);
+                HPUICanvasRegionTextInput hpuiRegionTextInput = gameObject.AddComponent<HPUICanvasRegionTextInput>();
+                hpuiRegionTextInput.ID = new Vector2Int(i, j);
+                hpuiRegionTextInput.basePoint = new Vector2(xDivisions[i], yDivisions[j]);
+                hpuiRegionTextInput.area = new Vector2(xDivisions[i+1] - xDivisions[i], yDivisions[j+1] - yDivisions[j]);
                 //hpuiRegion.textBox = textBox;
-                hpuiRegions.Add(new Vector2Int(i,j), hpuiRegion);
+                hpuiRegions.Add(new Vector2Int(i,j), hpuiRegionTextInput);
             }
         }
         InitialiseRegions();
@@ -127,9 +127,9 @@ public class HPUICanvasRegionManager : MonoBehaviour, IHPUICanvasUIManager
                 }
                 continue;
             }
-            HPUICanvasRegion region = hpuiRegions[action.startRegion];
-            Vector2 regionBasePoint = region.basePoint;
-            Vector2 regionCenterPoint = regionBasePoint + region.area/2f + region.centreOffset;
+            HPUICanvasRegion regionTextInput = hpuiRegions[action.startRegion];
+            Vector2 regionBasePoint = regionTextInput.basePoint;
+            Vector2 regionCenterPoint = regionBasePoint + regionTextInput.area/2f + regionTextInput.centreOffset;
             Vector2Int centreIndex = HPUICanvasComponentUtils.CalculateColliderIndex(regionCenterPoint, targetCanvas);
             Transform regionCentre = targetCanvas.coordsToCollider[centreIndex].transform;
             GameObject textKey = Instantiate(textBox, regionCentre.position, Quaternion.identity, regionCentre);

@@ -123,7 +123,7 @@ namespace ubco.ovilab.HPUI.Core
                         Vector2Int coordinate = new(key.x + i * HPUIInteractables.GetCell(i, j).MeshXResolution,
                             key.y + j * HPUIInteractables.GetCell(i, j).MeshYResolution);
                         coordsToCollider[coordinate] = value;
-                        Debug.Log(coordinate);
+                        // Debug.Log(coordinate);
                     }
                 }
             }
@@ -140,10 +140,10 @@ namespace ubco.ovilab.HPUI.Core
                 return;
             }
 
-            if (!Session.instance.InTrial)
-            {
-                return;
-            }
+            // if (!Session.instance.InTrial)
+            // {
+            //     return;
+            // }
             switch (eventArgs.State)
             {
                 case HPUIGestureState.Started or HPUIGestureState.Updated:
