@@ -67,6 +67,16 @@ public class GestureLayoutSetup : ScriptableObject
             existingAction.SwipeActions.Add(new ExperimentHandler());
         }
     }
+
+    
+    [Button]
+    private void ApplyIconAction()
+    {
+        foreach (MicrogestureAction existingAction in microGestureActions)
+        {
+            existingAction.SwipeActions.Add(new IconAction());
+        }
+    }
     
     [Button]
     private void ApplyCharacterAction()

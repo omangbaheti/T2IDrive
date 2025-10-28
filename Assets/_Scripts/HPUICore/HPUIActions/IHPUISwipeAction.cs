@@ -6,6 +6,7 @@ using ubco.ovilab.HPUI.Core;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 using UXF;
 
 namespace ubco.ovilab.HPUI
@@ -51,6 +52,27 @@ namespace ubco.ovilab.HPUI
         }
     }
 
+    [Serializable]
+    public class IconAction : IHPUISwipeAction
+    {
+        [SerializeField] public string actionLabel;
+        [SerializeField] public Sprite displayImage;
+        [HideInInspector] public UnityEvent<HPUICanvasEventArgs> OnSwipeStarted => onSwipeStarted;
+        [HideInInspector] public UnityEvent<HPUICanvasEventArgs> OnSwipeCompleted => onSwipeCompleted; 
+        
+        [SerializeField] public UnityEvent<HPUICanvasEventArgs> onSwipeStarted = new();
+        [SerializeField] public UnityEvent<HPUICanvasEventArgs> onSwipeCompleted = new();
+        public void GestureStarted(HPUICanvasEventArgs canvasArgs)
+        {
+            OnSwipeStarted?.Invoke(canvasArgs);
+        }
+
+        public void GestureCompleted(HPUICanvasEventArgs canvasArgs)
+        {
+            OnSwipeCompleted?.Invoke(canvasArgs);
+        }
+    }
+    
     [Serializable]
     public class ExperimentHandler : IHPUISwipeAction
     {

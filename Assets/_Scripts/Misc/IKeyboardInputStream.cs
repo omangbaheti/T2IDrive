@@ -10,6 +10,7 @@ public interface IKeyboardInputStream
 
 [Serializable]
 public class KeyboardInputStream : MonoBehaviour,  IKeyboardInputStream
+
 {
     public virtual void OnCharacterInput(HPUICanvasEventArgs canvasArgs, InputStreamArgs inputArgs)
     {

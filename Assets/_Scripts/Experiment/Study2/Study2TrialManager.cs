@@ -2,14 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using EditorAttributes;
-using Experiment;
 using TMPro;
 using ubco.ovilab.HPUI;
 using ubco.ovilab.HPUI.Core;
 using ubco.ovilab.HPUI.Interaction;
-using ubco.ovilab.HPUI.utils;
 using ubco.ovilab.hpuiModel;
-using UnityEditor.VersionControl;
 using UnityEngine;
 using UXF;
 using XRUtils = Unity.XR.CoreUtils.Collections;
@@ -32,12 +29,12 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
     private Transform layer1;
     private Transform layer2;
     private HPUIInteractableCanvasTracker canvasTracker;
-    [SerializeField]  private List<KeyboardInputStream> keyboardInputStreamTracker;
     private Vector2Int startRegion;
     private Vector2Int currentRegion;
     private Vector2Int endRegion;
     private HPUIMultiFingerCanvas hpuiCanvas;
 
+    [SerializeField]  private List<KeyboardInputStream> keyboardInputStreamTracker;
     [SerializeField] private XRUtils.SerializableDictionary<Vector2Int?, HPUICanvasRegion> hpuiRegions = new();
     [SerializeField] private GameObject layer1Prefab;
     [SerializeField] private GameObject layer2Prefab;
@@ -146,7 +143,6 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
         {
             region.InitialiseUI();
         }
-
     }
 
     public void InitialiseRegions()
