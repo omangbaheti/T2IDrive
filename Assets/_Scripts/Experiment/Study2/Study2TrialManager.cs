@@ -39,7 +39,7 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
     [SerializeField] private GameObject layer1Prefab;
     [SerializeField] private GameObject layer2Prefab;
     [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private Transform prompter;
-    [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private XRUtils.SerializableDictionary<Vector2Int?, HPUICanvasRegion> indirectMappingTransforms;
+    [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private XRUtils.SerializableDictionary<Vector2Int?, HPUICanvasRegionTextInput> indirectMappingTransforms;
     [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private Transform radialDistal;
     [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private Transform radialIntermediate;
     [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private Transform radialProximal;
@@ -98,21 +98,20 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
             for (int j = 0; j < yDivisions.Count-1; j++)
             {
                 GameObject regionGameObject = Instantiate(layer1Prefab, layer1);
-                HPUICanvasRegion hpuiRegion =  regionGameObject.AddComponent<HPUICanvasRegion>();
-                
+                HPUICanvasRegionTextInput hpuiRegionTextInput =  regionGameObject.AddComponent<HPUICanvasRegionTextInput>();
                 regionGameObject.name = $"HPUIRegion ({i},{j})";
-                hpuiRegion.ID = new Vector2Int(i, j);
-                hpuiRegion.basePoint = new Vector2(xDivisions[i], yDivisions[j]);
-                hpuiRegion.area = new Vector2(xDivisions[i+1] - xDivisions[i], yDivisions[j+1] - yDivisions[j]);
-                hpuiRegion.UIVisual = layer2Prefab;
-                hpuiRegion.pressedColor = selectedColor;
-                hpuiRegion.defaultColor = defaultColor;
-                hpuiRegion.canvasInteractable = HPUICanvas;
-                hpuiRegion.parentTransform = layer2;
-                hpuiRegion.canvasManager = this;
-                hpuiRegion.interactionMapping = InteractionMapping;
-                hpuiRegion.interactionMappingTransforms = interactionMappingTransforms;
-                List<MicrogestureAction> actions = GestureActions.FindAll(action => action.startRegion == hpuiRegion.ID);
+                hpuiRegionTextInput.ID = new Vector2Int(i, j);
+                hpuiRegionTextInput.basePoint = new Vector2(xDivisions[i], yDivisions[j]);
+                hpuiRegionTextInput.area = new Vector2(xDivisions[i+1] - xDivisions[i], yDivisions[j+1] - yDivisions[j]);
+                hpuiRegionTextInput.UIVisual = layer2Prefab;
+                hpuiRegionTextInput.pressedColor = selectedColor;
+                hpuiRegionTextInput.defaultColor = defaultColor;
+                hpuiRegionTextInput.canvasInteractable = HPUICanvas;
+                hpuiRegionTextInput.parentTransform = layer2;
+                hpuiRegionTextInput.canvasManager = this;
+                hpuiRegionTextInput.interactionMapping = InteractionMapping;
+                hpuiRegionTextInput.interactionMappingTransforms = interactionMappingTransforms;
+                List<MicrogestureAction> actions = GestureActions.FindAll(action => action.startRegion == hpuiRegionTextInput.ID);
                 List<TextMeshPro> textFields = regionGameObject.GetComponentsInChildren<TextMeshPro>().ToList();
                 Debug.Log($"Text Field Length: {textFields.Count}");
                 textFields.Sort((x, y) => string.Compare(x.text, y.text, StringComparison.Ordinal));
@@ -121,7 +120,7 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
                     CharacterOutput charOutput = actions[k].SwipeActions.OfType<CharacterOutput>().First();
                     charOutput.inputStreamTrackers = keyboardInputStreamTracker;
                     textFields[k].text = String.Empty;
-                    Debug.Log($"{hpuiRegion.ID}: {charOutput.outputKey} {textFields[k].name}");
+                    Debug.Log($"{hpuiRegionTextInput.ID}: {charOutput.outputKey} {textFields[k].name}");
                     // charOutput.inputStreamTracker = keyboardInputStreamTracker;
                     textFields[k].text = charOutput.outputKey;
                 }
@@ -129,8 +128,8 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
                 {
                     Debug.LogError("Mismatched gesture action count");
                 }
-                SetFollowTransform(hpuiRegion);
-                hpuiRegions.Add(new Vector2Int(i,j), hpuiRegion);
+                SetFollowTransform(hpuiRegionTextInput);
+                hpuiRegions.Add(new Vector2Int(i,j), hpuiRegionTextInput);
             }
         }
 
@@ -150,26 +149,26 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
         
     }
 
-    private void SetFollowTransform(HPUICanvasRegion region)
+    private void SetFollowTransform(HPUICanvasRegion regionTextInput)
     {
         if (InteractionMapping == InteractionMapping.Direct)
         {
-            Vector2 regionCenterPoint = region.basePoint + region.area/2f + region.centreOffset;
+            Vector2 regionCenterPoint = regionTextInput.basePoint + regionTextInput.area/2f + regionTextInput.centreOffset;
             Vector2Int centreIndex = HPUICanvasComponentUtils.CalculateColliderIndex(regionCenterPoint, HPUICanvas);
             Transform regionCentre = HPUICanvas.coordsToCollider[centreIndex].transform;
-            region.followTransform = regionCentre;
-            TransformFollower transformFollower = region.gameObject.AddComponent<TransformFollower>();
-            transformFollower.SetTarget(region.followTransform);
+            regionTextInput.followTransform = regionCentre;
+            TransformFollower transformFollower = regionTextInput.gameObject.AddComponent<TransformFollower>();
+            transformFollower.SetTarget(regionTextInput.followTransform);
             transformFollower.SetRotationOffset(new Vector3(90,0,-90));
             transformFollower.SetScaleOffset(transform.lossyScale);
         }
         else
         {
-            TransformFollower transformFollower = region.gameObject.AddComponent<TransformFollower>();
-            transformFollower.SetTarget(interactionMappingTransforms[region.ID]);
+            TransformFollower transformFollower = regionTextInput.gameObject.AddComponent<TransformFollower>();
+            transformFollower.SetTarget(interactionMappingTransforms[regionTextInput.ID]);
             transformFollower.SetRotationOffset(new Vector3(90,0,0));
-            Transform targetTransform = interactionMappingTransforms[region.ID].transform;
-            region.followTransform = targetTransform;
+            Transform targetTransform = interactionMappingTransforms[regionTextInput.ID].transform;
+            regionTextInput.followTransform = targetTransform;
             Vector3 targetScale = new Vector3(targetTransform.lossyScale.x/targetTransform.parent.lossyScale.x, targetTransform.lossyScale.y/targetTransform.parent.lossyScale.y, targetTransform.lossyScale.z/targetTransform.parent.lossyScale.z); 
             transformFollower.SetScaleOffset(targetScale*2);
         }
@@ -177,8 +176,8 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
 
     public void ResetCanvasRegions()
     {
-        HPUICanvasRegion[] CanvasRegions = layer1.GetComponents<HPUICanvasRegion>();
-        foreach (HPUICanvasRegion region in CanvasRegions)
+        HPUICanvasRegionTextInput[] CanvasRegions = layer1.GetComponents<HPUICanvasRegionTextInput>();
+        foreach (HPUICanvasRegionTextInput region in CanvasRegions)
         {
             Destroy(region);
             Debug.Log("Destroying regions");

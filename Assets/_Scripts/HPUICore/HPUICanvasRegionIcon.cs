@@ -1,6 +1,6 @@
 ﻿namespace _Scripts.HPUICore
 {
-    public class HPUICanvasRegion
+    public class HPUICanvasRegionIcon
     {
         
     }
