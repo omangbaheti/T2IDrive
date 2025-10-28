@@ -12,7 +12,7 @@ public class GestureLayoutSetup : ScriptableObject
     [Tooltip("X implies Across the finger, Y is Along the finger")]
     [SerializeField, InlineButton(nameof(GenerateConditions),"Generate All Conditions", 200f)] public Vector2Int regions;
     [SerializeField] public TextAsset layout;
-
+    [SerializeField] public IconLayoutSetup iconLayoutSetup;
     [SerializeField, HideInInspector] public List<float> xDivisions;
     [SerializeField, HideInInspector] public List<float> yDivisions;
     [SerializeField] public List<MicrogestureAction> microGestureActions = new();
@@ -67,14 +67,34 @@ public class GestureLayoutSetup : ScriptableObject
             existingAction.SwipeActions.Add(new ExperimentHandler());
         }
     }
-
     
+
     [Button]
     private void ApplyIconAction()
     {
-        foreach (MicrogestureAction existingAction in microGestureActions)
+        microGestureActions.Clear();
+        string[] lines = layout.text.Split('\n');
+        if (lines.Length < 2) return; // Ensure there's data beyond headers
+
+        for (int i = 1; i < lines.Length; i++) // Start from 1 to skip header
         {
-            existingAction.SwipeActions.Add(new IconAction());
+            string[] values = lines[i].Split(',');
+            if (values.Length < 3) continue; // Ensure enough columns exist
+            Debug.Log(values[0].ToString());
+            MicrogestureAction action = new MicrogestureAction
+            {
+                startRegion = RegionToVectorDict[values[0].Trim()],
+                endRegion = RegionToVectorDict[values[1].Trim()],
+                SwipeActions = new List<IHPUISwipeAction>
+                {
+                    new IconAction()
+                    {
+                        actionLabel = values[2].Trim(),
+                        displayImage = iconLayoutSetup.actionIconDict[values[2].Trim()], 
+                    }
+                }
+            };
+            microGestureActions.Add(action);
         }
     }
     
