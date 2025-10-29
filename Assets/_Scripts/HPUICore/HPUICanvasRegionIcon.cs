@@ -40,7 +40,7 @@ public class HPUICanvasRegionIcon : HPUICanvasRegion
                 return;
             }
 
-            key.GetComponentInChildren<SpriteRenderer>().sprite = outputHandler.displayImage;
+            key.GetComponentInChildren<SpriteRenderer>().sprite = action.startRegion == action.endRegion ? null : outputHandler.displayImage;
             if (interactionMapping == InteractionMapping.Direct)
             {
                 followTransform = canvasInteractable.coordsToCollider[endRegionSpawnColliderIndex].transform;
