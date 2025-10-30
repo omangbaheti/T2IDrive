@@ -16,6 +16,7 @@ public class GestureLayoutSetup : ScriptableObject
     [SerializeField, HideInInspector] public List<float> xDivisions;
     [SerializeField, HideInInspector] public List<float> yDivisions;
     [SerializeField] public List<MicrogestureAction> microGestureActions = new();
+
     
     
     public static readonly Dictionary<Vector2Int, string> VectorToRegionDict = new()

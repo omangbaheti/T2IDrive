@@ -9,7 +9,6 @@ public class EulersCircuit
 {
 
     [SerializeField]
-
     public static List<TwoStepEulerConnection> TwoStepEulersCircuit(int items, bool shuffle, System.Random rng)
     {
         string finalOutput2 = "";

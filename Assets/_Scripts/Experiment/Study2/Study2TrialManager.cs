@@ -97,23 +97,22 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
         {
             for (int j = 0; j < yDivisions.Count-1; j++)
             {
-                // Debug.Log($">>>> {i}, {j}");
                 GameObject regionGameObject = Instantiate(layer1Prefab, layer1);
-                HPUICanvasRegionIcon hpuiRegionTextInput =  regionGameObject.AddComponent<HPUICanvasRegionIcon>();
+                HPUICanvasRegionIcon hpuiRegion =  regionGameObject.AddComponent<HPUICanvasRegionIcon>();
                 regionGameObject.name = $"HPUIRegion ({i},{j})";
-                hpuiRegionTextInput.ID = new Vector2Int(i, j);
-                hpuiRegionTextInput.basePoint = new Vector2(xDivisions[i], yDivisions[j]);
-                hpuiRegionTextInput.area = new Vector2(xDivisions[i+1] - xDivisions[i], yDivisions[j+1] - yDivisions[j]);
-                hpuiRegionTextInput.UIVisual = layer2Prefab;
-                hpuiRegionTextInput.pressedColor = selectedColor;
-                hpuiRegionTextInput.defaultColor = defaultColor;
-                hpuiRegionTextInput.canvasInteractable = HPUICanvas;
-                hpuiRegionTextInput.parentTransform = layer2;
-                hpuiRegionTextInput.canvasManager = this;
-                hpuiRegionTextInput.interactionMapping = InteractionMapping;
-                hpuiRegionTextInput.interactionMappingTransforms = interactionMappingTransforms;
-                MicrogestureAction action = GestureActions.Find(action => action.startRegion == hpuiRegionTextInput.ID 
-                                                                          && action.endRegion == hpuiRegionTextInput.ID);
+                hpuiRegion.ID = new Vector2Int(i, j);
+                hpuiRegion.basePoint = new Vector2(xDivisions[i], yDivisions[j]);
+                hpuiRegion.area = new Vector2(xDivisions[i+1] - xDivisions[i], yDivisions[j+1] - yDivisions[j]);
+                hpuiRegion.UIVisual = layer2Prefab;
+                hpuiRegion.pressedColor = selectedColor;
+                hpuiRegion.defaultColor = defaultColor;
+                hpuiRegion.canvasInteractable = HPUICanvas;
+                hpuiRegion.parentTransform = layer2;
+                hpuiRegion.canvasManager = this;
+                hpuiRegion.interactionMapping = InteractionMapping;
+                hpuiRegion.interactionMappingTransforms = interactionMappingTransforms;
+                MicrogestureAction action = GestureActions.Find(action => action.startRegion == hpuiRegion.ID 
+                                                                          && action.endRegion == hpuiRegion.ID);
                 IconAction iconAction = action.SwipeActions.OfType<IconAction>().FirstOrDefault();
                 if (iconAction != null)
                     regionGameObject.GetComponentInChildren<SpriteRenderer>().sprite = iconAction.displayImage;
@@ -133,8 +132,8 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
                 // {
                 //     Debug.LogError("Mismatched gesture action count");
                 // }
-                SetFollowTransform(hpuiRegionTextInput);
-                hpuiRegions.Add(new Vector2Int(i,j), hpuiRegionTextInput);
+                SetFollowTransform(hpuiRegion);
+                hpuiRegions.Add(new Vector2Int(i,j), hpuiRegion);
             }
         }
 
@@ -155,26 +154,26 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
         
     }
 
-    private void SetFollowTransform(HPUICanvasRegion regionTextInput)
+    private void SetFollowTransform(HPUICanvasRegion canvasRegion)
     {
         if (InteractionMapping == InteractionMapping.Direct)
         {
-            Vector2 regionCenterPoint = regionTextInput.basePoint + regionTextInput.area/2f + regionTextInput.centreOffset;
+            Vector2 regionCenterPoint = canvasRegion.basePoint + canvasRegion.area/2f + canvasRegion.centreOffset;
             Vector2Int centreIndex = HPUICanvasComponentUtils.CalculateColliderIndex(regionCenterPoint, HPUICanvas);
             Transform regionCentre = HPUICanvas.coordsToCollider[centreIndex].transform;
-            regionTextInput.followTransform = regionCentre;
-            TransformFollower transformFollower = regionTextInput.gameObject.AddComponent<TransformFollower>();
-            transformFollower.SetTarget(regionTextInput.followTransform);
+            canvasRegion.followTransform = regionCentre;
+            TransformFollower transformFollower = canvasRegion.gameObject.AddComponent<TransformFollower>();
+            transformFollower.SetTarget(canvasRegion.followTransform);
             transformFollower.SetRotationOffset(new Vector3(90,0,-90));
             transformFollower.SetScaleOffset(transform.lossyScale);
         }
         else
         {
-            TransformFollower transformFollower = regionTextInput.gameObject.AddComponent<TransformFollower>();
-            transformFollower.SetTarget(interactionMappingTransforms[regionTextInput.ID]);
+            TransformFollower transformFollower = canvasRegion.gameObject.AddComponent<TransformFollower>();
+            transformFollower.SetTarget(interactionMappingTransforms[canvasRegion.ID]);
             transformFollower.SetRotationOffset(new Vector3(90,0,0));
-            Transform targetTransform = interactionMappingTransforms[regionTextInput.ID].transform;
-            regionTextInput.followTransform = targetTransform;
+            Transform targetTransform = interactionMappingTransforms[canvasRegion.ID].transform;
+            canvasRegion.followTransform = targetTransform;
             Vector3 targetScale = new Vector3(targetTransform.lossyScale.x/targetTransform.parent.lossyScale.x, targetTransform.lossyScale.y/targetTransform.parent.lossyScale.y, targetTransform.lossyScale.z/targetTransform.parent.lossyScale.z); 
             transformFollower.SetScaleOffset(targetScale*2);
         }

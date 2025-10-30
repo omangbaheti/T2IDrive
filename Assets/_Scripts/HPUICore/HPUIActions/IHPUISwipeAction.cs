@@ -96,5 +96,4 @@ namespace ubco.ovilab.HPUI
             isSwipeStarted = false;
         }
     }
-
 }

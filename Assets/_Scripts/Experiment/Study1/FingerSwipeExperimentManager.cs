@@ -111,40 +111,40 @@ namespace Experiment
             activeHand.GetJoint(XRHandJointID.IndexIntermediate).TryGetPose(out Pose intermediatePose);
             activeHand.GetJoint(XRHandJointID.IndexProximal).TryGetPose(out Pose proximalPose);
             indexLength = (tipPose.position - distalPose.position).magnitude +
-                                (distalPose.position - intermediatePose.position).magnitude +
-                                (intermediatePose.position - proximalPose.position).magnitude;
+                          (distalPose.position - intermediatePose.position).magnitude +
+                          (intermediatePose.position - proximalPose.position).magnitude;
 
             activeHand.GetJoint(XRHandJointID.MiddleTip).TryGetPose(out tipPose);
             activeHand.GetJoint(XRHandJointID.MiddleDistal).TryGetPose(out distalPose);
             activeHand.GetJoint(XRHandJointID.MiddleIntermediate).TryGetPose(out intermediatePose);
             activeHand.GetJoint(XRHandJointID.MiddleProximal).TryGetPose(out proximalPose);
             middleLength = (tipPose.position - distalPose.position).magnitude +
-                                (distalPose.position - intermediatePose.position).magnitude +
-                                (intermediatePose.position - proximalPose.position).magnitude;
+                           (distalPose.position - intermediatePose.position).magnitude +
+                           (intermediatePose.position - proximalPose.position).magnitude;
 
             activeHand.GetJoint(XRHandJointID.RingTip).TryGetPose(out tipPose);
             activeHand.GetJoint(XRHandJointID.RingDistal).TryGetPose(out distalPose);
             activeHand.GetJoint(XRHandJointID.RingIntermediate).TryGetPose(out intermediatePose);
             activeHand.GetJoint(XRHandJointID.RingProximal).TryGetPose(out proximalPose);
             ringLength = (tipPose.position - distalPose.position).magnitude +
-                                (distalPose.position - intermediatePose.position).magnitude +
-                                (intermediatePose.position - proximalPose.position).magnitude;
+                         (distalPose.position - intermediatePose.position).magnitude +
+                         (intermediatePose.position - proximalPose.position).magnitude;
 
             activeHand.GetJoint(XRHandJointID.LittleTip).TryGetPose(out tipPose);
             activeHand.GetJoint(XRHandJointID.LittleDistal).TryGetPose(out distalPose);
             activeHand.GetJoint(XRHandJointID.LittleIntermediate).TryGetPose(out intermediatePose);
             activeHand.GetJoint(XRHandJointID.LittleProximal).TryGetPose(out proximalPose);
             littleLength = (tipPose.position - distalPose.position).magnitude +
-                               (distalPose.position - intermediatePose.position).magnitude +
-                               (intermediatePose.position - proximalPose.position).magnitude;
+                           (distalPose.position - intermediatePose.position).magnitude +
+                           (intermediatePose.position - proximalPose.position).magnitude;
 
             activeHand.GetJoint(XRHandJointID.ThumbTip).TryGetPose(out tipPose);
             activeHand.GetJoint(XRHandJointID.ThumbDistal).TryGetPose(out distalPose);
             activeHand.GetJoint(XRHandJointID.ThumbProximal).TryGetPose(out intermediatePose);
             activeHand.GetJoint(XRHandJointID.ThumbMetacarpal).TryGetPose(out proximalPose);
             thumbLength = (tipPose.position - distalPose.position).magnitude +
-                                 (distalPose.position - intermediatePose.position).magnitude +
-                                 (intermediatePose.position - proximalPose.position).magnitude;
+                          (distalPose.position - intermediatePose.position).magnitude +
+                          (intermediatePose.position - proximalPose.position).magnitude;
 
             activeHand.GetJoint(XRHandJointID.BeginMarker).TryGetPose(out Pose WristPose);
             activeHand.GetJoint(XRHandJointID.MiddleTip).TryGetPose(out tipPose);
@@ -305,8 +305,8 @@ namespace Experiment
             else
             {
                 bool result = args.SwipeStartRegion != null && args.SwipeEndRegion != null
-                              && StudyLogs.VectorToRegionDict[args.SwipeStartRegion.Value] == (FingerRegions) currentTrial.GetObject(StudyLogs.StartRegion)
-                              && StudyLogs.VectorToRegionDict[args.SwipeEndRegion.Value] == (FingerRegions) currentTrial.GetObject(StudyLogs.EndRegion);
+                                                            && StudyLogs.VectorToRegionDict[args.SwipeStartRegion.Value] == (FingerRegions) currentTrial.GetObject(StudyLogs.StartRegion)
+                                                            && StudyLogs.VectorToRegionDict[args.SwipeEndRegion.Value] == (FingerRegions) currentTrial.GetObject(StudyLogs.EndRegion);
                 string Result = result ? "Successful" : "Failed";
                 AudioClip clip = result ? correct : wrong;
                 SoundManager.Instance.PlaySound(clip);
@@ -355,11 +355,12 @@ namespace Experiment
         #endregion
 
 
-        private static List <T> ShuffleList<T>(List <T> list)
+        private static List <T> ShuffleList<T>(List <T> list) 
         {
+            System.Random random = new System.Random();
             for (int i = list.Count - 1; i > 0; i--)
             {
-                int j = Random.Range(0, i + 1);
+                int j = random.Next(0, i+1);
                 (list[index: i], list[j]) = (list[j], list[i]);
             }
             return list;
@@ -402,6 +403,9 @@ public static class StudyLogs
     public const string SuccessfulTrial = "successful_trial";
     public const string BlockName = "BlockName";
     public const string CalibrationMethod = "CalculateHandLength";
+    public const string TargetAction = "target_action";
+    public const string UIType= "ui_type";
+    
 
     public const string Index = "Index";
     public const string Middle = "Middle";
@@ -429,4 +433,3 @@ public static class StudyLogs
         {  FingerRegions.RadialDistal,new Vector2Int(1, 2)}
     };
 }
-
