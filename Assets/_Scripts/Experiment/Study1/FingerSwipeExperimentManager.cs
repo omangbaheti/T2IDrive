@@ -79,7 +79,6 @@ namespace Experiment
             }
 
             AddCalibrationMethod(StudyLogs.CalibrationMethod, CalculateHandLength);
-
         }
 
         protected override void OnSessionEnd(Session session)
@@ -405,7 +404,7 @@ public static class StudyLogs
     public const string CalibrationMethod = "CalculateHandLength";
     public const string TargetAction = "target_action";
     public const string UIType= "ui_type";
-    
+    public const string InputAction = "input_action";
 
     public const string Index = "Index";
     public const string Middle = "Middle";
