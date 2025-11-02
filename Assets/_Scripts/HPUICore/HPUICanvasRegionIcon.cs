@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ubco.ovilab.HPUI;
 using ubco.ovilab.HPUI.Core;
@@ -54,17 +55,23 @@ public class HPUICanvasRegionIcon : HPUICanvasRegion
                 followTransform = interactionMappingTransforms[action.endRegion];
                 TransformFollower transformFollower = key.gameObject.AddComponent<TransformFollower>();
                 transformFollower.SetTarget(interactionMappingTransforms[action.endRegion]);
-                transformFollower.SetRotationOffset(new Vector3(90,0,0));
+                
+                transformFollower.SetRotationOffset(new Vector3(0,-90,0));
                 Transform targetTransform = interactionMappingTransforms[action.endRegion].transform;
-                Vector3 targetScale = new Vector3(targetTransform.lossyScale.x/targetTransform.parent.lossyScale.x, targetTransform.lossyScale.y/targetTransform.parent.lossyScale.y, targetTransform.lossyScale.z/targetTransform.parent.lossyScale.z); 
-                transformFollower.SetScaleOffset(targetScale*2);
+                Vector3 targetScale = new Vector3(targetTransform.lossyScale.x*targetTransform.parent.lossyScale.x, targetTransform.lossyScale.y*targetTransform.parent.lossyScale.y, targetTransform.lossyScale.z*targetTransform.parent.lossyScale.z); 
+                transformFollower.SetScaleOffset(targetScale);
             }
             layer2UIElements.Add(action.endRegion, key);
             key.SetActive(false);
         }
         
     }
-    
+
+    private void Update()
+    {
+        
+    }
+
     public override void OnGestureStarted(HPUICanvasEventArgs canvasArgs)
     {
         ActivateUIElements(true);

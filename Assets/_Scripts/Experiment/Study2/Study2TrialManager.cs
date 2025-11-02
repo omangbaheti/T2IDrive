@@ -87,6 +87,7 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
         SpawnCanvasRegions();
     }
 
+    [Button]
     public void SpawnCanvasRegions()
     {
         ResetCanvasRegions();
@@ -116,22 +117,6 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
                 IconAction iconAction = action.SwipeActions.OfType<IconAction>().FirstOrDefault();
                 if (iconAction != null)
                     regionGameObject.GetComponentInChildren<SpriteRenderer>().sprite = iconAction.displayImage;
-                // List<TextMeshPro> textFields = regionGameObject.GetComponentsInChildren<TextMeshPro>().ToList();
-                // Debug.Log($"Text Field Length: {textFields.Count}");
-                // textFields.Sort((x, y) => string.Compare(x.text, y.text, StringComparison.Ordinal));
-                // for (int k  = 0; k < actions.Count; k++)
-                // {
-                //     IconAction icon = actions[k].SwipeActions.OfType<IconAction>().First();
-                //     // charOutput.inputStreamTrackers = keyboardInputStreamTracker;
-                //     textFields[k].text = String.Empty;
-                //     Debug.Log($"{hpuiRegionTextInput.ID}: {icon.actionLabel} {textFields[k].name}");
-                //     // charOutput.inputStreamTracker = keyboardInputStreamTracker;
-                //     textFields[k].text = icon.actionLabel;
-                // }
-                // if (actions.Count != textFields.Count)
-                // {
-                //     Debug.LogError("Mismatched gesture action count");
-                // }
                 SetFollowTransform(hpuiRegion);
                 hpuiRegions.Add(new Vector2Int(i,j), hpuiRegion);
             }
@@ -153,6 +138,7 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
     {
         
     }
+    
 
     private void SetFollowTransform(HPUICanvasRegion canvasRegion)
     {
@@ -171,20 +157,20 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
         {
             TransformFollower transformFollower = canvasRegion.gameObject.AddComponent<TransformFollower>();
             transformFollower.SetTarget(interactionMappingTransforms[canvasRegion.ID]);
-            transformFollower.SetRotationOffset(new Vector3(90,0,0));
+            transformFollower.SetRotationOffset(new Vector3(0,-90,0));
             Transform targetTransform = interactionMappingTransforms[canvasRegion.ID].transform;
             canvasRegion.followTransform = targetTransform;
-            Vector3 targetScale = new Vector3(targetTransform.lossyScale.x/targetTransform.parent.lossyScale.x, targetTransform.lossyScale.y/targetTransform.parent.lossyScale.y, targetTransform.lossyScale.z/targetTransform.parent.lossyScale.z); 
-            transformFollower.SetScaleOffset(targetScale*2);
+            Vector3 targetScale = new Vector3(targetTransform.lossyScale.x*targetTransform.parent.lossyScale.x, targetTransform.lossyScale.y*targetTransform.parent.lossyScale.y, targetTransform.lossyScale.z*targetTransform.parent.lossyScale.z); 
+            transformFollower.SetScaleOffset(targetScale);
         }
     }
 
     public void ResetCanvasRegions()
     {
-        HPUICanvasRegionTextInput[] CanvasRegions = layer1.GetComponents<HPUICanvasRegionTextInput>();
-        foreach (HPUICanvasRegionTextInput region in CanvasRegions)
+        HPUICanvasRegion[] CanvasRegions = layer1.GetComponentsInChildren<HPUICanvasRegion>();
+        foreach (HPUICanvasRegion region in CanvasRegions)
         {
-            Destroy(region);
+            Destroy(region.gameObject);
             Debug.Log("Destroying regions");
         }
         xDivisions.Clear();
