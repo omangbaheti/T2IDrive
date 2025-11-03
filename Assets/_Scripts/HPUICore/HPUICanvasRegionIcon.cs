@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Experiment;
 using ubco.ovilab.HPUI;
 using ubco.ovilab.HPUI.Core;
 using UnityEngine;
@@ -9,6 +10,8 @@ using UnityEngine.Rendering;
 public class HPUICanvasRegionIcon : HPUICanvasRegion
 {
     [SerializeField] public SerializedDictionary<Vector2Int, GameObject> layer2UIStartRegions = new();
+    [SerializeField] public ActionInputStreamTracker inputStreamTracker;
+    
     public override void InitialiseUI()
     {
         base.InitialiseUI();
@@ -25,13 +28,13 @@ public class HPUICanvasRegionIcon : HPUICanvasRegion
             key.transform.localPosition = new(0,50f,0);
             key.transform.localRotation = Quaternion.Euler(90,90,0);
             layer2UIStartRegions.Add(action.endRegion, key);
-            
             IconAction outputHandler = null;
             foreach (IHPUISwipeAction actionHandler in action.SwipeActions)
             {
                 if (actionHandler is IconAction output)
                 {
                     outputHandler = output;
+                    outputHandler.inputStreamTracker = inputStreamTracker;
                 }
             }
             

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using EditorAttributes;
+using Experiment;
 using TMPro;
 using ubco.ovilab.HPUI;
 using ubco.ovilab.HPUI.Core;
@@ -14,7 +15,7 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
 {
     public List<float> XDivisions => xDivisions;
     public List<float> YDivisions => yDivisions;
-    public List<MicrogestureAction> GestureActions => gestureLayout.microGestureActions;
+    [SerializeField] public List<MicrogestureAction> gestureActions; 
     public HPUIMultiFingerCanvas HPUICanvas => hpuiCanvas;
 
     public XRUtils.SerializableDictionary<Vector2Int?, HPUICanvasRegion> HPUIRegions => hpuiRegions;
@@ -34,12 +35,12 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
     private Vector2Int endRegion;
     private HPUIMultiFingerCanvas hpuiCanvas;
 
-    [SerializeField]  private List<KeyboardInputStream> keyboardInputStreamTracker;
+    [SerializeField]  private ActionInputStreamTracker actionInputStreamTracker;
     [SerializeField] private XRUtils.SerializableDictionary<Vector2Int?, HPUICanvasRegion> hpuiRegions = new();
     [SerializeField] private GameObject layer1Prefab;
     [SerializeField] private GameObject layer2Prefab;
     [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private Transform prompter;
-    [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private XRUtils.SerializableDictionary<Vector2Int?, HPUICanvasRegionTextInput> indirectMappingTransforms;
+    [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private XRUtils.SerializableDictionary<Vector2Int?, HPUICanvasRegion> indirectMappingTransforms;
     [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private Transform radialDistal;
     [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private Transform radialIntermediate;
     [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private Transform radialProximal;
@@ -47,21 +48,24 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
     [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private Transform volarIntermediate;
     [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private Transform volarProximal;
     private Dictionary<Vector2Int, Transform> interactionMappingTransforms = new();
+    private Study2ExperimentManager experimentManager;
 
     private void OnEnable()
     {
         hpuiCanvas = GetComponent<HPUIMultiFingerCanvas>();
         canvasTracker = GetComponent<HPUIInteractableCanvasTracker>();
         HPUICanvas.OnCanvasInteractions.AddListener(HandleCanvasGesture);
-        // experimentManager = FindAnyObjectByType<TypingExperimentManager>();
+        experimentManager = FindAnyObjectByType<Study2ExperimentManager>();
+        actionInputStreamTracker = GetComponent<ActionInputStreamTracker>();
         if (UIParent == null)
         {
             UIParent = transform;
         }
         layer1 = new GameObject("Layer1").transform;
-        layer1.parent = UIParent;
         layer2 = new GameObject("Layer2").transform;
+        layer1.parent = UIParent;
         layer2.parent = UIParent;
+        gestureActions = gestureLayout.microGestureActions;
     }
 
     private void OnDisable()
@@ -112,11 +116,15 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
                 hpuiRegion.canvasManager = this;
                 hpuiRegion.interactionMapping = InteractionMapping;
                 hpuiRegion.interactionMappingTransforms = interactionMappingTransforms;
-                MicrogestureAction action = GestureActions.Find(action => action.startRegion == hpuiRegion.ID 
+                hpuiRegion.inputStreamTracker = actionInputStreamTracker;
+                MicrogestureAction action = gestureActions.Find(action => action.startRegion == hpuiRegion.ID 
                                                                           && action.endRegion == hpuiRegion.ID);
                 IconAction iconAction = action.SwipeActions.OfType<IconAction>().FirstOrDefault();
                 if (iconAction != null)
+                {
+                    iconAction.inputStreamTracker =  actionInputStreamTracker;
                     regionGameObject.GetComponentInChildren<SpriteRenderer>().sprite = iconAction.displayImage;
+                }
                 SetFollowTransform(hpuiRegion);
                 hpuiRegions.Add(new Vector2Int(i,j), hpuiRegion);
             }
@@ -124,7 +132,7 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
 
         //Setup Layer 2
         
-        foreach (MicrogestureAction action in GestureActions)
+        foreach (MicrogestureAction action in gestureActions)
         {
             hpuiRegions[action.startRegion].gestureActions.Add(action);
         }
@@ -218,7 +226,8 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
             case HPUICanvasState.Cancelled:
                 foreach (KeyValuePair<Vector2Int?, HPUICanvasRegion> region in hpuiRegions)
                 {
-                    region.Value.DisableUI();
+                    HPUICanvasRegionIcon regionIcon = (HPUICanvasRegionIcon) region.Value;
+                    regionIcon.DisableUI();
                 }
                 SetLayer1Active(true);
                 canvasTracker.RecordRow(gestureArgs, canvasArgs);
@@ -232,7 +241,8 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
                 hpuiRegions[startRegion].OnGestureEnded(canvasArgs);
                 foreach (KeyValuePair<Vector2Int?, HPUICanvasRegion> region in hpuiRegions)
                 {
-                    region.Value.DisableUI();
+                    HPUICanvasRegionIcon regionIcon = (HPUICanvasRegionIcon) region.Value;
+                    regionIcon.DisableUI();
                 }
                 SetLayer1Active(true);
                 break;

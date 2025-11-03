@@ -15,12 +15,13 @@ using Random = Unity.Mathematics.Random;
 
 public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
 {
-    
+    public string TargetAction => targetAction;
     [SerializeField] private Transform handTransform;
     [SerializeField] private GestureLayoutSetup layoutSetup;
     [SerializeField] private Image iconDisplay;
     [SerializeField] private int trialsPerIconPerBlock = 2;
-    [SerializeField] private Study2TrialManager study2TrialManager;
+    [SerializeField] private Study2TrialManager hpuiTrialManager;
+    [SerializeField] private Study2TrialManager touchScreenTrialManager;
     [SerializeField] private List<TwoStepEulerConnection> EulerCircuit;
     [SerializeField] private AudioClip successClip;
     [SerializeField] private AudioClip failedClip;
@@ -54,7 +55,6 @@ public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
        
         session.trackedObjects.AddRange(handTransform.GetComponentsInChildren<Tracker>());
         
-        
         List<XRHandSubsystem> handSubsystems = new();
         SubsystemManager.GetSubsystems(handSubsystems);
         // rng = new Random(int.Parse(Session.instance.ppid));
@@ -84,6 +84,26 @@ public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
         int seed = pid * 397 ^ el.block_id;
         rng = new(seed: (uint)seed);
         List<MicrogestureAction> microgestureActions = layoutSetup.microGestureActions;
+        switch (el.UserInterface)
+        {
+            case "OnHand":
+                hpuiTrialManager.InteractionMapping = InteractionMapping.Direct;
+                hpuiTrialManager.SpawnCanvasRegions();
+                break;
+            case "Windshield":
+                hpuiTrialManager.InteractionMapping = InteractionMapping.Indirect;
+                hpuiTrialManager.SpawnCanvasRegions();
+                break;
+            case "TouchScreen":
+                touchScreenTrialManager.InteractionMapping = InteractionMapping.Direct;
+                touchScreenTrialManager.SpawnCanvasRegions();
+                break;
+            case "Baseline":
+                break;
+            default:
+                Debug.LogError($"Not a valid Condition: {el.UserInterface}");
+                break;
+        }
         
         foreach ((Vector2Int, Vector2Int) excludeGesture in exclusionList)
         {
@@ -136,7 +156,7 @@ public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
             CancelTrial();
             return;
         }
-
+        displayFlasher.Flash(new Color(0, 1, 0, 0.5f));
         NextTrial();
     }
 
@@ -161,7 +181,6 @@ public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
         {
             if (!onlyStartNextTrial && Session.instance.InTrial) Session.instance.EndCurrentTrial();
             Session.instance.BeginNextTrial();
-            displayFlasher.Flash(new Color(0, 1, 0, 0.5f));
         }
         catch (NoSuchTrialException)
         {
@@ -169,7 +188,7 @@ public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
         }
     }
 
-    private void CancelTrial(bool insertImmediate = false)
+    public void CancelTrial(bool insertImmediate = false)
     {
         Trial newTrial = Session.instance.CurrentBlock.CreateTrial();
         List<Trial> trials = Session.instance.CurrentBlock.trials;
@@ -200,6 +219,8 @@ public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
     protected override void OnBlockEnd(Block block)
     {
         iconDisplay.sprite = null;
+        hpuiTrialManager.ResetCanvasRegions();
+        touchScreenTrialManager.ResetCanvasRegions();
     }
 
     protected override void OnSessionEnd(Session session)
@@ -221,6 +242,5 @@ public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
 
 public class ScenarioBlockData: BlockData
 {
-    public string TakeOverScenario;
     public string UserInterface;
 }

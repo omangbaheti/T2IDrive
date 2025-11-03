@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using Experiment;
 using ubco.ovilab.HPUI.Core;
 using UnityEngine;
 
@@ -19,7 +20,7 @@ public abstract class HPUICanvasRegion : MonoBehaviour
     [SerializeField] public GameObject UIVisual;
     [SerializeField] public Color startColor;
     [SerializeField] public Color endColor;
-
+    public ActionInputStreamTracker actionInputStreamTracker;
     public Dictionary<Vector2Int, GameObject> layer2UIElements = new();
     private Vector2 centrePoint;
     private Vector2Int endRegion;
