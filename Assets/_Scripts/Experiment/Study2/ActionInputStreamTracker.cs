@@ -32,10 +32,10 @@ namespace Experiment
 
         public void OnActionInput(HPUICanvasEventArgs canvasArgs, DiscreteActionInputArgs inputArgs)
         {
-            if (!Recording)
-            {
-                return;
-            }
+            // if (!Recording)
+            // {
+            //     return;
+            // }
             Debug.Log("On Character Input");
             print($"Target Action: {inputArgs.targetAction} Input: {inputArgs.inputAction}");
             inputArgs.targetAction = experimentManager.TargetAction;

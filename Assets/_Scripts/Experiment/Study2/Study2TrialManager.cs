@@ -13,6 +13,7 @@ using UXF;
 using XRUtils = Unity.XR.CoreUtils.Collections;
 public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
 {
+    [SerializeField] private Transform DirectAnchor;
     public List<float> XDivisions => xDivisions;
     public List<float> YDivisions => yDivisions;
     [SerializeField] public List<MicrogestureAction> gestureActions; 
@@ -39,8 +40,8 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
     [SerializeField] private XRUtils.SerializableDictionary<Vector2Int?, HPUICanvasRegion> hpuiRegions = new();
     [SerializeField] private GameObject layer1Prefab;
     [SerializeField] private GameObject layer2Prefab;
-    [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private Transform prompter;
     [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private XRUtils.SerializableDictionary<Vector2Int?, HPUICanvasRegion> indirectMappingTransforms;
+    [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private Transform prompterAnchor;
     [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private Transform radialDistal;
     [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private Transform radialIntermediate;
     [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private Transform radialProximal;
@@ -57,10 +58,15 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
         HPUICanvas.OnCanvasInteractions.AddListener(HandleCanvasGesture);
         experimentManager = FindAnyObjectByType<Study2ExperimentManager>();
         actionInputStreamTracker = GetComponent<ActionInputStreamTracker>();
+        foreach (Transform child in UIParent)
+        {
+            Destroy(child.gameObject);
+        }
         if (UIParent == null)
         {
             UIParent = transform;
         }
+        UIParent.gameObject.SetActive(true);
         layer1 = new GameObject("Layer1").transform;
         layer2 = new GameObject("Layer2").transform;
         layer1.parent = UIParent;
@@ -71,6 +77,7 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
     private void OnDisable()
     {
         HPUICanvas.OnCanvasInteractions.RemoveListener(HandleCanvasGesture);
+        UIParent.gameObject.SetActive(false);
     }
 
     private void OnDestroy()
@@ -146,6 +153,23 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
     {
         
     }
+
+    
+    public void SetPrompterLocation(Transform prompter)
+    {
+        TransformFollower transformFollower = prompter.GetComponent<TransformFollower>();
+        if (InteractionMapping == InteractionMapping.Direct)
+        {
+            transformFollower.SetTarget(DirectAnchor);
+            transformFollower.SetScaleOffset(Vector3.one * 0.0001f);
+        }
+        else
+        {
+            transformFollower.SetTarget(prompterAnchor);
+            transformFollower.SetScaleOffset(Vector3.one * 0.0001f);
+        }
+        
+    }
     
 
     private void SetFollowTransform(HPUICanvasRegion canvasRegion)
@@ -175,7 +199,9 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
 
     public void ResetCanvasRegions()
     {
+        Debug.Log($">>>>>>>>>>>{gameObject.name}");
         HPUICanvasRegion[] CanvasRegions = layer1.GetComponentsInChildren<HPUICanvasRegion>();
+        
         foreach (HPUICanvasRegion region in CanvasRegions)
         {
             Destroy(region.gameObject);
@@ -188,17 +214,16 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
 
     public void HandleCanvasGesture(HPUIGestureEventArgs gestureArgs, HPUICanvasEventArgs canvasArgs)
     {
-        // if (!Session.instance.InTrial)
-        // {
-        //     Debug.LogWarning("Interaction when not in trial");
-        //     return;
-        // }
+        if (!Session.instance.InTrial)
+        {
+            Debug.LogWarning("Interaction when not in trial");
+            return;
+        }
         if (canvasArgs.GesturePositions.Count <= 0)
         {
             Debug.Log("Not enough points, cancelling gesture");
             return;
         }
-        // Debug.Log(canvasArgs.State + ">>>>>>>>>>>>>>>>>>>>>>>>");
         switch (canvasArgs.State)
         {
             case HPUICanvasState.INVALID:
@@ -211,7 +236,9 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
                 canvasArgs.SwipeStartRegion = startRegion;
                 canvasArgs.CurrentSwipeRegion = startRegion;
                 SetLayer1Active(false);
-                hpuiRegions[startRegion].OnGestureStarted(canvasArgs);
+                HPUICanvasRegionIcon canvasIcon = (HPUICanvasRegionIcon) hpuiRegions[startRegion];
+                canvasIcon.OnGestureStarted(canvasArgs);
+                experimentManager.GestureStarted(canvasArgs);
                 Session.instance.CurrentTrial.settings.SetValue(StudyLogs.GestureStartRegion, StudyLogs.VectorToRegionDict[canvasArgs.SwipeStartRegion.Value]);
                 canvasTracker.RecordRow(gestureArgs, canvasArgs);
                 break;
@@ -238,6 +265,8 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
                 canvasArgs.CurrentSwipeRegion = endRegion;
                 canvasArgs.SwipeEndRegion = endRegion;
                 canvasTracker.RecordRow(gestureArgs, canvasArgs);
+               Session.instance.CurrentTrial.settings.SetValue(StudyLogs.GestureEndRegion,
+                        StudyLogs.VectorToRegionDict[canvasArgs.SwipeEndRegion.Value]);
                 hpuiRegions[startRegion].OnGestureEnded(canvasArgs);
                 foreach (KeyValuePair<Vector2Int?, HPUICanvasRegion> region in hpuiRegions)
                 {
@@ -249,7 +278,6 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
             default:
                 throw new ArgumentOutOfRangeException();
         }
-        
     }
     
     public virtual void SetLayer1Active(bool active)

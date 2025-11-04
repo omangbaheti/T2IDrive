@@ -56,13 +56,13 @@ public class ViconXRIMerger : MonoBehaviour
 
     public void Update()
     {
-        foreach (ViconAndUnityObjectContainer container in viconToUnityObjects)
-        {
-            if (container.viconObject.name == "TabletChild")
-            {
-                MergeObject(container);
-            }
-        }
+        // foreach (ViconAndUnityObjectContainer container in viconToUnityObjects)
+        // {
+        //     if (container.viconObject.name == "TabletChild")
+        //     {
+        //         MergeObject(container);
+        //     }
+        // }
     }
 
 

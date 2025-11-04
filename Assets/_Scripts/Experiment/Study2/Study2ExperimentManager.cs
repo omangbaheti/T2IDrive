@@ -4,6 +4,8 @@ using System.Linq;
 using ArtificeToolkit.Attributes;
 using TMPro;
 using ubco.ovilab.HPUI;
+using ubco.ovilab.HPUI.Core;
+using ubco.ovilab.HPUI.Interaction;
 using ubco.ovilab.uxf.extensions;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -18,35 +20,59 @@ public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
     public string TargetAction => targetAction;
     [SerializeField] private Transform handTransform;
     [SerializeField] private GestureLayoutSetup layoutSetup;
+    [SerializeField] private Transform prompterDisplay;
     [SerializeField] private Image iconDisplay;
     [SerializeField] private int trialsPerIconPerBlock = 2;
     [SerializeField] private Study2TrialManager hpuiTrialManager;
     [SerializeField] private Study2TrialManager touchScreenTrialManager;
-    [SerializeField] private List<TwoStepEulerConnection> EulerCircuit;
+    // [SerializeField] private List<TwoStepEulerConnection> EulerCircuit;
     [SerializeField] private AudioClip successClip;
     [SerializeField] private AudioClip failedClip;
     [SerializeField] private UIDisplayFlasher displayFlasher;
-    [SerializeField] private List<(Vector2Int, Vector2Int)> exclusionList =  new()
+    [SerializeField] private HPUIInteractor indexInteractor;
+    [SerializeField] private HPUIInteractor thumbInteractor;
+    
+    private readonly HashSet<(Vector2Int, Vector2Int)> exclusionList =  new()
     {
-        // (Vector2Int.zero, Vector2Int.zero)
+        (new Vector2Int(0,0), new Vector2Int(0,0)),
+        (new Vector2Int(0,1), new Vector2Int(0,1)),
+        (new Vector2Int(0,2), new Vector2Int(0,2)),
+        (new Vector2Int(1,0), new Vector2Int(1,0)),
+        (new Vector2Int(1,1), new Vector2Int(1,1)),
+        (new Vector2Int(1,2), new Vector2Int(1,2))
+        
     };
     
+    private readonly HashSet<(Vector2Int, Vector2Int)> tapList =  new()
+    {
+        (new Vector2Int(0,0), new Vector2Int(0,0)),
+        (new Vector2Int(0,1), new Vector2Int(0,1)),
+        (new Vector2Int(0,2), new Vector2Int(0,2)),
+        (new Vector2Int(1,0), new Vector2Int(1,0)),
+        (new Vector2Int(1,1), new Vector2Int(1,1)),
+        (new Vector2Int(1,2), new Vector2Int(1,2))
+    };
+   
+    private HashSet<string> tapListActions =  new();
     private XRHandSubsystem handSubsystem;
     private static Random rng;
     private XRHand activeHand;
     private string targetAction;
     protected override void OnSessionBegin(Session session)
     {
+        hpuiTrialManager.ResetCanvasRegions();
+        touchScreenTrialManager.ResetCanvasRegions();
+        hpuiTrialManager.gameObject.SetActive(false); 
+        touchScreenTrialManager.gameObject.SetActive(false); 
         //TIME
         session.settingsToLog.Add(StudyLogs.GestureStartTime);
         session.settingsToLog.Add(StudyLogs.GestureEndTime);
        
         //Trial Settings
         // session.settingsToLog.Add();
-        session.settingsToLog.Add(StudyLogs.FingerType);
         session.settingsToLog.Add(StudyLogs.StartRegion);
         session.settingsToLog.Add(StudyLogs.EndRegion);
-        session.settingsToLog.Add(StudyLogs.Mobility);
+        session.settingsToLog.Add(StudyLogs.UIType);
         
         // HPUI Outputs 
         session.settingsToLog.Add(StudyLogs.GestureStartRegion);
@@ -57,7 +83,6 @@ public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
         
         List<XRHandSubsystem> handSubsystems = new();
         SubsystemManager.GetSubsystems(handSubsystems);
-        // rng = new Random(int.Parse(Session.instance.ppid));
 
         foreach (XRHandSubsystem subSystem in handSubsystems)
         {
@@ -84,47 +109,73 @@ public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
         int seed = pid * 397 ^ el.block_id;
         rng = new(seed: (uint)seed);
         List<MicrogestureAction> microgestureActions = layoutSetup.microGestureActions;
+        tapListActions.Clear();
+        foreach (MicrogestureAction action in microgestureActions)
+        {
+            if (tapList.Contains((action.startRegion, action.endRegion)))
+            {
+                tapListActions.Add(action.SwipeActions.OfType<IconAction>().FirstOrDefault()?.actionLabel);
+            }
+        }
+        
+        prompterDisplay.gameObject.SetActive(true);
         switch (el.UserInterface)
         {
             case "OnHand":
+                hpuiTrialManager.gameObject.SetActive(true); 
+                touchScreenTrialManager.gameObject.SetActive(false); 
+                thumbInteractor.gameObject.SetActive(true);
+                indexInteractor.gameObject.SetActive(false);
                 hpuiTrialManager.InteractionMapping = InteractionMapping.Direct;
                 hpuiTrialManager.SpawnCanvasRegions();
+                hpuiTrialManager.SetPrompterLocation(prompterDisplay);
                 break;
             case "Windshield":
+                hpuiTrialManager.gameObject.SetActive(true); 
+                touchScreenTrialManager.gameObject.SetActive(false); 
+                thumbInteractor.gameObject.SetActive(true);
+                indexInteractor.gameObject.SetActive(false);
                 hpuiTrialManager.InteractionMapping = InteractionMapping.Indirect;
                 hpuiTrialManager.SpawnCanvasRegions();
+                hpuiTrialManager.SetPrompterLocation(prompterDisplay);
                 break;
             case "TouchScreen":
+                hpuiTrialManager.gameObject.SetActive(false); 
+                touchScreenTrialManager.gameObject.SetActive(true); 
+                thumbInteractor.gameObject.SetActive(false);
+                indexInteractor.gameObject.SetActive(true);
                 touchScreenTrialManager.InteractionMapping = InteractionMapping.Direct;
                 touchScreenTrialManager.SpawnCanvasRegions();
+                touchScreenTrialManager.SetPrompterLocation(prompterDisplay);
                 break;
             case "Baseline":
+                hpuiTrialManager.gameObject.SetActive(false); 
+                touchScreenTrialManager.gameObject.SetActive(false); 
+                hpuiTrialManager.ResetCanvasRegions();
+                touchScreenTrialManager.ResetCanvasRegions();
+                prompterDisplay.gameObject.SetActive(false);
                 break;
             default:
                 Debug.LogError($"Not a valid Condition: {el.UserInterface}");
                 break;
         }
         
-        foreach ((Vector2Int, Vector2Int) excludeGesture in exclusionList)
-        {
-            foreach (MicrogestureAction action in  microgestureActions)
-            {
-                if (action.startRegion == excludeGesture.Item1 && action.endRegion == excludeGesture.Item2)
-                {
-                    microgestureActions.Remove(action);
-                }
-                break;
-            }
-        }
         ShuffleList(microgestureActions, seed);
 
         foreach (MicrogestureAction action in microgestureActions)
         {
+            if (exclusionList.Contains((action.startRegion, action.endRegion)))
+            {
+                continue; 
+            }
             Trial trial = block.CreateTrial();
             IconAction iconAction = action.SwipeActions.OfType<IconAction>().FirstOrDefault();
             if (iconAction != null)
             {
+                trial.settings.SetValue(StudyLogs.StartRegion, StudyLogs.VectorToRegionDict[action.startRegion]);
+                trial.settings.SetValue(StudyLogs.EndRegion, StudyLogs.VectorToRegionDict[action.endRegion]);
                 trial.settings.SetValue(StudyLogs.TargetAction, iconAction.actionLabel);
+                trial.settings.SetValue(StudyLogs.UIType, el.UserInterface);
             }
             else
             {
@@ -144,35 +195,39 @@ public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
         iconDisplay.sprite = icon;
     }
 
+    public void GestureStarted(HPUICanvasEventArgs args)
+    {
+        Debug.Log($"Gesture Started : {args.SwipeStartRegion}");
+        if (!Session.instance.InTrial)
+        {
+            Debug.LogWarning("Participant Touched the finger surface when not in trial");
+            return;
+        }
+        Trial CurrentTrial = Session.instance.CurrentTrial;
+        CurrentTrial.settings.SetValue(StudyLogs.GestureStartTime, Time.time);
+    }
+
     [Button]
     public void HandleTrial(string inputAction)
     {
+        Debug.Log($"Handling Trial: {inputAction}");
         bool result = inputAction == targetAction;
         string res = result ? "Successful" : "Failed"; 
         Session.instance.CurrentTrial.settings.SetValue(StudyLogs.InputAction, inputAction);
         Session.instance.CurrentTrial.settings.SetValue(StudyLogs.SuccessfulTrial, res);
+        Settings currentTrial = Session.instance.CurrentTrial.settings;
+        currentTrial.SetValue(StudyLogs.GestureEndTime, Time.time);
+        if (tapListActions.Contains(inputAction))
+        {
+            CancelTrialWithoutFeedback();
+            return;
+        }
         if (!result)
         {
             CancelTrial();
             return;
         }
         displayFlasher.Flash(new Color(0, 1, 0, 0.5f));
-        NextTrial();
-    }
-
-    [Button]
-    public void HandleTrial()
-    {
-        // bool result = inputAction == targetAction;
-        // string res = result ? "Successful" : "Failed"; 
-        // Session.instance.CurrentTrial.settings.SetValue(StudyLogs.InputAction, inputAction);
-        // Session.instance.CurrentTrial.settings.SetValue(StudyLogs.SuccessfulTrial, res);
-        // if (!result)
-        // {
-        //     CancelTrial();
-        //     return;
-        // }
-
         NextTrial();
     }
     private void NextTrial(bool onlyStartNextTrial = false)
@@ -194,6 +249,7 @@ public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
         List<Trial> trials = Session.instance.CurrentBlock.trials;
         int currTrialIdx = trials.IndexOf(Session.instance.CurrentTrial);
         Settings currentTrialSettings = trials[currTrialIdx].settings;
+        newTrial.settings = currentTrialSettings;
         newTrial.settings.SetValue(StudyLogs.TargetAction, Session.instance.CurrentTrial.settings.GetString(StudyLogs.TargetAction));
         trials.Remove(newTrial);
         if (insertImmediate)
@@ -210,6 +266,21 @@ public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
         displayFlasher.Flash(new Color(1,0,0,0.5f));
         NextTrial();
     }
+    
+    
+    public void CancelTrialWithoutFeedback()
+    {
+        Trial newTrial = Session.instance.CurrentBlock.CreateTrial();
+        List<Trial> trials = Session.instance.CurrentBlock.trials;
+        int currTrialIdx = trials.IndexOf(Session.instance.CurrentTrial);
+        Settings currentTrialSettings = trials[currTrialIdx].settings;
+        newTrial.settings = currentTrialSettings;
+        newTrial.settings.SetValue(StudyLogs.TargetAction, Session.instance.CurrentTrial.settings.GetString(StudyLogs.TargetAction));
+        trials.Remove(newTrial);
+        trials.Insert(currTrialIdx + 1, newTrial);
+        Debug.Log("Cancelling trial");
+        NextTrial();
+    }
 
     protected override void OnTrialEnd(Trial trial)
     {
@@ -221,6 +292,15 @@ public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
         iconDisplay.sprite = null;
         hpuiTrialManager.ResetCanvasRegions();
         touchScreenTrialManager.ResetCanvasRegions();
+        foreach (MicrogestureAction action in layoutSetup.microGestureActions)
+        {
+            if (exclusionList.Contains((action.startRegion, action.endRegion)))
+            {
+                continue; 
+            }
+            IconAction iconAction = action.SwipeActions.OfType<IconAction>().FirstOrDefault();
+            iconAction.OnSwipeStarted.RemoveListener(GestureStarted);
+        }
     }
 
     protected override void OnSessionEnd(Session session)
