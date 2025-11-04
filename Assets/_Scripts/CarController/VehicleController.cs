@@ -11,6 +11,7 @@ public class VehicleController : MonoBehaviour
     public float CurrentSpeed => currentSpeedKmph;
     [Header("Vehicle Settings")]
     public float motorForce = 50f;
+    public float frictionForce = 30f;
     public float maxSteerAngle = 30f;
     public bool enable4x4 = false; // Option to enable 4-wheel drive
     public float brakeForce = 500f;
@@ -72,8 +73,8 @@ public class VehicleController : MonoBehaviour
         {
             carRB.centerOfMass = transform.InverseTransformPoint(centerOfMassObject.transform.position);
         }
-
-        acceleratorInput = carInputs.AccelerationInput * motorForce;
+        float frictionInput = carRB.linearVelocity.magnitude > 1f ? frictionForce : 0f;
+        acceleratorInput = carInputs.AccelerationInput * motorForce - frictionInput;
         brakeInput = carInputs.BrakeInput * brakeForce;
         steerInput = carInputs.SteerInput * maxSteerAngle;
 
