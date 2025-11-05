@@ -315,12 +315,17 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
 
     public void TriggerSoundEffect(Vector2Int currentSwipeRegion)
     {
-        if (prevSwipeRegion == currentSwipeRegion) return;
+        if (prevSwipeRegion == currentSwipeRegion)
+        {
+            prevSwipeRegion = currentSwipeRegion;
+            return;
+        }
         counter = counter++ % 5;
         float pitch = Mathf.Lerp(1,3, counter/5f);
         SoundManager.Instance.EffectsSource.pitch = pitch;
         SoundManager.Instance.PlaySound(clickClose);
-        SoundManager.Instance.ResetPitch(0.1f);
+        // SoundManager.Instance.ResetPitch(0.1f);
+        prevSwipeRegion = currentSwipeRegion;
     }
     
     
