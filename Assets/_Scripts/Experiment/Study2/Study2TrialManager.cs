@@ -15,6 +15,8 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
 {
     [SerializeField] private Transform DirectAnchor;
     [SerializeField] private Vector3 offset;
+    [SerializeField] private Vector3 rotOffset;
+    [SerializeField] private Vector3 scaleOffset;
     
     public List<float> XDivisions => xDivisions;
     public List<float> YDivisions => yDivisions;
@@ -48,6 +50,9 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
     [SerializeField] private GameObject layer2Prefab;
     [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private XRUtils.SerializableDictionary<Vector2Int?, HPUICanvasRegion> indirectMappingTransforms;
     [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private Transform prompterAnchor;
+    [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private Vector3 offset2;
+    [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private Vector3 rotOffset2;
+    [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private Vector3 scaleOffset2;
     [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private Transform radialDistal;
     [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private Transform radialIntermediate;
     [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private Transform radialProximal;
@@ -175,12 +180,17 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
         if (InteractionMapping == InteractionMapping.Direct)
         {
             transformFollower.SetTarget(DirectAnchor);
-            transformFollower.SetScaleOffset(Vector3.one * 0.0001f);
+            transformFollower.SetPositionOffset(offset);
+            transformFollower.SetRotationOffset(rotOffset);
+            transformFollower.SetScaleOffset(scaleOffset);
+            // transformFollower.SetScaleOffset(Vector3.one * 0.0001f);
         }
         else
         {
             transformFollower.SetTarget(prompterAnchor);
-            transformFollower.SetScaleOffset(Vector3.one * 0.0001f);
+            transformFollower.SetRotationOffset(offset2);
+            transformFollower.SetRotationOffset(rotOffset2);
+            transformFollower.SetScaleOffset(scaleOffset2);
         }
         
     }
