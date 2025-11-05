@@ -19,13 +19,21 @@ public class UIDisplayFlasher : MonoBehaviour
 
     public void Flash()
     {
+        Color color = new Color(panelBG.color.r, panelBG.color.b, panelBG.color.g, panelBG.color.a);
         panelBG.color = _flashColor;
-        panelBG.DOColor(defaultColor, 0.2f);
+        panelBG.DOColor(color, 0.2f);
     }
 
     public void Flash(Color color)
     {
+        
+        Color prevColor = new Color(panelBG.color.r, panelBG.color.b, panelBG.color.g, panelBG.color.a);
         panelBG.color = color;
-        panelBG.DOColor(defaultColor, 0.2f);
+        panelBG.DOColor(prevColor, 0.2f);
+    }
+
+    public void SetColor(Color color)
+    {
+        panelBG.DOColor(color, 0.2f);
     }
 }

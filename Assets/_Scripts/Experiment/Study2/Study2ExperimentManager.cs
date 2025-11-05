@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Forms;
 using ArtificeToolkit.Attributes;
 using TMPro;
 using ubco.ovilab.HPUI;
@@ -25,6 +26,7 @@ public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
     [SerializeField] private int trialsPerIconPerBlock = 2;
     [SerializeField] private Study2TrialManager hpuiTrialManager;
     [SerializeField] private Study2TrialManager touchScreenTrialManager;
+    [SerializeField] private List<Color> menuColors = new();
     // [SerializeField] private List<TwoStepEulerConnection> EulerCircuit;
     [SerializeField] private AudioClip successClip;
     [SerializeField] private AudioClip failedClip;
@@ -52,12 +54,28 @@ public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
         (new Vector2Int(1,1), new Vector2Int(1,1)),
         (new Vector2Int(1,2), new Vector2Int(1,2))
     };
-   
+    private Dictionary<Vector2Int, Color> interactionMappingColor = new();
     private HashSet<string> tapListActions =  new();
     private XRHandSubsystem handSubsystem;
     private static Random rng;
     private XRHand activeHand;
     private string targetAction;
+
+    private void Awake()
+    {
+        interactionMappingColor = new()
+        {
+            { new Vector2Int(1, 2), menuColors[0] },
+            { new Vector2Int(1, 1), menuColors[1] },
+            { new Vector2Int(1, 0), menuColors[2] },
+            { new Vector2Int(0, 2), menuColors[3] },
+            { new Vector2Int(0, 1), menuColors[4] },
+            { new Vector2Int(0, 0), menuColors[5] },
+        };
+        hpuiTrialManager.interactionMappingColor =  interactionMappingColor;
+        touchScreenTrialManager.interactionMappingColor =  interactionMappingColor;
+    }
+
     protected override void OnSessionBegin(Session session)
     {
         hpuiTrialManager.ResetCanvasRegions();
@@ -192,6 +210,16 @@ public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
     {
         targetAction = trial.settings.GetString(StudyLogs.TargetAction);
         Sprite icon = layoutSetup.iconLayoutSetup.actionIconDict[targetAction];
+        foreach (MicrogestureAction action in layoutSetup.microGestureActions)
+        {
+            if (action.SwipeActions.OfType<IconAction>().FirstOrDefault()?.actionLabel == targetAction)
+            {
+                Color color = interactionMappingColor[action.startRegion]; 
+                Debug.Log($">>>>>>>>{action.startRegion}: {color}");
+                UIDisplayFlasher display = prompterDisplay.GetComponentInChildren<UIDisplayFlasher>();
+                display.SetColor(color);
+            }
+        }
         iconDisplay.sprite = icon;
     }
 

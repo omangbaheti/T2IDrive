@@ -14,6 +14,8 @@ using XRUtils = Unity.XR.CoreUtils.Collections;
 public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
 {
     [SerializeField] private Transform DirectAnchor;
+    [SerializeField] private Vector3 offset;
+    
     public List<float> XDivisions => xDivisions;
     public List<float> YDivisions => yDivisions;
     [SerializeField] public List<MicrogestureAction> gestureActions; 
@@ -23,8 +25,8 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
     public InteractionMapping InteractionMapping;
     public GestureLayoutSetup gestureLayout;
     public Transform UIParent;
-    public Color defaultColor;
-    public Color selectedColor;
+    // public Color defaultColor;
+    // public Color selectedColor;
 
     private List<float> xDivisions = new();
     private List<float> yDivisions = new();
@@ -36,7 +38,7 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
     private Vector2Int endRegion;
     private HPUIMultiFingerCanvas hpuiCanvas;
 
-    [SerializeField]  private ActionInputStreamTracker actionInputStreamTracker;
+    private ActionInputStreamTracker actionInputStreamTracker;
     [SerializeField] private XRUtils.SerializableDictionary<Vector2Int?, HPUICanvasRegion> hpuiRegions = new();
     [SerializeField] private GameObject layer1Prefab;
     [SerializeField] private GameObject layer2Prefab;
@@ -49,6 +51,7 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
     [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private Transform volarIntermediate;
     [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private Transform volarProximal;
     private Dictionary<Vector2Int, Transform> interactionMappingTransforms = new();
+    public Dictionary<Vector2Int, Color> interactionMappingColor;
     private Study2ExperimentManager experimentManager;
 
     private void OnEnable()
@@ -110,20 +113,25 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
             for (int j = 0; j < yDivisions.Count-1; j++)
             {
                 GameObject regionGameObject = Instantiate(layer1Prefab, layer1);
+                regionGameObject.GetComponent<HotSwapColor>().SetColor(interactionMappingColor[new (i, j)]);
                 HPUICanvasRegionIcon hpuiRegion =  regionGameObject.AddComponent<HPUICanvasRegionIcon>();
                 regionGameObject.name = $"HPUIRegion ({i},{j})";
                 hpuiRegion.ID = new Vector2Int(i, j);
                 hpuiRegion.basePoint = new Vector2(xDivisions[i], yDivisions[j]);
                 hpuiRegion.area = new Vector2(xDivisions[i+1] - xDivisions[i], yDivisions[j+1] - yDivisions[j]);
                 hpuiRegion.UIVisual = layer2Prefab;
-                hpuiRegion.pressedColor = selectedColor;
-                hpuiRegion.defaultColor = defaultColor;
+                hpuiRegion.defaultColor =  interactionMappingColor[new Vector2Int(i, j)];
+                Color.RGBToHSV(hpuiRegion.defaultColor, out float h, out float s, out float v);
+                float darkerV = Mathf.Clamp01(v * 0.8f); // 80% brightness, adjust as needed
+                Color pressedColor = Color.HSVToRGB(h, s, darkerV);
+                hpuiRegion.pressedColor = pressedColor;
                 hpuiRegion.canvasInteractable = HPUICanvas;
                 hpuiRegion.parentTransform = layer2;
                 hpuiRegion.canvasManager = this;
                 hpuiRegion.interactionMapping = InteractionMapping;
                 hpuiRegion.interactionMappingTransforms = interactionMappingTransforms;
                 hpuiRegion.inputStreamTracker = actionInputStreamTracker;
+                
                 MicrogestureAction action = gestureActions.Find(action => action.startRegion == hpuiRegion.ID 
                                                                           && action.endRegion == hpuiRegion.ID);
                 IconAction iconAction = action.SwipeActions.OfType<IconAction>().FirstOrDefault();
@@ -265,8 +273,8 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
                 canvasArgs.CurrentSwipeRegion = endRegion;
                 canvasArgs.SwipeEndRegion = endRegion;
                 canvasTracker.RecordRow(gestureArgs, canvasArgs);
-               Session.instance.CurrentTrial.settings.SetValue(StudyLogs.GestureEndRegion,
-                        StudyLogs.VectorToRegionDict[canvasArgs.SwipeEndRegion.Value]);
+                Session.instance.CurrentTrial.settings.SetValue(StudyLogs.GestureEndRegion,
+                    StudyLogs.VectorToRegionDict[canvasArgs.SwipeEndRegion.Value]);
                 hpuiRegions[startRegion].OnGestureEnded(canvasArgs);
                 foreach (KeyValuePair<Vector2Int?, HPUICanvasRegion> region in hpuiRegions)
                 {

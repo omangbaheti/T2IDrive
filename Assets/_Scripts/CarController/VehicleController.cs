@@ -11,7 +11,7 @@ public class VehicleController : MonoBehaviour
     public float CurrentSpeed => currentSpeedKmph;
     [Header("Vehicle Settings")]
     public float motorForce = 50f;
-    public float frictionForce = 30f;
+    public float frictionForce = 100f;
     public float maxSteerAngle = 30f;
     public bool enable4x4 = false; // Option to enable 4-wheel drive
     public float brakeForce = 500f;
