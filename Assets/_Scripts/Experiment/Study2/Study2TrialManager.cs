@@ -28,12 +28,16 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
     // public Color defaultColor;
     // public Color selectedColor;
 
+    public AudioClip clickOpen;
+    public AudioClip clickClose;
+    public int counter;
     private List<float> xDivisions = new();
     private List<float> yDivisions = new();
     private Transform layer1;
     private Transform layer2;
     private HPUIInteractableCanvasTracker canvasTracker;
     private Vector2Int startRegion;
+    private Vector2Int prevSwipeRegion;
     private Vector2Int currentRegion;
     private Vector2Int endRegion;
     private HPUIMultiFingerCanvas hpuiCanvas;
@@ -115,15 +119,17 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
                 GameObject regionGameObject = Instantiate(layer1Prefab, layer1);
                 regionGameObject.GetComponent<HotSwapColor>().SetColor(interactionMappingColor[new (i, j)]);
                 HPUICanvasRegionIcon hpuiRegion =  regionGameObject.AddComponent<HPUICanvasRegionIcon>();
+                
+                Color.RGBToHSV(hpuiRegion.defaultColor, out float h, out float s, out float v);
+                float darkerV = Mathf.Clamp01(v * 0.8f); // 80% brightness, adjust as needed
+                Color pressedColor = Color.HSVToRGB(h, s, darkerV);
+                
                 regionGameObject.name = $"HPUIRegion ({i},{j})";
                 hpuiRegion.ID = new Vector2Int(i, j);
                 hpuiRegion.basePoint = new Vector2(xDivisions[i], yDivisions[j]);
                 hpuiRegion.area = new Vector2(xDivisions[i+1] - xDivisions[i], yDivisions[j+1] - yDivisions[j]);
                 hpuiRegion.UIVisual = layer2Prefab;
                 hpuiRegion.defaultColor =  interactionMappingColor[new Vector2Int(i, j)];
-                Color.RGBToHSV(hpuiRegion.defaultColor, out float h, out float s, out float v);
-                float darkerV = Mathf.Clamp01(v * 0.8f); // 80% brightness, adjust as needed
-                Color pressedColor = Color.HSVToRGB(h, s, darkerV);
                 hpuiRegion.pressedColor = pressedColor;
                 hpuiRegion.canvasInteractable = HPUICanvas;
                 hpuiRegion.parentTransform = layer2;
@@ -131,8 +137,8 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
                 hpuiRegion.interactionMapping = InteractionMapping;
                 hpuiRegion.interactionMappingTransforms = interactionMappingTransforms;
                 hpuiRegion.inputStreamTracker = actionInputStreamTracker;
-                
-                MicrogestureAction action = gestureActions.Find(action => action.startRegion == hpuiRegion.ID 
+
+                MicrogestureAction action = gestureActions.Find(action => action.startRegion == hpuiRegion.ID
                                                                           && action.endRegion == hpuiRegion.ID);
                 IconAction iconAction = action.SwipeActions.OfType<IconAction>().FirstOrDefault();
                 if (iconAction != null)
@@ -243,6 +249,7 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
                 startRegion = GetInteractionRegion(canvasArgs.GesturePositions[^1]);
                 canvasArgs.SwipeStartRegion = startRegion;
                 canvasArgs.CurrentSwipeRegion = startRegion;
+                TriggerStartSoundEffect();
                 SetLayer1Active(false);
                 HPUICanvasRegionIcon canvasIcon = (HPUICanvasRegionIcon) hpuiRegions[startRegion];
                 canvasIcon.OnGestureStarted(canvasArgs);
@@ -255,6 +262,7 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
                 canvasArgs.SwipeStartRegion = startRegion;
                 canvasArgs.CurrentSwipeRegion = currentRegion;
                 canvasArgs.SwipeEndRegion = endRegion;
+                TriggerSoundEffect(currentRegion);
                 hpuiRegions[startRegion].OnGestureOnGoing(canvasArgs);
                 canvasTracker.RecordRow(gestureArgs, canvasArgs);
                 break;
@@ -276,6 +284,7 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
                 Session.instance.CurrentTrial.settings.SetValue(StudyLogs.GestureEndRegion,
                     StudyLogs.VectorToRegionDict[canvasArgs.SwipeEndRegion.Value]);
                 hpuiRegions[startRegion].OnGestureEnded(canvasArgs);
+                TriggerSoundEffect(currentRegion);
                 foreach (KeyValuePair<Vector2Int?, HPUICanvasRegion> region in hpuiRegions)
                 {
                     HPUICanvasRegionIcon regionIcon = (HPUICanvasRegionIcon) region.Value;
@@ -287,6 +296,23 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
                 throw new ArgumentOutOfRangeException();
         }
     }
+
+    public void TriggerStartSoundEffect()
+    {
+        SoundManager.Instance.PlaySound(clickOpen);
+        SoundManager.Instance.EffectsSource.pitch = 1f;
+    }
+
+    public void TriggerSoundEffect(Vector2Int currentSwipeRegion)
+    {
+        if (prevSwipeRegion == currentSwipeRegion) return;
+        counter = counter++ % 5;
+        float pitch = Mathf.Lerp(1,3, counter/5f);
+        SoundManager.Instance.EffectsSource.pitch = pitch;
+        SoundManager.Instance.PlaySound(clickClose);
+        SoundManager.Instance.ResetPitch(0.1f);
+    }
+    
     
     public virtual void SetLayer1Active(bool active)
     {

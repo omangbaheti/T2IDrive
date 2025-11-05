@@ -70,11 +70,6 @@ public class HPUICanvasRegionIcon : HPUICanvasRegion
         
     }
 
-    private void Update()
-    {
-        
-    }
-
     public override void OnGestureStarted(HPUICanvasEventArgs canvasArgs)
     {
         ActivateUIElements(true);
