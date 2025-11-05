@@ -95,7 +95,8 @@ public class VehicleController : MonoBehaviour
             Debug.LogWarning("Front left wheel not grounded!");
 
         // Calculate the current wheel speed in km/h
-        currentSpeedKmph =  frontLeft.collider.radius  * Mathf.PI * frontLeft.collider.rpm * 60f / 1000f;
+        // currentSpeedKmph =  frontLeft.collider.radius  * Mathf.PI * frontLeft.collider.rpm * 60f / 1000f;
+        currentSpeedKmph = carRB.linearVelocity.magnitude * 3.6f;
         // Debug.Log("Current Speed: " + currentSpeedKmph + " Kmph");
 
         // Calculate the current engine RPM based on the wheel speed and gear ratio
