@@ -28,16 +28,6 @@ public class CarInputManager : MonoBehaviour
         brakeAction.action.Enable();
         selfDrivingManager = GetComponent<SelfDrivingManager>();
     }
-
-    private void Update()
-    {
-        // Debug.Log($" \\ Car Inputs : {SteerInput}| {AccelerationInput} | {BrakeInput}");
-    }
-
-    private void OnDrawGizmos()
-    {
-
-    }
 }
 
 

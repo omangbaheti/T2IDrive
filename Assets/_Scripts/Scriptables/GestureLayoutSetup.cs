@@ -281,7 +281,7 @@ public class GestureLayoutSetup : ScriptableObject
 
         HashSet<string> actionUsageList = new();
 
-        using (StreamWriter writer = new StreamWriter(filePath, false))
+        using (StreamWriter writer = new(filePath, false))
         {
             
             writer.WriteLine($"start_region,end_region,letter_association");
@@ -323,7 +323,29 @@ public class GestureLayoutSetup : ScriptableObject
                 }
             }
         }
+    }
 
+    [Button]
+    public void SetupLayout(string ID)
+    {
+        string path = Path.Combine(Application.dataPath, "Layouts", "CSV", ID + ".csv");
+        path = path.Replace("\\", "/");
+        if (File.Exists(path))
+        {
+            string fileContent = File.ReadAllText(path);
+            layout = new(fileContent);
+            Debug.Log($"Loaded layout: {ID}");
+#if UNITY_EDITOR
+            // Mark the ScriptableObject as modified so Unity saves it
+            EditorUtility.SetDirty(this);
+            AssetDatabase.SaveAssets();
+#endif
+        }
+        else
+        {
+            Debug.LogError($"Layout file not found at path: {path}");
+        }
+        ApplyIconAction();
     }
 }
 
