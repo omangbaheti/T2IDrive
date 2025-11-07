@@ -21,11 +21,11 @@ MonoBehaviour:
     - Key: CallReject_1
       Value: {fileID: 21300000, guid: 8136b7c05eeca1743bc9709c9130eec9, type: 3}
     - Key: MuteMic_1
-      Value: {fileID: 21300000, guid: a605dc68ba2f0a049afec34c79ea850d, type: 3}
+      Value: {fileID: 21300000, guid: b7b0e6d45f88f4148ace1a369a8025bd, type: 3}
     - Key: CallReply_1
       Value: {fileID: 21300000, guid: d633ae09c46851b4bbf8b6cd680a0bff, type: 3}
     - Key: CallingPerson_1
-      Value: {fileID: 21300000, guid: 1585a7dcbfbe1154cb58f626fce0670e, type: 3}
+      Value: {fileID: 21300000, guid: f6e38935e1b06b64dbfd5bf145a3a5e2, type: 3}
     - Key: AC_2
       Value: {fileID: 21300000, guid: f49de4d51302e9845a66c2c593d75a49, type: 3}
     - Key: Air_2
