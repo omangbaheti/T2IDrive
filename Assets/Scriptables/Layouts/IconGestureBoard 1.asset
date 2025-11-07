@@ -1,0 +1,606 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c4a81cde6964444a3521c23f8d1f92f, type: 3}
+  m_Name: IconGestureBoard 1
+  m_EditorClassIdentifier: 
+  regions: {x: 2, y: 3}
+  layout: {fileID: 4900000, guid: 1ea003db1230d9446a69745bdc3a8492, type: 3}
+  iconLayoutSetup: {fileID: 11400000, guid: 8adfc26c73484994e83d6bcd7ec7e933, type: 2}
+  xDivisions:
+  - 0
+  - 0.5
+  - 1
+  yDivisions:
+  - 0
+  - 0.33333334
+  - 0.6666667
+  - 1
+  microGestureActions:
+  - startRegion: {x: 1, y: 2}
+    endRegion: {x: 1, y: 2}
+    SwipeActions:
+    - rid: 6290788860571680980
+  - startRegion: {x: 1, y: 2}
+    endRegion: {x: 1, y: 1}
+    SwipeActions:
+    - rid: 6290788860571680981
+  - startRegion: {x: 1, y: 2}
+    endRegion: {x: 1, y: 0}
+    SwipeActions:
+    - rid: 6290788860571680982
+  - startRegion: {x: 1, y: 2}
+    endRegion: {x: 0, y: 1}
+    SwipeActions:
+    - rid: 6290788860571680983
+  - startRegion: {x: 1, y: 2}
+    endRegion: {x: 0, y: 2}
+    SwipeActions:
+    - rid: 6290788860571680984
+  - startRegion: {x: 1, y: 2}
+    endRegion: {x: 0, y: 0}
+    SwipeActions:
+    - rid: 6290788860571680985
+  - startRegion: {x: 1, y: 1}
+    endRegion: {x: 1, y: 2}
+    SwipeActions:
+    - rid: 6290788860571680986
+  - startRegion: {x: 1, y: 1}
+    endRegion: {x: 1, y: 1}
+    SwipeActions:
+    - rid: 6290788860571680987
+  - startRegion: {x: 1, y: 1}
+    endRegion: {x: 1, y: 0}
+    SwipeActions:
+    - rid: 6290788860571680988
+  - startRegion: {x: 1, y: 1}
+    endRegion: {x: 0, y: 1}
+    SwipeActions:
+    - rid: 6290788860571680989
+  - startRegion: {x: 1, y: 1}
+    endRegion: {x: 0, y: 0}
+    SwipeActions:
+    - rid: 6290788860571680990
+  - startRegion: {x: 1, y: 1}
+    endRegion: {x: 0, y: 2}
+    SwipeActions:
+    - rid: 6290788860571680991
+  - startRegion: {x: 1, y: 0}
+    endRegion: {x: 1, y: 2}
+    SwipeActions:
+    - rid: 6290788860571680992
+  - startRegion: {x: 1, y: 0}
+    endRegion: {x: 1, y: 1}
+    SwipeActions:
+    - rid: 6290788860571680993
+  - startRegion: {x: 1, y: 0}
+    endRegion: {x: 1, y: 0}
+    SwipeActions:
+    - rid: 6290788860571680994
+  - startRegion: {x: 1, y: 0}
+    endRegion: {x: 0, y: 1}
+    SwipeActions:
+    - rid: 6290788860571680995
+  - startRegion: {x: 1, y: 0}
+    endRegion: {x: 0, y: 2}
+    SwipeActions:
+    - rid: 6290788860571680996
+  - startRegion: {x: 1, y: 0}
+    endRegion: {x: 0, y: 0}
+    SwipeActions:
+    - rid: 6290788860571680997
+  - startRegion: {x: 0, y: 2}
+    endRegion: {x: 1, y: 2}
+    SwipeActions:
+    - rid: 6290788860571680998
+  - startRegion: {x: 0, y: 2}
+    endRegion: {x: 1, y: 1}
+    SwipeActions:
+    - rid: 6290788860571680999
+  - startRegion: {x: 0, y: 2}
+    endRegion: {x: 1, y: 0}
+    SwipeActions:
+    - rid: 6290788860571681000
+  - startRegion: {x: 0, y: 2}
+    endRegion: {x: 0, y: 2}
+    SwipeActions:
+    - rid: 6290788860571681001
+  - startRegion: {x: 0, y: 2}
+    endRegion: {x: 0, y: 1}
+    SwipeActions:
+    - rid: 6290788860571681002
+  - startRegion: {x: 0, y: 2}
+    endRegion: {x: 0, y: 0}
+    SwipeActions:
+    - rid: 6290788860571681003
+  - startRegion: {x: 0, y: 1}
+    endRegion: {x: 1, y: 2}
+    SwipeActions:
+    - rid: 6290788860571681004
+  - startRegion: {x: 0, y: 1}
+    endRegion: {x: 1, y: 1}
+    SwipeActions:
+    - rid: 6290788860571681005
+  - startRegion: {x: 0, y: 1}
+    endRegion: {x: 1, y: 0}
+    SwipeActions:
+    - rid: 6290788860571681006
+  - startRegion: {x: 0, y: 1}
+    endRegion: {x: 0, y: 1}
+    SwipeActions:
+    - rid: 6290788860571681007
+  - startRegion: {x: 0, y: 1}
+    endRegion: {x: 0, y: 2}
+    SwipeActions:
+    - rid: 6290788860571681008
+  - startRegion: {x: 0, y: 1}
+    endRegion: {x: 0, y: 0}
+    SwipeActions:
+    - rid: 6290788860571681009
+  - startRegion: {x: 0, y: 0}
+    endRegion: {x: 1, y: 2}
+    SwipeActions:
+    - rid: 6290788860571681010
+  - startRegion: {x: 0, y: 0}
+    endRegion: {x: 1, y: 1}
+    SwipeActions:
+    - rid: 6290788860571681011
+  - startRegion: {x: 0, y: 0}
+    endRegion: {x: 1, y: 0}
+    SwipeActions:
+    - rid: 6290788860571681012
+  - startRegion: {x: 0, y: 0}
+    endRegion: {x: 0, y: 1}
+    SwipeActions:
+    - rid: 6290788860571681013
+  - startRegion: {x: 0, y: 0}
+    endRegion: {x: 0, y: 2}
+    SwipeActions:
+    - rid: 6290788860571681014
+  - startRegion: {x: 0, y: 0}
+    endRegion: {x: 0, y: 0}
+    SwipeActions:
+    - rid: 6290788860571681015
+  references:
+    version: 2
+    RefIds:
+    - rid: 6290788860571680980
+      type: {class: IconAction, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        actionLabel: TI_Call
+        displayImage: {fileID: 21300000, guid: 3bff5624c77405f439e7374e56354880, type: 3}
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        inputStreamTracker: {fileID: 0}
+    - rid: 6290788860571680981
+      type: {class: IconAction, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        actionLabel: Call_Accept
+        displayImage: {fileID: 21300000, guid: 4c04de8450d69e14fba1ca07a496c698, type: 3}
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        inputStreamTracker: {fileID: 0}
+    - rid: 6290788860571680982
+      type: {class: IconAction, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        actionLabel: Call_Reject
+        displayImage: {fileID: 21300000, guid: 8136b7c05eeca1743bc9709c9130eec9, type: 3}
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        inputStreamTracker: {fileID: 0}
+    - rid: 6290788860571680983
+      type: {class: IconAction, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        actionLabel: Mute_Mic
+        displayImage: {fileID: 21300000, guid: a605dc68ba2f0a049afec34c79ea850d, type: 3}
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        inputStreamTracker: {fileID: 0}
+    - rid: 6290788860571680984
+      type: {class: IconAction, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        actionLabel: Call_Reply
+        displayImage: {fileID: 21300000, guid: d633ae09c46851b4bbf8b6cd680a0bff, type: 3}
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        inputStreamTracker: {fileID: 0}
+    - rid: 6290788860571680985
+      type: {class: IconAction, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        actionLabel: Calling_Person
+        displayImage: {fileID: 21300000, guid: 1585a7dcbfbe1154cb58f626fce0670e, type: 3}
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        inputStreamTracker: {fileID: 0}
+    - rid: 6290788860571680986
+      type: {class: IconAction, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        actionLabel: AC
+        displayImage: {fileID: 21300000, guid: f49de4d51302e9845a66c2c593d75a49, type: 3}
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        inputStreamTracker: {fileID: 0}
+    - rid: 6290788860571680987
+      type: {class: IconAction, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        actionLabel: TI_Climate
+        displayImage: {fileID: 21300000, guid: ee3f995cc982ae14d85ca385084f8ddd, type: 3}
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        inputStreamTracker: {fileID: 0}
+    - rid: 6290788860571680988
+      type: {class: IconAction, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        actionLabel: Air
+        displayImage: {fileID: 21300000, guid: 07421876858b3be4494ddbe0a8fe85f5, type: 3}
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        inputStreamTracker: {fileID: 0}
+    - rid: 6290788860571680989
+      type: {class: IconAction, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        actionLabel: Car_Seat_Heater
+        displayImage: {fileID: 21300000, guid: 2c265ae6efd907340bcaaffed2c660f5, type: 3}
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        inputStreamTracker: {fileID: 0}
+    - rid: 6290788860571680990
+      type: {class: IconAction, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        actionLabel: Steering_Heater
+        displayImage: {fileID: 21300000, guid: b2a7a06d7e5f4c0489ba332de502f74e, type: 3}
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        inputStreamTracker: {fileID: 0}
+    - rid: 6290788860571680991
+      type: {class: IconAction, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        actionLabel: Heater
+        displayImage: {fileID: 21300000, guid: bde228b8a315f8d4a8f5cf25abfe311c, type: 3}
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        inputStreamTracker: {fileID: 0}
+    - rid: 6290788860571680992
+      type: {class: IconAction, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        actionLabel: Volume_Plus
+        displayImage: {fileID: 21300000, guid: edeff86183d242f4c889a3594a4102fe, type: 3}
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        inputStreamTracker: {fileID: 0}
+    - rid: 6290788860571680993
+      type: {class: IconAction, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        actionLabel: Volume_Minus
+        displayImage: {fileID: 21300000, guid: 28fd08f15b9839c4da4ae2af77a19379, type: 3}
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        inputStreamTracker: {fileID: 0}
+    - rid: 6290788860571680994
+      type: {class: IconAction, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        actionLabel: TI_Music
+        displayImage: {fileID: 21300000, guid: 42614abb2a8d0824f97d24e1d8b06e4e, type: 3}
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        inputStreamTracker: {fileID: 0}
+    - rid: 6290788860571680995
+      type: {class: IconAction, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        actionLabel: Next_Song
+        displayImage: {fileID: 21300000, guid: 73ac44c1bfc0909468c0054d035a725c, type: 3}
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        inputStreamTracker: {fileID: 0}
+    - rid: 6290788860571680996
+      type: {class: IconAction, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        actionLabel: Pause
+        displayImage: {fileID: 21300000, guid: 511f69f59a0720941848a345602fd024, type: 3}
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        inputStreamTracker: {fileID: 0}
+    - rid: 6290788860571680997
+      type: {class: IconAction, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        actionLabel: Play
+        displayImage: {fileID: 21300000, guid: 99d116e899bd90f4ba22ca1095c48871, type: 3}
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        inputStreamTracker: {fileID: 0}
+    - rid: 6290788860571680998
+      type: {class: IconAction, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        actionLabel: Instagram
+        displayImage: {fileID: 21300000, guid: db20d39c0fa1e7c46a7f8c453f47bc30, type: 3}
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        inputStreamTracker: {fileID: 0}
+    - rid: 6290788860571680999
+      type: {class: IconAction, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        actionLabel: Podcast
+        displayImage: {fileID: 21300000, guid: a26c9da56804bc94d8e216c1db3ab29e, type: 3}
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        inputStreamTracker: {fileID: 0}
+    - rid: 6290788860571681000
+      type: {class: IconAction, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        actionLabel: Radio
+        displayImage: {fileID: 21300000, guid: 12339afc9e0e8504ba006e6aa1415a9c, type: 3}
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        inputStreamTracker: {fileID: 0}
+    - rid: 6290788860571681001
+      type: {class: IconAction, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        actionLabel: TI_Apps
+        displayImage: {fileID: 21300000, guid: 9f4f91ee40df45c4d99f7bc790bb4907, type: 3}
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        inputStreamTracker: {fileID: 0}
+    - rid: 6290788860571681002
+      type: {class: IconAction, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        actionLabel: Whatsapp
+        displayImage: {fileID: 21300000, guid: 3ac6da090aedadc478efafebfd3d00b9, type: 3}
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        inputStreamTracker: {fileID: 0}
+    - rid: 6290788860571681003
+      type: {class: IconAction, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        actionLabel: Spotify
+        displayImage: {fileID: 21300000, guid: 7264b58f8a1dc1c4e9d0e58c52e5f809, type: 3}
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        inputStreamTracker: {fileID: 0}
+    - rid: 6290788860571681004
+      type: {class: IconAction, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        actionLabel: Contact_List
+        displayImage: {fileID: 21300000, guid: e960e99df0c0a0c4b97193f36d03c256, type: 3}
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        inputStreamTracker: {fileID: 0}
+    - rid: 6290788860571681005
+      type: {class: IconAction, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        actionLabel: Keyboard
+        displayImage: {fileID: 21300000, guid: 3f535add6839b5e42a636911a3cb5b3e, type: 3}
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        inputStreamTracker: {fileID: 0}
+    - rid: 6290788860571681006
+      type: {class: IconAction, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        actionLabel: Reply
+        displayImage: {fileID: 21300000, guid: 42cb9d5cb15df65498504766eef966ce, type: 3}
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        inputStreamTracker: {fileID: 0}
+    - rid: 6290788860571681007
+      type: {class: IconAction, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        actionLabel: TI_Chats
+        displayImage: {fileID: 21300000, guid: 04253bf3a633f2b44ab4fb772cc0fb8c, type: 3}
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        inputStreamTracker: {fileID: 0}
+    - rid: 6290788860571681008
+      type: {class: IconAction, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        actionLabel: Send
+        displayImage: {fileID: 21300000, guid: 5cb036e7446627943887e11f952ab5a4, type: 3}
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        inputStreamTracker: {fileID: 0}
+    - rid: 6290788860571681009
+      type: {class: IconAction, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        actionLabel: Speech_To_Text
+        displayImage: {fileID: 21300000, guid: 24e049a64a7b9c84c815166e4643977f, type: 3}
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        inputStreamTracker: {fileID: 0}
+    - rid: 6290788860571681010
+      type: {class: IconAction, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        actionLabel: Recenter
+        displayImage: {fileID: 21300000, guid: e04b98dbbcc338d498f7c82a9aa743a8, type: 3}
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        inputStreamTracker: {fileID: 0}
+    - rid: 6290788860571681011
+      type: {class: IconAction, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        actionLabel: Destination
+        displayImage: {fileID: 21300000, guid: b0f61239ed48c994993e9671439b7099, type: 3}
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        inputStreamTracker: {fileID: 0}
+    - rid: 6290788860571681012
+      type: {class: IconAction, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        actionLabel: Home
+        displayImage: {fileID: 21300000, guid: b5765638f6afc274eb363405d201c2c1, type: 3}
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        inputStreamTracker: {fileID: 0}
+    - rid: 6290788860571681013
+      type: {class: IconAction, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        actionLabel: Search
+        displayImage: {fileID: 21300000, guid: b22d378da93b4a64886b4dd142108ad8, type: 3}
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        inputStreamTracker: {fileID: 0}
+    - rid: 6290788860571681014
+      type: {class: IconAction, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        actionLabel: Work
+        displayImage: {fileID: 21300000, guid: 251431268d98c224eac55e56d0304806, type: 3}
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        inputStreamTracker: {fileID: 0}
+    - rid: 6290788860571681015
+      type: {class: IconAction, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        actionLabel: TI_Map
+        displayImage: {fileID: 21300000, guid: e13fd08694a3d9b49b34f1a7e8c4d6b9, type: 3}
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        inputStreamTracker: {fileID: 0}
