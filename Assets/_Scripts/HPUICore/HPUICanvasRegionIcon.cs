@@ -9,7 +9,7 @@ using UnityEngine.Rendering;
 
 public class HPUICanvasRegionIcon : HPUICanvasRegion
 {
-    [SerializeField] public SerializedDictionary<Vector2Int, GameObject> layer2UIStartRegions = new();
+    // [SerializeField] public SerializedDictionary<Vector2Int, GameObject> layer2UIStartRegions = new();
     [SerializeField] public ActionInputStreamTracker inputStreamTracker;
     
     public override void InitialiseUI()
@@ -27,7 +27,7 @@ public class HPUICanvasRegionIcon : HPUICanvasRegion
             GameObject key = Instantiate(UIVisual, followTransform.position, Quaternion.identity, regionParent.transform);
             key.transform.localPosition = new(0,50f,0);
             key.transform.localRotation = Quaternion.Euler(90,90,0);
-            layer2UIStartRegions.Add(action.endRegion, key);
+            // layer2UIStartRegions.Add(action.endRegion, key);
             IconAction outputHandler = null;
             foreach (IHPUISwipeAction actionHandler in action.SwipeActions)
             {

@@ -304,7 +304,6 @@ public class GestureLayoutSetup : ScriptableObject
             {
                 string startRegion = VectorToRegionDict[action.startRegion];
                 string endRegion = VectorToRegionDict[action.endRegion];
-                string subActionLabel = "";
                 if (action.startRegion != action.endRegion)
                 {
                     string labelAssociatedWithStartRegion = regionToLabel[startRegion];
@@ -313,12 +312,14 @@ public class GestureLayoutSetup : ScriptableObject
                     {
                         if (actionUsageList.Contains(subAction))
                         {
+                            Debug.LogWarning($"{labelAssociatedWithStartRegion}, {subAction}");
                             continue;
                         }
-
-                        subActionLabel = subAction;
+                        string subActionLabel = subAction;
+                        Debug.Log($"Added >>>>> {startRegion},{endRegion},{subActionLabel}");
                         writer.WriteLine($"{startRegion},{endRegion},{subActionLabel}");
                         actionUsageList.Add(subAction);
+                        break;
                     }
                 }
             }
