@@ -95,8 +95,9 @@ public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
         session.settingsToLog.Add(StudyLogs.GestureStartRegion);
         session.settingsToLog.Add(StudyLogs.GestureEndRegion);
         session.settingsToLog.Add(StudyLogs.SuccessfulTrial);
-       
-        session.trackedObjects.AddRange(FindObjectsByType<Tracker>(FindObjectsSortMode.None));
+
+        Tracker[] trackerList = FindObjectsByType<Tracker>(FindObjectsInactive.Include, FindObjectsSortMode.InstanceID);
+        session.trackedObjects.AddRange(trackerList);
         
         List<XRHandSubsystem> handSubsystems = new();
         SubsystemManager.GetSubsystems(handSubsystems);
