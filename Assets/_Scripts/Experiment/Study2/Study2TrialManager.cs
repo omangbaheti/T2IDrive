@@ -15,7 +15,7 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
 {
     [SerializeField] private Transform DirectAnchor;
     [SerializeField] private Vector3 offset;
-    [SerializeField] private Vector3 rotOffset;
+    [SerializeField] private Quaternion rotOffset;
     [SerializeField] private Vector3 scaleOffset;
     
     public List<float> XDivisions => xDivisions;
@@ -51,7 +51,7 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
     [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private XRUtils.SerializableDictionary<Vector2Int?, HPUICanvasRegion> indirectMappingTransforms;
     [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private Transform prompterAnchor;
     [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private Vector3 offset2;
-    [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private Vector3 rotOffset2;
+    [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private Quaternion rotOffset2;
     [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private Vector3 scaleOffset2;
     [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private Transform radialDistal;
     [SerializeField, ShowField(nameof(InteractionMapping), InteractionMapping.Indirect)] private Transform radialIntermediate;
@@ -179,18 +179,29 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
         TransformFollower transformFollower = prompter.GetComponent<TransformFollower>();
         if (InteractionMapping == InteractionMapping.Direct)
         {
-            transformFollower.SetTarget(DirectAnchor);
-            transformFollower.SetPositionOffset(offset);
-            transformFollower.SetRotationOffset(rotOffset);
-            transformFollower.SetScaleOffset(scaleOffset);
+            transformFollower.enabled = false;
+            prompter.parent = DirectAnchor;
+            prompter.localPosition = offset;
+            prompter.localRotation = rotOffset;
+            prompter.localScale = scaleOffset;
+            // transformFollower.SetTarget(DirectAnchor);
+            // transformFollower.SetPositionOffset(offset);
+            // transformFollower.SetRotationOffset(rotOffset);
+            // transformFollower.SetScaleOffset(scaleOffset);
             // transformFollower.SetScaleOffset(Vector3.one * 0.0001f);
         }
         else
         {
-            transformFollower.SetTarget(prompterAnchor);
-            transformFollower.SetRotationOffset(offset2);
-            transformFollower.SetRotationOffset(rotOffset2);
-            transformFollower.SetScaleOffset(scaleOffset2);
+            
+            prompter.parent = prompterAnchor;
+            prompter.localPosition = offset2;
+            prompter.localRotation = rotOffset2;
+            prompter.localScale = scaleOffset2;
+            // transformFollower.enabled = true;
+            // transformFollower.SetTarget(prompterAnchor);
+            // transformFollower.SetRotationOffset(offset2);
+            // transformFollower.SetRotationOffset(rotOffset2);
+            // transformFollower.SetScaleOffset(scaleOffset2);
         }
         
     }
@@ -305,6 +316,17 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
             default:
                 throw new ArgumentOutOfRangeException();
         }
+    }
+
+    [Button]
+    public void Reset()
+    {
+        foreach (KeyValuePair<Vector2Int?, HPUICanvasRegion> region in hpuiRegions)
+        {
+            HPUICanvasRegionIcon regionIcon = (HPUICanvasRegionIcon) region.Value;
+            regionIcon.DisableUI();
+        }
+        SetLayer1Active(true);
     }
 
     public void TriggerStartSoundEffect()

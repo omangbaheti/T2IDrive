@@ -30,7 +30,7 @@ public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
     // [SerializeField] private List<TwoStepEulerConnection> EulerCircuit;
     [SerializeField] private AudioClip successClip;
     [SerializeField] private AudioClip failedClip;
-    [SerializeField] private UIDisplayFlasher displayFlasher;
+    // [SerializeField] private UIDisplayFlasher displayFlasher;
     [SerializeField] private HPUIInteractor indexInteractor;
     [SerializeField] private HPUIInteractor thumbInteractor;
     
@@ -97,7 +97,7 @@ public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
         session.settingsToLog.Add(StudyLogs.GestureEndRegion);
         session.settingsToLog.Add(StudyLogs.SuccessfulTrial);
        
-        session.trackedObjects.AddRange(handTransform.GetComponentsInChildren<Tracker>());
+        session.trackedObjects.AddRange(FindObjectsByType<Tracker>(FindObjectsSortMode.None));
         
         List<XRHandSubsystem> handSubsystems = new();
         SubsystemManager.GetSubsystems(handSubsystems);
@@ -137,6 +137,7 @@ public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
         }
         
         prompterDisplay.gameObject.SetActive(true);
+        var billboard =  prompterDisplay.GetComponent<Billboard>();
         switch (el.UserInterface)
         {
             case "OnHand":
@@ -147,6 +148,7 @@ public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
                 hpuiTrialManager.InteractionMapping = InteractionMapping.Direct;
                 hpuiTrialManager.SpawnCanvasRegions();
                 hpuiTrialManager.SetPrompterLocation(prompterDisplay);
+                billboard.isEnabled = true;
                 break;
             case "Windshield":
                 hpuiTrialManager.gameObject.SetActive(true); 
@@ -156,6 +158,7 @@ public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
                 hpuiTrialManager.InteractionMapping = InteractionMapping.Indirect;
                 hpuiTrialManager.SpawnCanvasRegions();
                 hpuiTrialManager.SetPrompterLocation(prompterDisplay);
+                billboard.isEnabled = false;
                 break;
             case "TouchScreen":
                 hpuiTrialManager.gameObject.SetActive(false); 
@@ -165,6 +168,7 @@ public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
                 touchScreenTrialManager.InteractionMapping = InteractionMapping.Direct;
                 touchScreenTrialManager.SpawnCanvasRegions();
                 touchScreenTrialManager.SetPrompterLocation(prompterDisplay);
+                billboard.isEnabled = false;
                 break;
             case "Baseline":
                 hpuiTrialManager.gameObject.SetActive(false); 
@@ -172,6 +176,7 @@ public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
                 hpuiTrialManager.ResetCanvasRegions();
                 touchScreenTrialManager.ResetCanvasRegions();
                 prompterDisplay.gameObject.SetActive(false);
+                billboard.isEnabled = false;
                 break;
             default:
                 Debug.LogError($"Not a valid Condition: {el.UserInterface}");
@@ -216,8 +221,8 @@ public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
             {
                 Color color = interactionMappingColor[action.startRegion]; 
                 Debug.Log($">>>>>>>>{action.startRegion}: {color}");
-                UIDisplayFlasher display = prompterDisplay.GetComponentInChildren<UIDisplayFlasher>();
-                display.SetColor(color);
+                prompterDisplay.GetComponentInChildren<HotSwapColor>().SetColor(color);
+                // display.SetColor(color);
             }
         }
         iconDisplay.sprite = icon;
@@ -255,7 +260,8 @@ public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
             CancelTrial();
             return;
         }
-        displayFlasher.Flash(new Color(0, 1, 0, 0.5f));
+        SoundManager.Instance.PlaySound(successClip);
+        // displayFlasher.Flash(new Color(0, 1, 0, 0.5f));
         NextTrial();
     }
     private void NextTrial(bool onlyStartNextTrial = false)
@@ -291,7 +297,7 @@ public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
         Debug.Log("Cancelling trial");
         AudioClip clipToPlay = failedClip;
         SoundManager.Instance.PlaySound(clipToPlay);
-        displayFlasher.Flash(new Color(1,0,0,0.5f));
+        // displayFlasher.Flash(new Color(1,0,0,0.5f));
         NextTrial();
     }
     

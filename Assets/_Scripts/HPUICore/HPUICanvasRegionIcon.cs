@@ -110,4 +110,9 @@ public class HPUICanvasRegionIcon : HPUICanvasRegion
         }
         ActivateUIElements(false);
     }
+    
+    public override void DisableUI()
+    {
+        ActivateUIElements(false);
+    }
 }
