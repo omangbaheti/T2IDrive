@@ -7,5 +7,6 @@ public class ResetCar : MonoBehaviour
     public void Reset()
     {
         car.GetComponent<Rigidbody>().position = transform.position;
+        car.GetComponent<Rigidbody>().rotation = transform.rotation;
     }
 }

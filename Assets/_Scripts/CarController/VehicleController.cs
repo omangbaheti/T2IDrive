@@ -43,6 +43,7 @@ public class VehicleController : MonoBehaviour
     private float acceleratorInput;
     private float brakeInput;
     private float currentSpeedKmph;
+    [SerializeField] private float speedLimit = 70;
 
     void Start()
     {
@@ -74,7 +75,8 @@ public class VehicleController : MonoBehaviour
             carRB.centerOfMass = transform.InverseTransformPoint(centerOfMassObject.transform.position);
         }
         float frictionInput = carRB.linearVelocity.magnitude > 1f ? frictionForce : 0f;
-        acceleratorInput = carInputs.AccelerationInput * motorForce - frictionInput;
+        float accelerationForce = currentSpeedKmph < speedLimit ? motorForce : 0f;
+        acceleratorInput = carInputs.AccelerationInput * accelerationForce - frictionInput;
         brakeInput = carInputs.BrakeInput * brakeForce;
         steerInput = carInputs.SteerInput * maxSteerAngle;
 
