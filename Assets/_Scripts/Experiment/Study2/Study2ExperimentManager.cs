@@ -141,7 +141,7 @@ public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
         int pid = Convert.ToInt32(Session.instance.ppid);
         int seed = pid * 397 ^ el.block_id;
         rng = new(seed: (uint)seed);
-        layoutSetup.SetupLayout($"{Session.instance.ppid}_{el.name}");
+        layoutSetup.SetupLayout($"{int.Parse(Session.instance.ppid)%20+1}_{el.name}");
         List<MicrogestureAction> microgestureActions = layoutSetup.microGestureActions;
         tapListActions.Clear();
         foreach (MicrogestureAction action in microgestureActions)
