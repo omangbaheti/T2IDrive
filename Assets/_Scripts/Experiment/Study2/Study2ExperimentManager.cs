@@ -358,7 +358,7 @@ public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
         
     }
     
-    private static List <T> ShuffleList<T>(List <T> list, int seed = 0)
+    private static void ShuffleList<T>(List<T> list, int seed = 0)
     {
         System.Random random = new System.Random(seed);
         for (int i = list.Count - 1; i > 0; i--)
@@ -366,7 +366,6 @@ public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
             int j = random.Next(0, i+1);
             (list[index: i], list[j]) = (list[j], list[i]);
         }
-        return list;
     }
 }
 

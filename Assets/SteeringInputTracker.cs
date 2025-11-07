@@ -7,6 +7,7 @@ public class CarInputTracker : Tracker
 {
     private CarInputManager carInputManager;
     private VehicleController vehicleController;
+    private string collidedObjectName;
     private void Awake()
     {
         carInputManager = GetComponent<CarInputManager>();
@@ -20,8 +21,17 @@ public class CarInputTracker : Tracker
 
     public override IEnumerable<string> CustomHeader => new[]
     {
-        "steering_input", "accelerator_input", "brake_input", "speed"
+        "steering_input", "accelerator_input", "brake_input", "speed", "collision_objects"
     };
+    
+    private void OnCollisionEnter(Collision other)
+    {
+        collidedObjectName = "None_";
+        if (other.transform.CompareTag("Environment"))
+        {
+            collidedObjectName = other.transform.name;
+        }
+    }
     protected override UXFDataRow GetCurrentValues()
     {
         float steering = carInputManager.SteerInput;
@@ -33,8 +43,10 @@ public class CarInputTracker : Tracker
             ("steering_input", steering),
             ("accelerator_input", accelerator),
             ("brake_input", brake),
-            ("speed", speed)
+            ("speed", speed),
+            ("collision_objects", collidedObjectName)
         };
         return values;
     }
+
 }

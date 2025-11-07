@@ -60,6 +60,8 @@ MonoBehaviour:
       Value: 1
     - Key: Experiment2CLone
       Value: 1
+    - Key: Baseline
+      Value: 1
   validatorTypesMap:
     list:
     - Key: Artifice_ValidatorModule_ScriptableObject
