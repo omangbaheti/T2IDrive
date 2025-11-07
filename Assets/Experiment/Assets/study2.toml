@@ -1,7 +1,7 @@
 [configuration]
 # order = [[OnHand-Steer, OnHand-Brake, OnHand-Obstacle, OnHand-Pedestrian],[Windshield-Steer, Windshield-Brake, Windshield-Obstacle, Windshield-Pedestrian],[TouchScreen-Steer, TouchScreen-Brake, TouchScreen-Obstacle, TouchScreen-Pedestrian],[Baseline-Steer, Baseline-Brake, Baseline-Obstacle, Baseline-Pedestrian]]
 # order = [["Pedestrian", "Brake", "Obstacle", "Steer"], [["OnHand-Steer", "OnHand-Brake", "OnHand-Obstacle", "OnHand-Pedestrian"], [], [], []]]
-order = ["Baseline", "OnHand", "Windshield","TouchScreen"]
+order = ["OnHand", "Windshield","TouchScreen"]
 
 
 # - "latin_square": Apply latin square to balance the values.

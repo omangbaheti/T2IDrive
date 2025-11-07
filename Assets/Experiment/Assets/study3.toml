@@ -1,15 +1,13 @@
 [configuration]
-# order = [[OnHand-Steer, OnHand-Brake, OnHand-Obstacle, OnHand-Pedestrian],[Windshield-Steer, Windshield-Brake, Windshield-Obstacle, Windshield-Pedestrian],[TouchScreen-Steer, TouchScreen-Brake, TouchScreen-Obstacle, TouchScreen-Pedestrian],[Baseline-Steer, Baseline-Brake, Baseline-Obstacle, Baseline-Pedestrian]]
-# order = [["Pedestrian", "Brake", "Obstacle", "Steer"], [["OnHand-Steer", "OnHand-Brake", "OnHand-Obstacle", "OnHand-Pedestrian"], [], [], []]]
-order = [["Pedestrian", "Brake", "Obstacle", "Steer"], ["OnHand-Steer", "OnHand-Brake", "OnHand-Obstacle", "OnHand-Pedestrian"],["Windshield-Steer", "Windshield-Brake", "Windshield-Obstacle", "Windshield-Pedestrian"],["TouchScreen-Steer", "TouchScreen-Brake", "TouchScreen-Obstacle", "TouchScreen-Pedestrian"],["Baseline-Steer", "Baseline-Brake", "Baseline-Obstacle", "Baseline-Pedestrian"]]
+order = [["OnHand_Practice","OnHand","OnHand","OnHand"], ["Windshield_Practice","Windshield","Windshield","Windshield"],["TouchScreen_Practice","TouchScreen","TouchScreen","TouchScreen"]]
 
 
 # - "latin_square": Apply latin square to balance the values.
 # - "randomize": For each participant randomize the order of the values in the array.
 # - "as_is": Use the order of the values as specified.
 # When not specified, the default value is "as_is" for both keys.
-groups = "as_is"
-within_groups = "latin_square"
+groups = "latin_square"
+within_groups = "as_is"
 
 # The random seed to use for any randomization. Default seed is 0.
 # The seed will be the value of random_seed + participant_index
@@ -18,131 +16,45 @@ random_seed = 0
 [configuration.variables]
 TRIALS_PER_ITEM = 3
 
-# ------------------- Base Scenarios -------------------
+# ------------------- BaseLine-------------------
 [[blocks]]
-name = "Pedestrian"
+name = "Baseline"
 [blocks.config]
-calibrationName = "CalculateHandLength"
-UserInterface = ""
-TakeOverScenario = "Pedestrian-Crossing"
+UserInterface = "Baseline"
 
-[[blocks]]
-name = "Brake"
-[blocks.config]
-calibrationName = "CalculateHandLength"
-UserInterface = ""
-TakeOverScenario = "Brake"
-
-[[blocks]]
-name = "Obstacle"
-[blocks.config]
-calibrationName = "CalculateHandLength"
-UserInterface = ""
-TakeOverScenario = "Obstacle-Avoidance"
-
-[[blocks]]
-name = "Steer"
-[blocks.config]
-calibrationName = "CalculateHandLength"
-UserInterface = ""
-TakeOverScenario = "Steer"
 
 # ------------------- OnHand -------------------
 [[blocks]]
-name = "OnHand-Steer"
-extends = "Steer"
+name = "OnHand"
 [blocks.config]
 UserInterface = "OnHand"
 
-[[blocks]]
-name = "OnHand-Brake"
-extends = "Brake"
-[blocks.config]
-UserInterface = "OnHand"
 
 [[blocks]]
-name = "OnHand-Obstacle"
-extends = "Obstacle"
-[blocks.config]
-UserInterface = "OnHand"
-
-[[blocks]]
-name = "OnHand-Pedestrian"
-extends = "Pedestrian"
+name = "OnHand_Practice"
 [blocks.config]
 UserInterface = "OnHand"
 
 # ------------------- Windshield -------------------
 [[blocks]]
-name = "Windshield-Steer"
-extends = "Steer"
+name = "Windshield"
 [blocks.config]
 UserInterface = "Windshield"
 
-[[blocks]]
-name = "Windshield-Brake"
-extends = "Brake"
-[blocks.config]
-UserInterface = "Windshield"
 
 [[blocks]]
-name = "Windshield-Obstacle"
-extends = "Obstacle"
-[blocks.config]
-UserInterface = "Windshield"
-
-[[blocks]]
-name = "Windshield-Pedestrian"
-extends = "Pedestrian"
+name = "Windshield_Practice"
 [blocks.config]
 UserInterface = "Windshield"
 
 # ------------------- TouchScreen -------------------
 [[blocks]]
-name = "TouchScreen-Steer"
-extends = "Steer"
+name = "TouchScreen"
 [blocks.config]
 UserInterface = "TouchScreen"
 
+
 [[blocks]]
-name = "TouchScreen-Brake"
-extends = "Brake"
+name = "TouchScreen_Practice"
 [blocks.config]
 UserInterface = "TouchScreen"
-
-[[blocks]]
-name = "TouchScreen-Obstacle"
-extends = "Obstacle"
-[blocks.config]
-UserInterface = "TouchScreen"
-
-[[blocks]]
-name = "TouchScreen-Pedestrian"
-extends = "Pedestrian"
-[blocks.config]
-UserInterface = "TouchScreen"
-
-# ------------------- Baseline -------------------
-[[blocks]]
-name = "Baseline-Steer"
-extends = "Steer"
-[blocks.config]
-UserInterface = "Baseline"
-
-[[blocks]]
-name = "Baseline-Brake"
-extends = "Brake"
-[blocks.config]
-UserInterface = "Baseline"
-
-[[blocks]]
-name = "Baseline-Obstacle"
-extends = "Obstacle"
-[blocks.config]
-UserInterface = "Baseline"
-
-[[blocks]]
-name = "Baseline-Pedestrian"
-extends = "Pedestrian"
-[blocks.config]
-UserInterface = "Baseline"
