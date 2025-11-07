@@ -4,12 +4,12 @@ RadialDistal,RadialIntermediate,Call_Accept
 RadialDistal,RadialProximal,Call_Reject
 RadialDistal,VolarIntermediate,Mute_Mic
 RadialDistal,VolarDistal,Call_Reply
-RadialDistal,VolarProximal,Speaker
+RadialDistal,VolarProximal,Calling_Person
 RadialIntermediate,RadialDistal,AC
 RadialIntermediate,RadialIntermediate,Climate
 RadialIntermediate,RadialProximal,Air
 RadialIntermediate,VolarIntermediate,Car_Seat_Heater
-RadialIntermediate,VolarProximal,Fan
+RadialIntermediate,VolarProximal,Steering_Heater
 RadialIntermediate,VolarDistal,Heater
 RadialProximal,RadialDistal,Volume_Plus
 RadialProximal,RadialIntermediate,Volume_Minus
