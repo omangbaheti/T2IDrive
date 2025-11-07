@@ -1,0 +1,14 @@
+{
+  "foldouts": {
+    "51596_IconGestureBoard 1 (GestureLayoutSetup)_GenerateAllLayouts_Int32": false,
+    "51596_IconGestureBoard 1 (GestureLayoutSetup)_AssignMicrogestureActions_String": false
+  },
+  "parameterValues": {
+    "51596_IconGestureBoard 1 (GestureLayoutSetup)_GenerateAllLayouts_Int32": [
+      20
+    ],
+    "51596_IconGestureBoard 1 (GestureLayoutSetup)_AssignMicrogestureActions_String": [
+      "Test"
+    ]
+  }
+}
