@@ -22,7 +22,7 @@ public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
     [SerializeField] private Transform handTransform;
     [SerializeField] private GestureLayoutSetup layoutSetup;
     [SerializeField] private Transform prompterDisplay;
-    [SerializeField] private Image iconDisplay;
+    [SerializeField] private SpriteRenderer iconDisplay;
     [SerializeField] private int trialsPerIconPerBlock = 2;
     [SerializeField] private Study2TrialManager hpuiTrialManager;
     [SerializeField] private Study2TrialManager touchScreenTrialManager;
@@ -238,7 +238,7 @@ public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
             {
                 Color color = interactionMappingColor[action.startRegion]; 
                 Debug.Log($">>>>>>>>{action.startRegion}: {color}");
-                prompterDisplay.GetComponentInChildren<HotSwapColor>().SetColor(color);
+                prompterDisplay.GetChild(0).GetChild(0).GetComponent<HotSwapColor>().SetColor(color);
                 // display.SetColor(color);
             }
         }

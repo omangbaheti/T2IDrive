@@ -176,10 +176,8 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
     
     public void SetPrompterLocation(Transform prompter)
     {
-        TransformFollower transformFollower = prompter.GetComponent<TransformFollower>();
         if (InteractionMapping == InteractionMapping.Direct)
         {
-            transformFollower.enabled = false;
             prompter.parent = DirectAnchor;
             prompter.localPosition = offset;
             prompter.localRotation = rotOffset;
