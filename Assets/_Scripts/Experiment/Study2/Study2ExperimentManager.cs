@@ -31,7 +31,7 @@ public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
     [SerializeField] private AudioClip failedClip;
     [SerializeField] private HPUIInteractor indexInteractor;
     [SerializeField] private HPUIInteractor thumbInteractor;
-    
+    [SerializeField] private int practiceTrials;
     private Dictionary<Vector2Int, Color> interactionMappingColor = new();
     private HashSet<string> tapListActions =  new();
     private XRHandSubsystem handSubsystem;
@@ -200,12 +200,17 @@ public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
         }
         
         ShuffleList(microgestureActions, seed);
-
+        int counter = 0;
         foreach (MicrogestureAction action in microgestureActions)
         {
             if (exclusionList.Contains((action.startRegion, action.endRegion)))
             {
                 continue; 
+            }
+
+            if (el.name.Contains("Practice") && counter > practiceTrials)
+            {
+                break;
             }
             Trial trial = block.CreateTrial();
             IconAction iconAction = action.SwipeActions.OfType<IconAction>().FirstOrDefault();
@@ -220,6 +225,7 @@ public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
             {
                 Debug.LogError($"Something went wrong with Start Region{action.startRegion}, End Region {action.endRegion}");
             }
+            counter++;
         }
     }
 

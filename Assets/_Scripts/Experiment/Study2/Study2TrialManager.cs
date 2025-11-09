@@ -43,6 +43,7 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
     private Vector2Int currentRegion;
     private Vector2Int endRegion;
     private HPUIMultiFingerCanvas hpuiCanvas;
+    private Transform _prompter;
 
     private ActionInputStreamTracker actionInputStreamTracker;
     [SerializeField] private XRUtils.SerializableDictionary<Vector2Int?, HPUICanvasRegion> hpuiRegions = new();
@@ -176,6 +177,7 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
     
     public void SetPrompterLocation(Transform prompter)
     {
+        _prompter = prompter;
         if (InteractionMapping == InteractionMapping.Direct)
         {
             prompter.parent = DirectAnchor;
@@ -240,6 +242,7 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
             Destroy(region.gameObject);
             Debug.Log("Destroying regions");
         }
+
         xDivisions.Clear();
         yDivisions.Clear();
         hpuiRegions.Clear();
@@ -347,8 +350,8 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
         // SoundManager.Instance.ResetPitch(0.1f);
         prevSwipeRegion = currentSwipeRegion;
     }
-    
-    
+
+
     public virtual void SetLayer1Active(bool active)
     {
         foreach (Transform uiElement in layer1)

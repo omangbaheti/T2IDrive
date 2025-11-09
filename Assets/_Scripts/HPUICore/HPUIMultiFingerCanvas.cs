@@ -140,10 +140,10 @@ namespace ubco.ovilab.HPUI.Core
                 return;
             }
 
-            // if (!Session.instance.InTrial)
-            // {
-            //     return;
-            // }
+            if (!Session.instance.InTrial)
+            {
+                return;
+            }
             switch (eventArgs.State)
             {
                 case HPUIGestureState.Started or HPUIGestureState.Updated:
