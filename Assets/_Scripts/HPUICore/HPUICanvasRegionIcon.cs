@@ -12,9 +12,9 @@ public class HPUICanvasRegionIcon : HPUICanvasRegion
     // [SerializeField] public SerializedDictionary<Vector2Int, GameObject> layer2UIStartRegions = new();
     [SerializeField] public ActionInputStreamTracker inputStreamTracker;
     
-    public override void InitialiseUI()
+    public override void InitialiseUI(float targetSize)
     {
-        base.InitialiseUI();
+        base.InitialiseUI(targetSize);
         foreach (MicrogestureAction action in gestureActions)
         {
             HPUICanvasRegion startRegionIcon = canvasManager.HPUIRegions[action.startRegion]; 
@@ -24,9 +24,11 @@ public class HPUICanvasRegionIcon : HPUICanvasRegion
             Vector2Int startRegionSpawnColliderIndex = HPUICanvasComponentUtils.CalculateColliderIndex(startRegionSpawnPoint , canvasInteractable);
             Vector2Int endRegionSpawnColliderIndex = HPUICanvasComponentUtils.CalculateColliderIndex(endRegionSpawnPoint, canvasInteractable);
             // Debug.Log($"Follow Transform: >>>> {followTransform.name}");
-            GameObject key = Instantiate(UIVisual, followTransform.position, Quaternion.identity, regionParent.transform);
+            GameObject key = Instantiate(UIVisual, followTransform.position, Quaternion.identity);
             key.transform.localPosition = new(0,50f,0);
             key.transform.localRotation = Quaternion.Euler(90,90,0);
+            key.transform.localScale = targetSize * Vector3.one;
+            key.transform.SetParent(regionParent.transform);
             // layer2UIStartRegions.Add(action.endRegion, key);
             IconAction outputHandler = null;
             foreach (IHPUISwipeAction actionHandler in action.SwipeActions)

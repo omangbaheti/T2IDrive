@@ -108,11 +108,11 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
             {new Vector2Int(0,1), volarIntermediate},
             {new Vector2Int(0,0), volarProximal},
         };
-        SpawnCanvasRegions();
+        SpawnCanvasRegions(1f);
     }
 
     [Button]
-    public void SpawnCanvasRegions()
+    public void SpawnCanvasRegions(float targetSize)
     {
         ResetCanvasRegions();
         foreach (float division in gestureLayout.xDivisions) {xDivisions.Add(division * HPUICanvas.MaxBounds.x);}
@@ -123,6 +123,7 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
             for (int j = 0; j < yDivisions.Count-1; j++)
             {
                 GameObject regionGameObject = Instantiate(layer1Prefab, layer1);
+                regionGameObject.transform.localScale = targetSize * Vector3.one; 
                 regionGameObject.GetComponent<HotSwapColor>().SetColor(interactionMappingColor[new (i, j)]);
                 HPUICanvasRegionIcon hpuiRegion =  regionGameObject.AddComponent<HPUICanvasRegionIcon>();
                 
@@ -165,8 +166,13 @@ public class Study2TrialManager : MonoBehaviour, IHPUICanvasUIManager
         }
         foreach ((Vector2Int? ID, HPUICanvasRegion region) in hpuiRegions)
         {
-            region.InitialiseUI();
+            region.InitialiseUI(targetSize);
         }
+    }
+
+    public void SpawnCanvasRegions()
+    {
+        throw new NotImplementedException();
     }
 
     public void InitialiseRegions()

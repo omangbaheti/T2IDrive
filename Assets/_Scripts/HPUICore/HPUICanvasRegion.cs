@@ -28,7 +28,7 @@ public abstract class HPUICanvasRegion : MonoBehaviour
     protected Transform regionParent;
     public InteractionMapping interactionMapping;
     public Dictionary<Vector2Int, Transform> interactionMappingTransforms = new();
-    public virtual void InitialiseUI()
+    public virtual void InitialiseUI(float targetSize)
     {
         layer2UIElements.Clear();
         centrePoint = basePoint + new Vector2(area.x / 2f, area.y / 2f);

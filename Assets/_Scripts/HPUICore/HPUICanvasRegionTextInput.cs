@@ -11,9 +11,9 @@ public class HPUICanvasRegionTextInput : HPUICanvasRegion
     [SerializeField] public GameObject UIVisual;
     [SerializeField] public SerializedDictionary<Vector2Int, GameObject> layer2UIStartRegions = new();
     private Transform regionParent;
-    public override void InitialiseUI()
+    public override void InitialiseUI(float targetSize)
     {
-        base.InitialiseUI();
+        base.InitialiseUI(targetSize);
         foreach (MicrogestureAction action in gestureActions)
         {
             HPUICanvasRegion startRegionTextInput = canvasManager.HPUIRegions[action.startRegion];

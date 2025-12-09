@@ -108,7 +108,7 @@ public class ComfortStudyTrialManager : MonoBehaviour, IHPUICanvasUIManager
         }
         foreach ((Vector2Int? ID, HPUICanvasRegion region) in hpuiRegions)
         {
-            region.InitialiseUI();
+            region.InitialiseUI(0);
         }
         InitialiseUI();
     }

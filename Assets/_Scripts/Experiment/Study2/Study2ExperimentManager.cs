@@ -32,6 +32,7 @@ public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
     [SerializeField] private HPUIInteractor indexInteractor;
     [SerializeField] private HPUIInteractor thumbInteractor;
     [SerializeField] private int practiceTrials;
+    [SerializeField] private TargetSizeCalibrator targetSizeCalibrator;
     private Dictionary<Vector2Int, Color> interactionMappingColor = new();
     private HashSet<string> tapListActions =  new();
     private XRHandSubsystem handSubsystem;
@@ -73,6 +74,7 @@ public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
         };
         hpuiTrialManager.interactionMappingColor =  interactionMappingColor;
         touchScreenTrialManager.interactionMappingColor =  interactionMappingColor;
+        targetSizeCalibrator = FindAnyObjectByType<TargetSizeCalibrator>();
     }
 
     protected override void OnSessionBegin(Session session)
@@ -154,6 +156,7 @@ public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
         }
         prompterDisplay.gameObject.SetActive(true);
         var billboard =  prompterDisplay.GetComponent<Billboard>();
+        float targetsize = 0;
         switch (el.UserInterface)
         {
             case "OnHand":
@@ -162,7 +165,8 @@ public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
                 thumbInteractor.gameObject.SetActive(true);
                 indexInteractor.gameObject.SetActive(false);
                 hpuiTrialManager.InteractionMapping = InteractionMapping.Direct;
-                hpuiTrialManager.SpawnCanvasRegions();
+                targetsize = targetSizeCalibrator.GetTargetSize(el.UserInterface);
+                hpuiTrialManager.SpawnCanvasRegions(targetsize);
                 hpuiTrialManager.SetPrompterLocation(prompterDisplay);
                 billboard.isEnabled = true;
                 break;
@@ -172,7 +176,8 @@ public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
                 thumbInteractor.gameObject.SetActive(true);
                 indexInteractor.gameObject.SetActive(false);
                 hpuiTrialManager.InteractionMapping = InteractionMapping.Indirect;
-                hpuiTrialManager.SpawnCanvasRegions();
+                targetsize = targetSizeCalibrator.GetTargetSize(el.UserInterface);
+                hpuiTrialManager.SpawnCanvasRegions(targetsize);
                 hpuiTrialManager.SetPrompterLocation(prompterDisplay);
                 billboard.isEnabled = false;
                 break;
@@ -182,7 +187,8 @@ public class Study2ExperimentManager : ExperimentManager<ScenarioBlockData>
                 thumbInteractor.gameObject.SetActive(false);
                 indexInteractor.gameObject.SetActive(true);
                 touchScreenTrialManager.InteractionMapping = InteractionMapping.Direct;
-                touchScreenTrialManager.SpawnCanvasRegions();
+                targetsize = targetSizeCalibrator.GetTargetSize(el.UserInterface);
+                touchScreenTrialManager.SpawnCanvasRegions(targetsize);
                 touchScreenTrialManager.SetPrompterLocation(prompterDisplay);
                 billboard.isEnabled = false;
                 break;

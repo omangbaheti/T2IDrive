@@ -90,7 +90,7 @@ public class MultiFingerCanvasManager : MonoBehaviour, IHPUICanvasUIManager
 
         foreach ((Vector2Int? ID, HPUICanvasRegion region) in hpuiRegions)
         {
-            region.InitialiseUI();
+            region.InitialiseUI(0);
         }
     }
     public void HandleCanvasGesture(HPUIGestureEventArgs gestureArgs, HPUICanvasEventArgs canvasArgs)
