@@ -1,0 +1,965 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c4a81cde6964444a3521c23f8d1f92f, type: 3}
+  m_Name: MicroGestureKeyboard
+  m_EditorClassIdentifier: 
+  regions: {x: 2, y: 3}
+  layout: {fileID: 4900000, guid: 0dbdb78b8f7492245a3418d000d8df85, type: 3}
+  xDivisions:
+  - 0
+  - 0.5
+  - 1
+  yDivisions:
+  - 0
+  - 0.33333334
+  - 0.6666667
+  - 1
+  microGestureActions:
+  - startRegion: {x: 1, y: 2}
+    endRegion: {x: 1, y: 2}
+    SwipeActions:
+    - rid: 4893546430754193501
+    - rid: 4893546430754193537
+  - startRegion: {x: 1, y: 2}
+    endRegion: {x: 1, y: 1}
+    SwipeActions:
+    - rid: 4893546430754193502
+    - rid: 4893546430754193538
+  - startRegion: {x: 1, y: 2}
+    endRegion: {x: 1, y: 0}
+    SwipeActions:
+    - rid: 4893546430754193503
+    - rid: 4893546430754193539
+  - startRegion: {x: 1, y: 2}
+    endRegion: {x: 0, y: 2}
+    SwipeActions:
+    - rid: 4893546430754193504
+    - rid: 4893546430754193540
+  - startRegion: {x: 1, y: 2}
+    endRegion: {x: 0, y: 1}
+    SwipeActions:
+    - rid: 4893546430754193505
+    - rid: 4893546430754193541
+  - startRegion: {x: 1, y: 2}
+    endRegion: {x: 0, y: 0}
+    SwipeActions:
+    - rid: 4893546430754193506
+    - rid: 4893546430754193542
+  - startRegion: {x: 1, y: 1}
+    endRegion: {x: 1, y: 2}
+    SwipeActions:
+    - rid: 4893546430754193507
+    - rid: 4893546430754193543
+  - startRegion: {x: 1, y: 1}
+    endRegion: {x: 1, y: 1}
+    SwipeActions:
+    - rid: 4893546430754193508
+    - rid: 4893546430754193544
+  - startRegion: {x: 1, y: 1}
+    endRegion: {x: 1, y: 0}
+    SwipeActions:
+    - rid: 4893546430754193509
+    - rid: 4893546430754193545
+  - startRegion: {x: 1, y: 1}
+    endRegion: {x: 0, y: 2}
+    SwipeActions:
+    - rid: 4893546430754193510
+    - rid: 4893546430754193546
+  - startRegion: {x: 1, y: 1}
+    endRegion: {x: 0, y: 1}
+    SwipeActions:
+    - rid: 4893546430754193511
+    - rid: 4893546430754193547
+  - startRegion: {x: 1, y: 1}
+    endRegion: {x: 0, y: 0}
+    SwipeActions:
+    - rid: 4893546430754193512
+    - rid: 4893546430754193548
+  - startRegion: {x: 1, y: 0}
+    endRegion: {x: 1, y: 2}
+    SwipeActions:
+    - rid: 4893546430754193513
+    - rid: 4893546430754193549
+  - startRegion: {x: 1, y: 0}
+    endRegion: {x: 1, y: 1}
+    SwipeActions:
+    - rid: 4893546430754193514
+    - rid: 4893546430754193550
+  - startRegion: {x: 1, y: 0}
+    endRegion: {x: 1, y: 0}
+    SwipeActions:
+    - rid: 4893546430754193515
+    - rid: 4893546430754193551
+  - startRegion: {x: 1, y: 0}
+    endRegion: {x: 0, y: 2}
+    SwipeActions:
+    - rid: 4893546430754193516
+    - rid: 4893546430754193552
+  - startRegion: {x: 1, y: 0}
+    endRegion: {x: 0, y: 1}
+    SwipeActions:
+    - rid: 4893546430754193517
+    - rid: 4893546430754193553
+  - startRegion: {x: 1, y: 0}
+    endRegion: {x: 0, y: 0}
+    SwipeActions:
+    - rid: 4893546430754193518
+    - rid: 4893546430754193554
+  - startRegion: {x: 0, y: 2}
+    endRegion: {x: 1, y: 2}
+    SwipeActions:
+    - rid: 4893546430754193519
+    - rid: 4893546430754193555
+  - startRegion: {x: 0, y: 2}
+    endRegion: {x: 1, y: 1}
+    SwipeActions:
+    - rid: 4893546430754193520
+    - rid: 4893546430754193556
+  - startRegion: {x: 0, y: 2}
+    endRegion: {x: 1, y: 0}
+    SwipeActions:
+    - rid: 4893546430754193521
+    - rid: 4893546430754193557
+  - startRegion: {x: 0, y: 2}
+    endRegion: {x: 0, y: 2}
+    SwipeActions:
+    - rid: 4893546430754193522
+    - rid: 4893546430754193558
+  - startRegion: {x: 0, y: 2}
+    endRegion: {x: 0, y: 1}
+    SwipeActions:
+    - rid: 4893546430754193523
+    - rid: 4893546430754193559
+  - startRegion: {x: 0, y: 2}
+    endRegion: {x: 0, y: 0}
+    SwipeActions:
+    - rid: 4893546430754193524
+    - rid: 4893546430754193560
+  - startRegion: {x: 0, y: 1}
+    endRegion: {x: 1, y: 2}
+    SwipeActions:
+    - rid: 4893546430754193525
+    - rid: 4893546430754193561
+  - startRegion: {x: 0, y: 1}
+    endRegion: {x: 1, y: 1}
+    SwipeActions:
+    - rid: 4893546430754193526
+    - rid: 4893546430754193562
+  - startRegion: {x: 0, y: 1}
+    endRegion: {x: 1, y: 0}
+    SwipeActions:
+    - rid: 4893546430754193527
+    - rid: 4893546430754193563
+  - startRegion: {x: 0, y: 1}
+    endRegion: {x: 0, y: 2}
+    SwipeActions:
+    - rid: 4893546430754193528
+    - rid: 4893546430754193564
+  - startRegion: {x: 0, y: 1}
+    endRegion: {x: 0, y: 1}
+    SwipeActions:
+    - rid: 4893546430754193529
+    - rid: 4893546430754193565
+  - startRegion: {x: 0, y: 1}
+    endRegion: {x: 0, y: 0}
+    SwipeActions:
+    - rid: 4893546430754193530
+    - rid: 4893546430754193566
+  - startRegion: {x: 0, y: 0}
+    endRegion: {x: 1, y: 2}
+    SwipeActions:
+    - rid: 4893546430754193531
+    - rid: 4893546430754193567
+  - startRegion: {x: 0, y: 0}
+    endRegion: {x: 1, y: 1}
+    SwipeActions:
+    - rid: 4893546430754193532
+    - rid: 4893546430754193568
+  - startRegion: {x: 0, y: 0}
+    endRegion: {x: 1, y: 0}
+    SwipeActions:
+    - rid: 4893546430754193533
+    - rid: 4893546430754193569
+  - startRegion: {x: 0, y: 0}
+    endRegion: {x: 0, y: 2}
+    SwipeActions:
+    - rid: 4893546430754193534
+    - rid: 4893546430754193570
+  - startRegion: {x: 0, y: 0}
+    endRegion: {x: 0, y: 1}
+    SwipeActions:
+    - rid: 4893546430754193535
+    - rid: 4893546430754193571
+  - startRegion: {x: 0, y: 0}
+    endRegion: {x: 0, y: 0}
+    SwipeActions:
+    - rid: 4893546430754193536
+    - rid: 4893546430754193572
+  references:
+    version: 2
+    RefIds:
+    - rid: 4893546430754193501
+      type: {class: CharacterOutput, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        outputKey: 1
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 4893546430754193502
+      type: {class: CharacterOutput, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        outputKey: 2
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 4893546430754193503
+      type: {class: CharacterOutput, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        outputKey: 3
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 4893546430754193504
+      type: {class: CharacterOutput, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        outputKey: 0
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 4893546430754193505
+      type: {class: CharacterOutput, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        outputKey: 
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 4893546430754193506
+      type: {class: CharacterOutput, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        outputKey: 
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 4893546430754193507
+      type: {class: CharacterOutput, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        outputKey: 4
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 4893546430754193508
+      type: {class: CharacterOutput, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        outputKey: 5
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 4893546430754193509
+      type: {class: CharacterOutput, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        outputKey: 6
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 4893546430754193510
+      type: {class: CharacterOutput, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        outputKey: 
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 4893546430754193511
+      type: {class: CharacterOutput, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        outputKey: 
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 4893546430754193512
+      type: {class: CharacterOutput, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        outputKey: 
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 4893546430754193513
+      type: {class: CharacterOutput, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        outputKey: 7
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 4893546430754193514
+      type: {class: CharacterOutput, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        outputKey: 8
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 4893546430754193515
+      type: {class: CharacterOutput, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        outputKey: 9
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 4893546430754193516
+      type: {class: CharacterOutput, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        outputKey: 
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 4893546430754193517
+      type: {class: CharacterOutput, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        outputKey: 
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 4893546430754193518
+      type: {class: CharacterOutput, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        outputKey: 
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 4893546430754193519
+      type: {class: CharacterOutput, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        outputKey: 
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 4893546430754193520
+      type: {class: CharacterOutput, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        outputKey: 
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 4893546430754193521
+      type: {class: CharacterOutput, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        outputKey: 
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 4893546430754193522
+      type: {class: CharacterOutput, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        outputKey: "\u2192"
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 4893546430754193523
+      type: {class: CharacterOutput, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        outputKey: 
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 4893546430754193524
+      type: {class: CharacterOutput, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        outputKey: 
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 4893546430754193525
+      type: {class: CharacterOutput, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        outputKey: 
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 4893546430754193526
+      type: {class: CharacterOutput, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        outputKey: 
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 4893546430754193527
+      type: {class: CharacterOutput, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        outputKey: 
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 4893546430754193528
+      type: {class: CharacterOutput, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        outputKey: 
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 4893546430754193529
+      type: {class: CharacterOutput, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        outputKey: 
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 4893546430754193530
+      type: {class: CharacterOutput, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        outputKey: 
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 4893546430754193531
+      type: {class: CharacterOutput, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        outputKey: 
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 4893546430754193532
+      type: {class: CharacterOutput, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        outputKey: 
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 4893546430754193533
+      type: {class: CharacterOutput, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        outputKey: 
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 4893546430754193534
+      type: {class: CharacterOutput, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        outputKey: 
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 4893546430754193535
+      type: {class: CharacterOutput, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        outputKey: 
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 4893546430754193536
+      type: {class: CharacterOutput, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        outputKey: "\u2190"
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+    - rid: 4893546430754193537
+      type: {class: ExperimentHandler, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        startRegion: {x: 0, y: 0}
+        endRegion: {x: 0, y: 0}
+    - rid: 4893546430754193538
+      type: {class: ExperimentHandler, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        startRegion: {x: 0, y: 0}
+        endRegion: {x: 0, y: 0}
+    - rid: 4893546430754193539
+      type: {class: ExperimentHandler, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        startRegion: {x: 0, y: 0}
+        endRegion: {x: 0, y: 0}
+    - rid: 4893546430754193540
+      type: {class: ExperimentHandler, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        startRegion: {x: 0, y: 0}
+        endRegion: {x: 0, y: 0}
+    - rid: 4893546430754193541
+      type: {class: ExperimentHandler, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        startRegion: {x: 0, y: 0}
+        endRegion: {x: 0, y: 0}
+    - rid: 4893546430754193542
+      type: {class: ExperimentHandler, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        startRegion: {x: 0, y: 0}
+        endRegion: {x: 0, y: 0}
+    - rid: 4893546430754193543
+      type: {class: ExperimentHandler, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        startRegion: {x: 0, y: 0}
+        endRegion: {x: 0, y: 0}
+    - rid: 4893546430754193544
+      type: {class: ExperimentHandler, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        startRegion: {x: 0, y: 0}
+        endRegion: {x: 0, y: 0}
+    - rid: 4893546430754193545
+      type: {class: ExperimentHandler, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        startRegion: {x: 0, y: 0}
+        endRegion: {x: 0, y: 0}
+    - rid: 4893546430754193546
+      type: {class: ExperimentHandler, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        startRegion: {x: 0, y: 0}
+        endRegion: {x: 0, y: 0}
+    - rid: 4893546430754193547
+      type: {class: ExperimentHandler, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        startRegion: {x: 0, y: 0}
+        endRegion: {x: 0, y: 0}
+    - rid: 4893546430754193548
+      type: {class: ExperimentHandler, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        startRegion: {x: 0, y: 0}
+        endRegion: {x: 0, y: 0}
+    - rid: 4893546430754193549
+      type: {class: ExperimentHandler, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        startRegion: {x: 0, y: 0}
+        endRegion: {x: 0, y: 0}
+    - rid: 4893546430754193550
+      type: {class: ExperimentHandler, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        startRegion: {x: 0, y: 0}
+        endRegion: {x: 0, y: 0}
+    - rid: 4893546430754193551
+      type: {class: ExperimentHandler, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        startRegion: {x: 0, y: 0}
+        endRegion: {x: 0, y: 0}
+    - rid: 4893546430754193552
+      type: {class: ExperimentHandler, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        startRegion: {x: 0, y: 0}
+        endRegion: {x: 0, y: 0}
+    - rid: 4893546430754193553
+      type: {class: ExperimentHandler, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        startRegion: {x: 0, y: 0}
+        endRegion: {x: 0, y: 0}
+    - rid: 4893546430754193554
+      type: {class: ExperimentHandler, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        startRegion: {x: 0, y: 0}
+        endRegion: {x: 0, y: 0}
+    - rid: 4893546430754193555
+      type: {class: ExperimentHandler, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        startRegion: {x: 0, y: 0}
+        endRegion: {x: 0, y: 0}
+    - rid: 4893546430754193556
+      type: {class: ExperimentHandler, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        startRegion: {x: 0, y: 0}
+        endRegion: {x: 0, y: 0}
+    - rid: 4893546430754193557
+      type: {class: ExperimentHandler, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        startRegion: {x: 0, y: 0}
+        endRegion: {x: 0, y: 0}
+    - rid: 4893546430754193558
+      type: {class: ExperimentHandler, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        startRegion: {x: 0, y: 0}
+        endRegion: {x: 0, y: 0}
+    - rid: 4893546430754193559
+      type: {class: ExperimentHandler, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        startRegion: {x: 0, y: 0}
+        endRegion: {x: 0, y: 0}
+    - rid: 4893546430754193560
+      type: {class: ExperimentHandler, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        startRegion: {x: 0, y: 0}
+        endRegion: {x: 0, y: 0}
+    - rid: 4893546430754193561
+      type: {class: ExperimentHandler, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        startRegion: {x: 0, y: 0}
+        endRegion: {x: 0, y: 0}
+    - rid: 4893546430754193562
+      type: {class: ExperimentHandler, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        startRegion: {x: 0, y: 0}
+        endRegion: {x: 0, y: 0}
+    - rid: 4893546430754193563
+      type: {class: ExperimentHandler, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        startRegion: {x: 0, y: 0}
+        endRegion: {x: 0, y: 0}
+    - rid: 4893546430754193564
+      type: {class: ExperimentHandler, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        startRegion: {x: 0, y: 0}
+        endRegion: {x: 0, y: 0}
+    - rid: 4893546430754193565
+      type: {class: ExperimentHandler, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        startRegion: {x: 0, y: 0}
+        endRegion: {x: 0, y: 0}
+    - rid: 4893546430754193566
+      type: {class: ExperimentHandler, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        startRegion: {x: 0, y: 0}
+        endRegion: {x: 0, y: 0}
+    - rid: 4893546430754193567
+      type: {class: ExperimentHandler, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        startRegion: {x: 0, y: 0}
+        endRegion: {x: 0, y: 0}
+    - rid: 4893546430754193568
+      type: {class: ExperimentHandler, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        startRegion: {x: 0, y: 0}
+        endRegion: {x: 0, y: 0}
+    - rid: 4893546430754193569
+      type: {class: ExperimentHandler, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        startRegion: {x: 0, y: 0}
+        endRegion: {x: 0, y: 0}
+    - rid: 4893546430754193570
+      type: {class: ExperimentHandler, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        startRegion: {x: 0, y: 0}
+        endRegion: {x: 0, y: 0}
+    - rid: 4893546430754193571
+      type: {class: ExperimentHandler, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        startRegion: {x: 0, y: 0}
+        endRegion: {x: 0, y: 0}
+    - rid: 4893546430754193572
+      type: {class: ExperimentHandler, ns: ubco.ovilab.HPUI, asm: Assembly-CSharp}
+      data:
+        onSwipeStarted:
+          m_PersistentCalls:
+            m_Calls: []
+        onSwipeCompleted:
+          m_PersistentCalls:
+            m_Calls: []
+        startRegion: {x: 0, y: 0}
+        endRegion: {x: 0, y: 0}

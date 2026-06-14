@@ -1,0 +1,18 @@
+{
+  "foldouts": {
+    "51712_IconGestureBoard (GestureLayoutSetup)_GenerateAllLayouts_Int32": true,
+    "51712_IconGestureBoard (GestureLayoutSetup)_AssignMicrogestureActions_String": true,
+    "51712_IconGestureBoard (GestureLayoutSetup)_SetupLayout_String": true
+  },
+  "parameterValues": {
+    "51712_IconGestureBoard (GestureLayoutSetup)_GenerateAllLayouts_Int32": [
+      20
+    ],
+    "51712_IconGestureBoard (GestureLayoutSetup)_AssignMicrogestureActions_String": [
+      null
+    ],
+    "51712_IconGestureBoard (GestureLayoutSetup)_SetupLayout_String": [
+      ""
+    ]
+  }
+}

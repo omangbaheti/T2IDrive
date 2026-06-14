@@ -1,0 +1,36 @@
+[configuration]
+order = [["Index-OnWheel","Index-OnWheel","Index-OnWheel","Index-OnWheel","Index-OnWheel","Index-OnWheel","Index-OnWheel","Index-OnWheel"],["Index-OffWheel","Index-OffWheel","Index-OffWheel","Index-OffWheel","Index-OffWheel","Index-OffWheel","Index-OffWheel","Index-OffWheel"]]
+# - "latin_square": Apply latin square to balance the values.
+# - "randomize": For each participant randomize the order of the values in the array.
+# - "as_is": Use the order of the values as specified.
+# When not specified, the default value is "as_is" for both keys.
+groups = "latin_square"
+within_groups= "as_is"
+# The random seed to use for any randomization. Default seed is 0. The seed will be
+# the value of random_seed + participant_index
+random_seed = 0
+
+[configuration.variables]
+TRIALS_PER_ITEM = 3
+
+[[blocks]]
+name = "Default-Empty"
+[blocks.config]
+calibrationName = "CalculateHandLength"
+FingerType=""
+Mobility=""
+
+[[blocks]]
+name = "Index-OnWheel"
+extends = "Default-Empty"
+[blocks.config]
+FingerType="Index"
+Mobility="OnWheel"
+
+[[blocks]]
+name = "Index-OffWheel"
+extends = "Default-Empty"
+[blocks.config]
+FingerType="Index"
+Mobility="OffWheel"
+

@@ -1,0 +1,58 @@
+:PROPERTIES:
+:ID:       aebb3548-6e28-4508-90a9-1b93e8e9300b
+:END:
+#+TITLE: ExperimentChecklist
+#+filetags: 
+#+STARTUP: showall
+#+OPTIONS: toc:3
+
+
+
+* Pre-Participant Checklist - Atleast 20 mins before participant arrives
+** Vicons
+- [ ] Calibration
+- [ ] Switch to Session
+- [ ] Start Server
+
+** Driving Sim
+- [ ] Steering should be activated
+- [ ] Launch Logitech G Hub
+*** Debug Methods
+- Pray to Logitech Gods and Restart
+** Quest
+- [ ] Disable Proximity Sensor
+- [ ] Connect Link
+- [ ] Check Link Quality
+*** Debug Methods
+- Pray to Quest gods and restart
+** Unity
+- [ ] Make sure steering wheel connects to Unity
+- [ ] Adjust TouchScreen and Simulator Position
+- [ ] Cross check everything by testing experiment on pid 9999
+
+  
+* Experiment Checklist
+** Pre Experiment
+- [ ] Explain The concept 
+  - How OFW Works 
+  - How to interact with the system etc
+- [ ] Consent Form
+- [ ] Demographics
+
+** Experiment Workflow 
+- [ ] Calibrate HPUI Cones - Optional
+
+- [ ] Launch Experiment Server - Basline
+    #+begin_src shell
+    z auto 2 exp 
+    experiment-server r ./Assets/baseline.toml -i <pid>
+    #+end_src
+ 
+- [ ] Switch to _Experiment2/Baseline Scene
+ 
+- [ ] Launch Experiment Server - Actual Study
+
+    #+begin_src shell
+    z auto 2 exp 
+    experiment-server r ./Assets/study3.toml -i <pid>
+    #+end_src

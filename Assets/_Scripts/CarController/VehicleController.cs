@@ -1,0 +1,226 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using ArtificeToolkit.Runtime.SerializedDictionary;
+using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.Serialization;
+
+public class VehicleController : MonoBehaviour
+{
+    public float CurrentSpeed => currentSpeedKmph;
+    [Header("Vehicle Settings")]
+    public float motorForce = 50f;
+    public float frictionForce = 100f;
+    public float maxSteerAngle = 30f;
+    public bool enable4x4 = false; // Option to enable 4-wheel drive
+    public float brakeForce = 500f;
+    public float[] gearRatios; // Array to store the gear ratios for each gear
+    public float shiftThreshold = 5000f; // Threshold value for shifting to a higher gear
+
+    [Header("Wheel References")]
+    public GameObject centerOfMassObject;
+    public SerializedDictionary<WheelPlacement, WheelData> wheelData;
+
+    [Header("SFX References")]
+    public AudioSource engineStartAudioSource; // Assign this in the Inspector
+    public AudioSource engineAudioSource; // Assign this in the Inspector
+
+    private WheelData frontLeft => wheelData[WheelPlacement.FrontLeft];
+    private WheelData frontRight => wheelData[WheelPlacement.FrontRight];
+    private WheelData rearLeft => wheelData[WheelPlacement.RearLeft];
+    private WheelData rearRight => wheelData[WheelPlacement.RearRight];
+
+    private Rigidbody carRB;
+    private int currentGear = 1; // Variable to track the current gear
+    private float stopSpeedThreshold = 1f; // Speed threshold for considering the vehicle stopped
+    private Quaternion prevRotation; // Previous rotation of the wheel
+    private CarInputManager carInputs;
+    private AudioClip engineSound;
+    private float targetPitch;
+    private bool hasStartedMoving = false;
+    private float steerInput;
+    private float acceleratorInput;
+    private float brakeInput;
+    private float currentSpeedKmph;
+    [SerializeField] private float speedLimit = 70;
+
+    void Start()
+    {
+        carRB = GetComponent<Rigidbody>();
+        prevRotation = wheelData[WheelPlacement.FrontLeft].wheelTransform.rotation;
+        carInputs = FindAnyObjectByType<CarInputManager>();
+        engineSound = Resources.Load<AudioClip>($"EngineSound");
+        targetPitch = engineAudioSource.pitch;
+        StartCoroutine(DelayedEngineSound());
+    }
+
+    private IEnumerator DelayedEngineSound()
+    {
+        while (!hasStartedMoving)
+        {
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(2f); // Delay for 2 seconds
+
+        engineAudioSource.Play();
+    }
+
+
+    private void Update()
+    {
+        if (centerOfMassObject)
+        {
+            carRB.centerOfMass = transform.InverseTransformPoint(centerOfMassObject.transform.position);
+        }
+        float frictionInput = carRB.linearVelocity.magnitude > 1f ? frictionForce : 0f;
+        float accelerationForce = currentSpeedKmph < speedLimit ? motorForce : 0f;
+        acceleratorInput = carInputs.AccelerationInput * accelerationForce - frictionInput;
+        brakeInput = carInputs.BrakeInput * brakeForce;
+        steerInput = carInputs.SteerInput * maxSteerAngle;
+
+        frontLeft.collider.steerAngle = steerInput;
+        frontRight.collider.steerAngle = steerInput;
+
+        UpdateWheelPoses();
+
+        foreach ((WheelPlacement placement, WheelData _wheelData) in wheelData)
+        {
+            _wheelData.collider.brakeTorque = brakeInput;
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (!frontLeft.collider.GetGroundHit(out _))
+            Debug.LogWarning("Front left wheel not grounded!");
+
+        // Calculate the current wheel speed in km/h
+        // currentSpeedKmph =  frontLeft.collider.radius  * Mathf.PI * frontLeft.collider.rpm * 60f / 1000f;
+        currentSpeedKmph = carRB.linearVelocity.magnitude * 3.6f;
+        // Debug.Log("Current Speed: " + currentSpeedKmph + " Kmph");
+
+        // Calculate the current engine RPM based on the wheel speed and gear ratio
+        float currentRPM = frontLeft.collider.rpm * gearRatios[Mathf.Clamp(currentGear - 1, 0, gearRatios.Length - 1)];
+
+        // Check if it's time to shift to a higher gear
+        if (currentRPM > shiftThreshold && currentGear < gearRatios.Length)
+        {
+            currentGear++; // Shift to the next gear
+        }
+        else if (currentSpeedKmph < stopSpeedThreshold && currentGear > 1)
+        {
+            currentGear--; // Shift to the previous gear when slowing down
+        }
+
+        // Adjust the motor torque based on the current gear ratio
+        float adjustedTorque = acceleratorInput * gearRatios[Mathf.Clamp(currentGear - 1, 0, gearRatios.Length - 1)];
+        // Debug.Log($"Torque: {adjustedTorque}");
+        // Apply motor torque to the wheels
+        if (enable4x4)
+        {
+            foreach ((WheelPlacement _, WheelData _wheelData)  in wheelData)
+            {
+                _wheelData.collider.motorTorque = adjustedTorque;
+            }
+        }
+        else
+        {
+            frontLeft.collider.motorTorque = 0f;
+            frontRight.collider.motorTorque = 0f;
+            rearLeft.collider.motorTorque = adjustedTorque;
+            rearRight.collider.motorTorque = adjustedTorque;
+        }
+
+        frontLeft.collider.steerAngle = steerInput;
+        frontRight.collider.steerAngle = steerInput;
+
+        UpdateWheelPoses();
+
+        // Calculate the wheel's angular velocity
+        Quaternion currentRotation = frontLeft.wheelTransform.rotation;
+        float angularVelocity = Quaternion.Angle(prevRotation, currentRotation) / Time.fixedDeltaTime;
+        prevRotation = currentRotation;
+
+        // Check if the vehicle is in motion
+        bool isMoving = carRB.linearVelocity.magnitude > 0.1f;
+
+
+        // Calculate the target pitch based on the current speed and direction
+        float targetPitch = currentSpeedKmph > 0.1f ? Mathf.Lerp(0.5f, 2f, currentSpeedKmph / 100f) : 0.5f;
+
+        // Check if the vehicle is moving in reverse
+        if (currentSpeedKmph < -0.1f)
+        {
+            targetPitch = Mathf.Lerp(0.5f, 2f, Mathf.Abs(currentSpeedKmph) / 100f);
+        }
+
+        // Smoothly adjust the pitch towards the target pitch
+        engineAudioSource.pitch = Mathf.Lerp(engineAudioSource.pitch, targetPitch, Time.deltaTime * 5f);
+
+
+        // Play the engine start sound if the vehicle just starts moving
+        if (!hasStartedMoving && currentSpeedKmph > 0.1f)
+        {
+            engineStartAudioSource.Play();
+            hasStartedMoving = true;
+        }
+    }
+
+    private void UpdateWheelPoses()
+    {
+        frontLeft.UpdateWheelPose();
+        frontRight.UpdateWheelPose(true);
+        rearLeft.UpdateWheelPose();
+        rearRight.UpdateWheelPose(true);
+    }
+}
+
+[Serializable]
+public class WheelData
+{
+    [FormerlySerializedAs("wheel")] public WheelCollider collider;
+    public Transform wheelTransform;
+    [FormerlySerializedAs("rotOffset")] public Quaternion wheelRotOffset;
+    [HideInInspector] public bool isWheelSlipping;
+    [HideInInspector] public bool isWheelDrifting;
+    [HideInInspector] public bool isWheelBraking;
+
+    public bool IsWheelSlipping()
+    {
+        return collider.GetGroundHit(out WheelHit hit) && hit.sidewaysSlip > 0.1f;
+    }
+
+    public bool IsWheelDrifting()
+    {
+        return collider.GetGroundHit(out WheelHit hit) && hit.forwardSlip > 0.1f;
+    }
+
+    public bool IsWheelBraking()
+    {
+        return collider.isGrounded && Mathf.Abs(collider.rpm) < 1f && collider.brakeTorque > 0f;
+    }
+
+    public void UpdateWheelPose(bool flip = false)
+    {
+        collider.GetWorldPose(out Vector3 pos, out Quaternion quat);
+
+        if (flip)
+        {
+            quat *= Quaternion.Euler(0, 180, 0);
+        }
+
+        wheelTransform.position = pos;
+        wheelTransform.rotation = quat * wheelRotOffset;
+    }
+
+}
+public enum WheelPlacement
+{
+    None = 0,
+    FrontLeft = 1,
+    FrontRight = 2,
+    RearLeft = 3,
+    RearRight = 4,
+}

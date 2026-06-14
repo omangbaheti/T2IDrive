@@ -1,0 +1,138 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c4a81cde6964444a3521c23f8d1f92f, type: 3}
+  m_Name: IconGestureBoard 1
+  m_EditorClassIdentifier: 
+  regions: {x: 2, y: 3}
+  layout: {fileID: 0}
+  iconLayoutSetup: {fileID: 11400000, guid: 8adfc26c73484994e83d6bcd7ec7e933, type: 2}
+  xDivisions:
+  - 0
+  - 0.5
+  - 1
+  yDivisions:
+  - 0
+  - 0.33333334
+  - 0.6666667
+  - 1
+  microGestureActions:
+  - startRegion: {x: 0, y: 0}
+    endRegion: {x: 0, y: 0}
+    SwipeActions: []
+  - startRegion: {x: 0, y: 0}
+    endRegion: {x: 0, y: 1}
+    SwipeActions: []
+  - startRegion: {x: 0, y: 0}
+    endRegion: {x: 0, y: 2}
+    SwipeActions: []
+  - startRegion: {x: 0, y: 0}
+    endRegion: {x: 1, y: 0}
+    SwipeActions: []
+  - startRegion: {x: 0, y: 0}
+    endRegion: {x: 1, y: 1}
+    SwipeActions: []
+  - startRegion: {x: 0, y: 0}
+    endRegion: {x: 1, y: 2}
+    SwipeActions: []
+  - startRegion: {x: 0, y: 1}
+    endRegion: {x: 0, y: 0}
+    SwipeActions: []
+  - startRegion: {x: 0, y: 1}
+    endRegion: {x: 0, y: 1}
+    SwipeActions: []
+  - startRegion: {x: 0, y: 1}
+    endRegion: {x: 0, y: 2}
+    SwipeActions: []
+  - startRegion: {x: 0, y: 1}
+    endRegion: {x: 1, y: 0}
+    SwipeActions: []
+  - startRegion: {x: 0, y: 1}
+    endRegion: {x: 1, y: 1}
+    SwipeActions: []
+  - startRegion: {x: 0, y: 1}
+    endRegion: {x: 1, y: 2}
+    SwipeActions: []
+  - startRegion: {x: 0, y: 2}
+    endRegion: {x: 0, y: 0}
+    SwipeActions: []
+  - startRegion: {x: 0, y: 2}
+    endRegion: {x: 0, y: 1}
+    SwipeActions: []
+  - startRegion: {x: 0, y: 2}
+    endRegion: {x: 0, y: 2}
+    SwipeActions: []
+  - startRegion: {x: 0, y: 2}
+    endRegion: {x: 1, y: 0}
+    SwipeActions: []
+  - startRegion: {x: 0, y: 2}
+    endRegion: {x: 1, y: 1}
+    SwipeActions: []
+  - startRegion: {x: 0, y: 2}
+    endRegion: {x: 1, y: 2}
+    SwipeActions: []
+  - startRegion: {x: 1, y: 0}
+    endRegion: {x: 0, y: 0}
+    SwipeActions: []
+  - startRegion: {x: 1, y: 0}
+    endRegion: {x: 0, y: 1}
+    SwipeActions: []
+  - startRegion: {x: 1, y: 0}
+    endRegion: {x: 0, y: 2}
+    SwipeActions: []
+  - startRegion: {x: 1, y: 0}
+    endRegion: {x: 1, y: 0}
+    SwipeActions: []
+  - startRegion: {x: 1, y: 0}
+    endRegion: {x: 1, y: 1}
+    SwipeActions: []
+  - startRegion: {x: 1, y: 0}
+    endRegion: {x: 1, y: 2}
+    SwipeActions: []
+  - startRegion: {x: 1, y: 1}
+    endRegion: {x: 0, y: 0}
+    SwipeActions: []
+  - startRegion: {x: 1, y: 1}
+    endRegion: {x: 0, y: 1}
+    SwipeActions: []
+  - startRegion: {x: 1, y: 1}
+    endRegion: {x: 0, y: 2}
+    SwipeActions: []
+  - startRegion: {x: 1, y: 1}
+    endRegion: {x: 1, y: 0}
+    SwipeActions: []
+  - startRegion: {x: 1, y: 1}
+    endRegion: {x: 1, y: 1}
+    SwipeActions: []
+  - startRegion: {x: 1, y: 1}
+    endRegion: {x: 1, y: 2}
+    SwipeActions: []
+  - startRegion: {x: 1, y: 2}
+    endRegion: {x: 0, y: 0}
+    SwipeActions: []
+  - startRegion: {x: 1, y: 2}
+    endRegion: {x: 0, y: 1}
+    SwipeActions: []
+  - startRegion: {x: 1, y: 2}
+    endRegion: {x: 0, y: 2}
+    SwipeActions: []
+  - startRegion: {x: 1, y: 2}
+    endRegion: {x: 1, y: 0}
+    SwipeActions: []
+  - startRegion: {x: 1, y: 2}
+    endRegion: {x: 1, y: 1}
+    SwipeActions: []
+  - startRegion: {x: 1, y: 2}
+    endRegion: {x: 1, y: 2}
+    SwipeActions: []
+  references:
+    version: 2
+    RefIds: []

@@ -65,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a4111df6f9cc27a40ab376ec5434932b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebd3be72d125e634095545e77923b468, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: {r: 1, g: 0, b: 0.89987373, a: 0}
+  color: {r: 1, g: 0, b: 0.13088799, a: 1}
   hasEmission: 0
   emissionColor: {r: 0, g: 0, b: 0, a: 0}
   emissionIntensity: 0

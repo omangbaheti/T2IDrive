@@ -3,6 +3,8 @@ using UnityEngine;
 
     public class HotSwapColor : MonoBehaviour
     {
+        [SerializeField] public Color CurrentColor => color;
+        
         [SerializeField] private Color color;
         [SerializeField] private bool hasEmission;
         [SerializeField] private Color emissionColor;
@@ -10,7 +12,7 @@ using UnityEngine;
         [SerializeField] private MeshRenderer mr;
 
         private MaterialPropertyBlock mpb;
-        private static readonly int ShaderProp = Shader.PropertyToID("_Color");
+        private static readonly int ShaderProp = Shader.PropertyToID("_BaseColor");
 
         private MaterialPropertyBlock Mpb => mpb ??= new();
 
@@ -24,7 +26,7 @@ using UnityEngine;
         {
             ApplyColor();
         }
-        
+
         public void SetColor(Color color)
         {
             this.color = color;

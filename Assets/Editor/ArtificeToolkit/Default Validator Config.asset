@@ -20,6 +20,48 @@ MonoBehaviour:
     list:
     - Key: BaseScene
       Value: 1
+    - Key: 
+      Value: 1
+    - Key: PC Controller Scene AMR 01
+      Value: 1
+    - Key: CarTestBed
+      Value: 1
+    - Key: Cluster
+      Value: 1
+    - Key: MultiScreenSetup
+      Value: 1
+    - Key: IVI
+      Value: 1
+    - Key: HVAC
+      Value: 1
+    - Key: SplineRoad
+      Value: 1
+    - Key: DemoScene
+      Value: 1
+    - Key: OriginMerger
+      Value: 1
+    - Key: HandVisualizer
+      Value: 1
+    - Key: BaseScene2
+      Value: 1
+    - Key: Test
+      Value: 1
+    - Key: Experiment1
+      Value: 1
+    - Key: Experiment1Comfort
+      Value: 1
+    - Key: HPUI Test
+      Value: 1
+    - Key: UIToolkit
+      Value: 1
+    - Key: Experiment2
+      Value: 1
+    - Key: Calibration
+      Value: 1
+    - Key: Experiment2CLone
+      Value: 1
+    - Key: Baseline
+      Value: 1
   validatorTypesMap:
     list:
     - Key: Artifice_ValidatorModule_ScriptableObject
@@ -29,6 +71,12 @@ MonoBehaviour:
     - Key: Artifice_ValidatorModule_NullScriptChecker
       Value: 1
     - Key: Artifice_ValidatorModule_CustomAttributeChecker
+      Value: 1
+    - Key: Artifice_ValidatorModule_ScriptableObject_CustomAttributeChecker
+      Value: 1
+    - Key: Artifice_ValidatorModule_ScriptableObject_NullReferenceChecker
+      Value: 1
+    - Key: Artifice_ValidatorModule_NullScriptChecker_GameObjects
       Value: 1
   logTypesMap:
     list:

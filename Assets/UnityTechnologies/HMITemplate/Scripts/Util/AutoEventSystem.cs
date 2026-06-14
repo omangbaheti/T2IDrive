@@ -16,7 +16,7 @@ namespace Util
         /// </summary>
         private void Awake()
         {
-            var eventsystem = FindObjectsOfType<EventSystem>();
+            var eventsystem = FindObjectsByType<EventSystem>(FindObjectsSortMode.None);
             if (eventsystem == null || eventsystem.Length == 0)
             {
                 Instantiate(EventSystemPrefab);

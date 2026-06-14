@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: bb86c6cbb74c964438d65cf5f2b40e69
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - canvas: {instanceID: 0}
+  - textBox: {fileID: 5343600359055945396, guid: 87d59c8db822ad24c9164049edaf7d83, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

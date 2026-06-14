@@ -1,0 +1,60 @@
+[configuration]
+order = [["OnHand_Practice","OnHand","OnHand","OnHand"], ["Windshield_Practice","Windshield","Windshield","Windshield"],["TouchScreen_Practice","TouchScreen","TouchScreen","TouchScreen"]]
+
+
+# - "latin_square": Apply latin square to balance the values.
+# - "randomize": For each participant randomize the order of the values in the array.
+# - "as_is": Use the order of the values as specified.
+# When not specified, the default value is "as_is" for both keys.
+groups = "latin_square"
+within_groups = "as_is"
+
+# The random seed to use for any randomization. Default seed is 0.
+# The seed will be the value of random_seed + participant_index
+random_seed = 0
+
+[configuration.variables]
+TRIALS_PER_ITEM = 3
+
+# ------------------- BaseLine-------------------
+[[blocks]]
+name = "Baseline"
+[blocks.config]
+UserInterface = "Baseline"
+
+
+# ------------------- OnHand -------------------
+[[blocks]]
+name = "OnHand"
+[blocks.config]
+UserInterface = "OnHand"
+
+
+[[blocks]]
+name = "OnHand_Practice"
+[blocks.config]
+UserInterface = "OnHand"
+
+# ------------------- Windshield -------------------
+[[blocks]]
+name = "Windshield"
+[blocks.config]
+UserInterface = "Windshield"
+
+
+[[blocks]]
+name = "Windshield_Practice"
+[blocks.config]
+UserInterface = "Windshield"
+
+# ------------------- TouchScreen -------------------
+[[blocks]]
+name = "TouchScreen"
+[blocks.config]
+UserInterface = "TouchScreen"
+
+
+[[blocks]]
+name = "TouchScreen_Practice"
+[blocks.config]
+UserInterface = "TouchScreen"
